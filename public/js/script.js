@@ -1,0 +1,1 @@
+(function(){var a;a=jQuery.noConflict(),a(function(){return console.log("Coffee.")})}).call(this);

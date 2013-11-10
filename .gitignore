@@ -99,4 +99,7 @@ sftp-config.json
 *.sublime-workspace
 
 
+## Compiled Files
+## -------------------------------------------
+
 

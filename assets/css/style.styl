@@ -1,0 +1,105 @@
+// filter: (.+)$ => filter: unquote("\1")
+@import 'nib'
+@import 'bootstrap'
+@import 'font-awesome'
+@import 'theme.styl'
+// @import 'ie.styl'
+// @import 'editor-style.styl'
+
+
+/** **/
+
+
+path = '/bosai/content/themes/bosai/public/images/'
+
+@font-face
+  font-family: 'HelveticaNeueUltraLight'
+  src: url('../fonts/helveticaneueultralight-webfont.eot')
+  src: local('☺'), url('../fonts/helveticaneueultralight-webfont.woff') format('woff'), url('../fonts/helveticaneueultralight-webfont.ttf') format('truetype'), url('../fonts/helveticaneueultralight-webfont.svg#webfontfOyiCJQU') format('svg')
+  font-weight: normal
+  font-style: normal
+
+body
+  relative
+  -webkit-font-smoothing antialiased
+  font-size 13px
+  font-weight normal
+  font-family 'HelveticaNeueUltraLight', "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro W3", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "Lucida Grande", Helvetica, Arial, sans-serif // 'HelveticaNeue-UltraLight'
+  // background-image url(path + 'page-bg-tile.jpg')
+  // background-repeat repeat
+
+  .dev
+    absolute 0 0
+    background-image url(path + 'dev/view960.png')
+    background-size 960px 10000px
+    background-repeat none
+    height: 10000px
+
+// 全体コンテナ
+#page
+  display block
+  background transparent
+
+// ヘッダ
+header#masthead
+  background transparent
+  width 960px
+  margin 0 auto
+  #navbar
+    margin 40px auto 0
+    background transparent
+    nav#site-navigation
+      ul.nav-menu
+        padding 0 10px
+        li
+          width 120px
+          text-align center
+          a
+            color #68C2C1
+            font-weight bold
+            font-family 'HelveticaNeueUltraLight'
+          &:hover > a
+          a:hover
+            background-color #FAFAFA
+          &:nth-child(3)
+            margin-right 180px
+        .current_page_item > a
+        .current_page_ancestor > a
+        .current-menu-item > a
+        .current-menu-ancestor > a
+          color #141412
+          text-decoration none
+
+  .home-link
+    display none !important
+
+// メイン
+#main
+  #header-publicities
+    clearfix()
+    width 960px
+    margin 0 auto
+    background-color #F7FBFD // #fbfdfe
+    .publicity-aritcle
+      width 800px
+      float left
+      height 320px
+    .publicity-items
+      width 160px
+      float right
+      height 320px
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
