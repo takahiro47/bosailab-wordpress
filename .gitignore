@@ -101,5 +101,9 @@ sftp-config.json
 
 ## Compiled Files
 ## -------------------------------------------
+dist
+public
+node_modules
+config/env.json
 
 
