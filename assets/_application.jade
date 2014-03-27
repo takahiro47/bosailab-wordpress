@@ -1,0 +1,127 @@
+//-
+  The template for displaying the application framework.
+  Displays all of the block sections and everything up till "#main"
+  @package WordPress
+  @subpackage SFC_Bosalab_2014
+  @since 1.0
+//-
+  get_header() and get_footer() are NOT needed!
+//-
+  !!! 5
+  // if IE 7
+    | <html class='ie ie7' <?php language_attributes(); ?>>
+  // if IE 8
+    | <html class='ie ie8' <?php language_attributes(); ?>>
+  // if !(IE 7) | !(IE 8)
+    | <html <?php language_attributes(); ?>>
+doctype html
+:php
+  $u = $_SERVER['HTTP_USER_AGENT'];
+  $isIE7 = (bool)preg_match('/msie 7./i', $u);
+  $isIE8 = (bool)preg_match('/msie 8./i', $u);
+  $IEclass = '';
+  if ( $isIE7 ) { $IEclass = 'ie ie7'; } elseif ( $isIE8 ) { $IEclass = 'ie ie8'; }
+html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclass; ?>')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width')
+    meta(http-equiv='Content-Type',content='text/html;charset=utf-8')
+    meta(http-equiv='Cache-Control', content='no-cache')
+    meta(http-equiv='Expires', content='0')
+
+    title
+      <?php wp_title( '|', true, 'right' ); ?>
+
+    //- Stylesheets
+    //----------------------------------------------------------------
+    block styles
+      link(rel='profile', href='http://gmpg.org/xfn/11')
+      link(rel='pingback', href!="<?php bloginfo( 'pingback_url' ); ?>")
+      link(href="//fonts.googleapis.com/css?family=Lato:100italic,100,300italic,300,400italic,400,700italic,700,900italic,900" rel="stylesheet" type="text/css")
+      link(rel='stylesheet', href!="<?php echo (get_template_directory_uri() . 'public/css/style.css') ?>")
+
+    <?php wp_head(); ?>
+
+  :php
+    $admin_class = '';
+    if ( is_user_logged_in() ) { $body_class = 'signed_in'; }
+  body(class!="<?php echo $body_class;?><?php get_body_class(); ?>")
+    .ui-dev
+      .preview
+
+    .ui-container
+
+      :php
+        $header_class = '';
+        if ( !is_front_page() ) { $header_class = 'fixed'; }
+      header.ui-header(role='banner', class!="<?php echo $header_class;?>")
+        block header
+          .ui-navi
+            nav.navigation(role='navigation')
+
+              .ui-navi-search
+                //- get_search_form()
+                form(role='search', method='get', action!="<?php echo home_url( '/' ); ?>")
+                  label
+                    input.search-field(type='search', placeholder='ウェブサイトを検索', autocomplete='off', value!="<?php get_search_query(); ?>", name='s', title='検索:')
+                  p.search-icons
+                    span |
+                    i.fa.fa-search
+                  input.search-submit(type='submit', value='検索')
+              .ui-navi-menu
+                <?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_class' => 'nav-menu' ) ); ?>
+              .ui-navi-arrow
+
+        block bread
+          .ui-breadcrumbs-background
+            .ui-breadcrumbs
+              <?php okilab_breadcrumbs(); ?>
+
+      .ui-contents
+        block content
+          .ui-content
+            .row
+              aside.ui-sidebar.col-xs-4
+                .ui-sidebar-calendar
+
+                .ui-sidebar-widgets
+                  //- <?php get_sidebar(); ?>
+                  <?php if ( is_active_sidebar( 'sidebar-2' ) ) : ?>
+                  #tertiary.sidebar-container(role='complementary')
+                    .sidebar-inner
+                      .widget-area
+                        <?php dynamic_sidebar( 'sidebar-2' ); ?>
+                  <?php endif; ?>
+
+
+              article.ui-article.col-xs-8(role='main')
+                block article
+
+      footer.ui-footer(role='contentinfo')
+        block footer
+          <?php get_sidebar( 'main' ); ?>
+
+        .site-info
+          <?php do_action( 'twentythirteen_credits' ); ?>
+
+          a(href!="http://wordpress.org/", title="")
+            <?php printf( __( 'Proudly powered by %s', 'twentythirteen' ), 'WordPress' ); ?>
+
+      a#top(href="#")
+        img(src!="<?php echo (get_template_directory_uri() . '/public/images/arrow.png') ?>")
+
+    //- Javascripts
+    //----------------------------------------------------------------
+    block scripts
+      // if lt IE 9
+        script(src='//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js')
+      script(src='//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js')
+      script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js')
+      script(src='//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js')
+      script(src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js')
+      script(src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js')
+      script(src='//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js')
+
+    <?php wp_footer(); ?>
+
+

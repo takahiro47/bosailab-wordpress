@@ -14,7 +14,7 @@ build:
 	grunt build
 
 watch:
-	grunt watch
+	grunt serve
 
 mocha:
 	NODE_ENV=test \

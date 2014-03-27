@@ -1,0 +1,44 @@
+extends _application
+//-
+  The home template file.
+
+  This is the most generic template file in a WordPress theme and one of the
+  two required files for a theme (the other being style.css).
+  It is used to display a page when nothing more specific matches a query.
+  For example, it puts together the home page when no home.php file exists.
+
+  Learn more: http://codex.wordpress.org/Template_Hierarchy
+
+  @package WordPress
+  @subpackage SFC_Bosalab_2013
+  @since 1.0
+
+block prepend header
+  .ui-logo
+    a.home-link(
+      href!="<?php echo esc_url( home_url( '/' ) ); ?>"
+      title!="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"
+      rel='home'
+    )
+      h1.site-title
+        <?php bloginfo( 'name' ); ?>
+      h2.site-description
+        <?php bloginfo( 'description' ); ?>
+
+  .ui-public-relaions
+    .public-relaion-aritcle
+
+block article
+  .type.type-front
+
+    :php
+      $title = 'News';
+      $param = array(
+        'post_per_page' => 8,
+        'post_type' => 'reports',
+        'post_status' => 'publish',
+        'orderby' => 'date',
+        'order' => 'DESC'
+      );
+    .ui-front-news
+      include _post_item

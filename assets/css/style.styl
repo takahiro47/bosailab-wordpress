@@ -1,105 +1,217 @@
 // filter: (.+)$ => filter: unquote("\1")
 @import 'nib'
-@import 'bootstrap'
-@import 'font-awesome'
-@import 'theme.styl'
-// @import 'ie.styl'
-// @import 'editor-style.styl'
+global-reset()
+@import 'plugin/bootstrap'
+@import 'plugin/font-awesome'
+@import 'plugin/theme'
+// @import 'ie'
+// @import 'editor-style'
 
-
-/** **/
-
-
+/* = Settings
+ * ------------------------------------------------------------ */
+support-for-ie ?= true
 path = '/bosai/content/themes/bosai/public/images/'
 
-@font-face
-  font-family: 'HelveticaNeueUltraLight'
-  src: url('../fonts/helveticaneueultralight-webfont.eot')
-  src: local('☺'), url('../fonts/helveticaneueultralight-webfont.woff') format('woff'), url('../fonts/helveticaneueultralight-webfont.ttf') format('truetype'), url('../fonts/helveticaneueultralight-webfont.svg#webfontfOyiCJQU') format('svg')
-  font-weight: normal
-  font-style: normal
+// ベージュ
+header_background = #F7F3EC
+// グリーン - #7B9FA4
+navi_background = #7A9FA3
+// グレー
+font_color = #64615A
+
+/* = Minins
+ * ------------------------------------------------------------ */
+
+user-select()
+  -moz-user-select -moz-none
+  -khtml-user-select none
+  -ms-user-select none
+  -webkit-user-select none
+  user-select none
+
+sc-view()
+  cursor default
+  overflow hidden
+  border solid 0 rgba(0, 0, 0, 0)
+  user-select()
+  -webkit-touch-callout none
+  -webkit-tap-highlight-color rgba(0,0,0,0)
+
+// 文字詰め
+ellipsis()
+  white-space nowrap
+  overflow hidden
+  text-overflow ellipsis
+  &.multiline
+    white-space normal
+
+omission()
+  white-space nowrap
+  text-overflow ellipsis
+  overflow hidden
+
+hidden()
+  display none
+  visibility hidden
+
+font-reset()
+  font-family Lato, "Helvetica Neue", sans-serif, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro W3", "メイリオ", "Meiryo UI", "MS PGothic"
+
+font-helvetica()
+  font-family 'HelveticaNeueLight'
+
+background-blurred()
+  background-color #2C4347
+  background-image url('/images/blurred-bkg.png')
+  background-size cover
+  background-position 50% 50%
+
+background-clip-padding-box()
+  -webkit-background-clip padding-box
+  -moz-background-clip padding
+  background-clip padding-box
+
+background-size(n)
+  // cover, etc
+  -webkit-background-size n
+  -moz-background-size n
+  -o-background-size n
+  background-size n
+
+/* = Animations
+ * ------------------------------------------------------------ */
+
+@keyframes stripes
+  from
+    background-position: 40px 0
+  to
+    background-position: 0 0
+
+@keyframes spinner
+  0%
+    transform rotate(0deg)
+  50%
+    transform rotate(180deg)
+  100%
+    transform rotate(360deg)
+
+@keyframes poof
+  0%
+    transform rotate(0deg)
+  25%
+    transform rotate(-20deg)
+  75%
+    transform rotate(20deg)
+  100%
+    transform rotate(0deg)
+
+/* = Fonts
+ * ------------------------------------------------------------ */
+
+// @font-face
+//   font-family: 'HelveticaNeueUltraLight'
+//   src: url('../fonts/helveticaneueultralight-webfont.eot')
+//   src: local('☺'), url('../fonts/helveticaneueultralight-webfont.woff') format('woff'), url('../fonts/helveticaneueultralight-webfont.ttf') format('truetype'), url('../fonts/helveticaneueultralight-webfont.svg#webfontfOyiCJQU') format('svg')
+//   font-weight: normal
+//   font-style: normal
+
+/* = Global
+ * ------------------------------------------------------------ */
 
 body
-  relative
+  position relative
   -webkit-font-smoothing antialiased
+  color font_color
   font-size 13px
   font-weight normal
-  font-family 'HelveticaNeueUltraLight', "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro W3", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "Lucida Grande", Helvetica, Arial, sans-serif // 'HelveticaNeue-UltraLight'
+  font-reset()
   // background-image url(path + 'page-bg-tile.jpg')
   // background-repeat repeat
 
-  .dev
-    absolute 0 0
-    background-image url(path + 'dev/view960.png')
-    background-size 960px 10000px
-    background-repeat none
-    height: 10000px
+h1
+h2
+h3
+h4
+h5
+h6
+  font-reset()
 
-// 全体コンテナ
-#page
-  display block
-  background transparent
+a
+  &
+  &:visited
+    color #AC0404
+  &:hover
+    color #CA3C08
+    text-decoration none
+    transition color 0s ease
 
-// ヘッダ
-header#masthead
-  background transparent
+/* = 共通UI
+ * ------------------------------------------------------------ */
+date_width = 120px * 0.35
+.ui-calendar-icon
+  .date-icon
+    z-index 200
+    position relative
+    width date_width
+    height date_width
+    background-repeat no-repeat
+    background-image embedurl(path + 'common/date-' + date_width + '.png')
+    // background-size date_width date_width
+    .date-month
+    .date-day
+    .date-year
+      z-index 201
+      position absolute
+      left 0
+      right 0
+      font-weight normal
+      line-height 1em
+      text-align center
+    .date-month
+      top 1px
+      color #fff
+      font-size 10px
+      font-weight bold
+    .date-day
+      top 18px
+      font-size 16px
+    .date-year
+      top 44px
+      color #555
+      font-size 10px
+  time
+    hidden()
+
+/* = 開発用プレビュー
+ * ------------------------------------------------------------ */
+
+dev_height = 15360px * 1.1
+dev_width = 1980px * 1.1
+.ui-dev
+  // hidden()
+  position absolute
+  top -10px
+  top -1280px
+  left 50%
+  z-index -1
+  opacity .35
+  overflow hidden
   width 960px
-  margin 0 auto
-  #navbar
-    margin 40px auto 0
-    background transparent
-    nav#site-navigation
-      ul.nav-menu
-        padding 0 10px
-        li
-          width 120px
-          text-align center
-          a
-            color #68C2C1
-            font-weight bold
-            font-family 'HelveticaNeueUltraLight'
-          &:hover > a
-          a:hover
-            background-color #FAFAFA
-          &:nth-child(3)
-            margin-right 180px
-        .current_page_item > a
-        .current_page_ancestor > a
-        .current-menu-item > a
-        .current-menu-ancestor > a
-          color #141412
-          text-decoration none
+  height dev_height
+  margin-left -480px
+  .preview
+    width dev_width
+    height dev_height
+    margin-left -((dev_width - 960px)/2)
+    background-image url(path + '../../_/doc/okilab-web-v1.1.png')
+    background-size dev_width dev_height
+    background-repeat no-repeat
 
-  .home-link
-    display none !important
+/* = Admin
+ * ------------------------------------------------------------ */
+@import 'adminbar'
 
-// メイン
-#main
-  #header-publicities
-    clearfix()
-    width 960px
-    margin 0 auto
-    background-color #F7FBFD // #fbfdfe
-    .publicity-aritcle
-      width 800px
-      float left
-      height 320px
-    .publicity-items
-      width 160px
-      float right
-      height 320px
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* = UI
+ * ------------------------------------------------------------ */
+@import 'ui'
 
