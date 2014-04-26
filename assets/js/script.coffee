@@ -411,12 +411,12 @@ $ ->
 
     navigateToPrevious: (event) ->
       event.preventDefault()
-      # console.log url = ui.parse_uri(@model.get('previous_url')).path
+      url = ui.parse_uri(@model.get('previous_url')).path
       $app.navigate url, yes
 
     navigateToNext: (event) ->
       event.preventDefault()
-      # console.log url = ui.parse_uri(@model.get('next_url')).path
+      ui.parse_uri(@model.get('next_url')).path
       $app.navigate url, yes
 
   # ===================================
