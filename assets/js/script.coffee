@@ -416,7 +416,7 @@ $ ->
 
     navigateToNext: (event) ->
       event.preventDefault()
-      ui.parse_uri(@model.get('next_url')).path
+      url = ui.parse_uri(@model.get('next_url')).path
       $app.navigate url, yes
 
   # ===================================
