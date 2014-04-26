@@ -1,109 +1,24 @@
-// filter: (.+)$ => filter: unquote("\1")
 @import 'nib'
 global-reset()
-@import 'plugin/bootstrap'
+@import '../../client/components/bootstrap-stylus/stylus/bootstrap'
 @import 'plugin/font-awesome'
-@import 'plugin/theme'
+// @import 'plugin/theme'
 // @import 'ie'
 // @import 'editor-style'
 
+
 /* = Settings
  * ------------------------------------------------------------ */
-support-for-ie ?= true
-path = '/bosai/content/themes/bosai/public/images/'
 
-// ベージュ
-header_background = #F7F3EC
-// グリーン - #7B9FA4
-navi_background = #7A9FA3
-// グレー
-font_color = #64615A
+@import 'setting'
 
-/* = Minins
+
+/* = 参考サイト(綺麗なサイト)
  * ------------------------------------------------------------ */
 
-user-select()
-  -moz-user-select -moz-none
-  -khtml-user-select none
-  -ms-user-select none
-  -webkit-user-select none
-  user-select none
+// filter: (.+)$ => filter: unquote("\1")
+// http://blog.mah-lab.com/2013/05/01/wordpress-on-heroku/
 
-sc-view()
-  cursor default
-  overflow hidden
-  border solid 0 rgba(0, 0, 0, 0)
-  user-select()
-  -webkit-touch-callout none
-  -webkit-tap-highlight-color rgba(0,0,0,0)
-
-// 文字詰め
-ellipsis()
-  white-space nowrap
-  overflow hidden
-  text-overflow ellipsis
-  &.multiline
-    white-space normal
-
-omission()
-  white-space nowrap
-  text-overflow ellipsis
-  overflow hidden
-
-hidden()
-  display none
-  visibility hidden
-
-font-reset()
-  font-family Lato, "Helvetica Neue", sans-serif, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro W3", "メイリオ", "Meiryo UI", "MS PGothic"
-
-font-helvetica()
-  font-family 'HelveticaNeueLight'
-
-background-blurred()
-  background-color #2C4347
-  background-image url('/images/blurred-bkg.png')
-  background-size cover
-  background-position 50% 50%
-
-background-clip-padding-box()
-  -webkit-background-clip padding-box
-  -moz-background-clip padding
-  background-clip padding-box
-
-background-size(n)
-  // cover, etc
-  -webkit-background-size n
-  -moz-background-size n
-  -o-background-size n
-  background-size n
-
-/* = Animations
- * ------------------------------------------------------------ */
-
-@keyframes stripes
-  from
-    background-position: 40px 0
-  to
-    background-position: 0 0
-
-@keyframes spinner
-  0%
-    transform rotate(0deg)
-  50%
-    transform rotate(180deg)
-  100%
-    transform rotate(360deg)
-
-@keyframes poof
-  0%
-    transform rotate(0deg)
-  25%
-    transform rotate(-20deg)
-  75%
-    transform rotate(20deg)
-  100%
-    transform rotate(0deg)
 
 /* = Fonts
  * ------------------------------------------------------------ */
@@ -115,6 +30,7 @@ background-size(n)
 //   font-weight: normal
 //   font-style: normal
 
+
 /* = Global
  * ------------------------------------------------------------ */
 
@@ -125,6 +41,9 @@ body
   font-size 13px
   font-weight normal
   font-reset()
+  // font-helvetica()
+  // background #f0eae1
+  background background_color
   // background-image url(path + 'page-bg-tile.jpg')
   // background-repeat repeat
 
@@ -145,42 +64,22 @@ a
     text-decoration none
     transition color 0s ease
 
-/* = 共通UI
- * ------------------------------------------------------------ */
-date_width = 120px * 0.35
-.ui-calendar-icon
-  .date-icon
-    z-index 200
-    position relative
-    width date_width
-    height date_width
-    background-repeat no-repeat
-    background-image embedurl(path + 'common/date-' + date_width + '.png')
-    // background-size date_width date_width
-    .date-month
-    .date-day
-    .date-year
-      z-index 201
-      position absolute
-      left 0
-      right 0
-      font-weight normal
-      line-height 1em
-      text-align center
-    .date-month
-      top 1px
-      color #fff
-      font-size 10px
-      font-weight bold
-    .date-day
-      top 18px
-      font-size 16px
-    .date-year
-      top 44px
-      color #555
-      font-size 10px
-  time
-    hidden()
+input
+textarea
+  outline 0
+
+// 透明度
+.fade
+  opacity 1 !important
+
+// 非表示
+.hidden
+  hidden()
+
+.on
+  animation fadeInFrame .8s linear
+.off
+  animation fadeOutFrame .8s linear
 
 /* = 開発用プレビュー
  * ------------------------------------------------------------ */
@@ -188,10 +87,10 @@ date_width = 120px * 0.35
 dev_height = 15360px * 1.1
 dev_width = 1980px * 1.1
 .ui-dev
-  // hidden()
+  hidden()
   position absolute
   top -10px
-  top -1280px
+  top -8151px
   left 50%
   z-index -1
   opacity .35
@@ -207,11 +106,74 @@ dev_width = 1980px * 1.1
     background-size dev_width dev_height
     background-repeat no-repeat
 
-/* = Admin
- * ------------------------------------------------------------ */
-@import 'adminbar'
 
 /* = UI
  * ------------------------------------------------------------ */
-@import 'ui'
+
+@import 'ui-element'
+@import 'ui-container'
+@import 'ui-archive'
+@import 'ui-single'
+@import 'ui-page'
+
+
+/* = Plugin Styles
+ * ------------------------------------------------------------ */
+
+#api
+  hidden()
+
+#lang_sel_footer
+  padding 3px 0
+  background base_color
+  border none
+  ul
+    clearfix()
+    width 100%
+    max-width 960px
+    margin 0 auto
+    box-shadow inset 0 1px 0 #96BCC0
+    li
+      display inline-block
+      margin 0
+      &:before
+      &:after
+        content none
+      a
+        display inline-block
+        padding 5px 10px
+        color #eee
+        font-size 11px
+        font-weight normal
+        line-height 1
+        span
+          &.icl_lang_sel_current
+          &.icl_lang_sel_native
+          &.icl_lang_sel_translated
+            hidden()
+
+
+body
+  &.signed_in
+    // .ui-container
+    //   padding-top 34px
+    //   @media screen and (max-width: 782px)
+    //     padding-top 46px
+    header.ui-header
+      &.fixed
+        .ui-navi-container
+          top 32px
+          @media screen and (max-width: 782px)
+            top 46px
+
+  &.index
+    .ui-navi-container
+      background-color transparent !important
+      .ui-navi
+        background-color #799fa4 !important
+    .ui-breadcrumbs-container
+      hidden()
+
+
+
 

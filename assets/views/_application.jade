@@ -1,0 +1,189 @@
+include _ui
+//-
+  The template for displaying the application framework.
+  Displays all of the block sections and everything up till "#main"
+  @package WordPress
+  @subpackage SFC_Bosalab_2014
+  @since 1.0
+//-
+  !!! 5
+  +IE7
+    html.ie.ie7(lang!='<?php echo get_bloginfo("language"); ?>')
+  +IE8
+    html.ie.ie8(lang!='<?php echo get_bloginfo("language"); ?>')
+  +notIE78
+    html(lang!='<?php echo get_bloginfo("language"); ?>')
+doctype html
+:php
+  $u = $_SERVER['HTTP_USER_AGENT'];
+  $isIE7 = (bool)preg_match('/msie 7./i', $u);
+  $isIE8 = (bool)preg_match('/msie 8./i', $u);
+  $IEclass = '';
+  if ( $isIE7 ) { $IEclass = 'ie ie7'; } elseif ( $isIE8 ) { $IEclass = 'ie ie8'; }
+html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclass; ?>', xmlns:fb="http://ogp.me/ns/fb#")
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width')
+    meta(http-equiv='Content-Type', content='text/html;charset=utf-8')
+    meta(http-equiv='Cache-Control', content='no-cache')
+    meta(http-equiv='Expires', content='0')
+    meta(name='google-site-verification', content='TWAbSR-4UiFipZfn0CxpRseuj-iGAPdLqPR2j7TOjHo')
+
+    title
+      <?php wp_title( '|', true, 'right' ); ?>
+
+    //- Stylesheets
+    //----------------------------------------------------------------
+    block styles
+      link(rel='profile', href='http://gmpg.org/xfn/11')
+      link(rel='pingback', href!="<?php bloginfo( 'pingback_url' ); ?>")
+      link(href="//fonts.googleapis.com/css?family=Lato:100italic,100,300italic,300,400italic,400,700italic,700,900italic,900" rel="stylesheet" type="text/css")
+      link(rel='stylesheet', href!="<?php echo (get_template_directory_uri() . '/dist/css/style.css') ?>")
+
+    <?php wp_head(); ?>
+    :php
+      do_action( 'get_header' );
+
+  <?php $admin_class = ''; if ( is_user_logged_in() ) { $body_class = 'signed_in'; } ?>
+  body(class!="<?php echo $body_class;?><?php get_body_class(); ?>")
+    block api
+      .ui-plugins
+        #fb-root
+        #api(data-url!="<?php echo home_url(); ?>")
+
+    .ui-progress
+      .progress.progress-striped
+        .progress-bar
+
+    //- .ui-dev
+    //-   .preview
+
+    //-
+      pre.ui-dev2
+        <?php print_r($wp_query); ?>
+
+    .ui-container
+      <?php $header_class = ''; if ( !is_front_page() ) { $header_class = 'fixed'; } ?>
+      header.ui-header(role='banner', class!="<?php echo $header_class;?>")
+        block header
+          .ui-navi-container
+            nav.ui-navi.row(role='navigation')
+
+              .ui-navi-menu.col-xs-12.col-sm-10
+                <?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_class' => 'nav-menu' ) ); ?>
+              .ui-navi-search.col-xs-12.col-sm-2
+                //- get_search_form()
+                form(role='search', method='get', action!="<?php echo home_url( '/' ); ?>")
+                  label
+                    input#s.search-field(
+                      type='search',
+                      placeholder='ウェブサイトを検索',
+                      autocomplete='off',
+                      value!="<?php $sq = get_search_query(); if ( $sq ) { echo $sq; } else { echo 'ウェブサイトを検索'; } ?>",
+                      name='s',
+                      title='検索',
+                      aria-label='検索',
+                      aria-autocomplete='list',
+                      aria-expanded='false',
+                      role='combobox',
+                      tabindex='',
+                      spellcheck='false',
+                    )
+                  p.search-icons
+                    span |
+                    i.fa.fa-search
+                  input.search-submit(type='submit', value='検索')
+
+        block bread
+          .ui-breadcrumbs-container
+            .ui-breadcrumbs
+              <?php okilab_breadcrumbs(); ?>
+
+      .ui-contents
+        block content
+          <?php $content_class = is_page( 'about' ) ? 'width:100%;max-width:100%;' : ''; ?>
+          .ui-content(style!="<?php echo $content_class; ?>")
+            //- メインコンテンツ
+            article.ui-article(role='main')
+              .ui-default
+                block article
+              .ui-index
+              .ui-single
+              .ui-archive
+      footer.ui-footer
+        block footer
+          .ui-site
+            p.site-info
+              | Copyright© 2013-<?php echo date("Y") ?>
+              strong  Oki Satoko Laboratory
+              |  in SFC Keio University, All Rights Reserved.
+          .ui-social.row
+            //- twitter
+            span.twitter.col-xs-6
+              a.twitter-share-button(
+                href='//twitter.com/share',
+                data-url='https://www.facebook.com/bosailab',
+                data-text='大木研究室公式ウェブサイト',
+                data-lang='ja',
+                data-hashtags='#bosailab'
+              )
+            //- Facebook
+            span.facebook.col-xs-6
+              .fb-like(
+                data-href!="<?php echo home_url(); ?>",
+                data-width=450,
+                data-layout='button_count',
+                data-show-faces='true',
+                data-send='true'
+              )
+
+      //- footer.ui-footer(role='contentinfo')
+      //-   block footer
+      //-     <?php get_sidebar( 'main' ); ?>
+
+      //-   .site-info
+      //-     <?php do_action( 'twentythirteen_credits' ); ?>
+
+      //-     a(href!="http://wordpress.org/", title="")
+      //-       <?php printf( __( 'Proudly powered by %s', 'twentythirteen' ), 'WordPress' ); ?>
+
+      a.ui-scrollto(href='javascript:void(0)')
+        i.fa.fa-caret-up
+
+    //- .ui-layer
+    //-   ._n1
+    //-     ._n2
+    //-       .ui-context-layer-parent
+    //-         .ui-context-layer
+
+    //- Javascripts
+    //----------------------------------------------------------------
+    block template
+      include _template
+
+    block scripts
+      +ltIE9
+        script(src='//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js')
+
+      //- Libraries
+      script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1-beta1/jquery.min.js')
+      //- script(src='//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js')
+      script(src='//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js')
+      script(src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js')
+      script(src='//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js')
+      script(src='//maps.google.com/maps/api/js?sensor=true')
+
+      //- Google+ Button
+      script(type='text/javascript', src='https://apis.google.com/js/platform.js') {lang: 'ja', parsetags: 'explicit'}
+
+      //- My Scripts
+      script(src!="<?php echo (get_template_directory_uri().'/dist/js/backbone_debug.js') ?>")
+      script(src!="<?php echo (get_template_directory_uri().'/dist/js/script.js') ?>")
+
+
+    <?php // wp_footer(); ?>
+    :php
+      do_action( 'wp_print_footer_scripts' );
+      do_action( 'wp_footer' );
+
+

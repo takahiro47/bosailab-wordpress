@@ -1,5 +1,4 @@
 extends _application
-
 //-
   The main template file.
 
@@ -13,16 +12,17 @@ extends _application
   @package WordPress
   @subpackage SFC_Bosalab_2013
   @since 1.0
+
 p jjjjj
-#primary.content-area
-  #content.site-content(role="main")
-    - if ( have_posts() ):
-      //- The loop
-      - while ( have_posts() ):
-        - the_post();
-        - get_template_part( 'content', get_post_format() );
+//- #primary.content-area
+//-   #content.site-content(role="main")
+//-     - if ( have_posts() ):
+//-       //- The loop
+//-       - while ( have_posts() ):
+//-         - the_post();
+//-         - get_template_part( 'content', get_post_format() );
 
-      - twentythirteen_paging_nav();
+//-       - twentythirteen_paging_nav();
 
-    - else:
-      - get_template_part( 'content', 'none' );
+//-     - else:
+//-       - get_template_part( 'content', 'none' );

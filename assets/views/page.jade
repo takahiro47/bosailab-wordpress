@@ -1,0 +1,111 @@
+extends _application
+//-
+  The template for displaying all pages.
+
+  This is the template that displays all pages by default.
+  Please note that this is the WordPress construct of pages and that other
+  'pages' on your WordPress site will use a different template.
+
+  @package WordPress
+  @subpackage SFC_Bosalab_2013
+  @since 1.0
+
+block article
+  .ui-page
+
+    <?php while ( have_posts() ) : the_post(); ?>
+    section.post.row(id!="post-<?php the_ID(); ?>", data-id!="<?php the_ID(); ?>", class!="post-article <?php echo get_post_class(); ?>")
+
+      article.post-article.col-xs-12
+        <?php if ( is_page( 'about' ) ) { ?>
+        section.post-section
+          hgroup.page-subtitle
+            h2 About The Lab
+          .post-field
+            span <?php the_field( 'about_the_lab' ); ?>
+        section.post-section
+          hgroup.page-subtitle
+            h2 About The Professor
+          .post-field
+            :php
+              $professor_face = get_field('professor_face');
+            .face.large(style!="background-image: url('<?php echo $professor_face['url']; ?>');")
+            h3 大木 聖子（おおき さとこ）
+            span <?php the_field( 'about_the_professor' ); ?>
+        section.post-section
+          hgroup.page-subtitle
+            h2 Member
+          .post-field
+            :php
+              $member_face = get_field('member_face');
+            .faces(style!="background-image: url('<?php echo $member_face['url']; ?>');")
+            ul.members.row
+              :php
+                $members = explode( '<br />', get_field( 'member_lists' ) ); // 行に分割
+                $members = array_map( 'trim', $members ); // 各要素をtrim()にかける
+                $members = array_filter( $members, 'strlen' ); // 文字数が0のものを取り除く
+                $members = array_values( $members ); // キーを連番に振りなおす
+                foreach ( $members as $key => $member ) {
+                  if ( substr($member, 0, 1) == '#' ) { // 一文字目が#だったならばタイトル行
+                    $member = substr($member, 1);
+              li.member.member-th.col-sm-12.col-xs-12(data-member-id!="<?php echo $key; ?>")
+                h4 <?php echo $member; ?>
+              :php
+                //
+                  } else {
+              li.member.col-sm-2.col-xs-4(data-member-id!="<?php echo $key; ?>")
+                span <?php echo $member; ?>
+              :php
+                //
+                  }
+                }
+            span <?php the_field( 'member' ); ?>
+        section.post-section
+          hgroup.page-subtitle
+            h2 Access
+          #map_data(data-pin-url!="<?php echo (get_template_directory_uri() . '/public/images/common/bosailab-pin.png') ?>")
+          #map_canvas.google-maps(style='width: 720px; height: 270px;')
+          .address-box.narrow.row
+            .col-xs-2(style='text-align:right;')
+              i.fa.fa-map-marker
+            .col-xs-10
+              p
+                strong 慶應義塾大学 湘南藤沢キャンパス（ＳＦＣ）
+                span
+                  | 〒252-0882 神奈川県藤沢市遠藤5322
+                  a(href='http://www.sfc.keio.ac.jp/maps.html', style='padding-left:8px;')
+                    i.fa.fa-external-link
+                    span 公式ウェブ
+          .address-box.wide.row
+            .col-xs-6
+              p
+                strong 湘南台駅から
+                span
+                  i.fa.fa-angle-right
+                  | 小田急江ノ島線・相鉄いずみ野線・横浜市営地下鉄ブルーライン「湘南台」駅下車<br />
+                  i.fa.fa-angle-right
+                  | 西口よりバス「慶応大学」行き約15分「慶応大学本館前」下車
+            .col-xs-6
+              p
+                strong 辻堂駅から
+                span
+                  i.fa.fa-angle-right
+                  | JR東海道線「辻堂」駅下車<br />
+                  i.fa.fa-angle-right
+                  | 北口よりバス「慶応大学」行き約25分「慶応大学本館前」下車
+        section.post-section
+          hgroup.page-subtitle
+            h2 Join Us
+          .post-field
+            span <?php the_field( 'join_us' ); ?>
+        <?php } else { ?>
+        <?php the_content(); ?>
+        <?php } ?>
+
+
+      footer.post-footer
+        +ui-edit
+
+    <?php endwhile; ?>
+
+

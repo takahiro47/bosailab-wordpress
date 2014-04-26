@@ -17,16 +17,13 @@ extends _application
   @since 1.0
 
 block article
-  .type.type-archive
-
-    :php
-      $title = false;
-      $param = array(
-        'post_per_page' => 8,
-        'post_type' => 'reports', // 要変更
-        'post_status' => 'publish',
-        'orderby' => 'date',
-        'order' => 'DESC'
-      );
-    .ui-archive-news
-      include _post_item
+  :php
+    $title = false;
+    $param = array(
+      'posts_per_page' => 200,
+      'post_type' => get_post_type(),
+      'post_status' => 'publish',
+      'orderby' => 'date',
+      'order' => 'DESC'
+    );
+  include _post_contents

@@ -29,16 +29,15 @@ block prepend header
     .public-relaion-aritcle
 
 block article
-  .type.type-front
-
-    :php
-      $title = 'News';
-      $param = array(
-        'post_per_page' => 8,
-        'post_type' => 'reports',
-        'post_status' => 'publish',
-        'orderby' => 'date',
-        'order' => 'DESC'
-      );
-    .ui-front-news
-      include _post_item
+  :php
+    // 投稿タイプの一覧を取得
+    $post_types = get_post_types( array( 'public' => true, '_builtin' => false ) );
+    $except_post_types = array('photolog', 'project');
+    $param = array(
+      'posts_per_page' => 8,
+      'post_type' => array_diff($post_types, $except_post_types),
+      'post_status' => 'publish',
+      'orderby' => 'date',
+      'order' => 'DESC'
+    );
+  include _post_contents

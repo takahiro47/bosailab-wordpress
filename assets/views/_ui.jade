@@ -1,0 +1,42 @@
+mixin IE8
+  <!--[if IE 8]>
+  block
+  <![endif]-->
+mixin IE7
+  <!--[if IE 7]>
+  block
+  <![endif]-->
+mixin notIE78
+  <!--[if !(IE 7) | !(IE 8)]>
+  block
+  <![endif]-->
+mixin ltIE9
+  <!--[if lte IE 9]>
+  block
+  <![endif]-->
+mixin ltIE8
+  <!--[if lte IE 8]>
+  block
+  <![endif]-->
+mixin ui-calendar
+  .ui-calendar
+    time: <?php the_date(); ?>
+    .date-icon
+      .date-month: <?php the_time('M'); ?>
+      .date-day: <?php the_time('j'); ?>
+      .date-year: <?php the_time('Y'); ?>
+
+mixin ui-loader
+  .ui-loader
+    i.dot-u1
+    i.dot-u2
+
+mixin ui-load-event
+  .ui-load-event
+    .post-preview
+    .post-background
+    .tmp
+      +ui-loader
+
+mixin ui-edit
+  <?php edit_post_link( '<i class="fa fa-pencil"></i>', '<p class="ui-edit-link">', '</p>' ); ?>

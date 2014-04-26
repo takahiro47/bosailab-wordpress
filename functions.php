@@ -72,22 +72,22 @@ function twentythirteen_setup() {
    * This theme styles the visual editor to resemble the theme style,
    * specifically font, colors, icons, and column width.
    */
-  add_editor_style( array( '/dist/css/editor-style.css', '/dist/fonts/genericons.css', twentythirteen_fonts_url() ) );
+  // add_editor_style( array( '/dist/css/editor-style.css', '/dist/fonts/genericons.css', twentythirteen_fonts_url() ) );
 
   // Adds RSS feed links to <head> for posts and comments.
-  add_theme_support( 'automatic-feed-links' );
+  // add_theme_support( 'automatic-feed-links' );
 
   // Switches default core markup for search form, comment form, and comments
   // to output valid HTML5.
-  add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list' ) );
+  // add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list' ) );
 
   /*
    * This theme supports all available post formats by default.
    * See http://codex.wordpress.org/Post_Formats
    */
-  add_theme_support( 'post-formats', array(
-    'aside', 'audio', 'chat', 'gallery', 'image', 'link', 'quote', 'status', 'video'
-  ) );
+  // add_theme_support( 'post-formats', array(
+  //   'aside', 'audio', 'chat', 'gallery', 'image', 'link', 'quote', 'status', 'video'
+  // ) );
 
   // This theme uses wp_nav_menu() in one location.
   register_nav_menu( 'primary', __( 'Navigation Menu', 'twentythirteen' ) );
@@ -96,57 +96,13 @@ function twentythirteen_setup() {
    * This theme uses a custom image size for featured images, displayed on
    * "standard" posts and pages.
    */
-  add_theme_support( 'post-thumbnails' );
-  set_post_thumbnail_size( 604, 270, true );
+  // add_theme_support( 'post-thumbnails' );
+  // set_post_thumbnail_size( 604, 270, true );
 
   // This theme uses its own gallery styles.
-  add_filter( 'use_default_gallery_style', '__return_false' );
+  // add_filter( 'use_default_gallery_style', '__return_false' );
 }
 add_action( 'after_setup_theme', 'twentythirteen_setup' );
-
-/**
- * Returns the Google font stylesheet URL, if available.
- *
- * The use of Source Sans Pro and Bitter by default is localized. For languages
- * that use characters not supported by the font, the font can be disabled.
- *
- * @since 1.0
- *
- * @return string Font stylesheet or empty string if disabled.
- */
-function twentythirteen_fonts_url() {
-  $fonts_url = '';
-
-  /* Translators: If there are characters in your language that are not
-   * supported by Source Sans Pro, translate this to 'off'. Do not translate
-   * into your own language.
-   */
-  $source_sans_pro = _x( 'on', 'Source Sans Pro font: on or off', 'twentythirteen' );
-
-  /* Translators: If there are characters in your language that are not
-   * supported by Bitter, translate this to 'off'. Do not translate into your
-   * own language.
-   */
-  $bitter = _x( 'on', 'Bitter font: on or off', 'twentythirteen' );
-
-  if ( 'off' !== $source_sans_pro || 'off' !== $bitter ) {
-    $font_families = array();
-
-    if ( 'off' !== $source_sans_pro )
-      $font_families[] = 'Source Sans Pro:300,400,700,300italic,400italic,700italic';
-
-    if ( 'off' !== $bitter )
-      $font_families[] = 'Bitter:400,700';
-
-    $query_args = array(
-      'family' => urlencode( implode( '|', $font_families ) ),
-      'subset' => urlencode( 'latin,latin-ext' ),
-    );
-    $fonts_url = add_query_arg( $query_args, "//fonts.googleapis.com/css" );
-  }
-
-  return $fonts_url;
-}
 
 /**
  * Enqueues scripts and styles for front end.
@@ -158,18 +114,18 @@ function twentythirteen_fonts_url() {
 function twentythirteen_scripts_styles() {
   // Adds JavaScript to pages with the comment form to support sites with
   // threaded comments (when in use).
-  if ( is_singular() && comments_open() && get_option( 'thread_comments' ) )
-    wp_enqueue_script( 'comment-reply' );
+  // if ( is_singular() && comments_open() && get_option( 'thread_comments' ) )
+  //   wp_enqueue_script( 'comment-reply' );
 
   // Adds Masonry to handle vertical alignment of footer widgets.
   if ( is_active_sidebar( 'sidebar-1' ) )
     wp_enqueue_script( 'jquery-masonry' );
 
   // Loads JavaScript file with functionality specific to Twenty Thirteen.
-  wp_enqueue_script( 'theme-script', get_template_directory_uri() . '/dist/js/functions.js', array( 'jquery' ), '2013', true );
+  // wp_enqueue_script( 'theme-script', get_template_directory_uri() . '/dist/js/functions.js', array( 'jquery' ), '2013', true );
 
   // Original Scripts.
-  wp_enqueue_script( 'script', get_template_directory_uri() . '/dist/js/script.js', array( 'jquery' ), '2013', true );
+  // wp_enqueue_script( 'script', get_template_directory_uri() . '/dist/js/script.js', array( 'jquery' ), '2013', true );
 
   // Add Open Sans and Bitter fonts, used in the main stylesheet.
   // wp_enqueue_style( 'theme-fonts', twentythirteen_fonts_url(), array(), null );
@@ -181,11 +137,11 @@ function twentythirteen_scripts_styles() {
   // wp_enqueue_style( 'theme-style', get_stylesheet_uri(), array(), '2013-07-18' );
 
   // Original Stylesheets.
-  wp_enqueue_style( 'style', get_template_directory_uri() . '/dist/css/style.css', array(), '2013-11-08' );
+  // wp_enqueue_style( 'style', get_template_directory_uri() . '/dist/css/style.css', array(), '2013-11-08' );
 
   // Loads the Internet Explorer specific stylesheet.
-  wp_enqueue_style( 'twentythirteen-ie', get_template_directory_uri() . '/dist/css/ie.css', array( 'twentythirteen-style' ), '2013-07-18' );
-  wp_style_add_data( 'twentythirteen-ie', 'conditional', 'lt IE 9' );
+  // wp_enqueue_style( 'twentythirteen-ie', get_template_directory_uri() . '/dist/css/ie.css', array( 'twentythirteen-style' ), '2013-07-18' );
+  // wp_style_add_data( 'twentythirteen-ie', 'conditional', 'lt IE 9' );
 }
 add_action( 'wp_enqueue_scripts', 'twentythirteen_scripts_styles' );
 
@@ -534,6 +490,184 @@ add_action( 'customize_preview_init', 'twentythirteen_customize_preview_js' );
 
 
 
+
+/* =============================================
+ * 管理画面まわり
+ * http://www.nxworld.net/wordpress/wp-admin-customize-hack2.html
+ * ============================================= */
+// アップデート情報非表示(本体)
+if ( !current_user_can('administrator') ) {
+  add_filter('pre_site_transient_update_core', create_function('$a', "return null;"));
+}
+
+// アップデート情報非表示(プラグイン)
+function remove_counts(){
+  global $menu,$submenu;
+  $menu[65][0] = 'プラグイン';
+  $submenu['index.php'][10][0] = 'Updates';
+}
+add_action('admin_menu', 'remove_counts');
+
+// サイドバーの項目を非表示
+function remove_menu() {
+  /* サイドバーの項目を非表示 */
+  // remove_menu_page('index.php');                // ダッシュボード
+  remove_menu_page('edit.php');                 // 投稿
+  // remove_menu_page('upload.php');               // メディア
+  remove_menu_page('link-manager.php');         // リンク
+  // remove_menu_page('edit.php?post_type=page');  // 固定ページ
+  remove_menu_page('edit-comments.php');        // コメント
+  // remove_menu_page('themes.php');               // 外観
+  // remove_menu_page('plugins.php');              // プラグイン
+  remove_menu_page('users.php');                // ユーザー
+  // remove_menu_page('tools.php');                // ツール
+  // remove_menu_page('options-general.php');      // 設定
+
+  /* サイドバーの項目のサブメニューを非表示 */
+  // ダッシュボードの「更新」を非表示
+  remove_submenu_page('index.php', 'update-core.php');
+  // 投稿の「タグ」を非表示
+  remove_submenu_page('edit.php', 'edit-tags.php?taxonomy=post_tag');
+}
+add_action('admin_menu', 'remove_menu');
+
+// 編集画面から不要なボックスを非表示(投稿)
+function remove_default_post_screen_metaboxes() {
+  remove_meta_box( 'postexcerpt','post','normal' );       // 抜粋
+  remove_meta_box( 'trackbacksdiv','post','normal' );     // トラックバック送信
+  remove_meta_box( 'postcustom','post','normal' );        // カスタムフィールド
+  remove_meta_box( 'commentstatusdiv','post','normal' );  // ディスカッション
+  remove_meta_box( 'commentsdiv','post','normal' );       // コメント
+  remove_meta_box( 'slugdiv','post','normal' );           // スラッグ
+  remove_meta_box( 'authordiv','post','normal' );         // 作成者
+  // remove_meta_box( 'revisionsdiv','post','normal' );      // リビジョン
+  remove_meta_box( 'formatdiv','post','normal' );         // フォーマット
+  // remove_meta_box( 'categorydiv','post','normal' );       // カテゴリー
+  // remove_meta_box( 'tagsdiv-post_tag','post','normal' );  // タグ
+}
+add_action('admin_menu', 'remove_default_post_screen_metaboxes');
+
+// 編集画面から不要なボックスを非表示(固定ページ)
+function remove_default_page_screen_metaboxes() {
+  // remove_meta_box( 'postcustom','page','normal' );        // カスタムフィールド
+  remove_meta_box( 'commentstatusdiv','page','normal' );  // ディスカッション
+  remove_meta_box( 'commentsdiv','page','normal' );       // コメント
+  remove_meta_box( 'slugdiv','page','normal' );           // スラッグ
+  remove_meta_box( 'authordiv','page','normal' );         // 作成者
+  // remove_meta_box( 'revisionsdiv','page','normal' );      // リビジョン
+}
+add_action('admin_menu', 'remove_default_page_screen_metaboxes');
+
+// 一覧の不要な項目を非表示(投稿)
+function custom_posts_columns ($columns) {
+  // unset($columns['cb']);          // チェックボックス
+  // unset($columns['title']);       // タイトル
+  unset($columns['author']);      // 作成者
+  // unset($columns['categories']);  // カテゴリー
+  unset($columns['tags']);        // タグ
+  unset($columns['comments']);    // コメント
+  // unset($columns['date']);        // 日付
+  return $columns;
+}
+add_filter('manage_posts_columns', 'custom_posts_columns');
+// add_action( 'manage_posts_custom_column', 'custom_posts_columns');
+
+// 一覧の不要な項目を非表示(固定ページ)
+function custom_pages_columns ($columns) {
+  // unset($columns['cb']);          // チェックボックス
+  // unset($columns['title']);       // タイトル
+  unset($columns['author']);      // 作成者
+  unset($columns['categories']);  // カテゴリー
+  unset($columns['tags']);        // タグ
+  unset($columns['comments']);    // コメント
+  unset($columns['date']);        // 日付
+  return $columns;
+}
+add_filter('manage_pages_columns', 'custom_pages_columns');
+
+// 投稿一覧、固定ページ一覧に項目を追加(カスタム投稿フィールド)
+add_theme_support( 'post-thumbnails' );
+function manage_posts_columns($columns) {
+  $columns['thumbnail'] = __('Thumbnail');
+  $columns['photo'] = "写真";
+  $columns['responsibility'] = "文責";
+  // $columns['members'] = "参加者";
+  return $columns;
+}
+
+// 投稿一覧、固定ページ一覧に項目を追加(アイキャッチ)
+function add_column($column_name, $post_id) {
+  // カスタムフィールド取得
+  if( $column_name == 'responsibility' ) {
+    $responsibility = get_post_meta($post_id, 'responsibility', true);
+  }
+  if( $column_name == 'photo' ) {
+    $photo = '<img src="'.get_field('photo').'">'; //get_post_meta($post_id, 'photo', true);
+  }
+  // アイキャッチ取得
+  if ( 'thumbnail' == $column_name) {
+    $thum = get_the_post_thumbnail($post_id, array(72, 72), 'thumbnail');
+  }
+  // 使用していない場合「なし」を表示
+  if ( isset($responsibility) and $responsibility ) {
+    echo attribute_escape( $responsibility );
+  } else if ( isset($photo) and $photo ) {
+    echo attribute_escape( $photo );
+  } else if ( isset($thum) and $thum ) {
+    echo $thum;
+  } else {
+    // echo __('None');
+  }
+}
+add_filter( 'manage_posts_columns', 'manage_posts_columns' );
+add_action( 'manage_posts_custom_column', 'add_column', 10, 2 );
+
+/* =============================================
+ * JSON API
+ * ============================================= */
+
+add_filter('json_api_encode', 'json_api_encode_acf');
+function json_api_encode_acf($response) {
+  if (isset($response['posts'])) {
+    foreach ($response['posts'] as $post) {
+      json_api_add_acf($post); // Add specs to each post
+    }
+  }
+  else if (isset($response['post'])) {
+    json_api_add_acf($response['post']); // Add a specs property
+  }
+  else if (isset($response['page'])) {
+    json_api_add_acf($response['page']); // Add a specs to a page
+  }
+  return $response;
+}
+function json_api_add_acf(&$post) {
+  $post->acf = get_fields($post->id);
+}
+
+/* =============================================
+ * その他
+ * ============================================= */
+
+class relative_URI {
+  public function __construct() {
+    add_action('get_header', array(&$this, 'get_header'), 1);
+    add_action('wp_footer', array(&$this, 'wp_footer'), 99999);
+  }
+  protected function replace_relative_URI($content) {
+    $home_url = trailingslashit(get_home_url('/'));
+    $top_url = preg_replace( '/^(https?:\/\/.+?)\/(.*)$/', '$1', $home_url );
+    return str_replace( $top_url, '', $content );
+  }
+  public function get_header(){
+    ob_start(array(&$this, 'replace_relative_URI'));
+  }
+  public function wp_footer(){
+    ob_end_flush();
+  }
+}
+$relative_URI = new relative_URI();
+
 function new_excerpt_more( $more ) {
   return ''; // …
 }
@@ -544,6 +678,14 @@ function new_excerpt_length( $length ) {
 }
 add_filter('excerpt_length', 'new_excerpt_length');
 
+function get_current_url() {
+  if ( isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on' ) {
+    $protocol = 'https://';
+  } else {
+    $protocol = 'http://';
+  }
+  return $protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+}
 function new_excerpt( $length ) {
   global $post;
   $content = strip_tags($post->post_content);
@@ -567,14 +709,14 @@ function okilab_breadcrumbs() {
   $show_home_link = 1; // 1 - show the 'Home' link, 0 - don't show
   $show_title     = 1; // 1 - show the title for the links, 0 - don't show
   $delimiter      = '<i class="fa fa-angle-right"></i>'; // ' &raquo; '; // delimiter between crumbs
-  $before         = '<span class="current">'; // tag before the current crumb
-  $after          = '</span>'; // tag after the current crumb
+  $before         = '<p class="current">'; // tag before the current crumb
+  $after          = '</p>'; // tag after the current crumb
   /* === END OF OPTIONS === */
 
   global $post;
   $home_link  = home_url('/');
-  $link_before  = '<span typeof="v:Breadcrumb">';
-  $link_after   = '</span>';
+  $link_before  = '<p typeof="v:Breadcrumb">';
+  $link_after   = '</p>';
   $link_attr  = ' rel="v:url" property="v:title"';
   $link     = $link_before . '<a' . $link_attr . ' href="%1$s">%2$s</a>' . $link_after;
   $parent_id  = $parent_id_2 = $post->post_parent;

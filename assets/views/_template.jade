@@ -1,0 +1,223 @@
+include _ui
+
+script#tmpl-archives(type='text/template')
+  .archive
+    hgroup.page-title
+      h1
+    section.post-items.row
+
+script#tmpl-archive(type='text/template')
+  //- .post-item
+  <% if (type == 'photolog') { %>
+  .post-header
+    .ui-calendar
+      time <%- date || "1999/12/31 23:59:59" %>
+      .date-icon
+        .date-month
+        .date-day
+        .date-year
+  .post-article
+    h3.title
+      a(href!='<%- url %>')
+        span <%- title %>
+    p.excerpt.ellipsis.multiline
+  +ui-load-event
+  <% } else if (type == 'report') { %>
+  .post-header
+    .ui-calendar
+      time <%- date || "1999/12/31 23:59:59" %>
+      .date-icon
+        .date-month
+        .date-day
+        .date-year
+  .post-article
+    h3.title
+      a(href!='<%- url %>')
+        span <%- title %>
+    p.excerpt.ellipsis
+  <% } else if (type == 'project') { %>
+  .post-header
+    //- サムネイル
+    +ui-load-event
+  .post-article
+    h3.title.ellipsis
+      a(href!='<%- url %>')
+        span <%- title %>
+  .post-footer
+  <% } %>
+
+script#tmpl-singles(type='text/template')
+  .single
+    hgroup.page-title
+      h1
+    section.post-items.row
+
+    //- TODO: 一覧スライダー
+    //- 参考: http://ugc.disney.co.jp/blog/movie/category/anayuki#gallerySliderArea
+    section.post-slider
+
+
+script#tmpl-single(type='text/template')
+  //- post-item
+  <% if (type == 'photolog') { %>
+  .post-popup.row
+    .post-left.col-xs-12.col-sm-9
+      .post-photo
+        +ui-load-event
+        .post-navi
+          nav.post-navigation(role='navigation')
+            <% if (next_url) { %>
+            a(rel='next', href!="<%- next_url %>")
+              span.meta-nav.meta-nav-next: i.fa.fa-angle-right
+            <% } if (previous_url) { %>
+            a(rel='prev', href!="<%- previous_url %>")
+              span.meta-nav.meta-nav-prev: i.fa.fa-angle-left
+            <% } %>
+      .post-slider
+        //- TODO: フォトログの下に、横に並んだリスト型のナビを表示したい
+        //- http://bigakusei.campus-web.jp/binan-bijo/9004/ みたいな
+    .post-right.col-xs-12.col-sm-3
+      .post-content
+        header.post-header
+          //- カレンダーアイコン
+          .ui-calendar
+            time <%- date || "1999/12/31 23:59:59" %>
+            .date-icon
+              .date-month
+              .date-day
+              .date-year
+          //- タイトル
+          h1.post-title <%- title %>
+          //- メタタグ
+          .post-meta
+            //- 編集アイコン(ログイン時のみ)
+              .post-edit
+                p.ui-edit-link
+                  a.post-edit-link(href='')
+                    i.fa.fa-pencil
+            //- タグ
+            .ui-tags
+              p
+                span Tags
+              //- .tag <name>
+        article.post-article
+          //- 本文
+          .post-body
+            .excerpt.ellipsis.multiline
+              <%= acf.body %>
+        footer.post-footer.row
+          .social.facebook.col-xs-6
+            fb:like#fb-like(href='', width='218', layout='box_count' action='like', show_faces='true', share='false')
+          .social.twitter.col-xs-6
+            a#tw-like.twitter-share-button(href='https://twitter.com/share' data-lang='ja', data-hashtags='bosailab', data-dnt='true', data-count='vertical')
+          .social.googleplus.col-xs-6
+            .g-plusone(data-size='tall')
+          .social.pocket.col-xs-6
+            a#pk-like.pocket-btn(data-pocket-label='pocket', data-pocket-count='vertical',  data-pocket-align='center', data-lang='ja')
+
+  .post-comments.row
+    .post-left.col-xs-12.col-sm-9
+      .post-detail
+        h2 Detail
+        .post-body
+          <%= acf.body %>
+      .post-comment
+        fb:comments(id='fb-comments', href='', width='713', numposts='8', colorscheme='light', mobile='false')
+
+    .post-right.col-xs-12.col-sm-3
+      .post-data
+        //- 撮影日時とか
+      .post-maps
+        //- ここにGoogleマップ
+        //- http://www.lifehacker.jp/2013/12/131209google_maps_responsive.html
+        iframe(id='g-maps', width="218", height="284", frameborder="0", style="border:0")
+  <% } else if (type == 'report') { %>
+  header.post-header
+    //- カレンダーアイコン
+    .ui-calendar
+      time <%- date || "1999/12/31 23:59:59" %>
+      .date-icon
+        .date-month
+        .date-day
+        .date-year
+    .ui-calendar-background
+    //- タイトル
+    h1.post-title <%- title %>
+    //- メタ
+    .post-meta
+      //- カスタム投稿フィールド
+      p.responsibility
+        | 文責：
+        strong <%- acf.responsibility %>
+      p.members
+        | 参加者：
+        strong <%- acf.members %>
+  article.post-article
+    .post-body
+        <%= content %>
+
+  footer.post-footer
+    .post-social.row
+      .social.facebook.col-xs-6.col-sm-3
+        fb:like#fb-like(href='', width='218', layout='box_count' action='like', show_faces='true', share='false')
+      .social.twitter.col-xs-6.col-sm-3
+        a#tw-like.twitter-share-button(href='https://twitter.com/share' data-lang='ja', data-hashtags='bosailab', data-dnt='true', data-count='vertical')
+      .social.googleplus.col-xs-6.col-sm-3
+        .g-plusone(data-size='tall')
+      .social.pocket.col-xs-6.col-sm-3
+        a#pk-like.pocket-btn(data-pocket-label='pocket', data-pocket-count='vertical',  data-pocket-align='center', data-lang='ja')
+
+    .post-navi
+      nav.post-recommends.row(role='navigation')
+        .col-xs-2.post-recommend
+        .col-xs-2.post-recommend
+        .col-xs-2.post-recommend
+        .col-xs-2.post-recommend
+        .col-xs-2.post-recommend
+        .col-xs-2.post-recommend
+
+      nav.post-navigation.row(role='navigation')
+        <% if (previous_url) { %>
+        .col-xs-4
+          a(rel='next', href!="<%- next_url %>")
+            span.meta-nav.meta-nav-prev
+              i.fa.fa-angle-double-left
+              strong Previous
+        <% } else { %>
+        .col-xs-4
+        <% } if (next_url) { %>
+        .col-xs-4.col-xs-offset-4
+          a(rel='prev', href!="<%- previous_url %>")
+            span.meta-nav.meta-nav-next
+              strong Next
+              i.fa.fa-angle-double-right
+        <% } %>
+
+
+  <% } else if (type == 'project') { %>
+  header.post-header
+    //- タイトル
+    h1.post-title
+      span <%- title %>
+    //- 概要
+    p.post-description <%= acf.description %>
+
+  article.post-article.row
+    .post-left.col-xs-6
+      +ui-load-event
+    .post-right.col-xs-6
+      .post-content
+        <%= content %>
+
+  footer.post-footer
+    +ui-edit
+  <% } %>
+
+  //- hgroup.page-recommend
+  //-   h2 You might also like
+
+script#tmpl-layers(type='text/template')
+  ._n1
+    ._n2
+      .ui-context-layer-parent
+        .ui-context-layer

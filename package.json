@@ -73,6 +73,7 @@
     "grunt-svgmin": "^0.4.0",
     "grunt-express-server": "^0.4.13",
     "connect-livereload": "^0.3.2",
-    "grunt-shell": "^0.6.4"
+    "grunt-shell": "^0.6.4",
+    "grunt-bower-task": "~0.2.3"
   }
 }

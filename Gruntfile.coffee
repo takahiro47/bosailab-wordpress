@@ -1,3 +1,4 @@
+# <project>, -vendor/*, -dist/*, -public/*, -static/*, -tmp/*, -log/*, -node_modules/*, -.bundle/*
 fs = require 'fs'
 url = require 'url'
 path = require 'path'
@@ -65,14 +66,14 @@ module.exports = (grunt) ->
   grunt.registerTask 'serve', (target) ->
     if target is 'dist'
       return grunt.task.run [ 'build', 'connect:dist:keepalive', ]
-    grunt.task.run [ 'clean', 'test', 'connect:livereload', 'watch' ]
+    grunt.task.run [ 'test', 'connect:livereload', 'watch' ]
     return
   grunt.registerTask 'server', ->
     grunt.log.warn 'The `server` task has been deprecated. Use `grunt serve` to start a server.'
     grunt.task.run ['serve']
     return
-  grunt.registerTask 'build', [ 'copy', 'coffee', 'uglify', 'stylus', 'cssmin', 'jade', 'imagemin', 'svgmin', 'htmlmin' ]
-  grunt.registerTask 'test',  [ 'coffeelint', 'build', 'simplemocha', 'play' ] # 'coffeelint', 'build', 'csslint' ...
+  grunt.registerTask 'build', [ 'clean', 'copy', 'coffee', 'uglify', 'stylus', 'cssmin', 'jade', 'imagemin', 'svgmin', 'htmlmin' ]
+  grunt.registerTask 'test',  [ 'coffeelint', 'build', 'simplemocha', 'play' ] # [ 'coffeelint', 'build', 'csslint', 'simplemocha', 'play' ]
   grunt.registerTask 'default', [ 'serve' ]
 
 
@@ -82,7 +83,7 @@ module.exports = (grunt) ->
 
   grunt.initConfig
 
-    pika:
+    picha:
       dist: 'dist/'
       public: 'public/'
 
@@ -146,7 +147,21 @@ module.exports = (grunt) ->
       dist:
         src: [ 'dist/' ]
       public:
-        src: [ 'public/' ]
+        src: [ 'public/', '*.php', '!functions.php' ]
+
+    bower:
+      install:
+        options:
+          targetDir: './lib',
+          layout: (type, component) ->
+            if type is 'css'
+              return 'css'
+            else
+              return 'js'
+          install: yes
+          verbose: no
+          cleanTargetDir: yes
+          cleanBowerDir: no
 
     copy:
       img:
@@ -169,6 +184,13 @@ module.exports = (grunt) ->
           cwd: 'assets/'
           src: [ '**/*.css' ]
           dest: 'dist/'
+        }]
+      font:
+        files: [{
+          expand: yes
+          cwd: 'assets/'
+          src: [ '**/*.{eot,svg,ttf,otf,woff}' ]
+          dest: 'public/'
         }]
       source:
         files: [{
@@ -237,31 +259,9 @@ module.exports = (grunt) ->
           ext: '.css'
         }]
 
-    # jade:
-    #   debug:
-    #     pretty: yes
-    #     data: version: '<%- pkg.version %>'
-    #     files: [{
-    #       expand: yes
-    #       cwd: 'assets/'
-    #       src: [ '*.jade', '**/*.jade' ]
-    #       dest: 'dist/'
-    #       ext: '.html'
-    #     }]
-    #   compile:
-    #     options:
-    #       data: version: '<%- pkg.version %>'
-    #     files: [{
-    #       expand: yes
-    #       cwd: 'assets/'
-    #       src: [ '*.jade', '**/*.jade' ]
-    #       dest: 'public/'
-    #       ext: '.html'
-    #     }]
-
     jade:
       options:
-        filters: require('./public/js/filters.js')
+        filters: require('./static/filters.js')
       debug:
         options:
           pretty: yes
@@ -270,20 +270,20 @@ module.exports = (grunt) ->
             timestamp: "<%= new Date().getTime() %>"
         files: [{
           expand: yes
-          cwd: 'assets/'
+          cwd: 'assets/views'
           src: [ '*.jade', '**/*.jade' ]
           dest: 'dist/'
           ext: '.php'
         }]
       compile:
         options:
-          pretty: yes
+          pretty: no
           data:
             version: '<%- pkg.version %>'
             timestamp: "<%= new Date().getTime() %>"
         files: [{
           expand: yes
-          cwd: 'assets/'
+          cwd: 'assets/views'
           src: [ '!(_)*.jade', '**/!(_)*.jade' ]
           dest: ''
           ext: '.php'
@@ -345,7 +345,7 @@ module.exports = (grunt) ->
         files: [
           expand: yes
           cwd: 'dist/'
-          src: '{,*/}*.svg'
+          src: [ '{,*/}*.svg', '!{fonts,font}/*.svg' ]
           dest: 'public/'
         ]
 

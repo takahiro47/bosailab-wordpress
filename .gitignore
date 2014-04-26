@@ -68,7 +68,8 @@ node_modules/*
 bower_components/*
 !.bowerrc
 /vendor/assets/components
-
+/client/components
+/lib
 
 ## YARD artifacts
 ## -------------------------------------------
@@ -105,5 +106,15 @@ dist
 public
 node_modules
 config/env.json
+
+## Wordpress Grunt
+## -------------------------------------------
+dist
+public
+node_modules
+client/components/
+config/env.json
+/*.php
+!/functions.php
 
 
