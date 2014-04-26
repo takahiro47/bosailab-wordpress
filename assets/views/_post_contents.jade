@@ -44,9 +44,6 @@ include _ui
     h1 Search Results
 
   section.post-items.row
-    :php
-      $wp_query = new WP_Query();
-      $wp_query->query($param);
     <?php if ( $wp_query->have_posts() ) { while ( $wp_query->have_posts() ) { $wp_query->the_post(); ?>
     //- 投稿アイテム
     .post-item.item-search.loaded.col-sm-8.col-sm-offset-4.col-xs-12(data-id!="<?php the_ID(); ?>")

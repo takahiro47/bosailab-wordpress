@@ -205,7 +205,7 @@ $ ->
       @$el.html @template @model.toJSON()
 
     render: ->
-      console.log '@model: ', @model
+      # console.log '@model: ', @model
       # カスタム投稿タイプ
       @$el.addClass "item-#{@model.get('type')}"
       # カスタム投稿フィールド
@@ -333,7 +333,7 @@ $ ->
 
     render: ->
       self = @
-      console.log '@model: ', @model
+      # console.log '@model: ', @model
       # カスタム投稿タイプ
       @$el.addClass "item-#{@model.get('type')}"
       # カスタム投稿フィールド
@@ -411,12 +411,12 @@ $ ->
 
     navigateToPrevious: (event) ->
       event.preventDefault()
-      console.log url = ui.parse_uri(@model.get('previous_url')).path
+      # console.log url = ui.parse_uri(@model.get('previous_url')).path
       $app.navigate url, yes
 
     navigateToNext: (event) ->
       event.preventDefault()
-      console.log url = ui.parse_uri(@model.get('next_url')).path
+      # console.log url = ui.parse_uri(@model.get('next_url')).path
       $app.navigate url, yes
 
   # ===================================
@@ -584,7 +584,7 @@ $ ->
       ($ ".ui-#{@current}").addClass 'fade'
 
     search: ->
-      console.log 'search'
+      # console.log 'search'
       @current = 'default'
       ($ ".ui-#{@current}").addClass 'fade'
 
@@ -640,7 +640,7 @@ $ ->
       @fetch_post 'photolog', post_id
 
     fetch_post: (post_type, post_id, done = ->) ->
-      console.log "@fetching: ", @fetching
+      # console.log "@fetching: ", @fetching
       unless @fetching
         # クエリをセット
         @current = post_type
@@ -680,15 +680,15 @@ $ ->
 
     # pages
     about: ->
-      console.log 'about'
+      # console.log 'about'
       @current = 'default'
       ($ ".ui-#{@current}").addClass 'fade'
     contact: ->
-      console.log 'contact'
+      # console.log 'contact'
       @current = 'default'
       ($ ".ui-#{@current}").addClass 'fade'
     publications: ->
-      console.log 'publications'
+      # console.log 'publications'
       @current = 'default'
       ($ ".ui-#{@current}").addClass 'fade'
 
