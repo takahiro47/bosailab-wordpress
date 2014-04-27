@@ -41,7 +41,7 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
       link(href="//fonts.googleapis.com/css?family=Lato:100italic,100,300italic,300,400italic,400,700italic,700,900italic,900" rel="stylesheet" type="text/css")
       link(rel='stylesheet', href!="<?php echo (get_template_directory_uri() . '/public/css/style.css') ?>")
 
-    <?php wp_head(); ?>
+    <?php // wp_head(); ?>
     :php
       do_action( 'get_header' );
 
@@ -172,15 +172,15 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
       script(src='//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js')
       script(src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js')
       script(src='//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js')
-      script(src='//maps.google.com/maps/api/js?sensor=true')
 
+      //- Google Maps
+      //- script(src='//maps.googleapis.com/maps/api/js?key=AIzaSyBvYIaT_tlgQW1BkPX6Afs_MTExY85b1cs&sensor=true')
       //- Google+ Button
       script(type='text/javascript', src='https://apis.google.com/js/platform.js') {lang: 'ja', parsetags: 'explicit'}
 
       //- My Scripts
       //- script(src!="<?php echo (get_template_directory_uri().'/public/js/backbone_debug.js') ?>")
       script(src!="<?php echo (get_template_directory_uri().'/dist/js/script.js') ?>")
-
 
     <?php // wp_footer(); ?>
     :php

@@ -14,12 +14,37 @@ global-reset()
 
 
 /* = 参考サイト(綺麗なサイト)
- * ------------------------------------------------------------ */
+ * ------------------------------------------------------------
+filter: (.+)$ => filter: unquote("\1")
+http://blog.mah-lab.com/2013/05/01/wordpress-on-heroku/
 
-// filter: (.+)$ => filter: unquote("\1")
-// http://blog.mah-lab.com/2013/05/01/wordpress-on-heroku/
+オーバーラップ
+http://blueimp.github.io/jQuery-File-Upload/
 
+PJAX
+http://kakurezatou.com/
 
+デザイン
+http://100tokyo.jp/listings/arare
+
+スタバ
+http://www.starbucks.co.jp/coffee/?nid=tbn_02_pc
+
+アイコン
+http://design-develop.net/vector-design/page/2
+
+Apple
+http://www.apple.com/jp/environment/our-progress/
+http://www.apple.com/safari/
+
+アナ雪(スライダー)
+http://ugc.disney.co.jp/blog/movie/category/anayuki#gallerySliderArea
+
+その他
+http://handmade-marche.jp/
+http://bradleyhaynes.com/freelance
+
+*/
 /* = Fonts
  * ------------------------------------------------------------ */
 
@@ -43,7 +68,7 @@ body
   font-reset()
   // font-helvetica()
   // background #f0eae1
-  background background_color
+  // background background_color
   // background-image url(path + 'page-bg-tile.jpg')
   // background-repeat repeat
 
@@ -125,14 +150,13 @@ dev_width = 1980px * 1.1
 
 #lang_sel_footer
   padding 3px 0
-  background base_color
+  background #333
   border none
   ul
     clearfix()
     width 100%
     max-width 960px
     margin 0 auto
-    box-shadow inset 0 1px 0 #96BCC0
     li
       display inline-block
       margin 0
@@ -155,10 +179,10 @@ dev_width = 1980px * 1.1
 
 body
   &.signed_in
-    // .ui-container
-    //   padding-top 34px
-    //   @media screen and (max-width: 782px)
-    //     padding-top 46px
+    .ui-container
+      padding-top 34px
+      @media screen and (max-width: 782px)
+        padding-top 46px
     header.ui-header
       &.fixed
         .ui-navi-container
@@ -173,7 +197,3 @@ body
         background-color #799fa4 !important
     .ui-breadcrumbs-container
       hidden()
-
-
-
-

@@ -14,7 +14,7 @@ header.ui-header
   position relative
   z-index 1000
   width 100%
-  margin 0
+  margin 0 auto
 
   &.fixed
     .ui-navi-container
@@ -32,7 +32,7 @@ header.ui-header
     display block
     position relative
     width 100%
-    max-width 960px
+    max-width max_width
     margin 0 auto
 
   // サイトタイトル
@@ -65,9 +65,14 @@ header.ui-header
 
   // 広報スライダー
   .ui-public-relaions
-    background-color sub_color
+    margin-bottom 10px
+    border 18px solid rgba(240, 240, 240, .45)
+    // background-color sub_color
     .public-relaion-aritcle
-      height 300px
+      img
+        width 100%
+        height auto
+        border 4px solid #fff
 
   .ui-navi-container
   .ui-breadcrumbs-container
@@ -77,7 +82,6 @@ header.ui-header
       clearfix()
       position relative
       width 100%
-      max-width 960px
       margin 0 auto
 
   // ナビメニュー
@@ -226,10 +230,11 @@ header.ui-header
  * ----------------------------------------------------- */
 .ui-contents
   width 100%
+  max-width max_width
+  margin 0 auto
   .ui-content
     position relative
     width 100%
-    max-width 960px
     margin 30px auto 90px
     // margin 30px 20px 90px
 
@@ -280,7 +285,9 @@ header.ui-header
  * ----------------------------------------------------- */
 footer.ui-footer
   padding 0 0 20px
-  background base_color
+  background #414141
+  .ui-hoge
+    background-color #f4f4f4 // TODO: フッターの前にこの色を入れると良さそう
   .ui-site
   .ui-social
     clearfix()
@@ -296,6 +303,7 @@ footer.ui-footer
   .ui-social
     span
       display block
+      overflow hidden
       height 24px
       &.twitter
         text-align right

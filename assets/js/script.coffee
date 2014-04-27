@@ -92,7 +92,7 @@ $ ->
 
     # ページ切り替え
     switch: () ->
-
+      console.log ''
 
     # フォトログ用ポップアップウィンドウ
     popup: ->
@@ -157,6 +157,19 @@ $ ->
         month_en: month_names[date.getMonth() + 1]
         day: date.getDate()
         weekday: weekday_names[date.getDay()]
+
+    staticMap: (lat, lng, size) ->
+      base = 'http://maps.googleapis.com/maps/api/staticmap?'
+      params =
+        center: "#{lat},#{lng}"
+        zoom: 13
+        size: size
+        markers: "color:brown|label:S|#{lat},#{lng}"
+        sensor: no
+      url = base + Object.keys(params).map((key) ->
+        return "#{encodeURIComponent key}=#{encodeURIComponent params[key]}"
+      ).join '&'
+      return url
 
   # ===================================
   # LocalStorage
@@ -367,6 +380,8 @@ $ ->
           #   self.onLoad()
           # $photo.load() if $photo.complete
         # Google Maps
+        # gmaps_url = ui.staticMap acf.position.lat, acf.position.lng, '444x400'
+        # (@$ '.post-maps').append ($ '<img>').attr 'src', gmaps_url
         maps_url = 'https://www.google.com/maps/embed/v1'
         gmaps_key = 'AIzaSyBvYIaT_tlgQW1BkPX6Afs_MTExY85b1cs'
         position = encodeURIComponent acf.position.address
@@ -507,10 +522,6 @@ $ ->
     # state
     ajax: no
     fetching: no
-    previous: 'default'
-    previous_api: null
-    current: 'default'  # report, project, photolog, etc
-    current_api: null   # posts, post
 
     routes:
       '?s=(:text)': 'search'
@@ -541,156 +552,157 @@ $ ->
         media.layerView = new LayersView media.layers
         @$title = $ 'title'
 
-    # メニューや画面表示を更新する
-    changeMenuTab: ->
-      $target = ($ "li.menu-item > a[href='/#{@current}']")
-      $target
-        .parents('.nav-menu')
-        .find('.menu-item')
-        .removeClass 'current-menu-item'
-      $target
-        .parents('.menu-item')
-        .addClass 'current-menu-item'
-      return
-    beforeFetch: ->
-      # ロードバー
-      @fetching = yes
-      ui.progress on
-      # ビューをフェードアウト
-      ($ '.ui-article > *')
-        .not(".ui-#{@current_api}")
-        .removeClass 'fade'
-      # 上部へスクロール
-      if media.query.post_type isnt 'archive' or media.query.page is 1
-        ui.scroll.swing()
-      # デバッグ
-      console.log "API(#{@current_api}) リクエスト準備:", media
-    afterFetch: ->
-      @fetching = no
-      # プログレスバーを非表示
-      ui.progress off
-      # メニューバーの更新
-      @changeMenuTab()
-      #TODO: パンくずバーの更新
-      ##
-      # ビューをフェードイン
-      ($ ".ui-#{@current_api}")
-        .addClass 'fade'
-
+    # Page
     index: ->
       ($ 'body').addClass 'index'
-      # @fetch_posts 'home'
-      @current = 'default'
-      ($ ".ui-#{@current}").addClass 'fade'
-
+      ($ ".ui-default").addClass 'fade'
     search: ->
-      # console.log 'search'
-      @current = 'default'
-      ($ ".ui-#{@current}").addClass 'fade'
-
-    # 記事一覧ページ
+      ($ ".ui-default").addClass 'fade'
+    about: ->
+      ($ ".ui-default").addClass 'fade'
+    contact: ->
+      ($ ".ui-default").addClass 'fade'
+    publications: ->
+      ($ ".ui-default").addClass 'fade'
+    # Article
     reports: (page) ->
-      @fetch_posts 'report', page
+      q =
+        api: 'archive'
+        post_type: 'report'
+        page: page
+      @fetch q
     projects: (page) ->
-      @fetch_posts 'project', page
+      q =
+        api: 'archive'
+        post_type: 'project'
+        page: page
+      @fetch q
     photologs: (page) ->
-      @fetch_posts 'photolog', page
-
-    fetch_posts: (post_type, page, done = ->) ->
-      unless @fetching
-        # クエリをセット
-        @current = post_type
-        @current_api = if post_type is 'home' then post_type else 'archive'
-        media.query.post_type = post_type
-        media.query.page = if page then page else 1
-
-        # データ取得
-        @beforeFetch()
-        $.when($api[@current_api] media.query)
-          .done (data) =>
-            console.log "API(#{@current_api}) リクエスト結果:", data
-            for post in data.posts
-              media.archives.add new Archive post
-            # タイトルをセット
-            media.archivesView.setTitle "#{media.query.post_type}s"
-            # 次のページの有無をチェック
-            media.query.page++
-            media.next = no
-            media.next = yes if (data.pages - media.query.page) >= 0
-            @afterFetch()
-            # 一覧アイテムのフェードイン
-            ($ ".ui-#{@current_api} .post-item").not('.fade').each (i) ->
-              self = ($ @)
-              setTimeout ->
-                self.addClass 'fade'
-              , i * delaySpeed = 80
-              return
-            return done null, data
-          .fail (err) =>
-            ui.progress off
-            @fetching = no
-            return done err, null
-
-    # 記事単体ページ
+      q =
+        api: 'archive'
+        post_type: 'photolog'
+        page: page
+      @fetch q
+    # Single
     report: (year, month, post_id) ->
-      @fetch_post 'report', post_id
+      q =
+        api: 'single'
+        post_type: 'report'
+        post_id: post_id
+      @fetch q
     project: (year, month, post_id) ->
-      @fetch_post 'project', post_id
+      q =
+        api: 'single'
+        post_type: 'project'
+        post_id: post_id
+      @fetch q
     photolog: (year, month, post_id) ->
-      @fetch_post 'photolog', post_id
+      q =
+        api: 'single'
+        post_type: 'photolog'
+        post_id: post_id
+      @fetch q
 
-    fetch_post: (post_type, post_id, done = ->) ->
-      # console.log "@fetching: ", @fetching
+    fetch: (query = {}, done = ->) ->
       unless @fetching
-        # クエリをセット
-        @current = post_type
-        @current_api = 'single'
-        media.query.post_type = post_type
-        media.query.post_id = post_id
+        ## 読み込みの為の変数準備
+        ## -------------------------------------
+        # 引数からクエリをセット
+        media.query = {}
+        media.query = query
+        # 次に読み込むページ数などを整理
+        console.log 'page: ', media.query.page
+        if media.query.page is null # (ページ数を指定して読み込んだ場合は除く)
+          # 2ページ目以降の読み込みだった場合は, ページ数が未設定なので1にセット
+          # => ポストタイプが前回のfetchと異なる場合
+          if media.prequery.post_type isnt media.query.post_type
+            media.query.page = 1
+        # デバッグ出力
+        console.log "API(#{media.query.api}) リクエスト準備:", media
 
-        # データ取得
-        @beforeFetch()
-        $.when($api[@current_api] media.query)
+        ## 読み込む前の画面を準備
+        ## -------------------------------------
+        # ローディング状態にする
+        @fetching = yes
+        ui.progress on
+        # すべてのビューをいったんフェードアウト
+        ($ '.ui-article > *').not(".ui-#{media.query.api}").removeClass 'fade'
+        # TODO: 画面中央にローディングアイコンを表示
+
+        # 2ページ目以降の読み込み or ポップアップ "以外"では上部にスクロール
+        unless (media.query.page > 1) or no # p2以降 or ポップアップ(今は常にfalse) を除く
+          ui.scroll.swing()
+
+        ## AJAXリクエストを実行
+        ## -------------------------------------
+        $.when($api[media.query.api] media.query)
           .done (data) =>
-            console.log "API(#{@current_api}) リクエストの結果:", data
+            ## 読み込み後の変数を調整
+            ## -------------------------------------
+            # デバッグ出力
+            console.log "API(#{media.query.api}) リクエスト結果:", data
+            # 実行したクエリをクローン
+            media.prequery = {}
+            media.prequery = media.query
+            # 次ページの有無を確認
+            media.next = no
+            media.next = yes if (data.pages - media.query.page) > 0
 
-            # winheight = $win.height()
-            # docheight = $doc.height()
-            # ui.popup()
-            # console.log winheight, docheight
+            ## 読み込み後の画面を準備
+            ## -------------------------------------
+            # ローディング状態を解除
+            @fetching = no
+            ui.progress off
+            # h1にタイトルをセット
+            if media.query.api is 'archive'
+              media.archivesView.setTitle "#{media.query.post_type}s"
+            else if media.query.api is 'single'
+              media.singlesView.setTitle()
+            # TODO: headにタイトルをセット
 
-            # データをもとに画面を描画
-            post = _.extend data.post,
-              next_url: data.next_url
-              previous_url: data.previous_url
-            media.singles.add new Single post
-            # ajax後の処理
-            @afterFetch()
+            # TODO: パンくずバーの更新
+
+            # メニューバーを更新
+            $menubar = ($ "li.menu-item > a[href='/#{media.query.post_type}']")
+            $menubar.parents('.nav-menu').find('.menu-item').removeClass 'current-menu-item'
+            $menubar.parents('.menu-item').addClass 'current-menu-item'
+            # ビューをフェードイン
+            ($ ".ui-#{media.query.api}").addClass 'fade'
+            # 取得した投稿アイテムをBackboneのモデルに追加
+            if media.query.api is 'archive'
+              for post in data.posts
+                media.archives.add new Archive post
+            else if media.query.api is 'single'
+              post = _.extend data.post,
+                next_url: data.next_url
+                previous_url: data.previous_url
+              media.singles.add new Single post
+            # 取得した投稿アイテムのフェードイン(Archiveのみ)
+            if media.query.api is 'archive'
+              ($ ".ui-#{media.query.api} .post-item").not('.fade').each (i) ->
+                self = ($ @)
+                setTimeout ->
+                  self.addClass 'fade'
+                , i * delaySpeed = 80
+                return
+
+            ## イベントをreturn
+            ## -------------------------------------
             return done null, data
+
           .fail (err) =>
             ui.progress off
             @fetching = no
             return done err, null
 
     loadNext: ->
-      # 次のページがある∩XHR中でない∩APIが存在する
-      if media.next and not @fetching and @current_api is 'archive' and $api[@current_api]?
-        @fetch_posts media.query.post_type, media.query.page
-        return
+      unless @fetching
+        # 次のページがあり、かつAPIが存在する場合はフェッチを実行
+        if media.next and $api[media.query.api]?
+          q = media.query
+          q.page++
+          @fetch q
 
-    # pages
-    about: ->
-      # console.log 'about'
-      @current = 'default'
-      ($ ".ui-#{@current}").addClass 'fade'
-    contact: ->
-      # console.log 'contact'
-      @current = 'default'
-      ($ ".ui-#{@current}").addClass 'fade'
-    publications: ->
-      # console.log 'publications'
-      @current = 'default'
-      ($ ".ui-#{@current}").addClass 'fade'
 
   media =
     archives: new Archives
@@ -700,11 +712,13 @@ $ ->
     singlesView: null
     layersView: null
     query:
+      api: 'default'
       post_type: null
-      page: 0
+      page: 1
       post_id: null
       search: no
       text: null
+    prequery: {}
     next: null
     search:
       focusEnable: yes
@@ -1011,7 +1025,14 @@ insertGAScript = ->
   s[0].parentNode.insertBefore ga, s
 insertGAScript()
 
+latlngs =
+  lat: 35.3880943
+  lng: 139.4279061
 
+initialize ->
+  mapOptions =
+    zoom: 8
+    center: new google.maps.LatLng()
 
 
 
