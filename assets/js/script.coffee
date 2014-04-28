@@ -466,15 +466,19 @@ $ ->
       @collection.reset()
       view = new SingleView(model: content).render()
       (@$ '.post-items').append view.el
-      @setTitle content.title
+      @setTitle content.get('title')
 
     setTitle: (title) ->
       if title
-        (@$ 'hgroup.page-title > h1').html title
-        (@$ 'hgroup.page-title').css 'height': 'auto'
+        ($ 'title').html "#{title} | 大木聖子研究室"
+        # (@$ 'hgroup.page-title > h1').html title
+        # (@$ 'hgroup.page-title').css 'height': 'auto'
       else
-        (@$ 'hgroup.page-title > h1').html ''
-        (@$ 'hgroup.page-title').css 'height': '0'
+        ($ 'title').html "？？？ | 大木聖子研究室"
+        # (@$ 'hgroup.page-title > h1').html ''
+        # (@$ 'hgroup.page-title').css 'height': '0'
+      (@$ 'hgroup.page-title > h1').html ''
+      (@$ 'hgroup.page-title').css 'height': '0'
 
   # ===================================
   # Backbone: Layers
