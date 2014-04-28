@@ -152,36 +152,31 @@ loader-transform = loader-size + (loader-gutter*2)
       opacity 0
 
 .ui-layer
-  hidden()
-  display table
-  table-layout fixed
-  position absolute
+  z-index 3000
+  position fixed
+  overflow auto
+  overflow-x hidden
   top 0
-  left 0
-  right 0
-  z-index 2000
-  min-height 100%
-  min-width 960px
-  height 100% !important
-  width 100%
+  bottom @top
+  left @top
+  right @top
+  text-align center
   outline none
   background-color rgba(0, 0, 0, .9)
-  ._n1
-    display table-cell
-    text-align center
+  .layeer-close-target
+    position absolute
+    top 0
+    bottom @top
+    left @top
+    right @top
+  .layer-content
+    position relative
+    display inline-block
     vertical-align middle
-    width 100%
-    ._n2
-      display inline-block
-      margin 20px
-      text-align left
-      .ui-context-layer-parent
-        position relative
-        .ui-context-layer
-          zoom 1
-          width 960px
-          height 0
-          background #fff
+    min-width 520px
+    min-height 338px
+    background-color #fff
+    border-radius 7px
 
 /* = .ui-calendar
  * ----------------------------------------------------- */
