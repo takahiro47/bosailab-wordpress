@@ -164,6 +164,21 @@ $ ->
         day: date.getDate()
         weekday: weekday_names[date.getDay()]
 
+    gmap: ($el, lat, lng, zoom=14, title='') ->
+      zoom = 14 if zoom is 0
+      latlng = new google.maps.LatLng lat, lng
+      myOptions =
+        zoom: zoom
+        center: latlng
+        disableDefaultUI: no
+        scrollwheel: no
+      map = new google.maps.Map $el[0], myOptions
+      markerOptions =
+        position: latlng
+        map: map
+        title: title
+      marker = new google.maps.Marker markerOptions
+
     staticMap: (lat, lng, size) ->
       base = 'http://maps.googleapis.com/maps/api/staticmap?'
       params =
@@ -264,15 +279,11 @@ $ ->
 
       # プロジェクト
       if @model.get('type') is 'project'
-        @$el.addClass 'col-sm-4 col-xs-12'
+        @$el.addClass 'loaded col-sm-4 col-xs-12'
         # サムネイル
         if thumbnail = @model.get('thumbnail_images')
           (@$ '.post-preview').css
             'background-image': "url('#{thumbnail.medium.url}')"
-          image = new Image()
-          image.onload = ->
-            $self.addClass 'loaded'
-          image.src = thumbnail.medium.url
 
       # 抜粋文の短縮
       (@$ '.ellipsis').ellipsis()
@@ -391,12 +402,7 @@ $ ->
             $self.addClass 'loaded'
           image.src = acf.photo.url
         # Google Maps
-        # gmaps_url = ui.staticMap acf.position.lat, acf.position.lng, '444x400'
-        # (@$ '.post-maps').append ($ '<img>').attr 'src', gmaps_url
-        maps_url = 'https://www.google.com/maps/embed/v1'
-        gmaps_key = 'AIzaSyBvYIaT_tlgQW1BkPX6Afs_MTExY85b1cs'
-        position = encodeURIComponent acf.position.address
-        (@$ '#g-maps').attr 'src', "#{maps_url}/place?q=#{position}&key=#{gmaps_key}"
+        ui.gmap (@$ '.post-maps'), acf.position.lat, acf.position.lng, 12, ''
 
       # 活動レポート
       if @model.get('type') is 'report'
@@ -580,6 +586,7 @@ $ ->
       ($ ".ui-default").addClass 'fade'
     about: ->
       ($ ".ui-default").addClass 'fade'
+      ui.gmap ($ '#map_canvas'), 35.3876811, 139.4265623, 14, "慶應義塾大学湘南藤沢キャンパス 大木研究室"
     contact: ->
       ($ ".ui-default").addClass 'fade'
     publications: ->
@@ -888,7 +895,7 @@ $ ->
   # ===================================
   # SFC Google Maps
   # ===================================
-  maps_initialize = ->
+  ###maps_initialize = ->
     latlng = new google.maps.LatLng 35.3876811, 139.4265623
     myOptions =
       zoom: 14
@@ -910,7 +917,6 @@ $ ->
     marker = new google.maps.Marker markerOptions
     # スタイル付き地図
     styleOptions = []
-    ###
     styleOptions = [{ # すべての文字（焦げ茶）
       featureType: "all"
       elementType: "labels"
@@ -956,13 +962,11 @@ $ ->
       elementType: 'geometry',
       stylers: [{ visibility: 'on' }, { hue: '#b6deea' }, { saturation: '20' }, { lightness: '10' }]
     }]
-    ###
     lopanStyledMapOptions = name: "慶應義塾大学湘南藤沢キャンパス 大木研究室"
     lopanType = new google.maps.StyledMapType styleOptions, lopanStyledMapOptions
     map.mapTypes.set "lopan", lopanType
     map.setMapTypeId "lopan"
-
-  maps_initialize() if ($ '#map_canvas')[0]
+  maps_initialize() if ($ '#map_canvas')[0]###
 
 
 ## Social Plugins ##

@@ -124,9 +124,6 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
               .ui-single
               .ui-archive
 
-      <?php print get_site_url(); ?>
-      <?php print get_home_url(); ?>
-
       footer.ui-footer
         block footer
           .ui-site
@@ -206,7 +203,7 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
       script(src='//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js')
 
       //- Google Maps
-      //- script(src='//maps.googleapis.com/maps/api/js?key=AIzaSyBvYIaT_tlgQW1BkPX6Afs_MTExY85b1cs&sensor=true')
+      script(type='text/javascript', src='http://maps.google.com/maps/api/js?sensor=false')
       //- Google+ Button
       script(type='text/javascript', src='https://apis.google.com/js/platform.js') {lang: 'ja', parsetags: 'explicit'}
 

@@ -146,6 +146,7 @@
 
           .post-photo
             clearfix()
+            overflow hidden
             position relative
             height 320px
             margin 0 -15px
@@ -163,20 +164,20 @@
                   span.meta-nav
                     opacity .2
                     position absolute
-                    top 0 // 50%
+                    top 50%
                     z-index 300
-                    padding 201px 20px
+                    padding 200px 20px
                     color #fff
                     font-size 75px
                     line-height @font-size
                     text-shadow 0 0 3px rgba(0, 0, 0, .75)
-                    margin-top 0 // - (@font-size/2)
+                    margin-top - (@font-size/2 + 200)
                     &.meta-nav-next
-                      right 0 // 20px
-                      padding-left 150px
+                      right 0
+                      padding-left 100px
                     &.meta-nav-prev
-                      left 0 // 20px
-                      padding-right 150px
+                      left 0
+                      padding-right 100px
             &:hover
               .post-navi
                 nav.post-navigation

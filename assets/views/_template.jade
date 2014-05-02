@@ -127,10 +127,9 @@ script#tmpl-single(type='text/template')
     .post-right.col-xs-12.col-sm-3
       .post-data
         //- 撮影日時とか
-      .post-maps
+      .post-maps(style='height:200px; width:100%; margin:15px 0;')
         //- ここにGoogleマップ
         //- http://www.lifehacker.jp/2013/12/131209google_maps_responsive.html
-        iframe(id='g-maps', width="218", height="284", frameborder="0", style="border:0")
   <% } else if (type == 'report') { %>
   header.post-header
     //- カレンダーアイコン
