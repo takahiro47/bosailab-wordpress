@@ -15,6 +15,12 @@ $ ->
   $html.addClass 'onload'
 
   # ===================================
+  # Tests
+  # ===================================
+  # ($ '#wpadminbar').remove()
+  # $body.removeClass 'signed_in'
+
+  # ===================================
   # API
   # ===================================
 
@@ -143,7 +149,7 @@ $ ->
 
     # 日付フォーマット
     parse_date: (datetime) ->
-      date = new Date datetime
+      date = new Date datetime.replace /-/g, '/'
       month_names = [
         '日', '月', '火', '水', '木', '金', '土'
       ]
@@ -218,6 +224,8 @@ $ ->
       @$el.html @template @model.toJSON()
 
     render: ->
+      self = @
+      $self = @$el
       # console.log '@model: ', @model
       # カスタム投稿タイプ
       @$el.addClass "item-#{@model.get('type')}"
@@ -234,32 +242,37 @@ $ ->
 
       # フォトログ
       if @model.get('type') is 'photolog'
-        @$el.addClass 'loaded col-xs-6 col-sm-3'
+        @$el.addClass 'col-xs-6 col-sm-3'
         # サムネイル
         if acf.photo
           (@$ '.post-preview').css
             'background-image': "url('#{acf.photo.sizes.medium}')"
-          # (@$ '.tmp').append $img = ($ 'img').addClass('hidden js-load-event').attr('src', acf.photo)
-          # (@$ '.js-load-event').on('load', _.bind(@onLoad, @)).each ->
-          #   $img.load() if @complete
+          image = new Image()
+          image.onload = ->
+            $self.addClass 'loaded'
+          image.src = acf.photo.sizes.medium
         # 抜粋文
         if acf.body
           (@$ '.excerpt').text acf.body.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
 
       # 活動レポート
       if @model.get('type') is 'report'
-        @$el.addClass 'loaded col-sm-8 col-sm-offset-4 col-xs-12'
+        @$el.addClass 'col-sm-8 col-sm-offset-4 col-xs-12'
         # 抜粋文
         if excerpt = @model.get('excerpt')
           (@$ '.excerpt').text excerpt.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
 
       # プロジェクト
       if @model.get('type') is 'project'
-        @$el.addClass 'loaded col-sm-4 col-xs-12'
+        @$el.addClass 'col-sm-4 col-xs-12'
         # サムネイル
         if thumbnail = @model.get('thumbnail_images')
           (@$ '.post-preview').css
             'background-image': "url('#{thumbnail.medium.url}')"
+          image = new Image()
+          image.onload = ->
+            $self.addClass 'loaded'
+          image.src = thumbnail.medium.url
 
       # 抜粋文の短縮
       (@$ '.ellipsis').ellipsis()
@@ -346,6 +359,7 @@ $ ->
 
     render: ->
       self = @
+      $self = @$el
       # console.log '@model: ', @model
       # カスタム投稿タイプ
       @$el.addClass "item-#{@model.get('type')}"
@@ -367,18 +381,15 @@ $ ->
 
       # フォトログ
       if @model.get('type') is 'photolog'
-        @$el.addClass 'loaded col-xs-12'
+        @$el.addClass 'col-xs-12'
         # サムネイル
         if acf.photo
           (@$ '.post-preview').css
             'background-image': "url(\"#{acf.photo.url}\")"
-          # $photo = ($ 'img').addClass('hidden js-load-event').attr('src', acf.photo)
-          # (@$ '.tmp').append $photo
-          # (@$ '.js-load-event').on 'load', _.bind(@onLoad, @)
-          # $photo.on 'load', ->
-          #   console.log 'loaded!'
-          #   self.onLoad()
-          # $photo.load() if $photo.complete
+          image = new Image()
+          image.onload = ->
+            $self.addClass 'loaded'
+          image.src = acf.photo.url
         # Google Maps
         # gmaps_url = ui.staticMap acf.position.lat, acf.position.lng, '444x400'
         # (@$ '.post-maps').append ($ '<img>').attr 'src', gmaps_url
@@ -396,8 +407,13 @@ $ ->
         @$el.addClass 'loaded col-xs-12'
         # サムネイル
         if thumbnail = @model.get('thumbnail_images')
-          (@$ '.post-preview').css
-            'background-image': "url('#{thumbnail.large.url}')"
+          if thumbnail.large
+            (@$ '.post-preview').css
+              'background-image': "url('#{thumbnail.large.url}')"
+          else if thumbnail.medium
+            (@$ '.post-preview').css
+              'background-image': "url('#{thumbnail.medium.url}')"
+
 
       # Facebook コメント
       (@$ '#fb-comments').attr 'href', @model.get('url')
@@ -474,7 +490,7 @@ $ ->
         # (@$ 'hgroup.page-title > h1').html title
         # (@$ 'hgroup.page-title').css 'height': 'auto'
       else
-        ($ 'title').html "？？？ | 大木聖子研究室"
+        ($ 'title').html "(タイトルなし) | 大木聖子研究室"
         # (@$ 'hgroup.page-title > h1').html ''
         # (@$ 'hgroup.page-title').css 'height': '0'
       (@$ 'hgroup.page-title > h1').html ''
@@ -1029,16 +1045,21 @@ insertGAScript = ->
   s[0].parentNode.insertBefore ga, s
 insertGAScript()
 
-latlngs =
-  lat: 35.3880943
-  lng: 139.4279061
+# latlngs =
+#   lat: 35.3880943
+#   lng: 139.4279061
 
-initialize ->
-  mapOptions =
-    zoom: 8
-    center: new google.maps.LatLng()
+# initialize = ->
+#   mapOptions =
+#     zoom: 8
+#     center: new google.maps.LatLng(latlngs.lat, latlngs.lng)
+#   map = new google.maps.Map ($ '.map-canvas'), mapOptions
 
-
+# loadScript = ->
+#   script = $ '<script>'
+#   script.attr 'type', 'text/javascript'
+#   script.attr 'src', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=initialize'
+#   ($ 'body').append script
 
 
 

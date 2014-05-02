@@ -147,8 +147,10 @@
           .post-photo
             clearfix()
             position relative
-            height 480px
+            height 320px
             margin 0 -15px
+            @media (min-width: 768px)
+              height 480px
             .ui-load-event
               .post-preview
                 contain()
@@ -161,23 +163,28 @@
                   span.meta-nav
                     opacity .2
                     position absolute
-                    top 50%
+                    top 0 // 50%
                     z-index 300
-                    color #FFF
+                    padding 201px 20px
+                    color #fff
                     font-size 75px
                     line-height @font-size
                     text-shadow 0 0 3px rgba(0, 0, 0, .75)
-                    margin-top - (@font-size/2)
+                    margin-top 0 // - (@font-size/2)
                     &.meta-nav-next
-                      right 20px
+                      right 0 // 20px
+                      padding-left 150px
                     &.meta-nav-prev
-                      left 20px
+                      left 0 // 20px
+                      padding-right 150px
             &:hover
               .post-navi
                 nav.post-navigation
                   a
                     span.meta-nav
-                      opacity .6
+                      opacity .35
+                      &:hover
+                        opacity .65
           .post-slider
             margin-left -15px
             padding-bottom 40px

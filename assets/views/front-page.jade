@@ -13,21 +13,21 @@ extends _application
   @subpackage SFC_Bosalab_2013
   @since 1.0
 
-block prepend header
-  .ui-logo
-    a.home-link(
-      href!="<?php echo esc_url( home_url( '/' ) ); ?>"
-      title!="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"
-      rel='home'
-    )
-      h1.site-title
-        <?php bloginfo( 'name' ); ?>
-      h2.site-description
-        <?php bloginfo( 'description' ); ?>
+//- block prepend header
+//-   .ui-logo
+//-     a.home-link(
+//-       href!="<?php echo esc_url( home_url( '/' ) ); ?>"
+//-       title!="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"
+//-       rel='home'
+//-     )
+//-       h1.site-title
+//-         <?php bloginfo( 'name' ); ?>
+//-       h2.site-description
+//-         <?php bloginfo( 'description' ); ?>
 
-  .ui-public-relaions
-    .public-relaion-aritcle
-      img(src!="<?php echo (get_template_directory_uri() . '/public/images/banner/banner2014--01.png') ?>")
+//-   .ui-public-relaions
+//-     .public-relaion-aritcle
+//-       img(src!="<?php echo (get_template_directory_uri() . '/public/images/banner/banner2014--01.png') ?>")
 
 block article
   :php

@@ -16,14 +16,6 @@ header.ui-header
   width 100%
   margin 0 auto
 
-  &.fixed
-    .ui-navi-container
-      z-index 1000
-      position fixed
-      top 0
-    .ui-breadcrumbs-container
-      border-bottom 1px solid sub_color_edge
-
   .ui-logo
   .ui-public-relaions
   .ui-navi
@@ -51,7 +43,7 @@ header.ui-header
         width 100%
         margin 0
         padding 0
-        font-size 13px
+        font-size 12px
         font-weight normal
         text-align center
         text-indent -9000em
@@ -67,7 +59,6 @@ header.ui-header
   .ui-public-relaions
     margin-bottom 10px
     border 18px solid rgba(240, 240, 240, .45)
-    // background-color sub_color
     .public-relaion-aritcle
       img
         width 100%
@@ -86,43 +77,51 @@ header.ui-header
 
   // ナビメニュー
   .ui-navi-container
+    clearfix()
     navi-background base_color
+    background-image linear-gradient(#799fa4 0%, #789A9E 49%, #709499 50%, #7EA6AC 100%)
     transition all .25s ease
     nav.ui-navi
-      min-height 35px
+      height 37px
 
       // 検索窓
       .ui-navi-search
         position relative
         display block
         padding 0
-        // float right
-        // width (960px - 127px * 6)
+
+        &.wide
+          position fixed
+          right 0
+          top 0
+          width 240px
+
         form
           label
             display block
-            margin 7px 8px
+            margin 5px 8px
             text-align right
             input.search-field
               -webkit-font-smoothing antialiased
               width 100%
-              height 25px
+              height 23px
               margin 2px 0
               padding 0 8px
               padding-right 25px
-              background-color #fff
+              background-color #f3f3f3
               border-width 0
-              color #6A7180 // #141823
+              color #6A7180
               font-size 14px
               font-weight normal
               line-height 23px
-              border-radius 0 // 4px
+              border-radius 23px
               box-shadow inset -1px -1px 0 #eee, inset 1px 1px 0 #eee
               &:focus
+                background-color #fff
                 border-width 0
           p.search-icons
             position absolute
-            top 12px
+            top 9px
             right 15px
             margin 0
             span
@@ -138,7 +137,6 @@ header.ui-header
       .ui-navi-menu
         padding 0
         .menu-header-container
-          // width (127px * 6)
           #menu-header
             clearfix()
             margin 0
@@ -154,18 +152,16 @@ header.ui-header
               display block
               float left
               min-height 1px
-              // width 127px
               text-align center
               a
                 display block
-                // width 100%
-                padding 13px 10px 14px
+                padding 10px 10px 11px
                 color #fff
                 font-size 13px
                 font-weight bold
                 line-height 16px
                 text-shadow base_text_shadow
-                transition all .25s ease-in-out
+                transition all .1s ease-in-out
                 text-transform uppercase
               &:hover
                 a
@@ -177,7 +173,7 @@ header.ui-header
                     content ''
                     display block
                     position absolute
-                    bottom -6px
+                    bottom -5px
                     left 50%
                     width 0
                     margin-left -7px
@@ -201,7 +197,6 @@ header.ui-header
     background-color sub_color
     transition all .25s ease
     .ui-breadcrumbs
-      padding-top 42px
       text-transform uppercase
       nav.breadcrumbs
         & > *

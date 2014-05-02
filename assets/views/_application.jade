@@ -64,9 +64,21 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
         <?php print_r($wp_query); ?>
 
     .ui-container
-      <?php $header_class = ''; if ( !is_front_page() ) { $header_class = 'fixed'; } ?>
-      header.ui-header(role='banner', class!="<?php echo $header_class;?>")
+      header.ui-header(role='banner')
         block header
+          .ui-logo.hidden
+            a.home-link(
+              href!="<?php echo esc_url( home_url( '/' ) ); ?>"
+              title!="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"
+              rel='home'
+            )
+              h1.site-title <?php bloginfo( 'name' ); ?>
+              h2.site-description <?php bloginfo( 'description' ); ?>
+
+          .ui-public-relaions.hidden
+            .public-relaion-aritcle
+              img(src!="<?php echo (get_template_directory_uri() . '/public/images/banner/banner2014--01.png') ?>")
+
           .ui-navi-container
             nav.ui-navi.row(role='navigation')
 
@@ -111,6 +123,10 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
               .ui-index
               .ui-single
               .ui-archive
+
+      <?php print get_site_url(); ?>
+      <?php print get_home_url(); ?>
+
       footer.ui-footer
         block footer
           .ui-site
@@ -138,16 +154,6 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
                 data-send='true'
               )
 
-      //- footer.ui-footer(role='contentinfo')
-      //-   block footer
-      //-     <?php get_sidebar( 'main' ); ?>
-
-      //-   .site-info
-      //-     <?php do_action( 'twentythirteen_credits' ); ?>
-
-      //-     a(href!="http://wordpress.org/", title="")
-      //-       <?php printf( __( 'Proudly powered by %s', 'twentythirteen' ), 'WordPress' ); ?>
-
       a.ui-scrollto(href='javascript:void(0)')
         i.fa.fa-caret-up
 
@@ -160,6 +166,33 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
     //----------------------------------------------------------------
     block template
       include _template
+
+    block json
+      script(id='json', type='application/json')
+        :php
+          $post_types = get_post_types( array( 'public' => true, '_builtin' => false ) );
+          $except_post_types = array('photolog', 'project');
+          $param = array(
+            'posts_per_page' => 8,
+            'post_type' => array_diff($post_types, $except_post_types),
+            'post_status' => 'publish',
+            'orderby' => 'date',
+            'order' => 'DESC'
+          );
+          $wp_query = new WP_Query();
+          $wp_query->query($param);
+          if ( $wp_query->have_posts() ) {
+            $records = array();
+            while ( $wp_query->have_posts() ) {
+              $wp_query->the_post();
+              $records[] = array(
+                'title'   => get_the_title(),
+                'content' => apply_filters('the_content', get_the_content())
+              );
+            }
+            echo json_encode($records);
+          }
+          echo json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_PRETTY_PRINT);
 
     block scripts
       +ltIE9
