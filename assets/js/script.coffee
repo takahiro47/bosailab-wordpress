@@ -285,7 +285,7 @@ $ ->
         @$el.addClass 'loaded col-sm-4 col-xs-12'
         # サムネイル
         thumbnail = @model.get('thumbnail_images')
-        if thumbnail.length >= 1 and thumbnail.medium
+        if thumbnail.medium
           (@$ '.post-preview').css
             'background-image': "url('#{thumbnail.medium.url}')"
 

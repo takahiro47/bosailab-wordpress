@@ -85,7 +85,7 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
               .row
                 .ui-navi-menu.col-xs-12.col-sm-10.col-md-10.col-lg-12
                   <?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_class' => 'nav-menu' ) ); ?>
-                .ui-navi-search.col-xs-12.col-sm-2.col-md-2
+                .ui-navi-search.col-xs-12.col-sm-2.col-md-2.hidden-lg
                   //- get_search_form()
                   form(role='search', method='get', action!="<?php echo home_url( '/' ); ?>")
                     label
