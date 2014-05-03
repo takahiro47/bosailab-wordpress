@@ -164,8 +164,8 @@ $ ->
         day: date.getDate()
         weekday: weekday_names[date.getDay()]
 
-    gmap: ($el, lat, lng, zoom=14, title='') ->
-      zoom = 14 if zoom is 0
+    gmap: ($el, lat, lng, zoom=13, title='') ->
+      zoom = 13 if zoom is 0
       latlng = new google.maps.LatLng lat, lng
       myOptions =
         zoom: zoom
@@ -178,6 +178,9 @@ $ ->
         map: map
         title: title
       marker = new google.maps.Marker markerOptions
+
+    gmap_sfc: ($el) ->
+      @gmap $el, 35.3876811, 139.4265623, 13, "慶應義塾大学湘南藤沢キャンパス 大木研究室"
 
     staticMap: (lat, lng, size) ->
       base = 'http://maps.googleapis.com/maps/api/staticmap?'
@@ -893,83 +896,15 @@ $ ->
 
 
   # ===================================
-  # SFC Google Maps
+  # Footer Google Maps
   # ===================================
-  ###maps_initialize = ->
-    latlng = new google.maps.LatLng 35.3876811, 139.4265623
-    myOptions =
-      zoom: 14
-      center: latlng
-      mapTypeControlOptions: { mapTypeIds: ['lopan', google.maps.MapTypeId.ROADMAP] },
-      disableDefaultUI: no
-      scrollwheel: no
-    map = new google.maps.Map ($ '#map_canvas')[0], myOptions
-    # アイコン設定
-    pin = ($ '#map_data').data 'pin-url'
-    icon = new google.maps.MarkerImage pin, new google.maps.Size(200, 58), new google.maps.Point(0, 0), new google.maps.Point(80, 58)
-    shadow = new google.maps.MarkerImage pin, new google.maps.Size(200, 58), new google.maps.Point(0, 58), new google.maps.Point(80, 58)
-    markerOptions =
-      position: latlng
-      map: map
-      icon: icon
-      shadow: shadow
-      title: "慶應義塾大学湘南藤沢キャンパス 大木研究室"
-    marker = new google.maps.Marker markerOptions
-    # スタイル付き地図
-    styleOptions = []
-    styleOptions = [{ # すべての文字（焦げ茶）
-      featureType: "all"
-      elementType: "labels"
-      stylers: [{ visibility: 'off' }, { hue: '#6d4d38' }]
-    }, { # すべての描画（焦げ茶）
-      featureType: 'all',
-      elementType: 'geometry',
-      stylers: [{ visibility: 'off' }, { hue: '#6d4d38' }, { saturation: '-70' }, { gamma: '0.7' }]
-    }, { # 市区名
-      featureType: 'administrative.locality',
-      elementType: 'labels',
-      stylers: [{ visibility: 'on' }, { lightness: '20' }]
-    }, { # 風景（ベージュ）
-      featureType: 'landscape',
-      elementType: 'geometry',
-      stylers: [{ hue: '#f7f0e4' }, { lightness: '10' }, { saturation: '40' }]
-    }, { # ビジネス系の建物（オレンジ）
-      featureType: 'poi.business',
-      elementType: 'geometry',
-      stylers: [{ visibility: 'simplified' }, { hue: '#f98508' }, { lightness: '-20' }, { saturation: '75' }]
-    }, { # 公園（黄緑）
-      featureType: 'poi.park',
-      elementType: 'geometry',
-      stylers: [{ visibility: 'simplified' }, { hue: '#99cc00' }, { lightness: '35' }, { saturation: '40' }]
-    }, { # すべての道路（黄色）
-      featureType: 'road',
-      elementType: 'geometry',
-      stylers: [{ visibility: 'simplified' }, { hue: '#ffcc22' }, { lightness: '100' }, { saturation: '80' }]
-    }, { # 高速道路
-      featureType: 'road.highway',
-      elementType: 'geometry',
-      stylers: [{ lightness: '-30' }]
-    }, { # 線路（オレンジ）
-      featureType: 'transit.line',
-      elementType: 'geometry',
-      stylers: [{ visibility: 'on' }, { hue: '#f98508' }]
-    }, { # 駅名（焦げ茶）
-      featureType: 'transit.station.rail',
-      elementType: 'labels',
-      stylers: [{ visibility: 'on' }, { hue: '#6d4d38' }, { saturation: '-20' }]
-    }, { # 水域（水色）
-      featureType: 'water',
-      elementType: 'geometry',
-      stylers: [{ visibility: 'on' }, { hue: '#b6deea' }, { saturation: '20' }, { lightness: '10' }]
-    }]
-    lopanStyledMapOptions = name: "慶應義塾大学湘南藤沢キャンパス 大木研究室"
-    lopanType = new google.maps.StyledMapType styleOptions, lopanStyledMapOptions
-    map.mapTypes.set "lopan", lopanType
-    map.setMapTypeId "lopan"
-  maps_initialize() if ($ '#map_canvas')[0]###
+  ui.gmap_sfc ($ '#map_canvas_footer')
 
 
-## Social Plugins ##
+# ===================================
+# Social Plugins
+# ===================================
+
 # Pocket
 not ((d, i) ->
   unless d.getElementById(i)
@@ -1048,23 +983,3 @@ insertGAScript = ->
   s = document.getElementsByTagName 'script'
   s[0].parentNode.insertBefore ga, s
 insertGAScript()
-
-# latlngs =
-#   lat: 35.3880943
-#   lng: 139.4279061
-
-# initialize = ->
-#   mapOptions =
-#     zoom: 8
-#     center: new google.maps.LatLng(latlngs.lat, latlngs.lng)
-#   map = new google.maps.Map ($ '.map-canvas'), mapOptions
-
-# loadScript = ->
-#   script = $ '<script>'
-#   script.attr 'type', 'text/javascript'
-#   script.attr 'src', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=initialize'
-#   ($ 'body').append script
-
-
-
-

@@ -176,13 +176,6 @@ header.ui-header
   .ui-navi-container
     nav.ui-navi
       .ui-navi-search
-        &.wide
+        @media (min-width: 1200px)
           top 32px
 
-  &.index
-    .ui-navi-container
-      background-color transparent !important
-      .ui-navi
-        background-color #799fa4 !important
-    .ui-breadcrumbs-container
-      hidden()

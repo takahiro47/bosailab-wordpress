@@ -3,10 +3,11 @@
 /* 全体コンテナ
  * ----------------------------------------------------- */
 .ui-container
-  &.behind
-    position fixed !important
-    width 100%
-    top 0
+  hoge 0
+  // &.behind
+  //   position fixed !important
+  //   width 100%
+  //   top 0
 
 /* ヘッダ
  * ----------------------------------------------------- */
@@ -23,9 +24,9 @@ header.ui-header
     clearfix()
     display block
     position relative
-    width 100%
-    max-width max_width
-    margin 0 auto
+    // width 100%
+    // max-width max_width
+    // margin 0 auto
 
   // サイトタイトル
   .ui-logo
@@ -65,38 +66,30 @@ header.ui-header
         height auto
         border 4px solid #fff
 
+  // ナビ／パンくず共通
   .ui-navi-container
   .ui-breadcrumbs-container
-    width 100%
-    nav.ui-navi
-    nav.breadcrumbs
-      clearfix()
-      position relative
-      width 100%
-      margin 0 auto
-      padding 0 20px
+    background-color transparent
+    transition all .25s ease
+  .ui-navi-container > nav.ui-navi
+  .ui-breadcrumbs-container > nav.ui-breadcrumbs
+    position relative
 
   // ナビメニュー
   .ui-navi-container
-    clearfix()
     navi-background base_color
     background-image linear-gradient(#799fa4 0%, #789A9E 49%, #709499 50%, #7EA6AC 100%)
-    transition all .25s ease
     nav.ui-navi
-      height 37px
-
       // 検索窓
       .ui-navi-search
         position relative
         display block
         padding 0
-
-        &.wide
+        @media (min-width: 1200px)
           position fixed
           right 0
           top 0
           width 240px
-
         form
           label
             display block
@@ -133,7 +126,6 @@ header.ui-header
               color #A7ACB5
         input.search-submit
           hidden()
-
       // メニュー
       .ui-navi-menu
         padding 0
@@ -196,86 +188,75 @@ header.ui-header
   // パンくずリスト
   .ui-breadcrumbs-container
     background-color sub_color
-    transition all .25s ease
-    .ui-breadcrumbs
+    nav.ui-breadcrumbs
       text-transform uppercase
-      nav.breadcrumbs
-        & > *
-        a
-          color #5D5A53
-        & > *
-          display block
-          float left
-          margin 0
-          font-size 12px
-          font-weight bold
-          line-height 38px
-          text-shadow 0px 1px 0 #fff
-        a
-          transition color .15s ease
-          &:hover
-            color #ac0404
-        i.fa
-          font-size 18px
-          line-height 36px
-          padding 0 15px 2px
-          color #D2CFC9
+
+      & > *
+      a
+        color #5D5A53
+      & > *
+        display block
+        float left
+        margin 0
+        font-size 12px
+        font-weight bold
+        line-height 38px
+        text-shadow 0px 1px 0 #fff
+      a
+        transition color .15s ease
+        &:hover
+          color #ac0404
+      i.fa
+        font-size 18px
+        line-height 36px
+        padding 0 15px 2px
+        color #D2CFC9
 
 
 /* メイン
  * ----------------------------------------------------- */
-.ui-contents
-  width 100%
-  max-width max_width
-  margin 0 auto
-  .ui-content
+.ui-content
+  //- メインコンテンツ
+  article.ui-article
     position relative
-    width 100%
-    margin 30px auto 90px
-    // margin 30px 20px 90px
+    min-height 270px
+    margin-top 30px
+    margin-bottom 90px
 
-    // サイドバー
-    aside.ui-sidebar
-      .ui-sidebar-calendar
-        hoge 0
+    // // サイドバー
+    // aside.ui-sidebar
+    //   .ui-sidebar-calendar
+    //     hoge 0
 
-    // ページ毎のコンテンツ
-    article.ui-article
-      min-height 270px
+    // 投稿アイテム一覧タイトル
+    hgroup.page-title
+      h1
+        margin 0 auto
+        padding 30px 0 80px
+        font-size 20px
+        line-height 1.2em
+        text-align center
+        text-transform uppercase
+    hgroup.page-recommend
+      recommend_zoom = 0.9
+      h2
+        font-size 18px * recommend_zoom
+        line-height 1.2em * recommend_zoom
+        margin (10px * recommend_zoom) auto (50px * recommend_zoom)
+        text-align center
+        text-transform uppercase
 
-      // 投稿アイテム一覧タイトル
-      hgroup.page-title
-        h1
-          margin 0 auto
-          padding 30px 0 80px
-          font-size 20px
-          line-height 1.2em
-          text-align center
-          text-transform uppercase
-      hgroup.page-recommend
-        recommend_zoom = 0.9
-        h2
-          font-size 18px * recommend_zoom
-          line-height 1.2em * recommend_zoom
-          margin (10px * recommend_zoom) auto (50px * recommend_zoom)
-          text-align center
-          text-transform uppercase
-
-      .ui-default
-      .ui-index
-      .ui-archive
-      .ui-single
-      .ui-static
-        hidden()
-        opacity 0
-        transition opacity .25s ease
-        &.fade
-          show()
-          opacity 1
-
-        // .archive  => トップページ / アーカイブページ / 検索結果ページ
-        // .single   => 記事ページ
-        // .ui-page   => 静的ページ
+    .ui-default
+    .ui-index
+    .ui-archive
+    .ui-single
+    .ui-static
+      hidden()
+      opacity 0
+      transition opacity .25s ease
+      &.fade
+        show()
+        opacity 1
 
 /* フッタ
  * ----------------------------------------------------- */
@@ -285,13 +266,7 @@ footer.ui-footer
   background-color sub_color
 
   .footer-contents
-  .footer-social
     clearfix()
-    width 100%
-    max-width max_width
-    margin 0 auto
-
-  .footer-contents
     position relative
     padding-top 60px
     &:before
@@ -310,10 +285,12 @@ footer.ui-footer
     .footer-title //hgroup
       clearfix()
       h1
+        margin 4px 0 16px
         color base_color_current
-        font-size 14px
+        font-size 15px
         font-weight bold
         text-transform uppercase
+        letter-spacing .1em
     p
       font-size 12px
       font-weight bold
@@ -328,29 +305,42 @@ footer.ui-footer
           color lighten(base_color, 40%)
 
     .footer-about
+      hoge 0
+
+    .footer-social
+      .footer-content
+        padding 20px 0
+        span
+          display block
+          overflow hidden
+          height 24px
+        .twitter
+        .facebook
+          display block
+          height 24px
+          margin-bottom 8px
+          text-align left
+
     .footer-projects
+      hoge 0
+
     .footer-links
+      hoge 0
+
     .footer-access
+      #map_canvas_footer
+        width 100%
+        height 200px
+      .address
+        font-size 12px
+
     .footer-feedback
       .wpcf7
         form.wpcf7-form
           & > p
-            margin 0
+            margin-bottom 8px
             input.wpcf7-submit
-              width 100%
-              margin 10px 0
-              padding-left 30px
-              padding-right 30px
-              font-size 13px
-              letter-spacing .1em
-              text-transform uppercase
-              background-color #E76860
-              box-shadow 0px 2px 0 #C65953
-              &:hover
-                background-color lighten(#E76860, 7%)
-              &:active
-                background-color lighten(#E76860, 14%)
-                box-shadow inset 0px 2px 0 #C65953
+              button-pink()
           .wpcf7-response-output
             position relative
             margin 10px 0 0
@@ -365,17 +355,6 @@ footer.ui-footer
               margin-right -8px
               border-width 8px
               border-top-width 0
-
-  .footer-social
-    padding 20px 0
-    span
-      display block
-      overflow hidden
-      height 24px
-      &.twitter
-        text-align right
-      &.facebook
-        text-align left
 
   .ui-site
     background-color base_color

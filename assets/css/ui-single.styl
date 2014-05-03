@@ -78,6 +78,7 @@
                   text-transform uppercase
                   background-color base_color
                   transition all .15s ease
+                  button-pink()
                   .fa-angle-double-left
                     padding-right 15px
                   .fa-angle-double-right
@@ -148,10 +149,14 @@
             clearfix()
             overflow hidden
             position relative
-            height 320px
             margin 0 -15px
-            @media (min-width: 768px)
+            @media screen and (max-width: 480px)
+              height 240px
+            @media screen and (min-width: 480px)
+              height 320px
+            @media screen and (min-width: 768px)
               height 480px
+
             .ui-load-event
               .post-preview
                 contain()

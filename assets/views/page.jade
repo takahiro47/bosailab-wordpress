@@ -19,26 +19,51 @@ block article
       article.post-article.col-xs-12
         <?php if ( is_page( 'about' ) ) { ?>
         section.post-section
+          .img-background-frame
+            img(
+              class='img-responsive img-background',
+              src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_professor_message_back_2x.jpg') ?>",
+              width=1960, height=980
+            )
           hgroup.page-subtitle
-            h2 About The Lab
-          .post-field
-            span <?php the_field( 'about_the_lab' ); ?>
+            h2
+              img(
+                class='img-responsive',
+                src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_professor_message_title_2x.png') ?>",
+                width=980, height=114,
+                alt='ＳＦＣから、日本の、いや世界の防災を変えよう。'
+              )
+          p.text-field
+            <?php the_field( 'professor_message' ); ?>
+
         section.post-section
           hgroup.page-subtitle
-            h2 About The Professor
-          .post-field
-            :php
-              $professor_face = get_field('professor_face');
-            .face.large(style!="background-image: url('<?php echo $professor_face['url']; ?>');")
-            h3 大木 聖子（おおき さとこ）
-            span <?php the_field( 'about_the_professor' ); ?>
-        section.post-section
+            <?php $professor_face = get_field('professor_face'); ?>
+            .face(style!="background-image: url('<?php echo $professor_face['url']; ?>');")
+            h2
+              img(
+                class='img-responsive',
+                src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_about_professor_title_2x.png') ?>",
+                width=980, height=75,
+                alt='大木 聖子（おおき さとこ）'
+              )
+          p.text-field
+            <?php the_field( 'about_the_professor' ); ?>
+
+        section.post-section.section-members
           hgroup.page-subtitle
-            h2 Member
-          .post-field
+            h2
+              img(
+                class='img-responsive',
+                src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_members_title_2x.png') ?>",
+                width=980, height=112,
+                alt='研究会の設立から1年。メンバーは５０名を超えました。'
+              )
+          .text-field-custom
             :php
               $member_face = get_field('member_face');
-            .faces(style!="background-image: url('<?php echo $member_face['url']; ?>');")
+
+            .face(style!="background-image: url('<?php echo $member_face['url']; ?>');")
             ul.members.row
               :php
                 $members = explode( '<br />', get_field( 'member_lists' ) ); // 行に分割
@@ -51,57 +76,75 @@ block article
               li.member.member-th.col-sm-12.col-xs-12(data-member-id!="<?php echo $key; ?>")
                 h4 <?php echo $member; ?>
               :php
-                //
-                  } else {
+                } else {
               li.member.col-sm-2.col-xs-4(data-member-id!="<?php echo $key; ?>")
                 span <?php echo $member; ?>
               :php
-                //
-                  }
-                }
-            span <?php the_field( 'member' ); ?>
+                } }
+
+        section.post-section(style='background-color:transparent; overflow:hidden; padding:120px 0;')
+          .img-background-frame
+            img(
+              class='img-responsive img-background',
+              src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_join_us_back_2x.jpg') ?>",
+              width=1960, height=899
+            )
+          hgroup.page-subtitle
+            h2
+              //- Join Us
+              img(
+                class='img-responsive',
+                src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_join_us_title_2x.png') ?>",
+                width=980, height=112,
+                alt='わたしたちの研究会に、あなたも参加してみませんか。'
+              )
+          p.text-field(style='color:#fff;')
+            <?php the_field( 'join_us' ); ?>
+
         section.post-section
           hgroup.page-subtitle
-            h2 Access
-          #map_data(data-pin-url!="<?php echo (get_template_directory_uri() . '/public/images/common/bosailab-pin.png') ?>")
-          #map_canvas.google-maps(style='width: 720px; height: 270px;')
-          .address-box.narrow.row
-            .col-xs-2(style='text-align:right;')
-              i.fa.fa-map-marker
-            .col-xs-10
-              p
-                strong 慶應義塾大学 湘南藤沢キャンパス（ＳＦＣ）
-                span
-                  | 〒252-0882 神奈川県藤沢市遠藤5322
-                  a(href='http://www.sfc.keio.ac.jp/maps.html', style='padding-left:8px;')
-                    i.fa.fa-external-link
-                    span 公式ウェブ
-          .address-box.wide.row
-            .col-xs-6
-              p
-                strong 湘南台駅から
-                span
-                  i.fa.fa-angle-right
-                  | 小田急江ノ島線・相鉄いずみ野線・横浜市営地下鉄ブルーライン「湘南台」駅下車<br />
-                  i.fa.fa-angle-right
-                  | 西口よりバス「慶応大学」行き約15分「慶応大学本館前」下車
-            .col-xs-6
-              p
-                strong 辻堂駅から
-                span
-                  i.fa.fa-angle-right
-                  | JR東海道線「辻堂」駅下車<br />
-                  i.fa.fa-angle-right
-                  | 北口よりバス「慶応大学」行き約25分「慶応大学本館前」下車
-        section.post-section
-          hgroup.page-subtitle
-            h2 Join Us
-          .post-field
-            span <?php the_field( 'join_us' ); ?>
+            h2
+              img(
+                class='img-responsive',
+                src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_access_title_2x.png') ?>",
+                width=980, height=40,
+                alt='交通アクセスについて'
+              )
+          .container
+            .row
+              #map_canvas.google-maps.col-xs-12
+            .access.row
+              .col-xs-1.col-md-2(style='text-align:right;')
+                i.fa.fa-map-marker
+              .col-xs-11.col-md-10
+                p
+                  strong 慶應義塾大学 湘南藤沢キャンパス（ＳＦＣ）
+                  span
+                    | 〒252-0882 神奈川県藤沢市遠藤5322
+                    a(href='http://www.sfc.keio.ac.jp/maps.html', style='padding-left:8px;')
+                      i.fa.fa-external-link
+                      span 公式ウェブ
+            .access.row
+              .col-xs-12.col-sm-offset-1.col-sm-5.col-md-offset-2.col-md-4
+                p
+                  strong 湘南台駅から
+                  span
+                    i.fa.fa-angle-right
+                    | 小田急江ノ島線・相鉄いずみ野線・横浜市営地下鉄ブルーライン「湘南台」駅下車<br />
+                    i.fa.fa-angle-right
+                    | 西口よりバス「慶応大学」行き約15分「慶応大学本館前」下車
+              .col-xs-12.col-sm-5.col-md-4
+                p
+                  strong 辻堂駅から
+                  span
+                    i.fa.fa-angle-right
+                    | JR東海道線「辻堂」駅下車<br />
+                    i.fa.fa-angle-right
+                    | 北口よりバス「慶応大学」行き約25分「慶応大学本館前」下車
+
         <?php } else { ?>
         <?php the_content(); ?>
         <?php } ?>
-
 
       footer.post-footer
         +ui-edit

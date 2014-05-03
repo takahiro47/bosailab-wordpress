@@ -110,6 +110,22 @@ navi-background(color)
   //   top, lighten(color, 10%) 0%, color 50%, darken(color, 10%) 100%
   // )
 
+button-pink()
+  width 100%
+  margin 10px 0
+  padding 13px 30px
+  font-size 13px
+  letter-spacing .1em
+  text-transform uppercase
+  background-color #e76860
+  border-radius 2px
+  box-shadow 0 2px 0 #c65953
+  &:hover
+    background-color lighten(#E76860, 7%)
+  &:active
+    background-color lighten(#E76860, 14%)
+    box-shadow inset 0px 2px 0 #C65953
+
 /* = Animations
  * ------------------------------------------------------------ */
 

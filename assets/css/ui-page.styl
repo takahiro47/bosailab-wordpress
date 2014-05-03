@@ -7,79 +7,106 @@
   section.post
     position relative
     article.post-article
+      padding 0
       section.post-section
+        position relative
         margin-bottom 0
         padding 30px 0 50px
+
+        // 背景色
         &:nth-child(even)
-          background-color lighten(sub_color, 20%)
-          box-shadow inset 0 -1px 0 sub_color, inset 0 1px 0 sub_color
+          background-color lighten(sub_color, 0%)
         &:nth-child(odd)
           background-color transparent
+
+        // 画像背景
+        .img-background-frame
+          z-index -1
+          overflow hidden
+          position absolute
+          top -35px
+          left 0
+          right @left
+          .img-background // img
+            min-width 1440px
+
+        // 画像タイトル
         hgroup.page-subtitle
           h2
             margin 0
-            padding 20px 0 10px
+            padding 20px 0
             text-align center
             text-transform uppercase
-        #map_canvas
-          margin 20px auto 0
-          background-color #fff
-          // border 4px solid darken(sub_color, 5%)
-        .address-box
+            .img-responsive // img
+              margin 0 auto
+          // 教授の顔
+          .face
+            height 200px
+            width @height
+            margin 20px auto 0
+            background-color #fff
+            background-size cover
+            background-position 50% 25%
+            border-radius 50%
+            box-shadow 1px 4px 0 #e7e7e7, -1px -1px 0 #e7e7e7
+            transition all .25s ease
+
+        // テキスト共通
+        p.text-field
+        .text-field-custom
           margin 20px auto
-          &.narrow
-            width 100%
-            max-width 480px
-          &.wide
+          width 100%
+          max-width 860px
+          color #333
+          font-size 1.333em
+          line-height 1.688
+          text-align center
+          text-decoration none
+
+        // メンバー一覧
+        .text-field-custom
+          .face
             width 100%
             max-width 720px
+            height 320px
+            margin 10px auto
+            background-color #fff
+            background-size cover
+            background-position 50% 50%
+            box-shadow 1px 4px 0 #e7e7e7, -1px -1px 0 #e7e7e7
+            transition all .25s ease
+          .members
+            clearfix()
+            .member
+              padding-bottom 4px
+              line-height 1.2
+              text-align justify
+              h4
+                margin 16px 0 4px
+                text-align center
+                text-transform uppercase
+                letter-spacing .1em
+              span
+                font-size .8em
+
+        // アクセス
+        #map_canvas
+          height 350px
+          margin-top 20px
+          margin-bottom 40px
+        .access
+          margin 20px auto
           p
-            font-size 11px
+            font-size .9em
+            line-height 1.688
             strong
               display block
-              font-size 14px
+              font-size 1.333em
               padding-bottom 1px
             i
               padding-right 4px
           i.fa-map-marker
-            font-size 38px
-        .post-field
-          width 100%
-          max-width 720px
-          margin 20px auto
-          text-align center
-          h3
-            margin 20px 0
-            font-size 16px
-            font-weight bold
-          .face
-          .faces
-            margin 10px auto
-            background-color #fff
-            background-size cover
-            background-position 50% 25%
-            box-shadow 1px 4px 0 #e7e7e7, -1px -1px 0 #e7e7e7
-            transition all .25s ease
-          .face
-            opacity .9
-            border-radius 100%
-            &.large
-              width 150px
-              height @width
-            &:hover
-              opacity .72
-          .faces
-            width 100%
-            max-width 720px
-            height 320px
-            background-position 50% 50%
-          ul.members
-            clearfix()
-            li.member
-              padding-bottom 4px
-              text-align justify
-              &.col-xs-12
-                text-align center
+            font-size 3.7em
 
       .wpcf7
         width 75%

@@ -695,9 +695,9 @@ function new_excerpt( $length ) {
   $content = mb_substr($content, 0, $length);
   return $content;
 }
-function okilab_breadcrumbs() {
+function put_breadcrumbs() {
   /* === OPTIONS === */
-  $text['home']     = 'ホーム'; // text for the 'Home' link
+  $text['home']     = 'Home'; // text for the 'Home' link
   $text['category'] = 'Archive by Category "%s"'; // text for a category page
   $text['search']   = 'Search Results for "%s" Query'; // text for a search results page
   $text['tag']      = 'Posts Tagged "%s"'; // text for a tag page
@@ -722,12 +722,14 @@ function okilab_breadcrumbs() {
   $parent_id    = $parent_id_2 = $post->post_parent;
   $frontpage_id = get_option('page_on_front');
 
+  $nav_class    = 'ui-breadcrumbs';
+
   if (is_home() || is_front_page()) {
-    if ($show_on_home == 1) echo '<nav class="breadcrumbs"><a href="'.$home_link.'">'.$text['home'].'</a></nav>';
+    if ($show_on_home == 1) echo '<nav class="'.$nav_class.'"><a href="'.$home_link.'">'.$text['home'].'</a></nav>';
 
   } else {
 
-    echo '<nav class="breadcrumbs" xmlns:v="http://rdf.data-vocabulary.org/#">';
+    echo '<nav class="'.$nav_class.'" xmlns:v="http://rdf.data-vocabulary.org/#">';
     if ($show_home_link == 1) {
       echo '<a href="'.$home_link.'" rel="v:url" property="v:title">'.$text['home'].'</a>';
       if ($frontpage_id == 0 || $parent_id != $frontpage_id) echo $delimiter;
