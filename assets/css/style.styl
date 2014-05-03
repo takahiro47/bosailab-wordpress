@@ -158,46 +158,12 @@ dev_width = 1980px * 1.1
 /* = UI
  * ------------------------------------------------------------ */
 
+@import 'ui-plugin'
 @import 'ui-element'
 @import 'ui-container'
 @import 'ui-archive'
 @import 'ui-single'
 @import 'ui-page'
-
-
-/* = Plugin Styles
- * ------------------------------------------------------------ */
-
-#api
-  hidden()
-
-#lang_sel_footer
-  padding 3px 0
-  background #333
-  border none
-  ul
-    clearfix()
-    width 100%
-    max-width 960px
-    margin 0 auto
-    li
-      display inline-block
-      margin 0
-      &:before
-      &:after
-        content none
-      a
-        display inline-block
-        padding 5px 10px
-        color #eee
-        font-size 11px
-        font-weight normal
-        line-height 1
-        span
-          &.icl_lang_sel_current
-          &.icl_lang_sel_native
-          &.icl_lang_sel_translated
-            hidden()
 
 
 body
@@ -206,10 +172,17 @@ body
     @media screen and (max-width: 782px)
       padding-top 44px
 
-  // &.index
-  //   .ui-navi-container
-  //     background-color transparent !important
-  //     .ui-navi
-  //       background-color #799fa4 !important
-  //   .ui-breadcrumbs-container
-  //     hidden()
+header.ui-header
+  .ui-navi-container
+    nav.ui-navi
+      .ui-navi-search
+        &.wide
+          top 32px
+
+  &.index
+    .ui-navi-container
+      background-color transparent !important
+      .ui-navi
+        background-color #799fa4 !important
+    .ui-breadcrumbs-container
+      hidden()

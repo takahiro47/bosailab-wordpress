@@ -127,30 +127,99 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
 
       footer.ui-footer
         block footer
-          .ui-site
-            p.site-info
-              | Copyright© 2013-<?php echo date("Y") ?>
-              strong  Oki Satoko Laboratory
-              |  in SFC Keio University, All Rights Reserved.
-          .ui-social.row
-            //- twitter
-            span.twitter.col-xs-6
-              a.twitter-share-button(
-                href='//twitter.com/share',
-                data-url='https://www.facebook.com/bosailab',
-                data-text='大木研究室公式ウェブサイト',
-                data-lang='ja',
-                data-hashtags='#bosailab'
-              )
-            //- Facebook
-            span.facebook.col-xs-6
-              .fb-like(
-                data-href!="<?php echo home_url(); ?>",
-                data-width=450,
-                data-layout='button_count',
-                data-show-faces='true',
-                data-send='true'
-              )
+          .footer-contents.row
+            .col-xs-2.footer-about
+              hgroup.footer-title: h1 About
+              .footer-content
+                ul.links
+                  li.link: a(href!="<?php echo home_url(); ?>/about#lab")
+                    span 研究会について
+                  li.link: a(href!="<?php echo home_url(); ?>/about#prof")
+                    span 大木聖子について
+                  li.link: a(href!="<?php echo home_url(); ?>/about#members")
+                    span メンバー紹介
+                  li.link: a(href!="<?php echo home_url(); ?>/about#welcome")
+                    span 新規履修について
+
+              hgroup.footer-title: h1 Share
+              .footer-content
+                span.twitter.col-xs-6
+                  a.twitter-share-button(
+                    href='//twitter.com/share',
+                    data-url='https://www.facebook.com/bosailab',
+                    data-text='大木研究室公式ウェブサイト',
+                    data-lang='ja',
+                    data-hashtags='#bosailab'
+                  )
+                //- Facebook
+                span.facebook.col-xs-6
+                  .fb-like(
+                    data-href!="<?php echo home_url(); ?>",
+                    data-width=450,
+                    data-layout='button_count',
+                    data-show-faces='true',
+                    data-send='true'
+                  )
+
+            .col-xs-2.footer-projects
+              hgroup.footer-title: h1 Project
+              .footer-content
+
+            .col-xs-2.footer-links
+              hgroup.footer-title: h1 Link
+              .footer-content
+                ul.links
+                  li.link: a(href!="<?php echo home_url(); ?>/about#lab")
+                    span 研究会について
+                  li.link: a(href!="<?php echo home_url(); ?>/about#prof")
+                    span 大木聖子について
+                  li.link: a(href!="<?php echo home_url(); ?>/about#members")
+                    span メンバー紹介
+                  li.link: a(href!="<?php echo home_url(); ?>/about#welcome")
+                    span 新規履修について
+
+            .col-xs-3.footer-access
+              hgroup.footer-title: h1 Access
+              .footer-content
+
+            .col-xs-3.footer-feedback
+              hgroup.footer-title: h1 Feedback
+              .footer-content
+                p
+                  | ※お問い合わせは
+                  a(href!="<?php echo home_url(); ?>/contact") こちら。
+                <?php echo do_shortcode('[contact-form-7 id="647" title="サイトへのフィードバック"]'); ?>
+
+          //- .footer-social.row
+          //-   //- twitter
+          //-   span.twitter.col-xs-6
+          //-     a.twitter-share-button(
+          //-       href='//twitter.com/share',
+          //-       data-url='https://www.facebook.com/bosailab',
+          //-       data-text='大木研究室公式ウェブサイト',
+          //-       data-lang='ja',
+          //-       data-hashtags='#bosailab'
+          //-     )
+          //-   //- Facebook
+          //-   span.facebook.col-xs-6
+          //-     .fb-like(
+          //-       data-href!="<?php echo home_url(); ?>",
+          //-       data-width=450,
+          //-       data-layout='button_count',
+          //-       data-show-faces='true',
+          //-       data-send='true'
+          //-     )
+
+          .ui-language.row
+            .col-xs-12
+              <?php wp_footer(); ?>
+
+          .ui-site.row
+            .col-xs-12
+              p.site-info
+                | Copyright © <?php echo date("Y") ?>
+                strong  Oki Satoko Lab.
+                |  in SFC Keio University, All Rights Reserved.
 
       a.ui-scrollto(href='javascript:void(0)')
         i.fa.fa-caret-up
@@ -212,9 +281,8 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
       //- script(src!="<?php echo (get_template_directory_uri().'/public/js/backbone_debug.js') ?>")
       script(src!="<?php echo (get_template_directory_uri().'/dist/js/script.js') ?>")
 
-    <?php // wp_footer(); ?>
-    :php
-      do_action( 'wp_print_footer_scripts' );
-      do_action( 'wp_footer' );
+    //- :php
+    //-   do_action( 'wp_print_footer_scripts' );
+    //-   do_action( 'wp_footer' );
 
 

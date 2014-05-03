@@ -74,6 +74,7 @@ header.ui-header
       position relative
       width 100%
       margin 0 auto
+      padding 0 20px
 
   // ナビメニュー
   .ui-navi-container
@@ -279,23 +280,94 @@ header.ui-header
 /* フッタ
  * ----------------------------------------------------- */
 footer.ui-footer
-  padding 0 0 20px
-  background #414141
-  .ui-hoge
-    background-color #f4f4f4 // TODO: フッターの前にこの色を入れると良さそう
-  .ui-site
-  .ui-social
+  position relative
+  margin-top 20px
+  background-color sub_color
+
+  .footer-contents
+  .footer-social
     clearfix()
     width 100%
-    max-width 640px
+    max-width max_width
     margin 0 auto
-  .ui-site
-    p.site-info
-      margin 0
-      padding 20px 0
-      color #fff
-      text-align center
-  .ui-social
+
+  .footer-contents
+    position relative
+    padding-top 60px
+    &:before
+      content ''
+      display block
+      position absolute
+      top 0
+      right 12.5%
+      width 0
+      margin-right -30px
+      border 30px solid rgba(0, 0, 0, 0)
+      border-top-color #fff
+      border-bottom-width 0
+
+    // タイトルなどのフッター共通デザイン
+    .footer-title //hgroup
+      clearfix()
+      h1
+        color base_color_current
+        font-size 14px
+        font-weight bold
+        text-transform uppercase
+    p
+      font-size 12px
+      font-weight bold
+    .links // ul
+      .link // li
+        padding 0px 0 4px
+        a span
+        span
+          color base_color_current
+          font-size 13px
+        a span:hover
+          color lighten(base_color, 40%)
+
+    .footer-about
+    .footer-projects
+    .footer-links
+    .footer-access
+    .footer-feedback
+      .wpcf7
+        form.wpcf7-form
+          & > p
+            margin 0
+            input.wpcf7-submit
+              width 100%
+              margin 10px 0
+              padding-left 30px
+              padding-right 30px
+              font-size 13px
+              letter-spacing .1em
+              text-transform uppercase
+              background-color #E76860
+              box-shadow 0px 2px 0 #C65953
+              &:hover
+                background-color lighten(#E76860, 7%)
+              &:active
+                background-color lighten(#E76860, 14%)
+                box-shadow inset 0px 2px 0 #C65953
+          .wpcf7-response-output
+            position relative
+            margin 10px 0 0
+            font-size 11px
+            &:before
+              content ''
+              display block
+              position absolute
+              top -8px
+              right 50%
+              width 0
+              margin-right -8px
+              border-width 8px
+              border-top-width 0
+
+  .footer-social
+    padding 20px 0
     span
       display block
       overflow hidden
@@ -305,3 +377,10 @@ footer.ui-footer
       &.facebook
         text-align left
 
+  .ui-site
+    background-color base_color
+    p.site-info
+      margin 0
+      padding 15px 0
+      color #fff
+      text-align center
