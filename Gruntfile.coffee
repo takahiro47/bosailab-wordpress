@@ -99,7 +99,7 @@ module.exports = (grunt) ->
           grunt.log.writeln "The watch finished in #{time}ms at #{new Date().toLocaleTimeString()}"
       coffee:
         files: [ 'assets/**/*.coffee']
-        tasks: [ 'coffeelint', 'coffee', 'uglify' ]
+        tasks: [ 'coffeelint', 'coffee', 'uglify', 'jade:compile' ]
       jade:
         files: [ 'assets/**/*.jade' ]
         tasks: [ 'jade' ]
