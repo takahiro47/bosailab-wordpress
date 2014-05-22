@@ -528,8 +528,8 @@ $ ->
     fetching: no
 
     routes:
-      '(/)(?s=)(:text)': 'search'
       '(/)': 'index'
+      '(/)?s=(:text)': 'search'
 
       'project(/)': 'projects'
       'project/page/:page(/)': 'projects'
@@ -711,7 +711,7 @@ $ ->
 
             else if media.query.api is 'single'
               # タイトルをセット
-              media.containerView.setTitle data.post.title_plain, "#{media.query.post_type}s"
+              media.containerView.setTitle data.post?.title_plain?, "#{media.query.post_type}s"
               , no
               # アイテムのリセット
               media.container.reset()
@@ -726,7 +726,7 @@ $ ->
 
             else if media.query.api is 'page' # 固定ページ
               # タイトルをセット
-              media.containerView.setTitle data.page.title_plain, null
+              media.containerView.setTitle data.page?.title_plain?, null
               # アイテムのリセット
               media.container.reset()
               # コンテナの幅を調整
