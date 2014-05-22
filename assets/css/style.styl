@@ -1,7 +1,8 @@
 @import 'nib'
 global-reset()
 @import '../../client/components/bootstrap-stylus/stylus/bootstrap'
-@import 'plugin/font-awesome'
+@import '../../client/components/font-awesome-stylus/stylus/font-awesome'
+@import 'plugin/animate'
 // @import 'plugin/theme'
 // @import 'ie'
 // @import 'editor-style'
@@ -67,17 +68,46 @@ http://ricostacruz.com/jquery.transit/#top
 Aboutページの顔アイコン
 http://leko.jp/archives/157
 
+Aboutページ背景の参考
+http://runnable.com/about
+
+Aboutページのプロジェクト一覧？さんこう
+http://runnable.com/
+
+フォトログなどのページの切り替え。うつくしい
+http://builtbybuffalo.com/project/i-love-dust
+ふらっと
+http://www.squarespace.com/tour/shops
+http://etchapps.com/
+
+http://fltdsgn.com/
+
 */
 /* = Fonts
  * ------------------------------------------------------------ */
 
-// @font-face
-//   font-family: 'HelveticaNeueUltraLight'
-//   src: url('../fonts/helveticaneueultralight-webfont.eot')
-//   src: local('☺'), url('../fonts/helveticaneueultralight-webfont.woff') format('woff'), url('../fonts/helveticaneueultralight-webfont.ttf') format('truetype'), url('../fonts/helveticaneueultralight-webfont.svg#webfontfOyiCJQU') format('svg')
-//   font-weight: normal
-//   font-style: normal
+$fa-font-path = '../../static/fonts/'
+$fa-version ?= '4.0.1'
 
+@font-face
+  font-family 'FontAwesome'
+  src url($fa-font-path + 'fontawesome-webfont.eot?v=' + $fa-version)
+  src url($fa-font-path + 'fontawesome-webfont.eot?#iefix&v=' + $fa-version) format('embedded-opentype'),
+    url($fa-font-path + 'fontawesome-webfont.woff?v=' + $fa-version) format('woff'),
+    url($fa-font-path + 'fontawesome-webfont.ttf?v=' + $fa-version) format('truetype'),
+    url($fa-font-path + 'fontawesome-webfont.svg?v=' + $fa-version + '#fontawesomeregular') format('svg')
+  font-weight normal
+  font-style normal
+
+@font-face
+  font-family 'HelveticaNeueUltraLight'
+  src url($fa-font-path + 'helveticaneueultralight-webfont.eot')
+  src local('☺'),
+    url($fa-font-path + 'helveticaneueultralight-webfont.woff') format('woff'),
+    url($fa-font-path + 'helveticaneueultralight-webfont.ttf') format('truetype'),
+    url($fa-font-path + 'helveticaneueultralight-webfont.svg#webfontfOyiCJQU') format('svg')
+  font-weight normal
+  font-style normal
 
 /* = Global
  * ------------------------------------------------------------ */
@@ -172,9 +202,10 @@ body
     @media screen and (max-width: 782px)
       padding-top 44px
 
-    header.ui-header
+    .ui-header // header
       .ui-navi-container
         nav.ui-navi
-          .ui-navi-search
-            @media (min-width: 1680px)
+          @media (min-width: 1680px)
+            .ui-navi-logo
+            .ui-navi-search
               top 32px

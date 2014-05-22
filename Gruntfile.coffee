@@ -254,7 +254,7 @@ module.exports = (grunt) ->
         files: [{
           expand: yes
           cwd: 'assets/'
-          src: [ '*.styl', '**/*.styl' ]
+          src: [ 'style.styl', '**/style.styl' ] # [ '*.styl', '**/*.styl' ]
           dest: 'dist/'
           ext: '.css'
         }]
@@ -262,19 +262,19 @@ module.exports = (grunt) ->
     jade:
       options:
         filters: require('./static/filters.js')
-      debug:
-        options:
-          pretty: yes
-          data:
-            version: '<%- pkg.version %>'
-            timestamp: "<%= new Date().getTime() %>"
-        files: [{
-          expand: yes
-          cwd: 'assets/views'
-          src: [ '*.jade', '**/*.jade' ]
-          dest: 'dist/'
-          ext: '.php'
-        }]
+      # debug:
+      #   options:
+      #     pretty: yes
+      #     data:
+      #       version: '<%- pkg.version %>'
+      #       timestamp: "<%= new Date().getTime() %>"
+      #   files: [{
+      #     expand: yes
+      #     cwd: 'assets/views'
+      #     src: [ '*.jade', '**/*.jade' ]
+      #     dest: 'dist/'
+      #     ext: '.php'
+      #   }]
       compile:
         options:
           pretty: no

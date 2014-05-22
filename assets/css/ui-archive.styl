@@ -2,136 +2,126 @@
 
 /* = トップページ / アーカイブページ / 検索結果ページ
 * ------------------------------------------------------------ */
-.archive
-  // 共通
-  .post-items
-    clearfix()
-    margin 0
-    padding 0
-
-    // トップページ & 検索結果ページ
-    // &.posts-front
-    //   .post
-    //     background-color sub_color
-    // &.posts-front
-    // &.posts-search
-    //   .post
-    //     .post-header
-    //       .ui-calendar
-    //         position absolute
-    //         top 20px
-    //         left 30px
-    //     .post-article
-    //       margin 0 120px 0 100px
-    //       padding 10px 0
-    //       .title
-    //         margin 0 0 4px
-    //         a
-    //           span
-    //             color font_color
-    //             font-size 14px
-    //             font-weight bold
-    //             line-height 1.2em
-    //       .excerpt
-    //         &.ellipsis
-    //           ellipsis()
-    //         margin 0
-    //         height 30px
-    //        color font_color
-    //        font-size 11px
-    //        line-height 15px
-    //     .post-footer
-    //       position absolute
-    //       top 20px
-    //       right 20px
-    //       a
-    //         span
-    //           font-size 13px
-
-    .post-item
-      position relative
-      overflow hidden
-      transition opacity .45s ease
-
-      // タイトルを表示するアイテム
-      &.item-th
-        background-color base_color
-        h2
-          margin 0
-          padding 5px 20px
-          color #fff
-          font-size 13px
-          font-weight bold
-          line-height 24px
-          text-shadow base_text_shadow
-
-      // 一覧にアイテムが見つからなかった場合に表示されるアイテム
-      &.item-none
+// トップページ & 検索結果ページ
+// &.posts-front
+//   .post
+//     background-color sub_color
+// &.posts-front
+// &.posts-search
+//   .post
+//     .post-header
+//       .ui-calendar
+//         position absolute
+//         top 20px
+//         left 30px
+//     .post-article
+//       margin 0 120px 0 100px
+//       padding 10px 0
+//       .title
+//         margin 0 0 4px
+//         a
+//           span
+//             color font_color
+//             font-size 14px
+//             font-weight bold
+//             line-height 1.2em
+//       .excerpt
+//         &.ellipsis
+//           ellipsis()
+//         margin 0
+//         height 30px
+//        color font_color
+//        font-size 11px
+//        line-height 15px
+//     .post-footer
+//       position absolute
+//       top 20px
+//       right 20px
+//       a
+//         span
+//           font-size 13px
+#contents
+  .content-item
+    // タイトルを表示するアイテム
+    &.item-th
+      background-color base_color
+      h2
+        margin 0
+        padding 5px 20px
+        color #fff
         font-size 13px
-        line-height 1.4em
-        padding 20px
+        font-weight bold
+        line-height 24px
+        text-shadow base_text_shadow
 
-      // トップページ一覧
-      // 検索結果ページ
-      // 活動レポート一覧
-      &.item-index
-      &.item-search
-      &.item-report
-        padding-bottom 20px
-        // コンテンツ
-        .post-header
-          .ui-calendar
-            position absolute
-            top 4px
-            left 15px
-            .date-icon
-              margin 0 auto
-        .post-article
-          margin 2px 15px 15px 82px
-          .title
-            margin 0 0 10px
-            line-height 18px
-            text-align left
-            a
-              span
-                color font_color
-                font-size 16px
-                font-weight bold
-                line-height 1.2em
-          .excerpt
-            margin 0
-            color font_color
-            font-size 11px
-            line-height 15px
-            &.ellipsis
-              ellipsis()
+    // 一覧にアイテムが見つからなかった場合に表示されるアイテム
+    &.item-none
+      font-size 13px
+      line-height 1.4em
+      padding 20px
 
-      // トップページ
-      // 検索結果ページ
-      &.item-index
-      &.item-search
-        padding-top 20px
-        padding-bottom 10px
-        // コンテンツ
-        .post-header
-          .ui-calendar
-            top 24px
-            left 20px
-        .post-article
-          .title
-            margin-right 72px
-          .excerpt
-            height 32px
-        .post-footer
-          .post-type
-            position absolute
-            top 24px
-            right 20px
+    // トップページ一覧
+    // 検索結果ページ
+    // 活動レポート一覧
+    &.item-index
+    &.item-search
+    &.item-archive.item-report
+      padding-bottom 20px
+      // コンテンツ
+      .post-header
+        .ui-calendar
+          position absolute
+          top 4px
+          left 15px
+          .date-icon
+            margin 0 auto
+      .post-article
+        margin 2px 15px 15px 82px
+        .title
+          margin 0 0 10px
+          line-height 18px
+          text-align left
+          a
+            span
+              color font_color
+              font-size 16px
+              font-weight bold
+              line-height 1.2em
+        .excerpt
+          margin 0
+          color font_color
+          font-size 11px
+          line-height 15px
+          &.ellipsis
+            ellipsis()
 
-      // トップページ
-      &.item-index
-        background-color sub_color
+    // トップページ
+    // 検索結果ページ
+    &.item-index
+    &.item-search
+      padding-top 20px
+      padding-bottom 10px
+      // コンテンツ
+      .post-header
+        .ui-calendar
+          top 24px
+          left 20px
+      .post-article
+        .title
+          margin-right 72px
+        .excerpt
+          height 32px
+      .post-footer
+        .post-type
+          position absolute
+          top 24px
+          right 20px
 
+    // トップページ
+    &.item-index
+      background-color sub_color
+
+    &.item-archive
       // プロジェクト一覧
       &.item-project
         height 250px
@@ -159,10 +149,15 @@
 
       // フォトログ一覧
       &.item-photolog
-        opacity 0
-        height 240px
+        height 160px
         @media screen and (max-width: 480px)
           height 160px
+        @media screen and (min-width: 768px)
+          height 180px // sm
+        @media screen and (min-width: 992px)
+          height 235px // md
+        @media screen and (min-width: 1200px)
+          height 285px // lg
         // コンテンツ
         .post-header
           .ui-calendar
@@ -183,6 +178,7 @@
           margin 0
           padding 9px
           padding-left 18px
+          // background-color rgba(0, 0, 0, .28)
           background-color transparent
           background-image linear-gradient(
             top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .6) 100%
@@ -211,9 +207,3 @@
               .ui-calendar
                 opacity 1
 
-      &.loaded
-        transition opacity .6s ease
-        &:hover
-          .ui-load-event
-            .post-preview
-              opacity .85

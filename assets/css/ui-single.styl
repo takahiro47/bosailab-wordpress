@@ -2,17 +2,10 @@
 
 /* = 記事ページ
  * ------------------------------------------------------------ */
-.single
-  padding-top 60px
+#contents
   // 投稿アイテム個別ビュー
-  .post-items
-    clearfix()
-    margin 0
-    padding 0
-
-    .post-item
-      position relative
-
+  .content-item
+    &.item-single
       // 画像
       a > img
         display block
@@ -41,7 +34,7 @@
             position absolute
             top -(@height/ 2)
             left 50%
-            background background_color
+            background #fff // background_color
           h1.post-title
             margin 40px 0 8px
             font-size 21px

@@ -18,17 +18,19 @@ block article
 
       article.post-article.col-xs-12
         <?php if ( is_page( 'about' ) ) { ?>
-        section.post-section
-          .img-background-frame
-            img(
-              class='img-responsive img-background',
-              src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_professor_message_back_2x.jpg') ?>",
-              width=1960, height=980
-            )
+
+        section.post-section(
+          style!="background-image:url(<?php echo (get_template_directory_uri().'/public/images/about/overview_professor_message_back_2x.jpg') ?>);"
+        )
+          //- .img-background-frame
+          //-   img(
+          //-     class='img-responsive img-background',
+          //-     src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_professor_message_back_2x.jpg') ?>",
+          //-     width=1960, height=980
+          //-   )
           hgroup.page-subtitle
             h2
-              img(
-                class='img-responsive',
+              img.img-responsive.animate.fadeInUp(
                 src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_professor_message_title_2x.png') ?>",
                 width=980, height=114,
                 alt='ＳＦＣから、日本の、いや世界の防災を変えよう。'
@@ -36,12 +38,14 @@ block article
           p.text-field
             <?php the_field( 'professor_message' ); ?>
 
+
         section.post-section
           hgroup.page-subtitle
-            <?php $professor_face = get_field('professor_face'); ?>
-            .face(style!="background-image: url('<?php echo $professor_face['url']; ?>');")
+            a(href='//raytheory.jp', target='_blank')
+              <?php $professor_face = get_field('professor_face'); ?>
+              .face(style!="background-image: url('<?php echo $professor_face['url']; ?>');")
             h2
-              img(
+              img.img-responsive(
                 class='img-responsive',
                 src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_about_professor_title_2x.png') ?>",
                 width=980, height=75,
@@ -50,15 +54,53 @@ block article
           p.text-field
             <?php the_field( 'about_the_professor' ); ?>
 
+
+        section.post-section
+          hgroup.page-subtitle
+            h2
+              img.img-responsive(
+                src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_about_projects_title_2x.png') ?>",
+                width=980, height=75,
+                alt='好きなタイミングで、好きなことに取り組んでください。'
+              )
+          p.text-field
+            span.explanation
+              | 防災に関連していれば、何をやっても構いません。<br />
+              | ここでは、現在とりくんでいるプロジェクトの一部を紹介します。
+            ul.projects
+              li.project
+
+
         section.post-section.section-members
           hgroup.page-subtitle
             h2
-              img(
-                class='img-responsive',
+              img.img-responsive(
                 src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_members_title_2x.png') ?>",
                 width=980, height=112,
                 alt='研究会の設立から1年。メンバーは５０名を超えました。'
               )
+
+          //- 沿革
+          .history-field
+            i
+              .histories
+                .history
+                  .in.animate.bounceInLeft
+                    datetime.date 2013年04月
+                    h3.title 始動
+                    p.description 大木聖子准教授が、湘南藤沢キャンパス(SFC)に着任。
+                .history
+                  .in.animate.bounceInRight
+                    datetime.date 2013年07月
+                    h3.title 巡検
+                    p.description 研究会全体としては初めての東北被災地への巡検をおこないました。
+                .history
+                  .in.animate.bounceInLeft
+                    datetime.date 2014年04月
+                    h3.title 改称
+                    p.description 研究室の名称を『防災デザイン研究室』と改めました。
+
+          //- メンバー一覧
           .text-field-custom
             :php
               $member_face = get_field('member_face');
@@ -82,18 +124,20 @@ block article
               :php
                 } }
 
-        section.post-section(style='background-color:transparent; overflow:hidden; padding:120px 0;')
-          .img-background-frame
-            img(
-              class='img-responsive img-background',
-              src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_join_us_back_2x.jpg') ?>",
-              width=1960, height=899
-            )
+
+        section.post-section(
+          style!="background-color:transparent; background-image:url(<?php echo (get_template_directory_uri().'/public/images/about/overview_join_us_back_2x.jpg') ?>); padding:120px 0;"
+          )
+          //- .img-background-frame
+          //-   img(
+          //-     class='img-responsive img-background',
+          //-     src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_join_us_back_2x.jpg') ?>",
+          //-     width=1960, height=899
+          //-   )
           hgroup.page-subtitle
             h2
               //- Join Us
-              img(
-                class='img-responsive',
+              img.img-responsive(
                 src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_join_us_title_2x.png') ?>",
                 width=980, height=112,
                 alt='わたしたちの研究会に、あなたも参加してみませんか。'
@@ -104,8 +148,7 @@ block article
         section.post-section
           hgroup.page-subtitle
             h2
-              img(
-                class='img-responsive',
+              img.img-responsive(
                 src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_access_title_2x.png') ?>",
                 width=980, height=40,
                 alt='交通アクセスについて'
