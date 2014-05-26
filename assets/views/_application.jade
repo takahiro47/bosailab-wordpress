@@ -67,7 +67,7 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
     .ui-container
       header.ui-header(role='banner')
         block header
-          .ui-logo.hidden
+          .container.ui-logo
             a.home-link(
               href!="<?php echo esc_url( home_url( '/' ) ); ?>"
               title!="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"
@@ -76,46 +76,59 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
               h1.site-title <?php bloginfo( 'name' ); ?>
               h2.site-description <?php bloginfo( 'description' ); ?>
 
-          .ui-public-relaions.hidden
+          .container.ui-public-relaions
             .public-relaion-aritcle
               img(src!="<?php echo (get_template_directory_uri().'/public/images/banner/banner2014--01.png') ?>")
 
           .ui-navi-container
-            nav.ui-navi.container(role='navigation')
-              .row
-                .ui-navi-logo.col-xs-12.col-sm-12.col-md-2.col-lg-2
-                  hgroup.ui-navi-logo.js-navi-home
-                    h1.ui-title Bosai Lab.
-                .ui-navi-menu.col-xs-12.col-sm-10.col-md-8.col-lg-8
-                  <?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_class' => 'nav-menu' ) ); ?>
-                .ui-navi-search.col-xs-12.col-sm-2.col-md-2.col-lg-2
-                  //- get_search_form()
-                  form(role='search', method='get', action!="<?php echo home_url( '/' ); ?>")
-                    label
-                      input#s.search-field(
-                        type='search',
-                        placeholder='ウェブサイトを検索',
-                        autocomplete='off',
-                        value!="<?php $sq = get_search_query(); if ( $sq ) { echo $sq; } else { echo 'ウェブサイトを検索'; } ?>",
-                        name='s',
-                        title='検索',
-                        aria-label='検索',
-                        aria-autocomplete='list',
-                        aria-expanded='false',
-                        role='combobox',
-                        tabindex='',
-                        spellcheck='false',
-                      )
-                    p.search-icons
-                      span |
-                      i.fa.fa-search
-                    input.search-submit(type='submit', value='検索')
+            .container
+              nav.ui-navi(role='navigation')
+                .row
+                  .ui-navi-logo.col-xs-12.col-sm-12.col-md-2.col-lg-2
+                    .container-fluid
+                      .row
+                        //- メニューバーの折り畳み
+                        .col-xs-2.hidden-sm.hidden-md.hidden-lg
+                          .mobile-navi-menu.js-toggle-menu
+                            i.fa.fa-bars
+                        //- タイトル
+                        .col-xs-8.col-sm-12.ui-navi-logo-col
+                          hgroup.ui-navi-logo
+                            h1.ui-title
+                              span.js-navi-home <?php bloginfo( 'name' ); ?>
+                        //- 検索バーの折り畳み
+                        .col-xs-2.hidden-sm.hidden-md.hidden-lg
+                          .mobile-navi-search.js-toggle-search
+                            i.fa.fa-search
+                  .ui-navi-menu.col-xs-12.col-sm-10.col-md-8.col-lg-8
+                    <?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_class' => 'nav-menu' ) ); ?>
+                  .ui-navi-search.col-xs-12.col-sm-2.col-md-2.col-lg-2
+                    form(role='search', method='get', action!="<?php echo home_url( '/' ); ?>")
+                      label
+                        input#s.search-field(
+                          type='search',
+                          placeholder='ウェブサイトを検索',
+                          autocomplete='off',
+                          value!="<?php $sq = get_search_query(); if ( $sq ) { echo $sq; } else { echo 'ウェブサイトを検索'; } ?>",
+                          name='s',
+                          title='検索',
+                          aria-label='検索',
+                          aria-autocomplete='list',
+                          aria-expanded='false',
+                          role='combobox',
+                          tabindex='',
+                          spellcheck='false',
+                        )
+                      p.search-icons
+                        span |
+                        i.fa.fa-search
+                      input.search-submit(type='submit', value='検索')
 
         block bread
           .ui-breadcrumbs-container
             .container
               .row
-                .col-xs-12
+                .col-xs-12.js-breadcrumbs
                   <?php put_breadcrumbs(); ?>
 
       .ui-content
@@ -129,15 +142,7 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
                   | Loading.<br />
                   | Please wait.
             #container
-
-            .ui-default
-              .container-fluid
-                .row
-                  .col-xs-12
-                    block article
-            .ui-index
-            .ui-single
-            .ui-archive
+              //- block article
 
       footer.ui-footer
         block footer
@@ -150,12 +155,12 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
                   ul.links
                     li.link: a(href!="<?php echo home_url(); ?>/about#lab")
                       span 研究会について
-                    li.link: a(href!="<?php echo home_url(); ?>/about#prof")
-                      span 大木聖子について
-                    li.link: a(href!="<?php echo home_url(); ?>/about#members")
-                      span メンバー紹介
-                    li.link: a(href!="<?php echo home_url(); ?>/about#welcome")
-                      span 新規履修について
+                    //- li.link: a(href!="<?php echo home_url(); ?>/about#prof")
+                    //-   span 大木聖子について
+                    //- li.link: a(href!="<?php echo home_url(); ?>/about#members")
+                    //-   span メンバー紹介
+                    //- li.link: a(href!="<?php echo home_url(); ?>/about#welcome")
+                    //-   span 新規履修について
 
               .footer-projects.col-sm-2.hidden-xs
                 hgroup.footer-title
@@ -167,14 +172,10 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
                   h1 Link
                 .footer-content
                   ul.links
-                    li.link: a(href!="<?php echo home_url(); ?>/about#lab")
-                      span 研究会について
-                    li.link: a(href!="<?php echo home_url(); ?>/about#prof")
-                      span 大木聖子について
-                    li.link: a(href!="<?php echo home_url(); ?>/about#members")
-                      span メンバー紹介
-                    li.link: a(href!="<?php echo home_url(); ?>/about#welcome")
-                      span 新規履修について
+                    li.link: a(href!="http://www.keio.ac.jp")
+                      span 慶應義塾大学
+                    li.link: a(href!="http://www.keio.ac.jp")
+                      span 慶應義塾大学ＳＦＣ
 
               .footer-access.col-sm-3.hidden-xs
                 hgroup.footer-title

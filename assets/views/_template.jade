@@ -4,28 +4,30 @@ script#tmpl-container(type='text/template')
   hgroup.page-title
     h1
   .container.js-container
-    section#contents.row
+    .row
+      section#contents
 
 script#tmpl-content(type='text/template')
 
 script#tmpl-archive(type='text/template')
   <% if (type == 'photolog') { %>
-  .post-header
-    .ui-calendar
-      time <%- date || "1999/12/31 23:59:59" %>
-      .date-icon
-        .date-month
-        .date-day
-        .date-year
-  .post-article
-    h3.title
-      a(href!='<%- url %>')
-        span <%- title %>
-    p.excerpt.ellipsis.multiline
-  +ui-load-event
+  .js-navi-single
+    .post-header
+      .ui-calendar
+        time <%- date || "1999/12/31 23:59:59" %>
+        .date-icon
+          .date-month
+          .date-day
+          .date-year
+    .post-article
+      h3.title
+        a(href!='<%- url %>')
+          span <%- title %>
+      p.excerpt.ellipsis.multiline
+    +ui-load-event
   <% } else if (type == 'report') { %>
   .post-header
-    .ui-calendar
+    .ui-calendar.js-navi-single
       time <%- date || "1999/12/31 23:59:59" %>
       .date-icon
         .date-month
@@ -33,23 +35,80 @@ script#tmpl-archive(type='text/template')
         .date-year
   .post-article
     h3.title
-      a(href!='<%- url %>')
+      a.js-navi-single(href!='<%- url %>')
         span <%- title %>
     p.excerpt.ellipsis
   <% } else if (type == 'project') { %>
-  .post-header
+  .post-header.js-navi-single
     //- サムネイル
     +ui-load-event
   .post-article
     h3.title.ellipsis
-      a(href!='<%- url %>')
+      a.js-navi-single(href!='<%- url %>')
         span <%- title %>
   .post-footer
   <% } %>
 
 script#tmpl-single(type='text/template')
   //- post-item
-  <% if (type == 'photolog') { %>
+  <% if (type == 'photolog' && isGallery) { %>
+  .Gallery-closeTarget
+  .Gallery-content
+    .Gallery-button-close
+      i.fa.fa-times
+    .Gallery-media
+      .post-popup.row
+        .post-left.col-xs-12.col-sm-9
+          .post-photo
+            +ui-load-event
+            .post-navi
+              nav.post-navigation(role='navigation')
+                <% if (next_url) { %>
+                a(rel='next', href!="<%- next_url %>")
+                  span.meta-nav.meta-nav-next: i.fa.fa-angle-right
+                <% } if (previous_url) { %>
+                a(rel='prev', href!="<%- previous_url %>")
+                  span.meta-nav.meta-nav-prev: i.fa.fa-angle-left
+                <% } %>
+        .post-right.col-xs-12.col-sm-3
+          .post-content
+            header.post-header
+              //- カレンダーアイコン
+              .ui-calendar
+                time <%- date || "1999/12/31 23:59:59" %>
+                .date-icon
+                  .date-month
+                  .date-day
+                  .date-year
+              //- タイトル
+              h1.post-title <%- title %>
+              //- メタタグ
+              .post-meta
+                //- 編集アイコン(ログイン時のみ)
+                  .post-edit
+                    p.ui-edit-link
+                      a.post-edit-link(href='')
+                        i.fa.fa-pencil
+                //- タグ
+                .ui-tags
+                  p
+                    span Tags
+                  //- .tag <name>
+            article.post-article
+              //- 本文
+              .post-body
+                .excerpt.ellipsis.multiline
+                  <%= acf.body %>
+            footer.post-footer.row
+              .social.facebook.col-xs-6
+                fb:like#fb-like(href='', width='218', layout='box_count' action='like', show_faces='true', share='false')
+              .social.twitter.col-xs-6
+                a#tw-like.twitter-share-button(href='https://twitter.com/share' data-lang='ja', data-hashtags='bosailab', data-dnt='true', data-count='vertical')
+              .social.googleplus.col-xs-6
+                .g-plusone(data-size='tall')
+              .social.pocket.col-xs-6
+                a#pk-like.pocket-btn(data-pocket-label='pocket', data-pocket-count='vertical',  data-pocket-align='center', data-lang='ja')
+  <% } else if (type == 'photolog') { %>
   .post-popup.row
     .post-left.col-xs-12.col-sm-9
       .post-photo
@@ -63,9 +122,6 @@ script#tmpl-single(type='text/template')
             a(rel='prev', href!="<%- previous_url %>")
               span.meta-nav.meta-nav-prev: i.fa.fa-angle-left
             <% } %>
-      .post-slider
-        //- TODO: フォトログの下に、横に並んだリスト型のナビを表示したい
-        //- http://bigakusei.campus-web.jp/binan-bijo/9004/ みたいな
     .post-right.col-xs-12.col-sm-3
       .post-content
         header.post-header
@@ -107,6 +163,9 @@ script#tmpl-single(type='text/template')
 
   .post-comments.row
     .post-left.col-xs-12.col-sm-9
+      .post-slider
+        //- TODO: フォトログの下に、横に並んだリスト型のナビを表示したい
+        //- http://bigakusei.campus-web.jp/binan-bijo/9004/ みたいな
       .post-detail
         h2 Detail
         .post-body
@@ -129,7 +188,7 @@ script#tmpl-single(type='text/template')
         .date-month
         .date-day
         .date-year
-    .ui-calendar-background
+    //- .ui-calendar-background
     //- タイトル
     h1.post-title <%- title %>
     //- メタ
@@ -203,14 +262,18 @@ script#tmpl-single(type='text/template')
   <% } %>
 
 script#tmpl-static(type='text/template')
-  <% if (slug == 'about') { %>
+  <% if (slug == 'home') { %>
+  section.post-section
+    p.text-field
+      <%= content %>
+  <% } else if (slug == 'about') { %>
   section.post-section(style!="background-image:url(<?php echo (get_template_directory_uri().'/public/images/about/overview_professor_message_back_2x.jpg') ?>);")
     hgroup.page-subtitle
       h2
         img.img-responsive.animate.fadeInUp(
           src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_professor_message_title_2x.png') ?>",
           width=980, height=114,
-          alt='ＳＦＣから、日本の、いや世界の防災を変えよう。'
+          alt='SFCから、日本の、いや世界の防災を変えよう。'
         )
     p.text-field
       <%= acf.professor_message %>
@@ -251,50 +314,31 @@ script#tmpl-static(type='text/template')
         img.img-responsive(
           src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_members_title_2x.png') ?>",
           width=980, height=112,
-          alt='研究会の設立から1年。メンバーは５０名を超えました。'
+          alt='研究会の設立から1年。メンバーは50名を超えました。'
         )
     //- 沿革
-    .history-field
-      i
-        .histories
-          .history
-            .in.animate.bounceInLeft
-              datetime.date 2013年04月
-              h3.title 始動
-              p.description 大木聖子准教授が、湘南藤沢キャンパス(SFC)に着任。
-          .history
-            .in.animate.bounceInRight
-              datetime.date 2013年07月
-              h3.title 巡検
-              p.description 研究会全体としては初めての東北被災地への巡検をおこないました。
-          .history
-            .in.animate.bounceInLeft
-              datetime.date 2014年04月
-              h3.title 改称
-              p.description 研究室の名称を『防災デザイン研究室』と改めました。
+    //- .history-field
+    //-   i
+    //-     .histories
+    //-       .history
+    //-         .in.animate.bounceInLeft
+    //-           datetime.date 2013年04月
+    //-           h3.title 始動
+    //-           p.description 大木聖子准教授が、湘南藤沢キャンパス(SFC)に着任。
+    //-       .history
+    //-         .in.animate.bounceInRight
+    //-           datetime.date 2013年07月
+    //-           h3.title 巡検
+    //-           p.description 研究会全体としては初めての東北被災地への巡検をおこないました。
+    //-       .history
+    //-         .in.animate.bounceInLeft
+    //-           datetime.date 2014年04月
+    //-           h3.title 改称
+    //-           p.description 研究室の名称を『防災デザイン研究室』と改めました。
     //- メンバー一覧
     .text-field-custom
-      :php
-        $member_face = get_field('member_face');
-
       .face(style!="background-image: url('<%= acf.member_face.url %>');")
       ul.members.row
-        :php
-          $members = explode( '<br />', get_field( 'member_lists' ) ); // 行に分割
-          $members = array_map( 'trim', $members ); // 各要素をtrim()にかける
-          $members = array_filter( $members, 'strlen' ); // 文字数が0のものを取り除く
-          $members = array_values( $members ); // キーを連番に振りなおす
-          foreach ( $members as $key => $member ) {
-            if ( substr($member, 0, 1) == '#' ) { // 一文字目が#だったならばタイトル行
-              $member = substr($member, 1);
-        li.member.member-th.col-sm-12.col-xs-12(data-member-id!="<?php echo $key; ?>")
-          h4 <?php echo $member; ?>
-        :php
-          } else {
-        li.member.col-sm-2.col-xs-4(data-member-id!="<?php echo $key; ?>")
-          span <?php echo $member; ?>
-        :php
-          } }
 
   section.post-section(
     style!="background-color:transparent; background-image:url(<?php echo (get_template_directory_uri().'/public/images/about/overview_join_us_back_2x.jpg') ?>); padding:120px 0;"
@@ -311,59 +355,56 @@ script#tmpl-static(type='text/template')
       <%= acf.join_us %>
 
   section.post-section
-    hgroup.page-subtitle
-      h2
-        img.img-responsive(
-          src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_access_title_2x.png') ?>",
-          width=980, height=40,
-          alt='交通アクセスについて'
-        )
     .container
-      .row
-        #map_canvas.google-maps.col-xs-12
+      //- タイトル
       .access.row
-        .col-xs-1.col-md-2(style='text-align:right;')
-          i.fa.fa-map-marker
-        .col-xs-11.col-md-10
-          p
-            strong 慶應義塾大学 湘南藤沢キャンパス（ＳＦＣ）
-            span
-              | 〒252-0882 神奈川県藤沢市遠藤5322
-              a(href='http://www.sfc.keio.ac.jp/maps.html', style='padding-left:8px;')
-                i.fa.fa-external-link
-                span 公式ウェブ
-      .access.row
-        .col-xs-12.col-sm-offset-1.col-sm-5.col-md-offset-2.col-md-4
-          p
-            strong 湘南台駅から
-            span
-              i.fa.fa-angle-right
-              | 小田急江ノ島線・相鉄いずみ野線・横浜市営地下鉄ブルーライン「湘南台」駅下車<br />
-              i.fa.fa-angle-right
-              | 西口よりバス「慶応大学」行き約15分「慶応大学本館前」下車
-        .col-xs-12.col-sm-5.col-md-4
-          p
-            strong 辻堂駅から
-            span
-              i.fa.fa-angle-right
-              | JR東海道線「辻堂」駅下車<br />
-              i.fa.fa-angle-right
-              | 北口よりバス「慶応大学」行き約25分「慶応大学本館前」下車
-  <% } else if (slug == 'publications') { %>
-  h3 ※準備中です
-  <% } else if (slug == 'contact') { %>
-  <?php echo do_shortcode('[contact-form-7 id="4" title="お問い合わせフォーム"]'); ?>
-  <% } %>
+        .col-xs-12
+          hgroup.page-subtitle
+            h3
+              img.img-responsive(
+                src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_accessmap_title_2x.png') ?>",
+                width=254, height=41,
+                alt='アクセスマップ'
+              )
+        //- 住所とマップ
+        .col-xs-12.col-md-6(style='margin-top:50px;')
+          .container-fluid
+            .row
+              .col-xs-3.col-md-2(style='text-align:right;')
+                i.fa.fa-map-marker
+              .col-xs-9.col-md-10
+                p.room
+                  strong 慶應義塾大学 湘南藤沢キャンパス
+                  span 研究棟 κ305
+                address.address
+                  span 〒252-0882 神奈川県藤沢市遠藤5322
+                  a(href='http://www.sfc.keio.ac.jp/maps.html', style='padding-left:8px;')
+                    i.fa.fa-external-link
+                    span 公式ウェブ
+            .row
+              .col-xs-offset-1.col-xs-10
+                p
+                  span.attention
+                    | ※ 当キャンパスへご来場される場合は、必ず事前にご連絡ください。
+        .col-xs-12.col-md-6.google-maps: #map_canvas
 
+  <% } else if (slug == 'publications') { %>
+  section.post-section
+    p.text-field
+      <%= content %>
+
+  <% } else if (slug == 'contact') { %>
+  .Gallery-closeTarget
+  .Gallery-content
+    .Gallery-button-close
+      i.fa.fa-times
+    .Gallery-media
+      <?php echo do_shortcode('[contact-form-7 id="4" title="お問い合わせフォーム"]'); ?>
+
+  <% } %>
   //- Singleに使いたい
     TODO: 一覧スライダー
     参考: http://ugc.disney.co.jp/blog/movie/category/anayuki#gallerySliderArea
     section.post-slider
     hgroup.page-recommend
       h2 You might also like
-
-script#tmpl-layers(type='text/template')
-  ._n1
-    ._n2
-      .ui-context-layer-parent
-        .ui-context-layer

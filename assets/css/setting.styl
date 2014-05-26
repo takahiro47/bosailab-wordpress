@@ -7,13 +7,15 @@ path = '/content/themes/bosai/public/images/'
 max_width = 960px
 //1080px
 
+body_background = lighten(#E9EAED, 85%)
 background_color = #FCFBFB
 font_color = #4d3636
 
 // グリーン - #73A2A8
 base_color = #799FA4
-base_color_current = darken(base_color, 30%)
-base_color_hover = #333
+base_color_current = darken(base_color, 15%)
+base_color_hover = darken(base_color, 30%)
+//#333
 // ベージュ
 sub_color = #F7F3EC
 sub_color_edge = darken(sub_color, 2%)
@@ -65,7 +67,7 @@ omission()
 hidden()
   display none
   visibility hidden
-show()
+visible()
   display block
   visibility visible
 
@@ -126,6 +128,58 @@ button-pink()
     background-color lighten(#E76860, 14%)
     box-shadow inset 0px 2px 0 #C65953
 
+gallery()
+  z-index 300
+  position relative
+  .Gallery-closeTarget
+    hidden()
+    position absolute
+    top 0
+    left 0
+    bottom 0
+    right 0
+  .Gallery-content
+    position relative
+    vertical-align middle
+    width 100%
+    max-width 800px
+    margin 0 auto
+    padding-left 15px
+    padding-right 15px
+    border-radius 7px
+    .Gallery-button-close
+      hidden()
+      z-index 301
+      position absolute
+      top 0
+      right 0
+      .fa
+        cursor pointer
+        width 40px
+        height 40px
+        margin -26px -14px 0 0
+        padding 7px 10px
+        color #fff
+        font-size 25px
+        border-radius 50%
+        background-color base_color
+  &.Gallery
+    overflow auto
+    overflow-x hidden
+    position fixed
+    top 0
+    left 0
+    bottom 0
+    right 0
+    background rgba(0, 0, 0, .8)
+    .Gallery-closeTarget
+      visible()
+    .Gallery-content
+      margin-top 85px
+      margin-bottom 20px
+      .Gallery-button-close
+        visible()
+
 /* = Animations
  * ------------------------------------------------------------ */
 
@@ -158,18 +212,18 @@ button-pink()
     hidden()
     opacity 0 !important
   1%
-    show()
+    visible()
     opacity 0 !important
   100%
-    show()
+    visible()
     opacity 1 !important
 
 @keyframes fadeOutFrame
   0%
-    show()
+    visible()
     opacity 1 !important
   99%
-    show()
+    visible()
     opacity 0 !important
   100%
     hidden()

@@ -35,12 +35,19 @@
         // 画像タイトル
         .page-subtitle // hgroup
           h2
-            margin 0
-            padding 20px 0
+          h3
             text-align center
             text-transform uppercase
+          h2 // 全幅,中央寄せ
+            margin 0
+            padding 20px 0
             .img-responsive // img
               margin 0 auto
+          h3 // 固定幅,左寄せ
+            margin 20px 0 60px
+            padding 0 0 10px
+            border-bottom 1px solid #ddd
+
           // 教授の顔
           .face
             height 180px
@@ -89,7 +96,7 @@
             margin-bottom 40px
             .member
               padding-bottom 4px
-              line-height 1.7
+              line-height 1.6
               text-align center
               h4
                 margin 48px 0 36px
@@ -97,8 +104,14 @@
                 text-align center
                 text-transform uppercase
                 letter-spacing .1em
+                .fa
+                span
+                  display block
+                  color lighten(base_color, 30%)
+                .fa
+                  font-size 2em
               span
-                font-size .9em
+                font-size .76em
 
         // 沿革
         .history-field
@@ -207,26 +220,51 @@
 
         // アクセス
         #map_canvas
-          height 350px
-          margin-top 20px
-          margin-bottom 40px
+          height 270px
+          margin-top 0
+          margin-bottom 20px
         .access
           margin 20px auto
-          p
-            font-size .9em
-            line-height 1.688
-            strong
-              display block
-              font-size 1.333em
-              padding-bottom 1px
-            i
-              padding-right 4px
           i.fa-map-marker
             font-size 3.7em
+          .room
+          .address
+            margin 0
+          .room
+            margin-bottom 8px
+            font-size 16px
+            line-height 1.588
+            strong
+              display block
+              padding-bottom 1px
+              font-size 1.333em
+              font-weight normal
+          .address
+            padding-bottom 30px
+            font-size 12px
+            line-height 1.588
+            i
+              padding-right 4px
+          .attention
+            color #BE1E1E
+            font-size 1.333em
+            line-height 1.688
 
 
       /* = コンタクトページ
        * ------------------------------------------------------------ */
+      &.item-contact
+        gallery()
+        .Gallery-content
+          .Gallery-media
+            .wpcf7
+              text-align left
+        &.Gallery
+          .Gallery-content
+            .Gallery-media
+              .wpcf7
+                margin auto
+
       .wpcf7
         width 100%
         max-width 800px

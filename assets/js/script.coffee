@@ -81,17 +81,17 @@ $ ->
         ($ '.ui-spinner').removeClass 'ui-spinner-active'
 
     progress: (active = no) ->
-      # margin = if media.sign_in then 27 else -4
-      # $progress = $ '.ui-progress'
-      # if active
-      #   $progress.addClass('ui-progress-active').stop().animate
-      #     top: 0 + margin
-      #   , ui.animationTime
-      # else
-      #   $progress.stop().animate
-      #     top: -1 * $progress.height() + margin
-      #   , ui.animationTime, ->
-      #     $progress.removeClass 'ui-progress-active'
+      margin = if media.sign_in then 27 else -4
+      $progress = $ '.ui-progress'
+      if active
+        $progress.addClass('ui-progress-active').stop().animate
+          top: 0 + margin
+        , ui.animationTime
+      else
+        $progress.stop().animate
+          top: -1 * $progress.height() + margin
+        , ui.animationTime, ->
+          $progress.removeClass 'ui-progress-active'
 
     scroll:
       swing: (scspeed = 700) ->
@@ -184,7 +184,7 @@ $ ->
         day: date.getDate()
         weekday: weekday_names[date.getDay()]
 
-    gmap: ($el, lat, lng, zoom=13, title='') ->
+    gmap: ($el, lat=35.3876811, lng=139.4265623, zoom=13, title='慶應義塾大学湘南藤沢キャンパス 大木研究室') ->
       zoom = 13 if zoom is 0
       latlng = new google.maps.LatLng lat, lng
       myOptions =
@@ -199,9 +199,6 @@ $ ->
         title: title
       marker = new google.maps.Marker markerOptions
 
-    gmap_sfc: ($el) ->
-      @gmap $el, 35.3876811, 139.4265623, 13, "慶應義塾大学湘南藤沢キャンパス 大木研究室"
-
     # staticMap: (lat, lng, size) ->
     #   base = 'http://maps.googleapis.com/maps/api/staticmap?'
     #   params =
@@ -214,6 +211,84 @@ $ ->
     #     return "#{encodeURIComponent key}=#{encodeURIComponent params[key]}"
     #   ).join '&'
     #   return url
+
+    # ===================================
+    # パンくずナビの生成
+    # ===================================
+
+    createBreadCrumbs: (q = {}, post = {}) ->
+      $breadcrumb = $ '.js-breadcrumbs'
+      $nav = ($ '<nav />')
+        .addClass('ui-breadcrumbs')
+        .attr 'xmlns:v', 'http://rdf.data-vocabulary.org/#'
+      # ホームのナビ
+      $nav.append(
+        ($ '<a />').attr(
+          'href': '/'
+          'rel': 'v:url'
+          'property', 'v:title'
+        ).text 'Home'
+      ).append(
+        ($ '<i />').addClass 'fa fa-angle-right'
+      )
+      # 以降のナビ
+      $arrow = ($ '<i />').addClass 'fa fa-angle-right'
+      if q.api is 'archive' # 投稿タイプのみ(Archive)
+        $nav.append(
+          ($ '<span />').html "#{q.post_type}s"
+        )
+      else if post.ctype is 'single' # 投稿タイプ + 単体記事(Single)
+        $nav.append(
+          ($ '<a />').attr('href', post.ptype).append(
+            ($ '<span />').html post.ptype
+          )
+        ).append($arrow).append(
+          ($ '<span />').addClass('current').html post.title_plain
+        )
+      else if post.ctype is 'page' # ページ
+        unless "#{post.post_type}" is 'home'
+          $nav.append(
+            ($ '<span />').html post.title_plain
+          )
+      # 生成した<nav />でパンくずを上書き更新
+      $breadcrumb.html $nav
+
+    # ===================================
+    # モバイル版におけるメニューの開閉トグル
+    # ===================================
+
+    toggleMobileMenu: (active = no) ->
+      $toggleTarget = $ '.ui-navi-menu'
+      if active
+        ui.toggleMobileSearch no
+        $toggleTarget.addClass 'visible'
+      else
+        $toggleTarget.removeClass 'visible'
+
+    toggleMobileSearch: (active = no) ->
+      $toggleTarget = $ '.ui-navi-search'
+      if active
+        ui.toggleMobileMenu no
+        $toggleTarget.addClass 'visible'
+      else
+        $toggleTarget.removeClass 'visible'
+
+  ($ '.js-toggle-menu').on
+    'click': (e) ->
+      $toggleTarget = $ '.ui-navi-menu'
+      if $toggleTarget.hasClass 'visible'
+        ui.toggleMobileMenu no
+      else
+        ui.toggleMobileMenu yes
+
+  ($ '.js-toggle-search').on
+    'click': (e) ->
+      $toggleTarget = $ '.ui-navi-search'
+      if $toggleTarget.hasClass 'visible'
+        ui.toggleMobileSearch no
+      else
+        ui.toggleMobileSearch yes
+
 
   # ===================================
   # LocalStorage
@@ -248,10 +323,6 @@ $ ->
 
     events: {}
 
-    # 最後に追加した投稿タイプ
-    ctype: null
-    ptype: null
-
     initialize: (@collection) ->
       @$el.html @template()
       @listenTo @collection, 'reset', @clear
@@ -265,14 +336,15 @@ $ ->
       (@$ '#contents').empty()
 
     append: (content) ->
-      @ctype = content.get('content_type') # archive, single, page etc.
-      @ptype = content.get('type') # photolog, report, index, about etc.
+      ctype = content.get 'ctype' # archive, single, page etc.
+      ptype = content.get 'ptype' # photolog, report, index, about etc.
+      console.log 'content:', content
 
       view = new ContentView(model: content).render()
       (@$ '#contents').append view.el
 
       # フェードインのアニメーション
-      if @ctype is 'single' and @ptype is 'photolog'
+      if "#{ctype}.#{ptype}" is 'single.photolog'
         (@$ '.post-right').transition
           opacity: 1
           y: '0px'
@@ -296,7 +368,6 @@ $ ->
 
     # ページ内のタイトルを変更する
     setTitle: (header_title = null, content_title = null) ->
-      console.log header_title, content_title
       # ヘッダ内のタイトル
       if header_title
         ($ 'title').html "#{header_title} | 大木聖子研究室"
@@ -327,12 +398,15 @@ $ ->
     template_: _.template ($ '#tmpl-content').html()
 
     events:
-      'click': 'navigateToSingle'
+      # 'click': 'navigateToSingle'
+      'click .js-navi-single': 'navigateToSingle'
       'click .meta-nav-prev': 'navigateToPrevious'
       'click .meta-nav-next': 'navigateToNext'
+      'click .Gallery-closeTarget': 'closeGallery'
+      'click .Gallery-button-close': 'closeGallery'
 
     initialize: (options) ->
-      @template = @["template_#{@model.get('content_type')}"]
+      @template = @["template_#{@model.get('ctype')}"]
       @$el.html @template @model.toJSON()
 
     render: ->
@@ -340,122 +414,145 @@ $ ->
       $self = @$el
 
       # console.log 'ContentView->render() @model:', @model
-      content_type = @model.get 'content_type' # single / archive
-      type = @model.get 'type' # photolog / report / project
+      ctype = @model.get 'ctype' # single / archive
+      ptype = @model.get 'ptype' # photolog / report / project
+      slug = @model.get 'slug' # home / about / contact / publications
 
       # カスタム投稿タイプ
-      @$el.addClass "item-#{content_type} item-#{type}"
+      @$el.addClass "item-#{ctype} item-#{ptype}"
+      @$el.addClass "item-#{slug}" if ctype is 'page'
+      @$el.addClass 'Gallery' if @model.get 'isGallery'
       # カスタム投稿フィールド
       acf = @model.get 'acf'
       # data属性
       @$el.attr 'data-id', @model.get('id')
-      @$el.attr 'data-href', @model.get('url')
       # 日付アイコン
       date = ui.parse_date @model.get('date')
       (@$ '.date-month').text date.month
       (@$ '.date-day').text date.day
       (@$ '.date-year').text date.year
 
-      if content_type is 'archive'
-        # フォトログ
-        if type is 'photolog'
-          @$el.addClass 'col-xs-6 col-sm-3'
-          # サムネイル
-          if acf.photo
-            (@$ '.post-preview').css
-              'background-image': "url('#{acf.photo.sizes.medium}')"
-            image = new Image()
-            image.onload = ->
-              $self.addClass 'loaded'
-            image.src = acf.photo.sizes.medium
-          # 抜粋文
-          if acf.body
-            (@$ '.excerpt').text acf.body.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
-
-        # 活動レポート
-        else if type is 'report'
-          @$el.addClass 'col-sm-8 col-sm-offset-4 col-xs-12'
-          # 抜粋文
-          if excerpt = @model.get('excerpt')
-            (@$ '.excerpt').text excerpt.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
-
-        # プロジェクト
-        else if type is 'project'
-          @$el.addClass 'loaded col-sm-4 col-xs-12'
-          # サムネイル
-          thumbnail = @model.get('thumbnail_images')
-          if thumbnail.medium
-            (@$ '.post-preview').css
-              'background-image': "url('#{thumbnail.medium.url}')"
-
-      else if content_type is 'single'
-        # タグ
-        tags = @model.get('tags')
-        for tag in tags
-          $tag = ($ '<div />').addClass('tag').text tag.title
-          (@$ '.ui-tags').append $tag
-
-        # フォトログ
-        if type is 'photolog'
-          @$el.addClass 'col-xs-12'
-          # サムネイル
-          if acf.photo
-            (@$ '.post-preview').css
-              'background-image': "url(\"#{acf.photo.url}\")"
-            image = new Image()
-            image.onload = ->
-              $self.addClass 'loaded'
-            image.src = acf.photo.url
-          # Google Maps
-          ui.gmap (@$ '.post-maps'), acf.position.lat, acf.position.lng, 12, ''
-          # アニメーション用のずれ
-          (@$ '.post-right').transition
-            opacity: 0
-            y: '-30px'
-            duration: 0
-          (@$ '.post-left').transition
-            opacity: 0
-            x: '90px'
-            duration: 0
-
-        # 活動レポート
-        else if type is 'report'
-          @$el.addClass 'loaded col-sm-8 col-sm-offset-4 col-xs-12'
-
-        # プロジェクト
-        else if type is 'project'
-          @$el.addClass 'loaded col-xs-12'
-          # サムネイル
-          if thumbnail = @model.get('thumbnail_images')
-            if thumbnail.large
+      switch ctype
+        when 'archive'
+          # フォトログ
+          if ptype is 'photolog'
+            @$el.addClass 'col-xs-6 col-sm-3'
+            # サムネイル
+            if acf.photo
               (@$ '.post-preview').css
-                'background-image': "url('#{thumbnail.large.url}')"
-            else if thumbnail.medium
-              (@$ '.post-preview').css
-                'background-image': "url('#{thumbnail.medium.url}')"
+                'background-image': "url('#{acf.photo.sizes.medium}')"
+              image = new Image()
+              image.onload = ->
+                $self.addClass 'loaded'
+              image.src = acf.photo.sizes.medium
+            # 抜粋文
+            if acf.body
+              (@$ '.excerpt').text acf.body.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
 
-        # Facebook コメント
-        (@$ '#fb-comments').attr 'href', @model.get('url')
-        (@$ '#fb-like').attr 'href', @model.get('url')
-        setTimeout ->
-          FB.XFBML.parse() if not (@$ 'fb-comments > span')[0] or not (@$ 'fb-like > span')[0]
-        , 400
-        # Twitter ボタン
-        (@$ '#tw-like').data 'url', @model.get('url')
-        (@$ '#tw-like').data 'text', "#{@model.get('url')}"
-        setTimeout ->
-          twttr.widgets.load() if typeof(twttr) isnt 'undefined'
-        , 400
-        # Google+ ボタン
-        setTimeout ->
-          gapi.plusone.go() if typeof(gapi) isnt 'undefined'
-        , 400
+          # 活動レポート
+          else if ptype is 'report'
+            @$el.addClass 'col-sm-8 col-sm-offset-4 col-xs-12'
+            # 抜粋文
+            if excerpt = @model.get 'excerpt'
+              (@$ '.excerpt').text excerpt.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
 
-      else if content_type is 'page'
-        # About
-        if slug = @model.get('slug') is 'about'
-          # メンバー一覧を描画
-          console.log acf = @model.get 'acf'
+          # プロジェクト
+          else if ptype is 'project'
+            @$el.addClass 'loaded col-sm-4 col-xs-12'
+            # サムネイル
+            thumbnail = @model.get 'thumbnail_images'
+            if thumbnail.medium
+              (@$ '.post-preview').css 'background-image': "url('#{thumbnail.medium.url}')"
+
+        when 'single'
+          # タグ
+          tags = @model.get 'tags'
+          for tag in tags
+            $tag = ($ '<div />').addClass('tag').text tag.title
+            (@$ '.ui-tags').append $tag
+
+          # フォトログ
+          if ptype is 'photolog'
+            @$el.addClass 'col-xs-12'
+            # サムネイル
+            if acf.photo
+              (@$ '.post-preview').css 'background-image': "url(\"#{acf.photo.url}\")"
+              image = new Image()
+              image.onload = ->
+                $self.addClass 'loaded'
+              image.src = acf.photo.url
+            # TODO Google Maps
+            # ui.gmap (@$ '.post-maps'), acf.position.lat, acf.position.lng, 12, ''
+            # アニメーション用のずれ
+            (@$ '.post-right').transition
+              opacity: 0
+              y: '-30px'
+              duration: 0
+            (@$ '.post-left').transition
+              opacity: 0
+              x: '90px'
+              duration: 0
+
+          # 活動レポート
+          else if ptype is 'report'
+            @$el.addClass 'loaded col-sm-8 col-sm-offset-4 col-xs-12'
+
+          # プロジェクト
+          else if ptype is 'project'
+            @$el.addClass 'loaded col-xs-12'
+            # サムネイル
+            if thumbnail = @model.get('thumbnail_images')
+              if thumbnail.large
+                (@$ '.post-preview').css 'background-image': "url('#{thumbnail.large.url}')"
+              else if thumbnail.medium
+                (@$ '.post-preview').css 'background-image': "url('#{thumbnail.medium.url}')"
+
+          # Facebook コメント
+          (@$ '#fb-comments').attr 'href', @model.get('url')
+          (@$ '#fb-like').attr 'href', @model.get('url')
+          setTimeout ->
+            FB.XFBML.parse() if not (@$ 'fb-comments > span')[0] or not (@$ 'fb-like > span')[0]
+          , 400
+          # Twitter ボタン
+          (@$ '#tw-like').data 'url', @model.get('url')
+          (@$ '#tw-like').data 'text', "#{@model.get('url')}"
+          setTimeout ->
+            twttr.widgets.load() if typeof(twttr) isnt 'undefined'
+          , 400
+          # Google+ ボタン
+          setTimeout ->
+            gapi.plusone.go() if typeof(gapi) isnt 'undefined'
+          , 400
+
+        when 'page'
+          acf = @model.get 'acf'
+          # About
+          if slug is 'about'
+            # メンバー一覧を描画
+            $members_html = (@$ '.members')
+            members = (acf.member_lists).split('<br />').map (member) -> # 行ごとに配列化
+              return member.replace /^\s+|\s+$/g, ''
+            members = $.grep members, (e) -> return e # 0/false/undifinedな要素を削除
+            for i, member of members
+              if member.charAt(0) is '#'
+                member = member.slice 1
+                current_class = 'member member-th col-sm-12 col-xs-12'
+                $members_html.append(
+                  ($ '<li />').addClass(current_class).append(
+                    ($ '<h4 />').append(
+                      ($ '<i />').addClass 'fa fa-graduation-cap'
+                    ).append(
+                      ($ '<span />').html member
+                    )
+                  )
+                )
+              else
+                current_class = 'member col-sm-2 col-xs-4'
+                $members_html.append(
+                  ($ '<li />').addClass(current_class).data('member-id', i).append(
+                    ($ '<span />').html member
+                  )
+                )
 
       # 抜粋文の短縮
       (@$ '.ellipsis').ellipsis()
@@ -472,10 +569,10 @@ $ ->
       $app.navigate '/', yes
 
     # in Archive
-    navigateToSingle: ->
-      if @model.get('content_type') is 'archive'
-        url = ui.parse_uri(@$el.data('href')).path
-        $app.navigate url, yes
+    navigateToSingle: (event) ->
+      event.preventDefault()
+      url = ui.parse_uri(@model.get 'url').path
+      $app.navigate url, yes
 
     # in Single
     navigateToPrevious: (event) ->
@@ -512,6 +609,9 @@ $ ->
       setTimeout ->
         $app.navigate url, yes
       , 800
+
+    closeGallery: (event) ->
+      window.history.back()
 
   # ===================================
   # Backbone::Application
@@ -556,7 +656,7 @@ $ ->
 
     # Page
     index: (text='') ->
-      console.log 'index', text
+      # console.log 'index', text
       q =
         api: 'page'
         post_type: 'home'
@@ -622,124 +722,156 @@ $ ->
 
     fetch: (query = {}, done = ->) ->
       unless @fetching
-        ## 読み込みの為の変数準備
+        ## fetchのための変数
         ## -------------------------------------
+
         # 引数からクエリをセット
-        media.query = {}
         media.query = query
-        # 次に読み込むページ数などを整理
-        console.log "Page: #{media.query.page}, Query: ", query
-        if media.query.page is null or media.query.page is undefined
-          # ページ数を指定して読み込んだ場合以外は, ページ数が未設定なので1にセット
-          # => ポストタイプが前回のfetchと異なる場合
-          if media.prequery.post_type isnt media.query.post_type
-            media.query.page = 1
-        # デバッグ出力
-        console.log "API(#{media.query.api}) リクエスト準備:", media
+
+        # 遷移常態を変数に待避
+        pre_ctype = media.prequery.api
+        pre_ptype = media.prequery.post_type
+        ctype = media.query.api
+        ptype = media.query.post_type
+
+        # 読み込むページ数をセット
+        if (not media.query.page) or (pre_ptype isnt ptype)
+          # ページ数を指定していない場合 or 投稿タイプが変わった場合
+          media.query.page = 1
+
+        page = media.query.page
+
+        console.log "#{pre_ctype}.#{pre_ptype} => #{ctype}.#{ptype}.#{page}"
 
         ## 読み込む前の画面を準備
         ## -------------------------------------
-        # ローディング状態にする
+
         @fetching = yes
         ui.progress on
-        ui.pageLoader on
 
-        # 2ページ目以降の読み込み or ポップアップ "以外"では上部にスクロール
-        unless (media.query.page > 1) or no # p2以降 or ポップアップ(今は常に非強制) を除く
+        # トップページの判定
+        $home_el = $ '.ui-header'
+        if "#{ctype}.#{ptype}" is 'page.home'
+          $home_el.addClass 'home'
+        else
+          $home_el.removeClass 'home'
+
+        # ギャラリーモードの判定
+        if ( pre_ctype and "#{pre_ctype}.#{pre_ptype}" isnt 'single.photolog' and "#{ctype}.#{ptype}" is 'single.photolog' ) or ( pre_ctype and "#{ctype}.#{ptype}" is 'page.contact' )
+          isGallery = yes
+          media.gallery = yes
+        else
+          isGallery = no
+          media.gallery = no
+
+        # スクロールモードの判定(p1かつ非ギャラリーモード時)
+        isScroll = media.query.page is 1 and (not isGallery)
+
+        console.log "isGallery: #{isGallery}, isScroll: #{isScroll}"
+
+        # 上部へのスクロールと、ローダーの表示
+        if isScroll
           ui.scroll.swing()
+          ui.pageLoader on
+
+        # デバッグ出力
+        console.log "API(#{media.query.api}) リクエスト準備:", media
 
         ## AJAXリクエストを実行
         ## -------------------------------------
         $.when($api[media.query.api] media.query)
           .done (data) =>
-            ## 読み込み後の変数を調整
+            ## 次回fetchの準備
             ## -------------------------------------
 
             # デバッグ出力
             console.log "API(#{media.query.api}) リクエスト結果:", data
 
-            # 実行したクエリをクローン
-            media.prequery = media.query
-
             # 次ページの有無を確認
-            media.next = no
-            media.next = yes if (data.pages - media.query.page) > 0
+            media.next = if (data.pages - media.query.page) > 0 then yes else no
 
-            ## 読み込み後の画面を準備
+            ## ショートカットの作成
             ## -------------------------------------
 
-            # ローディング状態を解除
             @fetching = no
             ui.progress off
             ui.pageLoader off
 
-            # TODO パンくずバーの更新
-            # ui.breadcrumbs hoge
+            ## 画面を新しいページにあわせて書き換え
+            ## -------------------------------------
 
             # メニューバーを更新
             media.containerView.updateMenubar()
 
-            # スタイルシートの切り替えと、アイテムのリセット制御
-            pre_ctype = media.containerView.ctype
-            pre_ptype = media.containerView.ptype
-            ctype = media.query.api
-            ptype = media.query.post_type
-            # console.log "#{pre_ctype}.#{pre_ptype} => #{ctype}.#{ptype}"
-
             # スタイルシートの切り替え
-            ($ '#contents')
-              .removeClass('archive single page')
-              .removeClass('project report photolog')
-              .removeClass('index about publications contact')
-              .addClass "#{ctype} #{ptype}"
+            # ($ '#contents')
+            #   .removeClass('archive single page')
+            #   .removeClass('project report photolog')
+            #   .removeClass('index about publications contact')
+            #   .addClass "#{ctype} #{ptype}"
 
-            # 取得した投稿アイテムをBackboneのモデルに追加
-            if media.query.api is 'archive'
-              # タイトルをセット
-              media.containerView.setTitle "#{media.query.post_type}s", "#{media.query.post_type}s"
-              # アイテムのリセット
-              if pre_ctype isnt 'archive' or                     # シングル => アーカイブ
-                (ctype is 'archive' and ptype isnt pre_ptype) # アーカイブ => その他のアーカイブ
-                  media.container.reset()
-              # コンテナの幅を通常に
+
+            # アイテムの初期化
+            media.container.reset() if isScroll
+
+            # コンテナを全幅にするか
+            if media.query.post_type is 'about'
+              ui.containerWide on
+            else
               ui.containerWide off
-              # アイテムの追加
-              for post in data.posts
+
+            # ページタイトル
+            switch ctype
+              when 'archive'
+                media.containerView.setTitle "#{ptype}s", "#{ptype}s"
+              when 'single'
+                media.containerView.setTitle data.post?.title_plain, "#{ptype}s"
+              when 'page'
+                media.containerView.setTitle data.page?.title_plain, null
+
+            # ギャラリーモード
+            if isGallery
+              $body.addClass 'gallery-enabled'
+            else
+              $body.removeClass 'gallery-enabled'
+
+            # デフォルトに変数を指定
+            defaults =
+              ctype: ctype
+              ptype: ptype
+              pre_ctype: pre_ctype
+              pre_ptype: pre_ptype
+              isGallery: isGallery
+              isScroll: isScroll
+
+            ## 1. パンくずナビ生成
+            ## 2. 取得した投稿アイテムをコレクションに追加
+            ## -------------------------------------
+
+            switch ctype
+              when 'archive'
+                ui.createBreadCrumbs media.query, null
+                for post in data.posts
+                  post = _.extend defaults, post
+                  media.container.add new Content post
+              when 'single'
+                post = _.extend defaults, data.post
+                ui.createBreadCrumbs media.query, post
                 post = _.extend post,
-                  content_type: 'archive'
+                  id: data.post.id + 10000
+                  next_url: data.next_url
+                  previous_url: data.previous_url
+                media.container.add new Content post
+              when 'page'
+                post = _.extend defaults, data.page
+                ui.createBreadCrumbs media.query, post
                 media.container.add new Content post
 
-            else if media.query.api is 'single'
-              # タイトルをセット
-              media.containerView.setTitle data.post?.title_plain?, "#{media.query.post_type}s"
-              , no
-              # アイテムのリセット
-              media.container.reset()
-              # コンテナの幅を通常に
-              ui.containerWide off
-              # アイテムの追加
-              post = _.extend data.post,
-                content_type: 'single'
-                next_url: data.next_url
-                previous_url: data.previous_url
-              media.container.add new Content post
+            ## アイテムの描画後に必要な処理
+            ## -------------------------------------
 
-            else if media.query.api is 'page' # 固定ページ
-              # タイトルをセット
-              media.containerView.setTitle data.page?.title_plain?, null
-              # アイテムのリセット
-              media.container.reset()
-              # コンテナの幅を調整
-              if media.query.post_type is 'about'
-                ui.containerWide on
-              else
-                ui.containerWide off
-              # アイテムの追加
-              post = _.extend data.page,
-                content_type: 'page'
-              media.container.add new Content post
-              # アイテム描画後に必要な処理
-              if media.query.post_type is 'about'
+            switch "#{ctype}.#{ptype}"
+              when 'page.about'
                 # 動きをセット
                 wow = new WOW
                   boxClass: 'animate'
@@ -750,6 +882,10 @@ $ ->
 
             ## イベントをreturn
             ## -------------------------------------
+
+            # 実行したクエリをバックアップ
+            media.prequery = media.query
+
             return done null, data
 
           .fail (err) =>
@@ -767,7 +903,6 @@ $ ->
           q.page++
           @fetch q
 
-
   media =
     container: new Container
     containerView: null
@@ -778,12 +913,16 @@ $ ->
       post_id: null
       search: no
       text: null
-    prequery: {}
+    prequery:
+      api: null
+      post_type: null
+      page: null
     next: null
     search:
       focusEnable: yes
     sign_in: $body.hasClass 'signed_in'
     scrolltop: null
+    gallery: no
 
 
   $app = new Application()
@@ -805,7 +944,7 @@ $ ->
     'click': (event) ->
       event.preventDefault()
       $target = $ event.currentTarget
-      console.log url = ui.parse_uri($target.attr 'href').path
+      url = ui.parse_uri($target.attr 'href').path
       $app.navigate url, yes
 
   # TODO パンくずナビ
@@ -927,7 +1066,7 @@ $ ->
   # ===================================
   # Footer Google Maps
   # ===================================
-  ui.gmap_sfc ($ '#map_canvas_footer')
+  ui.gmap ($ '#map_canvas_footer')
 
 
 # ===================================
