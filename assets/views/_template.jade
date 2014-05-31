@@ -1,11 +1,21 @@
 include _ui
 
+script#tmpl-gallery(type='text/template')
+  .GallerySingle
+
 script#tmpl-container(type='text/template')
   hgroup.page-title
     h1
   .container.js-container
     .row
       section#contents
+  //- .GridTimeline-footer.container
+  //-   .GridTimeline-footerIcon
+  //-     span.spinner
+  //-       i.fa.fa-spinner.fa-spin
+  //-       //- fa-circle-o-notch
+  //-     span.end.hidden
+  //-       i.fa.fa-cloud
 
 script#tmpl-content(type='text/template')
 
@@ -267,7 +277,7 @@ script#tmpl-static(type='text/template')
     p.text-field
       <%= content %>
   <% } else if (slug == 'about') { %>
-  section.post-section(style!="background-image:url(<?php echo (get_template_directory_uri().'/public/images/about/overview_professor_message_back_2x.jpg') ?>);")
+  section.post-section.js-scroll(style!="background-image:url(<?php echo (get_template_directory_uri().'/public/images/about/overview_professor_message_back_2x.jpg') ?>);")
     hgroup.page-subtitle
       h2
         img.img-responsive.animate.fadeInUp(
@@ -280,8 +290,7 @@ script#tmpl-static(type='text/template')
 
   section.post-section
     hgroup.page-subtitle
-      a(href='//raytheory.jp', target='_blank')
-        .face(style!="background-image: url('<%= acf.professor_face.url %>');")
+      .face(style!="background-image: url('<%= acf.professor_face.url %>');")
       h2
         img.img-responsive(
           class='img-responsive',
@@ -289,6 +298,11 @@ script#tmpl-static(type='text/template')
           width=980, height=75,
           alt='大木 聖子（おおき さとこ）'
         )
+    .socials
+      a(href='http://raytheory.jp', target='_blank'): i.fa.fa-globe
+      a(href='https://twitter.com/toko311', target='_blank'): i.fa.fa-twitter
+      a(href='http://youtu.be/cAF8gcdMvGM', target='_blank'): i.fa.fa-youtube-play
+      //- a(href='mailto:soki@sfc.keio.ac.jp', target='_blank'): i.fa.fa-envelope
     p.text-field
       <%= acf.about_the_professor %>
 
@@ -335,9 +349,22 @@ script#tmpl-static(type='text/template')
     //-           datetime.date 2014年04月
     //-           h3.title 改称
     //-           p.description 研究室の名称を『防災デザイン研究室』と改めました。
+
     //- メンバー一覧
     .text-field-custom
       .face(style!="background-image: url('<%= acf.member_face.url %>');")
+      #slider-holder
+        #use-years(tabindex='3', title='select a year')
+          .slider(aria-controls='graph-canvas')
+            .min-label(aria-hidden='true', title='2013/Spr') 2013/Spr
+            .tray
+              .bar
+              .handle-holder(style="left: 0px;" title="2013/Spr")
+                .hit-area
+                .handle
+                .handle-label-holder
+                  .handle-label-text 2013/Spr
+            .max-label(aria-hidden='true', title='2014/Spr') 2014/Spr
       ul.members.row
 
   section.post-section(

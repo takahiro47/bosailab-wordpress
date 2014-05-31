@@ -184,6 +184,12 @@ $ ->
         day: date.getDate()
         weekday: weekday_names[date.getDay()]
 
+    parse_pixel: (pixel) ->
+      num = String(pixel).replace 'px', ''
+      num = parseInt ~~(parseFloat num)
+      if not num or num is 0 then num = 1
+      return num
+
     gmap: ($el, lat=35.3876811, lng=139.4265623, zoom=13, title='慶應義塾大学湘南藤沢キャンパス 大木研究室') ->
       zoom = 13 if zoom is 0
       latlng = new google.maps.LatLng lat, lng
@@ -227,12 +233,14 @@ $ ->
           'href': '/'
           'rel': 'v:url'
           'property', 'v:title'
-        ).text 'Home'
+        ).append(
+          ($ '<i />').addClass 'fa fa-home home'
+        )
       ).append(
-        ($ '<i />').addClass 'fa fa-angle-right'
+        ($ '<i />').addClass 'fa fa-angle-right arrow'
       )
       # 以降のナビ
-      $arrow = ($ '<i />').addClass 'fa fa-angle-right'
+      $arrow = ($ '<i />').addClass 'fa fa-angle-right arrow'
       if q.api is 'archive' # 投稿タイプのみ(Archive)
         $nav.append(
           ($ '<span />').html "#{q.post_type}s"
@@ -308,7 +316,64 @@ $ ->
 
 
   # ===================================
-  # Backbone::Contents
+  # Backbone::Gallery
+  # ===================================
+
+  class Gallery extends Backbone.Collection
+
+    model: GallerySingle
+
+  class GalleryView extends Backbone.View
+
+    el: $ '#gellery'
+
+    template: _.template ($ '#tmpl-gallery').html()
+
+    events: {}
+
+    initialize: (@collection) ->
+      @$el.html @template()
+      @listenTo @collection, 'reset', @clear
+      @listenTo @collection, 'add', @append
+      @render()
+
+    render: ->
+      return @
+
+    clear: ->
+      (@$ '#gallery').empty()
+
+    append: (content) ->
+      view = new GalleryView(model: content).render()
+      (@$ '#gallery').append view.el
+
+  # ===================================
+  # Backbone::GallerySingle
+  # ===================================
+
+  class GallerySingle extends Backbone.Model
+
+    defaults: {}
+
+    initialize: ->
+
+  class GallerySingleView extends Backbone.View
+
+    className: 'content-item'
+
+    template: _.template ($ '#tmpl-gallery').html()
+
+    events: {}
+
+    initialize: (options) ->
+      @$el.html @template @model.toJSON()
+
+    render: ->
+      return @
+
+
+  # ===================================
+  # Backbone::Container
   # ===================================
 
   class Container extends Backbone.Collection
@@ -336,15 +401,13 @@ $ ->
       (@$ '#contents').empty()
 
     append: (content) ->
-      ctype = content.get 'ctype' # archive, single, page etc.
-      ptype = content.get 'ptype' # photolog, report, index, about etc.
       console.log 'content:', content
 
       view = new ContentView(model: content).render()
       (@$ '#contents').append view.el
 
       # フェードインのアニメーション
-      if "#{ctype}.#{ptype}" is 'single.photolog'
+      if "#{content.get 'ctype'}.#{content.get 'ptype'}" is 'single.photolog'
         (@$ '.post-right').transition
           opacity: 1
           y: '0px'
@@ -356,8 +419,6 @@ $ ->
           x: '0px'
           duration: 600
           easing: 'ease'
-
-      # @setTitle content.get('title')
 
     updateMenubar: ->
       $menubar0 = $ ".menu-item a[href='/#{media.query.post_type}']"
@@ -381,6 +442,10 @@ $ ->
         (@$ '.page-title > h1').html ''
         (@$ '.page-title').css 'height': '0'
 
+
+  # ===================================
+  # Backbone::Content
+  # ===================================
 
   class Content extends Backbone.Model
 
@@ -416,7 +481,7 @@ $ ->
       # console.log 'ContentView->render() @model:', @model
       ctype = @model.get 'ctype' # single / archive
       ptype = @model.get 'ptype' # photolog / report / project
-      slug = @model.get 'slug' # home / about / contact / publications
+      slug  = @model.get 'slug'  # home / about / contact / publications
 
       # カスタム投稿タイプ
       @$el.addClass "item-#{ctype} item-#{ptype}"
@@ -528,31 +593,78 @@ $ ->
           acf = @model.get 'acf'
           # About
           if slug is 'about'
+            # 背景スクロール対象の設定
+            media.scrollel = @$ '.js-scroll'
             # メンバー一覧を描画
-            $members_html = (@$ '.members')
+            $members_html = @$ '.members'
             members = (acf.member_lists).split('<br />').map (member) -> # 行ごとに配列化
               return member.replace /^\s+|\s+$/g, ''
             members = $.grep members, (e) -> return e # 0/false/undifinedな要素を削除
-            for i, member of members
-              if member.charAt(0) is '#'
-                member = member.slice 1
-                current_class = 'member member-th col-sm-12 col-xs-12'
-                $members_html.append(
-                  ($ '<li />').addClass(current_class).append(
-                    ($ '<h4 />').append(
-                      ($ '<i />').addClass 'fa fa-graduation-cap'
+            season = '2000S'
+            for index, member of members
+              if member.indexOf('〜') > -1
+                season = member.slice(0, -1).replace('S', '.0').replace('A', '.5')
+              else
+                if member.charAt(0) is '#'
+                  member = member.slice 1
+                  current_class = "member member-th col-sm-12 col-xs-12"
+                  $members_html.append(
+                    ($ '<li />').addClass(current_class).append(
+                      ($ '<h4 />').append(
+                        ($ '<i />').addClass 'fa fa-graduation-cap'
+                      ).append(
+                        ($ '<span />').html member
+                      )
+                    )
+                  )
+                else
+                  current_class = "member member-td col-sm-2 col-xs-4"
+                  current_class = current_class + " first" if season is '2013.0'
+                  $members_html.append(
+                    ($ '<li />').addClass(current_class).attr(
+                      'data-member-id': index
+                      'data-since': season
                     ).append(
                       ($ '<span />').html member
                     )
                   )
-                )
+            # メンバー年表
+            td = new Date()
+            month = if m = (td.getMonth()+1) < 4 then -0.5 else if m < 10 then 0 else 0.5
+            season_min = 2013.0
+            season_max = parseFloat(td.getFullYear()) + month
+            $handle = @$ '.handle-holder'
+            $handle_label = @$ '.handle-label-text'
+            $members = @$ '.member-td'
+            previous_season = null
+
+            drag_event = ->
+              percentage = ui.parse_pixel($handle.css 'left') / 378
+              season = ( ~~(( season_max - season_min ) * percentage * 2) ) / 2 + season_min
+              season_label = '2000/Spr'
+              if season.toString().indexOf('.5') > -1
+                season_label = season.toString().replace '.5', '/Aut'
               else
-                current_class = 'member col-sm-2 col-xs-4'
-                $members_html.append(
-                  ($ '<li />').addClass(current_class).data('member-id', i).append(
-                    ($ '<span />').html member
-                  )
-                )
+                season_label = "#{season}/Spr"
+              # ラベル
+              $handle_label.text season_label
+              # メンバー
+              if season isnt previous_season
+                $members.each ->
+                  if parseFloat(($ @).data('since')) <= season
+                    ($ @).addClass 'visible'
+                  else
+                    ($ @).removeClass 'visible'
+              # 変更を監視
+              previous_season = season
+
+            $handle.draggable
+              addClasses: no
+              snap: no
+              axis: 'x'
+              containment: '.bar'
+              drag: ->
+                drag_event()
 
       # 抜粋文の短縮
       (@$ '.ellipsis').ellipsis()
@@ -652,6 +764,7 @@ $ ->
       Backbone.history.start pushState: on
       $ =>
         media.containerView = new ContainerView media.container
+        media.galleryView = new GalleryView media.gallery
         @$title = $ 'title'
 
     # Page
@@ -759,10 +872,10 @@ $ ->
         # ギャラリーモードの判定
         if ( pre_ctype and "#{pre_ctype}.#{pre_ptype}" isnt 'single.photolog' and "#{ctype}.#{ptype}" is 'single.photolog' ) or ( pre_ctype and "#{ctype}.#{ptype}" is 'page.contact' )
           isGallery = yes
-          media.gallery = yes
+          media.galleryMode = yes
         else
           isGallery = no
-          media.gallery = no
+          media.galleryMode = no
 
         # スクロールモードの判定(p1かつ非ギャラリーモード時)
         isScroll = media.query.page is 1 and (not isGallery)
@@ -861,7 +974,10 @@ $ ->
                   id: data.post.id + 10000
                   next_url: data.next_url
                   previous_url: data.previous_url
-                media.container.add new Content post
+                if pre_ctype and ptype is 'photolog'
+                  media.gallery.add new GallerySingle post
+                else
+                  media.container.add new Content post
               when 'page'
                 post = _.extend defaults, data.page
                 ui.createBreadCrumbs media.query, post
@@ -905,7 +1021,9 @@ $ ->
 
   media =
     container: new Container
+    gallery: new Gallery
     containerView: null
+    galleryView: null
     query:
       api: 'default'
       post_type: null
@@ -922,7 +1040,8 @@ $ ->
       focusEnable: yes
     sign_in: $body.hasClass 'signed_in'
     scrolltop: null
-    gallery: no
+    scrollel: null
+    galleryMode: no
 
 
   $app = new Application()
@@ -954,15 +1073,23 @@ $ ->
   # Actions
   # ===================================
 
-  $win.on 'resize scroll', (e) ->
+  $win.on 'resize scroll', _.throttle (event) ->
+    winheight     = $win.height()
+    docheight     = $doc.height()
+    scrollheight  = $doc.scrollTop()
+
     # loadNext
-    winheight = $win.height()
-    docheight = $doc.height()
     if docheight < window.scrollY + winheight + 600
       $app.loadNext()
 
+    # 背景をスクロール
+    if media.scrollel
+      percent = 100 - (scrollheight / winheight * 100)
+      # if 0 <= percent and percent <= 100
+      media.scrollel.css 'background-position-y', "#{percent}%"
+
     # スクロールアイコンの表示／非表示
-    if $doc.scrollTop() > 50
+    if 50 < scrollheight
       return if media.scrolltop
       $body.addClass 'scroll'
       media.scrolltop = yes
@@ -971,6 +1098,9 @@ $ ->
       $body.removeClass 'scroll'
       media.scrolltop = no
 
+  , 20 # 12ミリ秒に1回しか実行できないように
+
+
   $doc.on 'click', '.ui-scrollto', ->
     ui.scroll.fast()
 
@@ -978,7 +1108,7 @@ $ ->
   # Key Actions
   # ===================================
 
-  $doc.on 'keydown', (event) ->
+  $doc.on 'keydown', _.debounce (event) ->
     # console.log "#{String.fromCharCode event.keyCode}(#{event.keyCode}) has pushed"
     switch event.keyCode
       when 83 # s, 検索窓をアンフォーカス
@@ -995,14 +1125,16 @@ $ ->
       when 76 # l
         # ui.liketo()
         return
+  , 240 # 最後に実行されてから240ミリ秒以内にもう一度実行されたらabort、実行されなければexec
 
-  $doc.on 'keyup', (event) ->
+  $doc.on 'keyup', _.debounce (event) ->
     switch event.keyCode
       when 83 # s, 検索窓をフォーカス
         # if media.search.focusEnable and ($ ':focus').attr('id') isnt 's'
         #   ($ '#s').focus()
         # media.search.focusEnable = yes
         return
+  , 240 # 最後に実行されてから240ミリ秒以内にもう一度実行されたらabort、実行されなければexec
 
   # ===================================
   # 検索窓

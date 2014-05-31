@@ -91,6 +91,7 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
                         .col-xs-2.hidden-sm.hidden-md.hidden-lg
                           .mobile-navi-menu.js-toggle-menu
                             i.fa.fa-bars
+                            //- | Menu
                         //- タイトル
                         .col-xs-8.col-sm-12.ui-navi-logo-col
                           hgroup.ui-navi-logo
@@ -141,8 +142,10 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
                 p.message
                   | Loading.<br />
                   | Please wait.
+            #gallery
             #container
               //- block article
+
 
       footer.ui-footer
         block footer
@@ -174,8 +177,6 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
                   ul.links
                     li.link: a(href!="http://www.keio.ac.jp")
                       span 慶應義塾大学
-                    li.link: a(href!="http://www.keio.ac.jp")
-                      span 慶應義塾大学ＳＦＣ
 
               .footer-access.col-sm-3.hidden-xs
                 hgroup.footer-title
@@ -280,6 +281,7 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
 
       //- Libraries
       script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1-beta1/jquery.min.js')
+      script(src='//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js')
       //- script(src='//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js')
       script(src='//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js')
       script(src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js')

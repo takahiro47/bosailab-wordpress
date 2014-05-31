@@ -3,6 +3,7 @@
 /* 全体コンテナ
  * ----------------------------------------------------- */
 body
+  padding-top 54px
   &.gallery-enabled
     position relative
     overflow hidden
@@ -80,6 +81,12 @@ header.ui-header
 
   // ナビメニュー
   .ui-navi-container
+    z-index 100
+    position fixed
+    top 0
+    left @top
+    right @top
+    border-bottom 1px solid rgba(0, 0, 0, .15)
     navi-background base_color
     nav.ui-navi
       navi-background base_color
@@ -239,28 +246,9 @@ header.ui-header
   // パンくずリスト
   .ui-breadcrumbs-container
     background-color sub_color
-    nav.ui-breadcrumbs
-      text-transform uppercase
-
-      & > *
-      a
-        color #5D5A53
-      & > *
-        display block
-        float left
-        margin 0
-        font-size 12px
-        line-height 38px
-        text-shadow 0px 1px 0 #fff
-      a
-        transition color .15s ease
-        &:hover
-          color #ac0404
-      i.fa
-        font-size 14px
-        line-height 36px
-        padding 0 15px 2px
-        color #D2CFC9
+    border-bottom 1px solid #e1e8ed
+    .js-breadcrumbs
+      z-index 1
 
   // トップページ
   &.home // .ui-header
@@ -272,6 +260,12 @@ header.ui-header
       @media (max-width: 768px)
         background-color rgba(240, 240, 240, .45)
     .ui-navi-container
+      z-index 1
+      position relative
+      top auto
+      left @top
+      right @top
+      border-bottom none
       background-color transparent
       @media (max-width: 768px)
         background-color base_color
@@ -323,6 +317,32 @@ header.ui-header
       &.container-fluid
         padding-left 0
         padding-right 0
+        .row
+          margin 0
+
+    .GridTimeline-footer
+      position relative
+      margin-top 20px
+      text-align center
+      &:before
+        content ''
+        z-index -1
+        position absolute
+        left 0
+        right 0
+        top 45%
+        width 100%
+        height 1px
+        background #e1e8ed
+      .GridTimeline-footerIcon
+        display inline-block
+        padding 0 15px
+        color #ccd6dd
+        background-color #fff // #f5f8fa
+        .fa
+          font-size 27px
+          line-height 1
+
 
 #contents
   clearfix()

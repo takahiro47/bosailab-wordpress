@@ -19,6 +19,8 @@
         &:nth-child(even)
           background-color lighten(sub_color, 0%)
         &:nth-child(odd)
+          background-color #fff
+        &:first-child
           background-color transparent
 
         // 画像背景
@@ -52,7 +54,7 @@
           .face
             height 180px
             width @height
-            margin 20px auto 0
+            margin -140px auto 0
             background-color #fff
             background-size cover
             background-position 50% 25%
@@ -64,11 +66,113 @@
               position relative
               transform translateY(-0.5em)
 
+        // ソーシャルアイコン
+        .socials
+          padding-bottom 10px
+          text-align center
+          a
+            padding 0 8px
+            font-size 32px
+            i
+              transition all .25s ease
+              &.fa-globe
+              &.fa-home
+                color #E76860
+              &.fa-twitter
+                color #7A9EA2
+              &.fa-youtube-play
+                color #64615A //#C51514
+              &.fa-envelope
+                color #64615A
+              &:hover
+                // opacity .72
+                scale(1.2)
+
+        // 年表
+        #slider-holder
+          position relative
+          max-width 560px
+          margin 60px auto 40px
+          font-size 14px
+          font-weight 300
+          @media screen and (max-width: 640px)
+            margin-top 80px
+          & > div
+            outline none
+          .tray
+            cursor pointer
+            display inline-block
+            position relative
+            top 0
+            left 0
+            width 70%
+            height 20px
+            margin 0 20px
+            vertical-align top
+            @media screen and (max-width: 640px)
+              margin 0 6.5%
+            .bar
+              position absolute
+              top 50%
+              left 0
+              width 100%
+              height 1px
+              background-color #888
+            .handle-holder
+              position absolute !important
+              top 50%
+              left 0
+              .handle
+                cursor pointer
+                position relative
+                width 27px
+                height 27px
+                margin-left -13px
+                margin-top -13px
+                background-color #fff
+                background-image url('http://images.apple.com/v/30-years/c/images/datavis/scrub-handle-light.png')
+                background-size 25px 25px
+                background-repeat no-repeat
+                background-position 1px 1px
+                box-shadow 0 0 0 3px #fff
+                border-radius 30px
+              .hit-area
+                position absolute
+                width 50px
+                height 50px
+                top -25px
+                left -25px
+              .handle-label-holder
+                position absolute
+                top -40px
+                box-sizing content-box
+                @media (max-device-width: 568px)
+                  top -30px
+                .handle-label-text
+                  position relative
+                  left -50%
+                  color #000
+                  font-size 1.3em
+                  line-height 1.2em
+                  @media screen and (max-width: 640px)
+                    font-size 1.8em
+          .min-label
+          .max-label
+            display inline-block
+            height 100%
+            vertical-align top
+            cursor pointer
+            color #000
+            line-height 20px
+            @media screen and (max-width: 640px)
+              font-size 1.5em
+
         // テキスト共通
         p.text-field
         .text-field-custom
         .history-field
           margin 20px auto
+          padding 0 15px
           width 100%
           max-width 860px
           color #333
@@ -98,8 +202,14 @@
               padding-bottom 4px
               line-height 1.6
               text-align center
+              &.member-td
+                opacity .2
+                transition opacity .4s ease
+                &.default
+                &.visible
+                  opacity 1
               h4
-                margin 48px 0 36px
+                margin 24px 0 36px
                 font-weight bold
                 text-align center
                 text-transform uppercase
@@ -107,9 +217,12 @@
                 .fa
                 span
                   display block
+                  padding-top 3px
                   color lighten(base_color, 30%)
+                  font-size 1.2em
+                  font-weight 300
                 .fa
-                  font-size 2em
+                  font-size 2.5em
               span
                 font-size .76em
 
@@ -250,6 +363,10 @@
             font-size 1.333em
             line-height 1.688
 
+      &.item-about
+        .post-section
+          &:first-child
+            padding-bottom 100px
 
       /* = コンタクトページ
        * ------------------------------------------------------------ */

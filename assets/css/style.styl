@@ -81,6 +81,7 @@ http://www.squarespace.com/tour/shops
 http://etchapps.com/
 
 http://fltdsgn.com/
+http://www.sfc.keio.ac.jp/campuslife/scholarship.html
 
 */
 /* = Fonts
@@ -125,6 +126,8 @@ body
   // background-image url(path + 'page-bg-tile.jpg')
   // background-repeat repeat
   background-color body_background
+  // background-image url(path + 'about/overview_professor_message_back_2x.jpg')
+  // background-size cover
 
 h1
 h2
@@ -196,17 +199,22 @@ dev_width = 1980px * 1.1
 @import 'ui-single'
 @import 'ui-page'
 
+margin_sign_in = 32px
+margin_sign_in_narrow = 44px
 
 body
   &.signed_in
-    padding-top 32px
+    padding-top 54px + margin_sign_in
     @media screen and (max-width: 782px)
-      padding-top 44px
+      padding-top 54px + margin_sign_in_narrow
 
     .ui-header // header
       .ui-navi-container
+        top margin_sign_in
+        @media screen and (max-width: 782px)
+          top margin_sign_in_narrow
         nav.ui-navi
           @media (min-width: 1680px)
             .ui-navi-logo
             .ui-navi-search
-              top 32px
+              top margin_sign_in
