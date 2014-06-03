@@ -218,6 +218,31 @@ $ ->
     #   ).join '&'
     #   return url
 
+    # in  : 2014-04-21 21:18:12
+    getRelativeTime: (entryDate='2000-01-01 00:00:00') ->
+      currentDate = new Date()
+      time = entryDate.match /^([0-9]+)-([0-9]+)-([0-9]+) ([0-9]+):([0-9]+):([0-9]+)$/
+      entryDate = new Date(time[1], time[2] - 1, time[3], time[4], time[5], time[6])
+      elapsedTime = (currentDate.getTime() - entryDate.getTime()) / 1000
+      elapsedTime = Math.ceil(elapsedTime) # 小数点以下切り上げ
+      message = null
+      if elapsedTime < 60 #  1 分未満
+        message = "たった今"
+      else if elapsedTime < 120 #  2 分未満
+        message = "約 1分前"
+      else if elapsedTime < (60 * 60) #  1 時間未満
+        message = "約" + Math.floor(elapsedTime / 60) + "分前"
+      else if elapsedTime < (120 * 60) #  2 時間未満
+        message = "約 1時間前"
+      else if elapsedTime < (24 * 60 * 60) #  1 日未満
+        message = "約" + Math.floor(elapsedTime / 3600) + "時間前"
+      else if elapsedTime < (7 * 24 * 60 * 60) # 1 週間未満
+        message = "約" + Math.floor(elapsedTime / 86400) + "日前"
+      else # 1 週間以上
+        message = "約" + Math.floor(elapsedTime / 604800) + "週間前"
+      return message
+
+
     # ===================================
     # パンくずナビの生成
     # ===================================
@@ -247,7 +272,7 @@ $ ->
         )
       else if post.ctype is 'single' # 投稿タイプ + 単体記事(Single)
         $nav.append(
-          ($ '<a />').attr('href', post.ptype).append(
+          ($ '<a />').attr('href', "/#{post.ptype}").append(
             ($ '<span />').html post.ptype
           )
         ).append($arrow).append(
@@ -277,6 +302,7 @@ $ ->
       $toggleTarget = $ '.ui-navi-search'
       if active
         ui.toggleMobileMenu no
+        ($ '#s').focus()
         $toggleTarget.addClass 'visible'
       else
         $toggleTarget.removeClass 'visible'
@@ -316,20 +342,94 @@ $ ->
 
 
   # ===================================
-  # Backbone::Gallery
+  # Backbone::ContactBox
   # ===================================
 
-  class Gallery extends Backbone.Collection
+  class ContactBox extends Backbone.Collection
 
-    model: GallerySingle
+    model: Contact
 
-  class GalleryView extends Backbone.View
+  class ContactBoxView extends Backbone.View
 
-    el: $ '#gellery'
+    el: $ '#contactBox'
 
-    template: _.template ($ '#tmpl-gallery').html()
+    template: _.template ($ '#tmpl-contactbox').html()
+
+    events:
+      'click .gallery-layer__close': 'close'
+      'click .gallery-layer__close-target--large': 'close'
+      'click .gallery-layer__close-target--small': 'close'
+      'click .gallery-content__info__close': 'close'
+
+    initialize: (@collection) ->
+      @$el.html @template()
+      @listenTo @collection, 'reset', @clear
+      @listenTo @collection, 'add', @append
+      @render()
+
+    render: ->
+      (@$ '.gallery-layer__content').addClass 'gallery-layer__content--contact'
+      return @
+
+    clear: ->
+      (@$ '.gallery-layer__media').empty()
+
+    append: (content) ->
+      @open()
+      view = new ContactView(model: content).render()
+      (@$ '.gallery-layer__media').append view.el
+
+    open: ->
+      (@$ '.gallery-layer').addClass 'active'
+      $body.addClass 'gallery-enabled'
+
+    close: ->
+      # ギャラリービューを非表示
+      (@$ '.gallery-layer').removeClass 'active'
+      $body.removeClass 'gallery-enabled'
+      media.contactMode = off
+      # ギャラリーをリセット
+      @collection.reset() # @clear()
+      # 画面遷移
+      window.history.back()
+
+  class Contact extends Backbone.Model
+
+    initialize: ->
+
+  class ContactView extends Backbone.View
+
+    class: 'gallery-content'
+
+    template: _.template ($ '#tmpl-contact').html()
 
     events: {}
+
+    initialize: (options) ->
+      @$el.html @template @model.toJSON()
+
+    render: ->
+      return @
+
+  # ===================================
+  # Backbone::GalleryBox
+  # ===================================
+
+  class GalleryBox extends Backbone.Collection
+
+    model: Gallery
+
+  class GalleryBoxView extends Backbone.View
+
+    el: $ '#galleryBox'
+
+    template: _.template ($ '#tmpl-gallerybox').html()
+
+    events:
+      'click .gallery-layer__close': 'close'
+      'click .gallery-layer__close-target--large': 'close'
+      'click .gallery-layer__close-target--small': 'close'
+      'click .gallery-content__info__close': 'close'
 
     initialize: (@collection) ->
       @$el.html @template()
@@ -341,35 +441,115 @@ $ ->
       return @
 
     clear: ->
-      (@$ '#gallery').empty()
+      (@$ '.gallery-layer__media').empty()
 
     append: (content) ->
+      @open()
       view = new GalleryView(model: content).render()
-      (@$ '#gallery').append view.el
+      (@$ '.gallery-layer__media').append view.el
+
+    open: ->
+      (@$ '.gallery-layer').addClass 'active'
+      $body.addClass 'gallery-enabled'
+
+    close: ->
+      # ギャラリービューを非表示
+      (@$ '.gallery-layer').removeClass 'active'
+      $body.removeClass 'gallery-enabled'
+      media.galleryMode = off
+      # ギャラリーをリセット
+      @collection.reset() # @clear()
+      # 画面遷移
+      $app.navigate '/photolog/', no
+      # フォトログアーカイブの状態に戻す
+      media.next = yes
+      media.query.api = 'archive'
 
   # ===================================
-  # Backbone::GallerySingle
+  # Backbone::Gallery
   # ===================================
 
-  class GallerySingle extends Backbone.Model
-
-    defaults: {}
+  class Gallery extends Backbone.Model
 
     initialize: ->
 
-  class GallerySingleView extends Backbone.View
+  class GalleryView extends Backbone.View
 
-    className: 'content-item'
+    class: 'gallery-content loaded'
 
     template: _.template ($ '#tmpl-gallery').html()
 
-    events: {}
+    events:
+      'click .gallery-navigation--prev': 'navigateToNext'
+      'click .gallery-navigation--next': 'navigateToPrevious'
 
     initialize: (options) ->
       @$el.html @template @model.toJSON()
 
     render: ->
+      self = @
+      $self = @$el
+
+      # 高さを指定
+      @$el.css 'height', '540px'
+
+      # カスタム投稿フィールド
+      acf = @model.get 'acf'
+      # data属性
+      @$el.attr 'data-id', @model.get('id')
+      # 日付アイコン
+      date = ui.parse_date @model.get('date')
+      (@$ '.date-month').text date.month
+      (@$ '.date-day').text date.day
+      (@$ '.date-year').text date.year
+      # 相対時刻
+      relative_time = ui.getRelativeTime(@model.get 'date')
+      (@$ '.gallery-content__relative-time').text relative_time
+
+      # フォト
+      if acf.photo
+        (@$ '.post-preview').css 'background-image': "url(\"#{acf.photo.url}\")"
+        image = new Image()
+        image.onload = ->
+          $self.addClass 'loaded'
+        image.src = acf.photo.url
+      # タグ
+      tags = @model.get 'tags'
+      for tag in tags
+        $tag = ($ '<div />').addClass('tag').text tag.title
+        (@$ '.ui-tags').append $tag
+      # 抜粋文
+      if acf.body
+        (@$ '.excerpt').text acf.body.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
+
+      # Facebook コメント
+      (@$ '#fb-comments').attr 'href', @model.get('url')
+      (@$ '#fb-like').attr 'href', @model.get('url')
+      setTimeout ->
+        FB.XFBML.parse() if not (@$ 'fb-comments > span')[0] or not (@$ 'fb-like > span')[0]
+      , 400
+      # Twitter ボタン
+      (@$ '#tw-like').data 'url', @model.get('url')
+      (@$ '#tw-like').data 'text', "#{@model.get('url')}"
+      setTimeout ->
+        twttr.widgets.load() if typeof(twttr) isnt 'undefined'
+      , 400
+      # Google+ ボタン
+      setTimeout ->
+        gapi.plusone.go() if typeof(gapi) isnt 'undefined'
+      , 400
+
       return @
+
+    navigateToPrevious: (event) ->
+      event.preventDefault()
+      url = ui.parse_uri(@model.get 'previous_url').path
+      $app.navigate url, yes
+
+    navigateToNext: (event) ->
+      event.preventDefault()
+      url = ui.parse_uri(@model.get 'next_url').path
+      $app.navigate url, yes
 
 
   # ===================================
@@ -399,12 +579,18 @@ $ ->
 
     clear: ->
       (@$ '#contents').empty()
+      if media.masonryMode
+        (@$ '#contents').masonry 'destroy'
+        media.masonryMode = off
 
     append: (content) ->
-      console.log 'content:', content
+      # console.log 'content:', content
 
       view = new ContentView(model: content).render()
-      (@$ '#contents').append view.el
+      if media.masonryMode
+        (@$ '#contents').append(view.el).masonry 'appended', view.el
+      else
+        (@$ '#contents').append view.el
 
       # フェードインのアニメーション
       if "#{content.get 'ctype'}.#{content.get 'ptype'}" is 'single.photolog'
@@ -419,6 +605,13 @@ $ ->
           x: '0px'
           duration: 600
           easing: 'ease'
+
+    initMasonry: ->
+      ($ '#contents').masonry
+        itemSelector: '.item-photolog'
+        columnWidth: 234
+        isFitWidth: on
+      media.masonryMode = on
 
     updateMenubar: ->
       $menubar0 = $ ".menu-item a[href='/#{media.query.post_type}']"
@@ -463,12 +656,9 @@ $ ->
     template_: _.template ($ '#tmpl-content').html()
 
     events:
-      # 'click': 'navigateToSingle'
       'click .js-navi-single': 'navigateToSingle'
       'click .meta-nav-prev': 'navigateToPrevious'
       'click .meta-nav-next': 'navigateToNext'
-      'click .Gallery-closeTarget': 'closeGallery'
-      'click .Gallery-button-close': 'closeGallery'
 
     initialize: (options) ->
       @template = @["template_#{@model.get('ctype')}"]
@@ -486,7 +676,6 @@ $ ->
       # カスタム投稿タイプ
       @$el.addClass "item-#{ctype} item-#{ptype}"
       @$el.addClass "item-#{slug}" if ctype is 'page'
-      @$el.addClass 'Gallery' if @model.get 'isGallery'
       # カスタム投稿フィールド
       acf = @model.get 'acf'
       # data属性
@@ -501,11 +690,10 @@ $ ->
         when 'archive'
           # フォトログ
           if ptype is 'photolog'
-            @$el.addClass 'col-xs-6 col-sm-3'
+            # @$el.addClass 'col-xs-6 col-sm-3'
             # サムネイル
             if acf.photo
-              (@$ '.post-preview').css
-                'background-image': "url('#{acf.photo.sizes.medium}')"
+              (@$ '.post-preview').css 'background-image': "url('#{acf.photo.sizes.medium}')"
               image = new Image()
               image.onload = ->
                 $self.addClass 'loaded'
@@ -590,7 +778,6 @@ $ ->
           , 400
 
         when 'page'
-          acf = @model.get 'acf'
           # About
           if slug is 'about'
             # 背景スクロール対象の設定
@@ -671,20 +858,19 @@ $ ->
 
       return @
 
-    onLoad: -> # 画像の読み込みが完了した時に発火
-      @$el.addClass 'loaded'
-      # setTimeout ->
-      #   (@$ '.tmp').remove()
-      # , 4000
-
     backToIndex: ->
       $app.navigate '/', yes
 
     # in Archive
     navigateToSingle: (event) ->
+      console.log 'navigateToSingle', @model.get('ptype')
       event.preventDefault()
       url = ui.parse_uri(@model.get 'url').path
-      $app.navigate url, yes
+      if @model.get('ptype') is 'photolog'
+        media.galleryMode = on
+        $app.navigate url, yes
+      else
+        $app.navigate url, yes
 
     # in Single
     navigateToPrevious: (event) ->
@@ -721,9 +907,6 @@ $ ->
       setTimeout ->
         $app.navigate url, yes
       , 800
-
-    closeGallery: (event) ->
-      window.history.back()
 
   # ===================================
   # Backbone::Application
@@ -764,7 +947,8 @@ $ ->
       Backbone.history.start pushState: on
       $ =>
         media.containerView = new ContainerView media.container
-        media.galleryView = new GalleryView media.gallery
+        media.galleryBoxView = new GalleryBoxView media.galleryBox
+        media.contactBoxView = new ContactBoxView media.contactBox
         @$title = $ 'title'
 
     # Page
@@ -854,13 +1038,13 @@ $ ->
 
         page = media.query.page
 
-        console.log "#{pre_ctype}.#{pre_ptype} => #{ctype}.#{ptype}.#{page}"
+        console.log "#{pre_ctype}.#{pre_ptype} ==> #{ctype}.#{ptype}.P#{page}"
 
         ## 読み込む前の画面を準備
         ## -------------------------------------
 
         @fetching = yes
-        ui.progress on
+        # ui.progress on
 
         # トップページの判定
         $home_el = $ '.ui-header'
@@ -869,25 +1053,21 @@ $ ->
         else
           $home_el.removeClass 'home'
 
-        # ギャラリーモードの判定
-        if ( pre_ctype and "#{pre_ctype}.#{pre_ptype}" isnt 'single.photolog' and "#{ctype}.#{ptype}" is 'single.photolog' ) or ( pre_ctype and "#{ctype}.#{ptype}" is 'page.contact' )
-          isGallery = yes
-          media.galleryMode = yes
-        else
-          isGallery = no
-          media.galleryMode = no
+        # お問い合わせモードの判定
+        if pre_ctype and "#{ctype}.#{ptype}" is 'page.contact'
+          media.contactMode = on
 
-        # スクロールモードの判定(p1かつ非ギャラリーモード時)
-        isScroll = media.query.page is 1 and (not isGallery)
-
-        console.log "isGallery: #{isGallery}, isScroll: #{isScroll}"
-
-        # 上部へのスクロールと、ローダーの表示
-        if isScroll
+        # 上部へスクロールをするかの判定(P1 and notギャラリー)
+        do_scroll = media.query.page is 1 and not media.contactMode and not media.galleryMode
+        if do_scroll
           ui.scroll.swing()
-          ui.pageLoader on
+          ui.pageLoader on # ローダーの表示
 
         # デバッグ出力
+        console.log """
+          galleryMode: #{media.galleryMode}
+          contactMode: #{media.contactMode}
+          do_scroll  : #{do_scroll}"""
         console.log "API(#{media.query.api}) リクエスト準備:", media
 
         ## AJAXリクエストを実行
@@ -913,25 +1093,19 @@ $ ->
             ## 画面を新しいページにあわせて書き換え
             ## -------------------------------------
 
+            ## モバイル版メニューバーを閉じる
+            ($ '.ui-navi-menu').removeClass 'visible'
+            ($ '.ui-navi-search').removeClass 'visible'
+
             # メニューバーを更新
             media.containerView.updateMenubar()
 
-            # スタイルシートの切り替え
-            # ($ '#contents')
-            #   .removeClass('archive single page')
-            #   .removeClass('project report photolog')
-            #   .removeClass('index about publications contact')
-            #   .addClass "#{ctype} #{ptype}"
-
-
             # アイテムの初期化
-            media.container.reset() if isScroll
+            if media.query.page is 1 and not media.contactMode and not media.galleryMode
+              media.container.reset()
 
             # コンテナを全幅にするか
-            if media.query.post_type is 'about'
-              ui.containerWide on
-            else
-              ui.containerWide off
+            ui.containerWide (media.query.post_type is 'about')
 
             # ページタイトル
             switch ctype
@@ -942,20 +1116,12 @@ $ ->
               when 'page'
                 media.containerView.setTitle data.page?.title_plain, null
 
-            # ギャラリーモード
-            if isGallery
-              $body.addClass 'gallery-enabled'
-            else
-              $body.removeClass 'gallery-enabled'
-
             # デフォルトに変数を指定
             defaults =
               ctype: ctype
               ptype: ptype
               pre_ctype: pre_ctype
               pre_ptype: pre_ptype
-              isGallery: isGallery
-              isScroll: isScroll
 
             ## 1. パンくずナビ生成
             ## 2. 取得した投稿アイテムをコレクションに追加
@@ -963,10 +1129,15 @@ $ ->
 
             switch ctype
               when 'archive'
+                media.galleryBoxView.close()
                 ui.createBreadCrumbs media.query, null
+                # Masonry
+                media.containerView.initMasonry() if ptype is 'photolog'
+                # Add
                 for post in data.posts
                   post = _.extend defaults, post
                   media.container.add new Content post
+
               when 'single'
                 post = _.extend defaults, data.post
                 ui.createBreadCrumbs media.query, post
@@ -974,14 +1145,22 @@ $ ->
                   id: data.post.id + 10000
                   next_url: data.next_url
                   previous_url: data.previous_url
-                if pre_ctype and ptype is 'photolog'
-                  media.gallery.add new GallerySingle post
+                # Add
+                if media.galleryMode
+                  media.galleryBox.reset()
+                  media.galleryBox.add new Gallery post
                 else
                   media.container.add new Content post
+
               when 'page'
                 post = _.extend defaults, data.page
                 ui.createBreadCrumbs media.query, post
-                media.container.add new Content post
+                # Add
+                if media.contactMode
+                  media.contactBox.reset()
+                  media.contactBox.add new Contact post
+                else
+                  media.container.add new Content post
 
             ## アイテムの描画後に必要な処理
             ## -------------------------------------
@@ -1021,9 +1200,14 @@ $ ->
 
   media =
     container: new Container
-    gallery: new Gallery
+    galleryBox: new GalleryBox
+    contactBox: new ContactBox
     containerView: null
-    galleryView: null
+    galleryBoxView: null
+    contactBoxView: null
+    masonryMode: off
+    galleryMode: off
+    contactMode: off
     query:
       api: 'default'
       post_type: null
@@ -1041,7 +1225,6 @@ $ ->
     sign_in: $body.hasClass 'signed_in'
     scrolltop: null
     scrollel: null
-    galleryMode: no
 
 
   $app = new Application()
@@ -1067,7 +1250,12 @@ $ ->
       $app.navigate url, yes
 
   # TODO パンくずナビ
-
+  ($ '.js-breadcrumbs a').on
+    'click': (event) ->
+      event.preventDefault()
+      $target = $ event.currentTarget
+      url = ui.parse_uri($target.attr 'href').path
+      $app.navigate url, yes
 
   # ===================================
   # Actions

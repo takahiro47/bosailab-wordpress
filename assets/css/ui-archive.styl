@@ -150,37 +150,42 @@
           hoge 0
 
       // フォトログ一覧
+      photolog_margin = 4px
       &.item-photolog
+        width 234px
         height 160px
         @media screen and (max-width: 480px)
           height 160px
         @media screen and (min-width: 768px)
           height 180px // sm
         @media screen and (min-width: 992px)
-          height 235px // md
+          height 194px // md
         @media screen and (min-width: 1200px)
-          height 285px // lg
+          height 234px // lg
+        // &:nth-child(9n-7)
+        //   width 234px * 2
+        //   height 234px * 2
         // コンテンツ
         .post-header
           .ui-calendar
+            hidden()
             z-index 10
             position absolute
             top 9px
             right 9px
-            transition opacity .15s ease
+            transition opacity .25s ease
             .date-icon
               .date-year
                 hidden()
         .post-article
           z-index 3
           position absolute
-          bottom 0
+          bottom photolog_margin
           left @bottom
           right @bottom
           margin 0
           padding 9px
-          // padding-left 18px
-          // background-color rgba(0, 0, 0, .28)
+          // border-radius 0 0 3px 3px
           background-color transparent
           background-image linear-gradient(
             top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .6) 100%
@@ -194,6 +199,7 @@
               font-size 15px
               font-weight bold
           .excerpt
+            hidden() // tmp
             margin 0
             overflow hidden
             color #FFF
@@ -202,10 +208,18 @@
             text-overflow ellipsis
             white-space nowrap
             text-shadow 0 0 3px rgba(0, 0, 0, 0.75)
-        &.fade
-          opacity 1
-          &:hover
-            .post-header
-              .ui-calendar
-                opacity 1
-
+        .ui-load-event
+          .post-preview
+          .post-background
+            // border-radius 3px
+            top photolog_margin
+            left @top
+            right @top
+            bottom @top
+          .post-preview
+            box-shadow 0 1px 1px 0 rgba(0, 0, 0, .18)
+        &:hover
+          .ui-load-event
+            .post-preview
+            .post-background
+              opacity .7

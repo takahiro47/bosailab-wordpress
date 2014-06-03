@@ -3,6 +3,7 @@
 
 /* = .ui-progress
  * ----------------------------------------------------- */
+
 .ui-progress
   z-index 499
   position fixed
@@ -229,7 +230,7 @@ date_width = 120px * 0.35
   time
     hidden()
   .date-icon
-    z-index 200
+    z-index 90
     position relative
     width date_width
     height date_width
@@ -240,7 +241,6 @@ date_width = 120px * 0.35
     .date-month
     .date-day
     .date-year
-      z-index 201
       position absolute
       left 0
       right 0
@@ -297,3 +297,280 @@ date_width = 120px * 0.35
     &.arrow
       padding-left 15px
       padding-right 15px
+
+
+/* = #GalleryBox
+ * ----------------------------------------------------- */
+
+gallery_info_width = 360px
+
+// #galleryBox
+// #contactBox
+.gallery-layer
+  hidden()
+  opacity 0
+  z-index 500
+  position fixed
+  top 0
+  bottom 0
+  right 0
+  left 0
+  padding 32px
+  outline none
+  overflow auto
+  background-color rgba(1, 1, 1, .845)
+  transition opacity .25s ease
+  &.active
+    visible()
+    opacity 1
+  .gallery-layer__vertical-center
+    display table
+    height 100%
+    width 100%
+    .gallery-layer__vertical-center__cell
+      display table-cell
+      vertical-align middle
+      .gallery-layer__content-wrap
+        padding 8px 32px
+        translate3d(0, 0, 0)
+        .gallery-layer__content
+          max-width 1080px
+          margin 0 auto
+          background-color #fdfdfd
+          background-clip padding-box
+          border-radius 4px
+          box-shadow 0 1px 5px rgba(0, 0, 0, .1)
+          &.gallery-layer__content--contact
+            max-width 720px
+          .gallery-layer__close-target--small
+            position absolute
+            top 0
+            left @top
+            right @top
+            bottom @top
+          .gallery-layer__media
+            clearfix()
+            position relative
+            overflow hidden
+            width 100%
+            height auto
+            background-color sub_color
+            // border-radius 4px
+            box-shadow 0 0 0 1px rgba(0, 0, 0, .2), 0 1px 12px rgba(0, 0, 0, .4)
+  .gallery-layer__close
+    display block
+    position fixed
+    top 0
+    right 16px
+    color #fff
+    font-size 30px
+    font-weight 700
+    font-style normal
+    cursor pointer
+  .gallery-layer__close-target--large
+    position fixed
+    top 0
+    right 0
+    left 0
+    bottom 0
+
+.gallery-layer__media
+  .gallery-content__info-wrap
+    position relative
+    float right
+    height 100%
+    width gallery_info_width
+    border-left 1px solid #ddd
+    .gallery-content__info
+      padding 20px
+      .gallery-content__info__header
+        clearfix()
+        .ui-calendar
+          float left
+          width 42px
+          height @width
+          .date-icon
+            z-index 510
+            .date-month
+            .date-day
+            .date-year
+              z-index 511
+        .gallery-content__title
+          margin 4px 0 4px 55px
+          font-size 17px
+          font-weight bold
+          word-wrap break-word
+          a
+            color font_color
+        .gallery-content__relative-time-wrap
+          margin 4px 0 4px 55px
+          .gallery-content__relative-time
+            color #aaa
+            font-weight bold
+        .gallery-content__tags
+          margin 0 0 10px 55px
+        .gallery-content__edit
+          hidden()
+      .gallery-content__info__article
+        hoge 0
+      .gallery-content__info__footer
+        position absolute
+        bottom 15px
+        left @bottom
+        right @bottom
+        min-height 160px
+        .social
+          height 95px
+          padding 15px
+          text-align center
+          &:nth-child(1)
+          &:nth-child(2)
+            padding-top 5px
+          &:nth-child(3)
+          &:nth-child(4)
+            padding-bottom 5px
+          &:nth-child(1)
+            box-shadow inset -1px 0 0 #fff
+          &:nth-child(3)
+            box-shadow inset -1px 1px 0 #fff
+          &:nth-child(4)
+            box-shadow inset 0 1px 0 0 #fff
+      .gallery-content__info__close
+        cursor pointer
+        position absolute
+        top 4px
+        right 10px
+        color #D3D3D3
+        font-size 24px
+        font-weight bold
+        line-height 24px
+        text-align center
+  .gallery-content__picture-wrap
+    position relative
+    margin-right gallery_info_width
+    height 100%
+    .gallery-content__picture
+      height 100%
+      .ui-load-event
+        clearfix()
+        .post-preview
+          top 0
+          right @top
+          min-height 240px
+          background-size contain
+          background-position 50% 50%
+          background-repeat no-repeat
+        .post-background
+          background-color #1B1B1B // #888
+          box-shadow none
+      .gallery-navigations
+        .gallery-navigation
+          z-index 300
+          opacity 0
+          position absolute
+          top 50%
+          margin-top -(39px + 20px)
+          padding 20px
+          color #fff
+          font-size 75px
+          line-height 75px
+          text-shadow 0 0 3px rgba(0, 0, 0, .75)
+          &:hover
+            opacity .9 !important
+          &.gallery-navigation--next
+            right 0
+            padding-left 100px
+          &.gallery-navigation--prev
+            left 0
+            padding-right 100px
+      &:hover
+      .gallery-navigations
+        .gallery-navigation
+          opacity .2
+
+.contact-content-wrap
+  .contact-content
+    .wpcf7
+      width 100%
+      max-width 800px
+      margin 0 auto
+      padding 20px 25px 5px
+      background sub_color
+      form.wpcf7-form
+        & > hgroup
+          margin-bottom 40px
+          text-align center
+          h2
+          p
+            color base_color
+            font-weight bold
+          h2
+            margin-top 30px
+            font-size 36px
+            // text-transform uppercase
+          p
+            margin 30px 0
+            font-size 15px
+        & > p
+          margin 0 40px 20px
+          font-size 14px
+          font-weight bold
+          span.wpcf7-form-control-wrap
+            span.wpcf7-not-valid-tip
+              padding 2px 0 0
+              color #C0392B
+            input
+            textarea
+              display block
+              width 100%
+              height 34px
+              padding 6px 12px
+              font-size 14px
+              line-height 1.42857143
+              color #555
+              background-color #FFF
+              background-image none
+              border none
+              border-radius 2px
+              box-shadow inset 0 1px 1px rgba(0, 0, 0, .07)
+              transition border-color ease-in-out .15s, box-shadow ease-in-out .15s
+            textarea
+              height 200px
+              max-height 200px
+              min-height 200px
+              resize none
+          input.wpcf7-submit
+            user-select()
+            cursor pointer
+            vertical-align middle
+            padding 10px 40px
+            margin 0
+            color #FFF
+            font-size 17px
+            line-height 1.1em
+            font-weight normal
+            text-align center
+            white-space normal
+            background-color base_color
+            border none
+            border-radius 2px
+            transition border .25s linear, color .25s linear, background-color .25s linear
+        .wpcf7-response-output
+          display block
+          margin 30px 40px
+          padding 10px
+          color #fff
+          font-size 13px
+          font-weight bold
+          text-align center
+          border none
+          border-radius 2px
+          background-color transparent
+          &.wpcf7-mail-sent-ok
+            background-color #2980B9
+          &.wpcf7-mail-sent-ng
+            background-color #C0392B
+          &.wpcf7-spam-blocked
+            background-color #C0392B
+          &.wpcf7-validation-errors
+            background-color #C0392B

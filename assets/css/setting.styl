@@ -113,6 +113,11 @@ navi-background(color)
   //   top, lighten(color, 10%) 0%, color 50%, darken(color, 10%) 100%
   // )
 
+zoom-in()
+  cursor pointer
+  cursor -webkit-zoom-in
+  cursor zoom-in
+
 button-pink()
   width 100%
   margin 10px 0
@@ -128,58 +133,6 @@ button-pink()
   &:active
     background-color lighten(#E76860, 14%)
     box-shadow inset 0px 2px 0 #C65953
-
-gallery()
-  z-index 300
-  position relative
-  .Gallery-closeTarget
-    hidden()
-    position absolute
-    top 0
-    left 0
-    bottom 0
-    right 0
-  .Gallery-content
-    position relative
-    vertical-align middle
-    width 100%
-    max-width 800px
-    margin 0 auto
-    padding-left 15px
-    padding-right 15px
-    border-radius 7px
-    .Gallery-button-close
-      hidden()
-      z-index 301
-      position absolute
-      top 0
-      right 0
-      .fa
-        cursor pointer
-        width 40px
-        height 40px
-        margin -26px -14px 0 0
-        padding 7px 10px
-        color #fff
-        font-size 25px
-        border-radius 50%
-        background-color base_color
-  &.Gallery
-    overflow auto
-    overflow-x hidden
-    position fixed
-    top 0
-    left 0
-    bottom 0
-    right 0
-    background rgba(0, 0, 0, .8)
-    .Gallery-closeTarget
-      visible()
-    .Gallery-content
-      margin-top 85px
-      margin-bottom 20px
-      .Gallery-button-close
-        visible()
 
 /* = Animations
  * ------------------------------------------------------------ */
