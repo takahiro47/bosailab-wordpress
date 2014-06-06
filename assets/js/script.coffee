@@ -1151,7 +1151,7 @@ $ ->
 
         page = media.query.page
 
-        console.log "#{pre_ctype}.#{pre_ptype} ==> #{ctype}.#{ptype}.P#{page}"
+        # console.log "#{pre_ctype}.#{pre_ptype} ==> #{ctype}.#{ptype}.P#{page}"
 
         ## 読み込む前の画面を準備
         ## -------------------------------------
@@ -1177,11 +1177,11 @@ $ ->
           ui.pageLoader on # ローダーの表示
 
         # デバッグ出力
-        console.log """
-          galleryMode: #{media.galleryMode}
-          contactMode: #{media.contactMode}
-          do_scroll  : #{do_scroll}"""
-        console.log "API(#{media.query.api}) リクエスト準備:", media
+        # console.log """
+        #   galleryMode: #{media.galleryMode}
+        #   contactMode: #{media.contactMode}
+        #   do_scroll  : #{do_scroll}"""
+        # console.log "API(#{media.query.api}) リクエスト準備:", media
 
         ## AJAXリクエストを実行
         ## -------------------------------------
@@ -1191,7 +1191,7 @@ $ ->
             ## -------------------------------------
 
             # デバッグ出力
-            console.log "API(#{media.query.api}) リクエスト結果:", data
+            # console.log "API(#{media.query.api}) リクエスト結果:", data
 
             # 次ページの有無を確認
             media.next = if (data.pages - media.query.page) > 0 then yes else no
