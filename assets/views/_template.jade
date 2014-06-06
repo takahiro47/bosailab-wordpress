@@ -16,6 +16,7 @@ script#tmpl-contactbox(type='text/template')
 script#tmpl-contact(type='text/template')
   .contact-content-wrap
     .contact-content
+      i.contact-content__close ×
       <?php echo do_shortcode('[contact-form-7 id="4" title="お問い合わせフォーム"]'); ?>
 
 script#tmpl-gallerybox(type='text/template')
@@ -31,6 +32,17 @@ script#tmpl-gallerybox(type='text/template')
     i.gallery-layer__close ×
 
 script#tmpl-gallery(type='text/template')
+  .gallery-content__picture-wrap
+    .gallery-content__picture
+      +ui-load-event
+      nav.gallery-navigations(role='navigation')
+        <% if (previous_url) { %>
+        a(rel='prev', href!="<%- previous_url %>")
+          span.gallery-navigation.gallery-navigation--next: i.fa.fa-angle-right
+        <% } if (next_url) { %>
+        a(rel='next', href!="<%- next_url %>")
+          span.gallery-navigation.gallery-navigation--prev: i.fa.fa-angle-left
+        <% } %>
   .gallery-content__info-wrap
     .gallery-content__info
       header.gallery-content__info__header
@@ -60,35 +72,34 @@ script#tmpl-gallery(type='text/template')
         .gallery-content__body
           .excerpt.ellipsis.multiline <%= acf.body %>
       footer.gallery-content__info__footer.container-fluid
-        .row
-          .social.facebook.col-xs-6
+        .gallery-content__info__social-wrap.row
+          .gallery-content__info__social.facebook.col-xs-6
             fb:like#fb-like(href='', width='218', layout='box_count' action='like', show_faces='true', share='false')
-          .social.twitter.col-xs-6
+          .gallery-content__info__social.twitter.col-xs-6
             a#tw-like.twitter-share-button(href='https://twitter.com/share' data-lang='ja', data-hashtags='bosailab', data-dnt='true', data-count='vertical')
-          .social.googleplus.col-xs-6
+          .gallery-content__info__social.googleplus.col-xs-6
             .g-plusone(data-size='tall')
-          .social.pocket.col-xs-6
+          .gallery-content__info__social.pocket.col-xs-6
             a#pk-like.pocket-btn(data-pocket-label='pocket', data-pocket-count='vertical',  data-pocket-align='center', data-lang='ja')
       .gallery-content__info__close ×
 
-  .gallery-content__picture-wrap
-    .gallery-content__picture
-      +ui-load-event
-      nav.gallery-navigations(role='navigation')
-        <% if (previous_url) { %>
-        a(rel='prev', href!="<%- previous_url %>")
-          span.gallery-navigation.gallery-navigation--next: i.fa.fa-angle-right
-        <% } if (next_url) { %>
-        a(rel='next', href!="<%- next_url %>")
-          span.gallery-navigation.gallery-navigation--prev: i.fa.fa-angle-left
-        <% } %>
-
 script#tmpl-container(type='text/template')
-  hgroup.page-title
-    h1
-  .container.js-container
-    .row
-      section#contents
+  //- hgroup.page-title
+  //-   h1
+  //-.container.js-container
+  .main-layer
+    .gallery-layer__vertical-center
+      .gallery-layer__vertical-center__cell
+        .gallery-layer__content-wrap
+          .gallery-layer__content
+            .gallery-layer__media#contents--gallery
+    .page-layer__vertical-center
+      .page-layer__vertical-center__cell
+        .page-layer__content-wrap
+          .page-layer__content
+            .page-layer__media#contents--page
+    //- .row
+    //-   section#contents
   //- .GridTimeline-footer.container
   //-   .GridTimeline-footerIcon
   //-     span.spinner
@@ -101,197 +112,195 @@ script#tmpl-content(type='text/template')
 
 script#tmpl-archive(type='text/template')
   <% if (type == 'photolog') { %>
-  .js-navi-single
-    .post-header
-      .ui-calendar
-        time <%- date || "1999/12/31 23:59:59" %>
-        .date-icon
-          .date-month
-          .date-day
-          .date-year
-    .post-article
-      h3.title
-        a(href!='<%- url %>')
-          span <%- title %>
-      p.excerpt.ellipsis.multiline
-    +ui-load-event
-  <% } else if (type == 'report') { %>
-  .post-header
-    .ui-calendar.js-navi-single
-      time <%- date || "1999/12/31 23:59:59" %>
-      .date-icon
-        .date-month
-        .date-day
-        .date-year
-  .post-article
-    h3.title
-      a.js-navi-single(href!='<%- url %>')
-        span <%- title %>
-    p.excerpt.ellipsis
-  <% } else if (type == 'project') { %>
-  .post-header.js-navi-single
-    //- サムネイル
-    +ui-load-event
-  .post-article
-    h3.title.ellipsis
-      a.js-navi-single(href!='<%- url %>')
-        span <%- title %>
-  .post-footer
-  <% } %>
+  .page-layer__media--photolog__cell
+    .archive-media--photolog-wrap
+      .archive-media--photolog
+        .archive-media--background
+        .archive-media--photograph-wrap
+          a.js-navi-single(href!='<%- url %>')
+            .archive-media--photograph
+            .archive-media--photograph-shadow
+            +ui-loader
+        header.archive-media--photolog__header
+          .archive-media--photolog__date
+        article.archive-media--photolog__article
+          h3.archive-media--photolog-title
+            a.js-navi-single(href!='<%- url %>') <%- title %>
+        footer.archive-media--photolog__footer
+          .archive-media--photolog__views
+            i.fa.fa-heart
+            <%- custom_fields.pvc_views[0] %>
 
-script#tmpl-single(type='text/template')
-  //- post-item
-  <% if (type == 'photolog') { %>
-  .post-popup.row
-    .post-left.col-xs-12.col-sm-9
-      .post-photo
-        +ui-load-event
-        .post-navi
-          nav.post-navigation(role='navigation')
-            <% if (next_url) { %>
-            a(rel='next', href!="<%- next_url %>")
-              span.meta-nav.meta-nav-next: i.fa.fa-angle-right
-            <% } if (previous_url) { %>
-            a(rel='prev', href!="<%- previous_url %>")
-              span.meta-nav.meta-nav-prev: i.fa.fa-angle-left
-            <% } %>
-    .post-right.col-xs-12.col-sm-3
-      .post-content
-        header.post-header
-          //- カレンダーアイコン
+  <% } else if (type == 'report') { %>
+  .page-layer__media--report__cell
+    .archive-media--report-wrap
+      .archive-media--report
+        .archive-media--photograph-wrap
+          a.js-navi-single(href!='<%- url %>')
+            .archive-media--photograph
+            .archive-media--photograph-shadow
+            +ui-loader
+        header.archive-media--report__header
           .ui-calendar
             time <%- date || "1999/12/31 23:59:59" %>
             .date-icon
               .date-month
               .date-day
               .date-year
-          //- タイトル
-          h1.post-title <%- title %>
-          //- メタタグ
-          .post-meta
-            //- 編集アイコン(ログイン時のみ)
-              .post-edit
-                p.ui-edit-link
-                  a.post-edit-link(href='')
-                    i.fa.fa-pencil
-            //- タグ
-            .ui-tags
-              p
-                span Tags
-              //- .tag <name>
-        article.post-article
-          //- 本文
-          .post-body
-            .excerpt.ellipsis.multiline
-              <%= acf.body %>
-        footer.post-footer.row
-          .social.facebook.col-xs-6
-            fb:like#fb-like(href='', width='218', layout='box_count' action='like', show_faces='true', share='false')
-          .social.twitter.col-xs-6
-            a#tw-like.twitter-share-button(href='https://twitter.com/share' data-lang='ja', data-hashtags='bosailab', data-dnt='true', data-count='vertical')
-          .social.googleplus.col-xs-6
-            .g-plusone(data-size='tall')
-          .social.pocket.col-xs-6
-            a#pk-like.pocket-btn(data-pocket-label='pocket', data-pocket-count='vertical',  data-pocket-align='center', data-lang='ja')
-
-  //- .post-comments.row
-  //-   .post-left.col-xs-12.col-sm-9
-  //-     .post-slider
-  //-       //- TODO: フォトログの下に、横に並んだリスト型のナビを表示したい
-  //-       //- http://bigakusei.campus-web.jp/binan-bijo/9004/ みたいな
-  //-     .post-detail
-  //-       h2 Detail
-  //-       .post-body
-  //-         <%= acf.body %>
-  //-     .post-comment
-  //-       fb:comments(id='fb-comments', href='', numposts='8', colorscheme='light', mobile='false')
-
-  //-   .post-right.col-xs-12.col-sm-3
-  //-     .post-data
-  //-       //- 撮影日時とか
-  //-     .post-maps(style='height:200px; width:100%; margin:15px 0;')
-  //-       //- ここにGoogleマップ
-  //-       //- http://www.lifehacker.jp/2013/12/131209google_maps_responsive.html
-  <% } else if (type == 'report') { %>
-  header.post-header
-    //- カレンダーアイコン
-    .ui-calendar
-      time <%- date || "1999/12/31 23:59:59" %>
-      .date-icon
-        .date-month
-        .date-day
-        .date-year
-    //- .ui-calendar-background
-    //- タイトル
-    h1.post-title <%- title %>
-    //- メタ
-    .post-meta
-      //- カスタム投稿フィールド
-      p.responsibility
-        | 文責：
-        strong <%- acf.responsibility %>
-      p.members
-        | 参加者：
-        strong <%- acf.members %>
-  article.post-article
-    .post-body
-        <%= content %>
-
-  footer.post-footer
-    .post-social.row
-      .social.facebook.col-xs-6.col-sm-3
-        fb:like#fb-like(href='', width='218', layout='box_count' action='like', show_faces='true', share='false')
-      .social.twitter.col-xs-6.col-sm-3
-        a#tw-like.twitter-share-button(href='https://twitter.com/share' data-lang='ja', data-hashtags='bosailab', data-dnt='true', data-count='vertical')
-      .social.googleplus.col-xs-6.col-sm-3
-        .g-plusone(data-size='tall')
-      .social.pocket.col-xs-6.col-sm-3
-        a#pk-like.pocket-btn(data-pocket-label='pocket', data-pocket-count='vertical',  data-pocket-align='center', data-lang='ja')
-
-    .post-navi
-      nav.post-recommends.row(role='navigation')
-        .col-xs-2.post-recommend
-        .col-xs-2.post-recommend
-        .col-xs-2.post-recommend
-        .col-xs-2.post-recommend
-        .col-xs-2.post-recommend
-        .col-xs-2.post-recommend
-
-      nav.post-navigation.row(role='navigation')
-        <% if (previous_url) { %>
-        .col-xs-4
-          a(rel='next', href!="<%- next_url %>")
-            span.meta-nav.meta-nav-prev
-              i.fa.fa-angle-double-left
-              strong Previous
-        <% } else { %>
-        .col-xs-4
-        <% } if (next_url) { %>
-        .col-xs-4.col-xs-offset-4
-          a(rel='prev', href!="<%- previous_url %>")
-            span.meta-nav.meta-nav-next
-              strong Next
-              i.fa.fa-angle-double-right
-        <% } %>
-
+          .archive-media--report__relative-date
+        article.archive-media--report__article
+          h3.archive-media--report__title.ellipsis
+            a.js-navi-single(href!='<%- url %>') <%- title %>
+          p.archive-media--report__excerpt.ellipsis.multiline
 
   <% } else if (type == 'project') { %>
-  header.post-header
-    //- タイトル
-    h1.post-title
-      span <%- title %>
-    //- 概要
-    p.post-description <%= acf.description %>
+  .page-layer__media--project__cell
+    .archive-media--project-wrap
+      .archive-media--project
+        .archive-media--photograph-wrap
+          .archive-media--background
+          a.js-navi-single(href!='<%- url %>')
+            .archive-media--photograph
+            .archive-media--photograph-shadow
+            +ui-loader
+        article.archive-media--project__article
+          h3.archive-media--project-title.ellipsis
+            a.js-navi-single(href!='<%- url %>') <%- title %>
+  <% } %>
 
-  article.post-article.row
-    .post-left.col-xs-6
+script#tmpl-single(type='text/template')
+  <% if (type == 'photolog') { %>
+  .gallery-content__picture-wrap
+    .gallery-content__picture
       +ui-load-event
-    .post-right.col-xs-6
-      .post-content
-        <%= content %>
+  .gallery-content__info-wrap
+    .gallery-content__info
+      header.gallery-content__info__header
+        //- カレンダーアイコン
+        .ui-calendar
+          time <%- date || "1999/12/31 23:59:59" %>
+          .date-icon
+            .date-month
+            .date-day
+            .date-year
+        //- タイトル
+        h1.gallery-content__title
+          a(href!='<%- url %>'): span <%- title %>
+        //- 相対時刻
+        .gallery-content__relative-time-wrap
+          p.gallery-content__relative-time(data-time!="<%- date %>")
+        //- タグ
+        .gallery-content__tags
+          .ui-tags: p: span Tags
+        //- メタタグ
+        .gallery-content__edit
+          //- 編集アイコン(ログイン時のみ)
+            p.ui-edit-link
+              a.post-edit-linka(href!='<%- url %>'): i.fa.fa-pencil
+      article.gallery-content__info__article
+        //- 本文
+        .gallery-content__body
+          .excerpt.ellipsis.multiline <%= acf.body %>
+      footer.gallery-content__info__footer.container-fluid
+        .gallery-content__info__social-wrap.row
+          .gallery-content__info__social.facebook.col-xs-6
+            fb:like#fb-like(href='', width='218', layout='box_count' action='like', show_faces='true', share='false')
+          .gallery-content__info__social.twitter.col-xs-6
+            a#tw-like.twitter-share-button(href='https://twitter.com/share' data-lang='ja', data-hashtags='bosailab', data-dnt='true', data-count='vertical')
+          .gallery-content__info__social.googleplus.col-xs-6
+            .g-plusone(data-size='tall')
+          .gallery-content__info__social.pocket.col-xs-6
+            a#pk-like.pocket-btn(data-pocket-label='pocket', data-pocket-count='vertical',  data-pocket-align='center', data-lang='ja')
 
-  footer.post-footer
-    +ui-edit
+  <% } else if (type == 'report') { %>
+  .page-layer__media--report__cell
+    .archive-media--report-wrap
+      .archive-media--report
+        .archive-media--photograph-wrap
+          a.js-navi-single(href!='<%- url %>')
+            .archive-media--photograph
+            .archive-media--photograph-shadow
+            +ui-loader
+        header.archive-media--report__header
+          .ui-calendar
+            time <%- date || "1999/12/31 23:59:59" %>
+            .date-icon
+              .date-month
+              .date-day
+              .date-year
+          .archive-media--report__relative-date
+        article.archive-media--report__article
+          //- タイトル
+          h1.archive-media--report__title
+            a(href!='<%- url %>'): span <%- title %>
+          //- タグ
+          .archive-media--report__tags
+            .ui-tags: p: span Tags
+          //- カスタム投稿フィールド
+          .archive-media--report__responsibility
+            span
+              | 文責：
+              strong <%- acf.responsibility %>
+          .archive-media--report__members
+            span
+              | 参加者：
+              strong <%- acf.members %>
+          //- メタタグ
+          .archive-media--report__edit
+            //- 編集アイコン(ログイン時のみ)
+              p.ui-edit-link
+                a.post-edit-linka(href!='<%- url %>'): i.fa.fa-pencil
+          //- 本文
+          .archive-media--report__body
+            .excerpt.ellipsis.multiline <%= content %>
+        footer.archive-media--report__footer.container-fluid
+          .archive-media--report__social-wrap.row
+            .archive-media--report__social.facebook.col-xs-6
+              fb:like#fb-like(href='', width='218', layout='box_count' action='like', show_faces='true', share='false')
+            .archive-media--report__social.twitter.col-xs-6
+              a#tw-like.twitter-share-button(href='https://twitter.com/share' data-lang='ja', data-hashtags='bosailab', data-dnt='true', data-count='vertical')
+            .archive-media--report__social.googleplus.col-xs-6
+              .g-plusone(data-size='tall')
+            .archive-media--report__social.pocket.col-xs-6
+              a#pk-like.pocket-btn(data-pocket-label='pocket', data-pocket-count='vertical',  data-pocket-align='center', data-lang='ja')
+          nav.archive-media--report__navi-wrap.row
+            <% if (previous_url) { %>
+            .archive-media--report__navi.col-xs-5
+              a.js-navi-prev(rel='prev', href!="<%- previous_url %>"): span
+                i.fa.fa-angle-double-up
+                strong Prev
+            <% } else { %>
+            .archive-media--report__navi.col-xs-5
+            <% } if (next_url) { %>
+            .archive-media--report__navi.col-xs-5.col-xs-offset-2
+              a.js-navi-next(rel='next', href!="<%- next_url %>"): span
+                strong Next
+                i.fa.fa-angle-double-down
+            <% } %>
+
+  <% } else if (type == 'project') { %>
+  .page-layer__media--project__cell
+    .archive-media--project-wrap
+      .archive-media--project
+        header.archive-media--project__header
+          //- タイトル
+          h1.archive-media--project__title: span <%- title %>
+          //- 概要
+          p.archive-media--project__description <%= acf.description %>
+          //- 区切り
+          .archive-media--project__dots: i.fa.fa-ellipsis-h
+        article.archive-media--project__article
+          .archive-media--project__body <%= content %>
+        footer.archive-media--project__footer.container-fluid
+          .archive-media--project__social-wrap.row
+            .archive-media--project__social.facebook.col-xs-6
+              fb:like#fb-like(href='', width='218', layout='box_count' action='like', show_faces='true', share='false')
+            .archive-media--project__social.twitter.col-xs-6
+              a#tw-like.twitter-share-button(href='https://twitter.com/share' data-lang='ja', data-hashtags='bosailab', data-dnt='true', data-count='vertical')
+            .archive-media--project__social.googleplus.col-xs-6
+              .g-plusone(data-size='tall')
+            .archive-media--project__social.pocket.col-xs-6
+              a#pk-like.pocket-btn(data-pocket-label='pocket', data-pocket-count='vertical',  data-pocket-align='center', data-lang='ja')
   <% } %>
 
 script#tmpl-static(type='text/template')
@@ -299,6 +308,7 @@ script#tmpl-static(type='text/template')
   section.post-section
     p.text-field
       <%= content %>
+
   <% } else if (slug == 'about') { %>
   section.post-section.js-scroll(style!="background-image:url(<?php echo (get_template_directory_uri().'/public/images/about/overview_professor_message_back_2x.jpg') ?>);")
     hgroup.page-subtitle

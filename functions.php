@@ -643,6 +643,7 @@ function json_api_encode_acf($response) {
 }
 function json_api_add_acf(&$post) {
   $post->acf = get_fields($post->id);
+  // $post->previous_title = get_fields($post->id);
 }
 
 /* =============================================

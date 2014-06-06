@@ -360,6 +360,7 @@ $ ->
       'click .gallery-layer__close-target--large': 'close'
       'click .gallery-layer__close-target--small': 'close'
       'click .gallery-content__info__close': 'close'
+      'click .contact-content__close': 'close'
 
     initialize: (@collection) ->
       @$el.html @template()
@@ -426,15 +427,15 @@ $ ->
     template: _.template ($ '#tmpl-gallerybox').html()
 
     events:
-      'click .gallery-layer__close': 'close'
-      'click .gallery-layer__close-target--large': 'close'
-      'click .gallery-layer__close-target--small': 'close'
-      'click .gallery-content__info__close': 'close'
+      'click .gallery-layer__close': 'close_direct'
+      'click .gallery-layer__close-target--large': 'close_direct'
+      'click .gallery-layer__close-target--small': 'close_direct'
+      'click .gallery-content__info__close': 'close_direct'
 
     initialize: (@collection) ->
       @$el.html @template()
       @listenTo @collection, 'reset', @clear
-      @listenTo @collection, 'add', @append
+      @listenTo @collection, 'add',   @append
       @render()
 
     render: ->
@@ -448,9 +449,24 @@ $ ->
       view = new GalleryView(model: content).render()
       (@$ '.gallery-layer__media').append view.el
 
+      # 幅を自動調整
+      @fitGallery()
+
     open: ->
       (@$ '.gallery-layer').addClass 'active'
       $body.addClass 'gallery-enabled'
+
+    close_direct: ->
+      @close()
+      # 画面遷移
+      $app.navigate '/photolog/', no
+      # フォトログアーカイブの状態に戻す
+      media.next = yes
+      media.query.api = 'archive'
+      media.query.post_type = 'photolog'
+      # タイトルとメニューバーの変更
+      media.containerView.updateMenubar()
+      media.containerView.setTitle 'フォトログ', 'フォトログ'
 
     close: ->
       # ギャラリービューを非表示
@@ -459,11 +475,26 @@ $ ->
       media.galleryMode = off
       # ギャラリーをリセット
       @collection.reset() # @clear()
-      # 画面遷移
-      $app.navigate '/photolog/', no
-      # フォトログアーカイブの状態に戻す
-      media.next = yes
-      media.query.api = 'archive'
+
+    # ギャラリーのリサイズ
+    # (画面幅 - 左右のパディング - 情報バー) * 写真標準のアスペクト比
+    fitGallery: ->
+      winheight = $win.height()
+      winwidth = $win.width()
+
+      height = (winwidth - 32*2) * (2 / 3) * (540 / 720)
+      height = 540 if height > 540
+      margin = (540 - height) / 2
+      if (1080 + 32*2) < winwidth
+        (@$ '.gallery-layer__media--single').css 'height': '540px'
+        (@$ '.gallery-layer__content').css 'margin': '0 auto'
+      else if 940 < winwidth
+        (@$ '.gallery-layer__media--single').css 'height': "#{height}px"
+        (@$ '.gallery-layer__content').css 'margin': "#{margin}px auto"
+      else # if winwidth < 940
+        (@$ '.gallery-layer__media--single').css 'height': 'auto'
+        (@$ '.gallery-layer__content').css 'margin': '0 auto'
+      return
 
   # ===================================
   # Backbone::Gallery
@@ -489,6 +520,9 @@ $ ->
     render: ->
       self = @
       $self = @$el
+
+      # 幅を可変に
+      @$el.addClass 'gallery-layer__media--single'
 
       # 高さを指定
       @$el.css 'height', '540px'
@@ -578,40 +612,84 @@ $ ->
       return @
 
     clear: ->
-      (@$ '#contents').empty()
+      (@$ '#contents--gallery').empty() # single.photolog
+      (@$ '#contents--page').empty()
       if media.masonryMode
-        (@$ '#contents').masonry 'destroy'
+        #(@$ '#contents--page').masonry 'destroy'
         media.masonryMode = off
 
     append: (content) ->
-      # console.log 'content:', content
+      # Reset CSS
+      $layer = @$ '.page-layer__content'
+      $layer.removeClass 'page-layer__content--archive page-layer__content--report page-layer__content--full'
 
+      # Add Custom CSS
+      switch "#{content.get 'ctype'}.#{content.get 'ptype'}"
+        when 'archive.photolog', 'archive.project'
+          $layer.addClass 'page-layer__content--archive'
+        when 'archive.report', 'single.report'
+          $layer.addClass 'page-layer__content--report'
+        when 'page.about'
+          $layer.addClass 'page-layer__content--full'
+
+      # Add model
       view = new ContentView(model: content).render()
-      if media.masonryMode
-        (@$ '#contents').append(view.el).masonry 'appended', view.el
-      else
-        (@$ '#contents').append view.el
+      switch "#{content.get 'ctype'}.#{content.get 'ptype'}"
+        # when 'archive.photolog'
+        #   (@$ '#contents--page').append(view.el).masonry 'appended', view.el
+        when 'single.photolog'
+          (@$ '.page-layer__vertical-center').addClass 'hidden'
+          (@$ '.gallery-layer__vertical-center').removeClass 'hidden'
+          # Add model view
+          (@$ '#contents--gallery').append view.el
+          # 幅を自動調整
+          @fitGallery()
+        else
+          (@$ '.page-layer__vertical-center').removeClass 'hidden'
+          (@$ '.gallery-layer__vertical-center').addClass 'hidden'
+          # Add model view
+          (@$ '#contents--page').append view.el
 
-      # フェードインのアニメーション
-      if "#{content.get 'ctype'}.#{content.get 'ptype'}" is 'single.photolog'
-        (@$ '.post-right').transition
-          opacity: 1
-          y: '0px'
-          delay: 400
-          duration: 400
-          easing: 'ease'
-        (@$ '.post-left').transition
-          opacity: 1
-          x: '0px'
-          duration: 600
-          easing: 'ease'
+      # After model added
+      # switch "#{content.get 'ctype'}.#{content.get 'ptype'}"
+      #   when 'single.photolog'
+      #     # Fade-in Animations
+      #     (@$ '.gallery-layer__vertical-center').transition
+      #       opacity: 1
+      #       y: '0px'
+      #       delay: 400
+      #       duration: 400
+      #       easing: 'ease'
+
+      # 抜粋文の短縮
+      (@$ '.ellipsis').ellipsis()
 
     initMasonry: ->
-      ($ '#contents').masonry
-        itemSelector: '.item-photolog'
-        columnWidth: 234
-        isFitWidth: on
+      #(@$ '#contents--page').masonry
+      #  itemSelector: '.item-photolog'
+      #  columnWidth: 194 #234
+      #  isFitWidth: on
       media.masonryMode = on
+
+    # ギャラリーのリサイズ
+    # (画面幅 - 左右のパディング - 情報バー) * 写真標準のアスペクト比
+    fitGallery: ->
+      winheight = $win.height()
+      winwidth = $win.width()
+
+      height = (winwidth - 32*2) * (2 / 3) * (540 / 720)
+      height = 540 if height > 540
+      margin = (540 - height) / 2
+      if (1080 + 32*2) < winwidth
+        (@$ '.gallery-layer__media--single').css 'height': '540px'
+        (@$ '.gallery-layer__content').css 'margin': '0 auto'
+      else if 940 < winwidth
+        (@$ '.gallery-layer__media--single').css 'height': "#{height}px"
+        (@$ '.gallery-layer__content').css 'margin': "#{margin}px auto"
+      else # if winwidth < 940
+        (@$ '.gallery-layer__media--single').css 'height': 'auto'
+        (@$ '.gallery-layer__content').css 'margin': '0 auto'
+      return
 
     updateMenubar: ->
       $menubar0 = $ ".menu-item a[href='/#{media.query.post_type}']"
@@ -648,8 +726,6 @@ $ ->
 
   class ContentView extends Backbone.View
 
-    className: 'content-item'
-
     template_archive: _.template ($ '#tmpl-archive').html()
     template_single: _.template ($ '#tmpl-single').html()
     template_page: _.template ($ '#tmpl-static').html()
@@ -657,6 +733,8 @@ $ ->
 
     events:
       'click .js-navi-single': 'navigateToSingle'
+      'click .js-navi-prev': 'navigateToPrevious'
+      'click .js-navi-next': 'navigateToNext'
       'click .meta-nav-prev': 'navigateToPrevious'
       'click .meta-nav-next': 'navigateToNext'
 
@@ -668,193 +746,228 @@ $ ->
       self = @
       $self = @$el
 
-      # console.log 'ContentView->render() @model:', @model
       ctype = @model.get 'ctype' # single / archive
       ptype = @model.get 'ptype' # photolog / report / project
       slug  = @model.get 'slug'  # home / about / contact / publications
 
-      # カスタム投稿タイプ
-      @$el.addClass "item-#{ctype} item-#{ptype}"
-      @$el.addClass "item-#{slug}" if ctype is 'page'
-      # カスタム投稿フィールド
-      acf = @model.get 'acf'
-      # data属性
+      # CSS class
+      @$el.addClass "page-layer__media--#{ptype}--#{ctype}"
+
+      # Data attributes
       @$el.attr 'data-id', @model.get('id')
-      # 日付アイコン
+
+      # Calendar icon
       date = ui.parse_date @model.get('date')
       (@$ '.date-month').text date.month
       (@$ '.date-day').text date.day
       (@$ '.date-year').text date.year
 
-      switch ctype
-        when 'archive'
-          # フォトログ
-          if ptype is 'photolog'
-            # @$el.addClass 'col-xs-6 col-sm-3'
-            # サムネイル
-            if acf.photo
-              (@$ '.post-preview').css 'background-image': "url('#{acf.photo.sizes.medium}')"
-              image = new Image()
-              image.onload = ->
-                $self.addClass 'loaded'
-              image.src = acf.photo.sizes.medium
-            # 抜粋文
-            if acf.body
-              (@$ '.excerpt').text acf.body.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
+      # Tags
+      tags = @model.get 'tags'
+      if tags
+        for tag in tags
+          $tag = ($ '<div />').addClass('tag').text tag.title
+          (@$ '.ui-tags').append $tag
 
-          # 活動レポート
-          else if ptype is 'report'
-            @$el.addClass 'col-sm-8 col-sm-offset-4 col-xs-12'
-            # 抜粋文
-            if excerpt = @model.get 'excerpt'
-              (@$ '.excerpt').text excerpt.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
+      # Custom Post Fields
+      acf = @model.get 'acf'
 
-          # プロジェクト
-          else if ptype is 'project'
-            @$el.addClass 'loaded col-sm-4 col-xs-12'
-            # サムネイル
-            thumbnail = @model.get 'thumbnail_images'
-            if thumbnail.medium
+      switch "#{ctype}.#{ptype}"
+        # フォトログ
+        when 'archive.photolog'
+          # サムネイル
+          if acf.photo
+            (@$ '.archive-media--photograph').css 'background-image': "url('#{acf.photo.sizes.medium}')"
+            image = new Image()
+            image.onload = ->
+              ($ '.archive-media--photograph-wrap').addClass 'loaded'
+            image.src = acf.photo.sizes.medium
+
+          # # 抜粋文
+          # if acf.body
+          #   excerpt = acf.body
+          #   (@$ '.excerpt').text excerpt.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
+
+          # 日付
+          (@$ '.archive-media--photolog__date').text "#{date.month} #{date.year}"
+
+        # 活動レポート
+        when 'archive.report'
+
+          # サムネイル
+          if photo = @model.get 'thumbnail_images'
+            (@$ '.archive-media--photograph').css 'background-image': "url('#{photo.medium.url}')"
+            image = new Image()
+            image.onload = ->
+              ($ '.archive-media--photograph-wrap').addClass 'loaded'
+            image.src = photo.medium.url
+
+          # 抜粋文
+          if excerpt = @model.get 'excerpt'
+            (@$ '.archive-media--report__excerpt').text excerpt.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
+
+          # 相対時刻
+          relative_time = ui.getRelativeTime(@model.get 'date')
+          (@$ '.archive-media--report__relative-date').text relative_time
+
+        # プロジェクト
+        when 'archive.project'
+
+          @$el.addClass 'col-sm-4 col-xs-12'
+
+          # サムネイル
+          if photo = @model.get 'thumbnail_images'
+            (@$ '.archive-media--photograph').css 'background-image': "url('#{photo.medium.url}')"
+            image = new Image()
+            image.onload = ->
+              ($ '.archive-media--photograph-wrap').addClass 'loaded'
+            image.src = photo.medium.url
+
+        # フォトログ
+        when 'single.photolog'
+
+          # 幅を可変に
+          @$el.addClass 'gallery-layer__media--single'
+
+          # 高さを指定
+          @$el.css 'height', '540px'
+
+          # 相対時刻
+          relative_time = ui.getRelativeTime(@model.get 'date')
+          (@$ '.gallery-content__relative-time').text relative_time
+
+          # フォト
+          if photo = acf.photo
+            (@$ '.post-preview').css 'background-image': "url(\"#{photo.url}\")"
+            image = new Image()
+            image.onload = ->
+              $self.addClass 'loaded'
+            image.src = photo.url
+
+          # 抜粋文
+          if acf.body
+            (@$ '.excerpt').text acf.body.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')
+
+          # Google Maps
+          # ui.gmap (@$ '.post-maps'), acf.position.lat, acf.position.lng, 12, ''
+
+          # アニメーション用のずれ
+          # (@$ '.gallery-layer__vertical-center').transition
+          #   opacity: 0
+          #   y: '-30px'
+          #   duration: 0
+
+        # 活動レポート
+        when 'single.report'
+
+          # 相対時刻
+          relative_time = ui.getRelativeTime(@model.get 'date')
+          (@$ '.archive-media--report__relative-date').text relative_time
+
+        # プロジェクト
+        when 'single.project'
+
+          # サムネイル
+          if thumbnail = @model.get 'thumbnail_images'
+            if thumbnail.large
+              (@$ '.post-preview').css 'background-image': "url('#{thumbnail.large.url}')"
+            else if thumbnail.medium
               (@$ '.post-preview').css 'background-image': "url('#{thumbnail.medium.url}')"
 
-        when 'single'
-          # タグ
-          tags = @model.get 'tags'
-          for tag in tags
-            $tag = ($ '<div />').addClass('tag').text tag.title
-            (@$ '.ui-tags').append $tag
-
-          # フォトログ
-          if ptype is 'photolog'
-            @$el.addClass 'col-xs-12'
-            # サムネイル
-            if acf.photo
-              (@$ '.post-preview').css 'background-image': "url(\"#{acf.photo.url}\")"
-              image = new Image()
-              image.onload = ->
-                $self.addClass 'loaded'
-              image.src = acf.photo.url
-            # TODO Google Maps
-            # ui.gmap (@$ '.post-maps'), acf.position.lat, acf.position.lng, 12, ''
-            # アニメーション用のずれ
-            (@$ '.post-right').transition
-              opacity: 0
-              y: '-30px'
-              duration: 0
-            (@$ '.post-left').transition
-              opacity: 0
-              x: '90px'
-              duration: 0
-
-          # 活動レポート
-          else if ptype is 'report'
-            @$el.addClass 'loaded col-sm-8 col-sm-offset-4 col-xs-12'
-
-          # プロジェクト
-          else if ptype is 'project'
-            @$el.addClass 'loaded col-xs-12'
-            # サムネイル
-            if thumbnail = @model.get('thumbnail_images')
-              if thumbnail.large
-                (@$ '.post-preview').css 'background-image': "url('#{thumbnail.large.url}')"
-              else if thumbnail.medium
-                (@$ '.post-preview').css 'background-image': "url('#{thumbnail.medium.url}')"
-
-          # Facebook コメント
-          (@$ '#fb-comments').attr 'href', @model.get('url')
-          (@$ '#fb-like').attr 'href', @model.get('url')
-          setTimeout ->
-            FB.XFBML.parse() if not (@$ 'fb-comments > span')[0] or not (@$ 'fb-like > span')[0]
-          , 400
-          # Twitter ボタン
-          (@$ '#tw-like').data 'url', @model.get('url')
-          (@$ '#tw-like').data 'text', "#{@model.get('url')}"
-          setTimeout ->
-            twttr.widgets.load() if typeof(twttr) isnt 'undefined'
-          , 400
-          # Google+ ボタン
-          setTimeout ->
-            gapi.plusone.go() if typeof(gapi) isnt 'undefined'
-          , 400
-
-        when 'page'
-          # About
-          if slug is 'about'
-            # 背景スクロール対象の設定
-            media.scrollel = @$ '.js-scroll'
-            # メンバー一覧を描画
-            $members_html = @$ '.members'
-            members = (acf.member_lists).split('<br />').map (member) -> # 行ごとに配列化
-              return member.replace /^\s+|\s+$/g, ''
-            members = $.grep members, (e) -> return e # 0/false/undifinedな要素を削除
-            season = '2000S'
-            for index, member of members
-              if member.indexOf('〜') > -1
-                season = member.slice(0, -1).replace('S', '.0').replace('A', '.5')
-              else
-                if member.charAt(0) is '#'
-                  member = member.slice 1
-                  current_class = "member member-th col-sm-12 col-xs-12"
-                  $members_html.append(
-                    ($ '<li />').addClass(current_class).append(
-                      ($ '<h4 />').append(
-                        ($ '<i />').addClass 'fa fa-graduation-cap'
-                      ).append(
-                        ($ '<span />').html member
-                      )
-                    )
-                  )
-                else
-                  current_class = "member member-td col-sm-2 col-xs-4"
-                  current_class = current_class + " first" if season is '2013.0'
-                  $members_html.append(
-                    ($ '<li />').addClass(current_class).attr(
-                      'data-member-id': index
-                      'data-since': season
+        # About
+        when 'page.about'
+          # 背景スクロール対象の設定
+          media.scrollel = @$ '.js-scroll'
+          # メンバー一覧を描画
+          $members_html = @$ '.members'
+          members = (acf.member_lists).split('<br />').map (member) -> # 行ごとに配列化
+            return member.replace /^\s+|\s+$/g, ''
+          members = $.grep members, (e) -> return e # 0/false/undifinedな要素を削除
+          season = '2000S'
+          for index, member of members
+            if member.indexOf('〜') > -1
+              season = member.slice(0, -1).replace('S', '.0').replace('A', '.5')
+            else
+              if member.charAt(0) is '#'
+                member = member.slice 1
+                current_class = "member member-th col-sm-12 col-xs-12"
+                $members_html.append(
+                  ($ '<li />').addClass(current_class).append(
+                    ($ '<h4 />').append(
+                      ($ '<i />').addClass 'fa fa-graduation-cap'
                     ).append(
                       ($ '<span />').html member
                     )
                   )
-            # メンバー年表
-            td = new Date()
-            month = if m = (td.getMonth()+1) < 4 then -0.5 else if m < 10 then 0 else 0.5
-            season_min = 2013.0
-            season_max = parseFloat(td.getFullYear()) + month
-            $handle = @$ '.handle-holder'
-            $handle_label = @$ '.handle-label-text'
-            $members = @$ '.member-td'
-            previous_season = null
-
-            drag_event = ->
-              percentage = ui.parse_pixel($handle.css 'left') / 378
-              season = ( ~~(( season_max - season_min ) * percentage * 2) ) / 2 + season_min
-              season_label = '2000/Spr'
-              if season.toString().indexOf('.5') > -1
-                season_label = season.toString().replace '.5', '/Aut'
+                )
               else
-                season_label = "#{season}/Spr"
-              # ラベル
-              $handle_label.text season_label
-              # メンバー
-              if season isnt previous_season
-                $members.each ->
-                  if parseFloat(($ @).data('since')) <= season
-                    ($ @).addClass 'visible'
-                  else
-                    ($ @).removeClass 'visible'
-              # 変更を監視
-              previous_season = season
+                current_class = "member member-td col-sm-2 col-xs-4"
+                current_class = current_class + " first" if season is '2013.0'
+                $members_html.append(
+                  ($ '<li />').addClass(current_class).attr(
+                    'data-member-id': index
+                    'data-since': season
+                  ).append(
+                    ($ '<span />').html member
+                  )
+                )
+          # メンバー年表
+          td = new Date()
+          month = if m = (td.getMonth()+1) < 4 then -0.5 else if m < 10 then 0 else 0.5
+          season_min = 2013.0
+          season_max = parseFloat(td.getFullYear()) + month
+          $handle = @$ '.handle-holder'
+          $handle_label = @$ '.handle-label-text'
+          $members = @$ '.member-td'
+          previous_season = null
 
-            $handle.draggable
-              addClasses: no
-              snap: no
-              axis: 'x'
-              containment: '.bar'
-              drag: ->
-                drag_event()
+          drag_event = ->
+            percentage = ui.parse_pixel($handle.css 'left') / 378
+            season = ( ~~(( season_max - season_min ) * percentage * 2) ) / 2 + season_min
+            season_label = '2000/Spr'
+            if season.toString().indexOf('.5') > -1
+              season_label = season.toString().replace '.5', '/Aut'
+            else
+              season_label = "#{season}/Spr"
+            # ラベル
+            $handle_label.text season_label
+            # メンバー
+            if season isnt previous_season
+              $members.each ->
+                if parseFloat(($ @).data('since')) <= season
+                  ($ @).addClass 'visible'
+                else
+                  ($ @).removeClass 'visible'
+            # 変更を監視
+            previous_season = season
 
-      # 抜粋文の短縮
-      (@$ '.ellipsis').ellipsis()
+          $handle.draggable
+            addClasses: no
+            snap: no
+            axis: 'x'
+            containment: '.bar'
+            drag: ->
+              drag_event()
+
+
+      if ctype is 'single'
+        # Facebook コメント
+        (@$ '#fb-comments').attr 'href', @model.get('url')
+        (@$ '#fb-like').attr 'href', @model.get('url')
+        setTimeout ->
+          FB.XFBML.parse() if not (@$ 'fb-comments > span')[0] or not (@$ 'fb-like > span')[0]
+        , 400
+        # Twitter ボタン
+        (@$ '#tw-like').data 'url', @model.get('url')
+        (@$ '#tw-like').data 'text', "#{@model.get('url')}"
+        setTimeout ->
+          twttr.widgets.load() if typeof(twttr) isnt 'undefined'
+        , 400
+        # Google+ ボタン
+        setTimeout ->
+          gapi.plusone.go() if typeof(gapi) isnt 'undefined'
+        , 400
+
 
       return @
 
@@ -886,7 +999,7 @@ $ ->
         delay: 400
         duration: 600
         easing: 'ease'
-      url = ui.parse_uri(@model.get('previous_url')).path
+      url = ui.parse_uri(@model.get 'previous_url').path
       setTimeout ->
         $app.navigate url, yes
       , 800
@@ -903,7 +1016,7 @@ $ ->
         delay: 400
         duration: 600
         easing: 'ease'
-      url = ui.parse_uri(@model.get('next_url')).path
+      url = ui.parse_uri(@model.get 'next_url').path
       setTimeout ->
         $app.navigate url, yes
       , 800
@@ -1226,7 +1339,6 @@ $ ->
     scrolltop: null
     scrollel: null
 
-
   $app = new Application()
 
 
@@ -1249,7 +1361,7 @@ $ ->
       url = ui.parse_uri($target.attr 'href').path
       $app.navigate url, yes
 
-  # TODO パンくずナビ
+  # パンくずナビ
   ($ '.js-breadcrumbs a').on
     'click': (event) ->
       event.preventDefault()
@@ -1266,9 +1378,16 @@ $ ->
     docheight     = $doc.height()
     scrollheight  = $doc.scrollTop()
 
+    winwidth      = $win.width()
+    docwidth      = $doc.width()
+
     # loadNext
     if docheight < window.scrollY + winheight + 600
       $app.loadNext()
+
+    # ギャラリーのリサイズ
+    media.containerView.fitGallery()
+    media.galleryBoxView.fitGallery()
 
     # 背景をスクロール
     if media.scrollel
@@ -1379,8 +1498,6 @@ $ ->
         $el.html t.html()
         t.remove()
         $el.css 'display', display
-
-  ($ '.ellipsis').ellipsis()
 
 
   # ===================================

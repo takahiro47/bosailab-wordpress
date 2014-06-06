@@ -284,8 +284,7 @@ header.ui-header
   //- メインコンテンツ
   .ui-article // article
     position relative
-    min-height 270px
-    margin-bottom 90px
+    min-height 640px
     transition opacity .1s ease
     &.fetching
       opacity .7
@@ -312,6 +311,12 @@ header.ui-header
         margin (10px * recommend_zoom) auto (50px * recommend_zoom)
         text-align center
         text-transform uppercase
+
+    #container
+      min-height 100%
+      .main-layer
+        hoge 0
+        // padding 40px 0
 
     .js-container
       &.container-fluid
@@ -354,11 +359,6 @@ header.ui-header
     transition opacity .35s ease
     &.loaded
       transition opacity .5s ease
-      &.item-single
-        &:hover
-          .ui-load-event
-            .post-preview
-              opacity .7
 
 .ui-static
 .ui-default
