@@ -308,28 +308,34 @@ script#tmpl-static(type='text/template')
   .page-layer__media--home__cell
     .archive-media--home-wrap
       .archive-media--home
-        sidebar.archive-media--home__sidebar
-          .archive-media--home__sidebar--youtube
-            iframe(
-              width=560
-              height=315
-              src='http://www.youtube.com/embed/svqyoVh3Hfw?rel=0&modestbranding=0&showinfo=0&fs=0&controls=1&autohide=1&vq=hd1080'
-              frameborder='0'
-              allowfullscreen
-            )
-            //- http://wisdommingle.com/youtube-embedded-player-parameter-customize/
-            //- object(width=560, height=315)
-            //-   param(name='movie', value='https://www.youtube.com/v/svqyoVh3Hfw?hl=ja_JP&playlist=-mkXkHeqLEs,OW37a07RMTs&version=3&showinfo=1&loop=1')
-            //-   param(name='allowFullScreen', value='true')
-            //-   param(name='allowScriptAccess', value='always')
-            //-   embed(
-            //-     width=560, height=315
-            //-     src='https://www.youtube.com/v/svqyoVh3Hfw?hl=ja_JP&playlist=-mkXkHeqLEs,OW37a07RMTs&version=3&showinfo=1&loop=1'
-            //-     type='application/x-shockwave-flash'
-            //-     allowscriptaccess='always'
-            //-     allowfullscreen='true')
-        .archive-media--home__content
-          <%= content %>
+        .archive-media--home__slider-wrap
+          .archive-media--home__slider
+        .archive-media--home__main-wrap
+          sidebar.archive-media--home__sidebar
+            .archive-media--home__sidebar--photolog
+
+            .archive-media--home__sidebar--youtube
+              iframe(
+                width=320
+                height=180
+                src='http://www.youtube.com/embed/svqyoVh3Hfw?rel=0&modestbranding=0&showinfo=0&fs=0&controls=1&autohide=1&vq=hd1080'
+                frameborder='0'
+                allowfullscreen
+              )
+              //- http://wisdommingle.com/youtube-embedded-player-parameter-customize/
+              //- object(width=560, height=315)
+              //-   param(name='movie', value='https://www.youtube.com/v/svqyoVh3Hfw?hl=ja_JP&playlist=-mkXkHeqLEs,OW37a07RMTs&version=3&showinfo=1&loop=1')
+              //-   param(name='allowFullScreen', value='true')
+              //-   param(name='allowScriptAccess', value='always')
+              //-   embed(
+              //-     width=560, height=315
+              //-     src='https://www.youtube.com/v/svqyoVh3Hfw?hl=ja_JP&playlist=-mkXkHeqLEs,OW37a07RMTs&version=3&showinfo=1&loop=1'
+              //-     type='application/x-shockwave-flash'
+              //-     allowscriptaccess='always'
+              //-     allowfullscreen='true')
+          .archive-media--home__content
+            .archive-media--home__content--report
+            //- <%= content %>
 
   <% } else if (slug == 'about') { %>
   section.post-section.js-scroll(style!="background-image:url(<?php echo (get_template_directory_uri().'/public/images/about/overview_professor_message_back_2x.jpg') ?>);")

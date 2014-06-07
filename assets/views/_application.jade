@@ -218,32 +218,32 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
     block template
       include _template
 
-    block json
-      script(id='json', type='application/json')
-        :php
-          $post_types = get_post_types( array( 'public' => true, '_builtin' => false ) );
-          $except_post_types = array('photolog', 'project');
-          $param = array(
-            'posts_per_page' => 8,
-            'post_type' => array_diff($post_types, $except_post_types),
-            'post_status' => 'publish',
-            'orderby' => 'date',
-            'order' => 'DESC'
-          );
-          $wp_query = new WP_Query();
-          $wp_query->query($param);
-          if ( $wp_query->have_posts() ) {
-            $records = array();
-            while ( $wp_query->have_posts() ) {
-              $wp_query->the_post();
-              $records[] = array(
-                'title'   => get_the_title(),
-                'content' => apply_filters('the_content', get_the_content())
-              );
-            }
-            echo json_encode($records);
-          }
-          echo json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_PRETTY_PRINT);
+    //- block json
+    //-   script(id='json', type='application/json')
+    //-     :php
+    //-       $post_types = get_post_types( array( 'public' => true, '_builtin' => false ) );
+    //-       $except_post_types = array('photolog', 'project');
+    //-       $param = array(
+    //-         'posts_per_page' => 8,
+    //-         'post_type' => array_diff($post_types, $except_post_types),
+    //-         'post_status' => 'publish',
+    //-         'orderby' => 'date',
+    //-         'order' => 'DESC'
+    //-       );
+    //-       $wp_query = new WP_Query();
+    //-       $wp_query->query($param);
+    //-       if ( $wp_query->have_posts() ) {
+    //-         $records = array();
+    //-         while ( $wp_query->have_posts() ) {
+    //-           $wp_query->the_post();
+    //-           $records[] = array(
+    //-             'title'   => get_the_title(),
+    //-             'content' => apply_filters('the_content', get_the_content())
+    //-           );
+    //-         }
+    //-         echo json_encode($records);
+    //-       }
+    //-       echo json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_PRETTY_PRINT);
 
     block scripts
       +ltIE9
