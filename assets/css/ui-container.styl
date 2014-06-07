@@ -3,26 +3,13 @@
 /* 全体コンテナ
  * ----------------------------------------------------- */
 body
-  padding-top 54px
   &.gallery-enabled
     position relative
     overflow hidden
 
-.ui-container
-  hoge 0
-  // &.behind
-  //   position fixed !important
-  //   width 100%
-  //   top 0
-
 /* ヘッダ
  * ----------------------------------------------------- */
 header.ui-header
-  position relative
-  z-index 100
-  width 100%
-  margin 0 auto
-
   .ui-logo
   .ui-public-relaions
   .ui-navi
@@ -79,170 +66,6 @@ header.ui-header
   .ui-breadcrumbs-container > nav.ui-breadcrumbs
     position relative
 
-  // ナビメニュー
-  .ui-navi-container
-    z-index 100
-    position fixed
-    top 0
-    left @top
-    right @top
-    border-bottom 1px solid rgba(0, 0, 0, .15)
-    navi-background base_color
-    nav.ui-navi
-      navi-background base_color
-      // ロゴタイトル
-      .ui-navi-logo-col
-        padding-left 0
-        padding-right 0
-      .ui-navi-logo
-        @media (min-width: 992px)
-          padding-right 0
-        .mobile-navi-menu
-        .mobile-navi-search
-        .ui-title
-          cursor pointer
-          margin 0
-          padding 8px 0
-          color sub_color
-          font-size 17px
-          font-weight normal
-          line-height 37px
-          text-align center
-          text-transform uppercase
-          letter-spacing .05em
-          text-shadow base_text_shadow
-        .mobile-navi-menu
-          text-align left
-        .mobile-navi-search
-          text-align right
-        @media (max-width: 992px)
-          .ui-navi-logo
-            border-bottom 1px solid darken(base_color, 10%)
-        @media (min-width: 1680px)
-          .ui-navi-logo
-            display block !important
-            position fixed
-            left 20px
-            top 0
-            width 240px
-      // 検索窓
-      .ui-navi-search
-        position relative
-        display block
-        padding-left 0
-        @media (max-width: 768px)
-          hidden()
-        @media (min-width: 1680px)
-          display block !important
-          position fixed
-          right 0
-          top 0
-          width 240px
-        &.visible
-          visible()
-        form
-          label
-            display block
-            margin 10px 8px
-            text-align right
-            input.search-field
-              -webkit-font-smoothing antialiased
-              width 100%
-              height 28px
-              margin 2px 0
-              padding 0 8px
-              padding-right 25px
-              background-color #f3f3f3
-              border-width 0
-              color #6A7180
-              font-size 14px
-              font-weight normal
-              line-height 28px
-              border-radius 28px
-              box-shadow inset -1px -1px 0 #eee, inset 1px 1px 0 #eee
-              &:focus
-                background-color #fff
-                border-width 0
-          p.search-icons
-            position absolute
-            top 16px
-            right 31px
-            margin 0
-            span
-              color #E9EAED
-            i.fa
-              cursor pointer
-              padding-left 3px
-              color #A7ACB5
-        input.search-submit
-          hidden()
-      // メニュー
-      .ui-navi-menu
-        padding 0
-        @media (max-width: 768px)
-          hidden()
-        @media (min-width: 1680px)
-          width 100%
-        &.visible
-          visible()
-        .menu-header-container
-          #menu-header
-            clearfix()
-            margin 0
-            padding 0
-            li
-              //- .col-xs-4
-              width 33.33333333333333%
-              //- .col-sm-2
-              @media (min-width:768px)
-                width 16.666666666666664%
-
-              position relative
-              display block
-              float left
-              min-height 1px
-              text-align center
-              a
-                omission()
-                display block
-                padding 18px 10px 19px
-                color sub_color
-                font-size 13px
-                font-weight bold
-                line-height 16px
-                letter-spacing .05em
-                text-shadow base_text_shadow
-                transition all .1s ease-in-out
-                text-transform uppercase
-              &:hover
-                a
-                  background-color base_color_hover
-              &.current-menu-item
-                a
-                  background-color base_color_current
-                  &:after
-                    content ''
-                    display block
-                    position absolute
-                    bottom -5px
-                    left 50%
-                    width 0
-                    margin-left -7px
-                    border 7px solid rgba(0, 0, 0, 0)
-                    border-top-color base_color_current
-                    border-bottom-width 0
-                    transition all .25s ease-in-out
-                &:hover
-                  a
-                    background-color base_color_hover
-                    &:after
-                      border-top-color base_color_hover
-            .current_page_item > a
-            .current_page_ancestor > a
-            .current-menu-item > a
-            .current-menu-ancestor > a
-              text-decoration none
-
   // パンくずリスト
   .ui-breadcrumbs-container
     background-color sub_color
@@ -256,27 +79,6 @@ header.ui-header
     .ui-public-relaions
     .ui-navi-container
       visible()
-    .ui-public-relaions
-      @media (max-width: 768px)
-        background-color rgba(240, 240, 240, .45)
-    .ui-navi-container
-      z-index 1
-      position relative
-      top auto
-      left @top
-      right @top
-      border-bottom none
-      background-color transparent
-      @media (max-width: 768px)
-        background-color base_color
-      .ui-navi
-        background-color base_color
-        .ui-navi-menu
-          @media (min-width: 768px)
-            padding-left 15px
-            padding-right 15px
-    .ui-breadcrumbs-container
-      hidden()
 
 /* メイン
  * ----------------------------------------------------- */
@@ -288,11 +90,6 @@ header.ui-header
     transition opacity .1s ease
     &.fetching
       opacity .7
-
-    // // サイドバー
-    // aside.ui-sidebar
-    //   .ui-sidebar-calendar
-    //     hoge 0
 
     // 投稿アイテム一覧タイトル
     hgroup.page-title
@@ -311,58 +108,6 @@ header.ui-header
         margin (10px * recommend_zoom) auto (50px * recommend_zoom)
         text-align center
         text-transform uppercase
-
-    #container
-      min-height 100%
-      .main-layer
-        hoge 0
-        // padding 40px 0
-
-    .js-container
-      &.container-fluid
-        padding-left 0
-        padding-right 0
-        .row
-          margin 0
-
-    .GridTimeline-footer
-      position relative
-      margin-top 20px
-      text-align center
-      &:before
-        content ''
-        z-index -1
-        position absolute
-        left 0
-        right 0
-        top 45%
-        width 100%
-        height 1px
-        background #e1e8ed
-      .GridTimeline-footerIcon
-        display inline-block
-        padding 0 15px
-        color #ccd6dd
-        background-color #fff // #f5f8fa
-        .fa
-          font-size 27px
-          line-height 1
-
-
-#contents
-  clearfix()
-  margin 0 auto
-  padding 0
-  .content-item
-    clearfix()
-    position relative
-    transition opacity .35s ease
-    &.loaded
-      transition opacity .5s ease
-
-.ui-static
-.ui-default
-  hidden()
 
 /* フッタ
  * ----------------------------------------------------- */

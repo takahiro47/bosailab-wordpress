@@ -694,7 +694,7 @@ $ ->
     updateMenubar: ->
       $menubar0 = $ ".menu-item a[href='/#{media.query.post_type}']"
       $menubar1 = $ ".menu-item a[href='/#{media.query.post_type}/']"
-      ($ '.nav-menu').find('.menu-item').removeClass 'current-menu-item'
+      ($ '.navigation-menu').find('.menu-item').removeClass 'current-menu-item'
       $menubar0.parents('.menu-item').addClass 'current-menu-item'
       $menubar1.parents('.menu-item').addClass 'current-menu-item'
 
@@ -1382,7 +1382,7 @@ $ ->
     docwidth      = $doc.width()
 
     # loadNext
-    if docheight < window.scrollY + winheight + 600
+    if docheight < window.scrollY + winheight + 1200
       $app.loadNext()
 
     # ギャラリーのリサイズ

@@ -197,29 +197,6 @@ dev_width = 1980px * 1.1
 
 @import 'ui-plugin'
 @import 'ui-element'
+@import 'ui-style'
 @import 'ui-container'
 
-margin_sign_in = 32px
-margin_sign_in_narrow = 44px
-
-body
-  &.signed_in
-    padding-top 54px + margin_sign_in
-    @media screen and (max-width: 782px)
-      padding-top 54px + margin_sign_in_narrow
-
-    .ui-header // header
-      .ui-navi-container
-        top margin_sign_in
-        @media screen and (max-width: 782px)
-          top margin_sign_in_narrow
-        nav.ui-navi
-          @media (min-width: 1680px)
-            .ui-navi-logo
-            .ui-navi-search
-              top margin_sign_in
-
-    // ギャラリー
-    #galleryBox .gallery-layer .gallery-layer__close
-    #contactBox .gallery-layer .gallery-layer__close
-      top margin_sign_in
