@@ -536,7 +536,7 @@ gallery_info_width = 360px
               .archive-media--photolog-wrap
                 .archive-media--photolog
                   position relative
-                  height 190px
+                  height 172px
                   .archive-media--background
                     position absolute
                     top 0
@@ -615,6 +615,7 @@ gallery_info_width = 360px
                       font-weight bold
                       text-overflow ellipsis
                       white-space nowrap
+                      word-wrap break-word
                       text-shadow 0 0 3px rgba(0, 0, 0, 0.75)
                   .archive-media--photolog__footer
                     .archive-media--photolog__views
@@ -761,6 +762,7 @@ gallery_info_width = 360px
                         font-size 14px
                         line-height 1.9em
                         text-indent 1em
+                        word-wrap break-word
                       strong
                         font-weight bold
                       em
@@ -814,9 +816,6 @@ gallery_info_width = 360px
                         padding 13px
                         color #fff
                         font-size 12px
-                        text-align center
-                        text-transform uppercase
-                        transition all .15s ease
                         .fa-angle-double-up
                           padding-right 15px
                         .fa-angle-double-down
@@ -883,7 +882,7 @@ gallery_info_width = 360px
                         color #4d3636
                 &:hover
                   .archive-media--project
-                    .archive-media--photograph-wrap
+                    .archive -media--photograph-wrap
                       .archive-media--photograph-shadow
                         background-color transparent
                     .archive-media--project__header
@@ -933,6 +932,7 @@ gallery_info_width = 360px
                         font-size 1.20em
                         font-weight bold
                         line-height @font-size
+                        word-wrap break-word
                         &:before
                           content '■'
                           padding-right .5em
@@ -962,6 +962,7 @@ gallery_info_width = 360px
                         font-size 1.03em
                         line-height 1.6em
                         text-indent @font-size
+                        word-wrap break-word
                       strong
                         font-weight bold
                       em
@@ -1020,10 +1021,12 @@ gallery_info_width = 360px
                     .archive-media--home__slider
                       overflow hidden
                       width 100%
-                      min-height 320px
+                      min-height 480px
                       margin 5px 0 base_margin
                       background-color sub_color
                       border-radius base_border
+                      background-size cover
+                      background-position 50% 50%
                   .archive-media--home__main-wrap
                     clearfix()
                     .archive-media--home__sidebar
@@ -1053,6 +1056,37 @@ gallery_info_width = 360px
                         margin 0 0 base_margin base_margin
                         background-color sub_color
                         border-radius base_border
+                      .archive-media--home__content--report-more
+                        hidden()
+                        clearfix()
+                        a
+                          .archive-media--home__content--report-more__button
+                            button-pink()
+                            float right
+                            width 180px
+                            margin 0 0 base_margin
+                            padding-right 12px
+                            color #fff
+                            .fa
+                              padding-right base_margin
+                  .archive-media--home__project-wrap
+                    .archive-media--home__project
+                      border-top 1px solid #ccc
+                      border-bottom 1px solid #ccc
+                      .archive-media--home__project__title
+                        margin 0
+                        padding 47px 0 22px
+                      .archive-media--home__project__slider
+                        min-height 1px
+                    .archive-media--home__project__more
+                      color #222
+                      font-size 14px
+                      line-height 3em
+                      text-align center
+                      text-transform uppercase
+                      .fa
+                        padding-left 5px
+
 
           // Page.About
           .page-layer__media--about--page

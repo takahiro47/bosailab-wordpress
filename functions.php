@@ -642,6 +642,9 @@ function json_api_encode_acf($response) {
   return $response;
 }
 function json_api_add_acf(&$post) {
+  // 余計なキーを削除
+  unset( $post->author, $post->comment_count, $post->comment_status, $post->comments, $post->modified, $post->slug );
+  // Advanced Custom Posts プラグイン対応
   $post->acf = get_fields($post->id);
   // $post->previous_title = get_fields($post->id);
 }

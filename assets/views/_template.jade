@@ -304,7 +304,7 @@ script#tmpl-single(type='text/template')
   <% } %>
 
 script#tmpl-static(type='text/template')
-  <% if (slug == 'home') { %>
+  <% if (ptype == 'home') { %>
   .page-layer__media--home__cell
     .archive-media--home-wrap
       .archive-media--home
@@ -335,9 +335,26 @@ script#tmpl-static(type='text/template')
               //-     allowfullscreen='true')
           .archive-media--home__content
             .archive-media--home__content--report
+            .archive-media--home__content--report-more
+              a.js-navi-report(href='/report/')
+                .archive-media--home__content--report-more__button
+                  i.fa.fa-angle-double-right
+                  | Read More
             //- <%= content %>
+        .archive-media--home__project-wrap
+          .archive-media--home__project
+            h1.archive-media--home__project__title
+              img.img-responsive(
+                src!="<?php echo (get_template_directory_uri().'/public/images/home/overview_home_projects_2x.png') ?>",
+                width=254, height=41,
+                alt='Our Projects'
+              )
+            .archive-media--home__project__slider
+          .archive-media--home__project__more
+            | View more projects
+            i.fa.fa-caret-right
 
-  <% } else if (slug == 'about') { %>
+  <% } else if (ptype == 'about') { %>
   section.post-section.js-scroll(style!="background-image:url(<?php echo (get_template_directory_uri().'/public/images/about/overview_professor_message_back_2x.jpg') ?>);")
     hgroup.page-subtitle
       h2
@@ -476,12 +493,12 @@ script#tmpl-static(type='text/template')
                     | ※ 当キャンパスへご来場される場合は、必ず事前にご連絡ください。
         .col-xs-12.col-md-6.google-maps: #map_canvas
 
-  <% } else if (slug == 'publications') { %>
+  <% } else if (ptype == 'publications') { %>
   section.post-section
     p.text-field
       <%= content %>
 
-  <% } else if (slug == 'contact') { %>
+  <% } else if (ptype == 'contact') { %>
   section.post-section
     .contact-content-wrap
       .contact-content

@@ -651,15 +651,34 @@ $ ->
           (@$ '#contents--page').append view.el
 
       # After model added
-      # switch "#{content.get 'ctype'}.#{content.get 'ptype'}"
-      #   when 'single.photolog'
-      #     # Fade-in Animations
-      #     (@$ '.gallery-layer__vertical-center').transition
-      #       opacity: 1
-      #       y: '0px'
-      #       delay: 400
-      #       duration: 400
-      #       easing: 'ease'
+      switch "#{content.get 'ctype'}.#{content.get 'ptype'}"
+
+        # when 'single.photolog'
+
+        #   # Fade-in Animations
+        #   (@$ '.gallery-layer__vertical-center').transition
+        #     opacity: 1
+        #     y: '0px'
+        #     delay: 400
+        #     duration: 400
+        #     easing: 'ease'
+
+        when 'page.home'
+
+          $.when($api['archive'] {'post_type': 'project',  'page': 1})
+            .done (data) =>
+
+              # for project in data.posts
+              #   project = _.extend project,
+              #     'ctype': 'archive'
+              #     'ptype': 'project'
+              #   console.log view = new ContentView(model: project).render()
+
+              return
+
+            .fail (err) =>
+              console.log err
+              return
 
       # 抜粋文の短縮
       (@$ '.ellipsis').ellipsis()
@@ -739,8 +758,11 @@ $ ->
       'click .meta-nav-next': 'navigateToNext'
 
     initialize: (options) ->
+      console.log @model
       @template = @["template_#{@model.get('ctype')}"]
+      console.log @template
       @$el.html @template @model.toJSON()
+      console.log @$el
 
     render: ->
       self = @
@@ -748,7 +770,7 @@ $ ->
 
       ctype = @model.get 'ctype' # single / archive
       ptype = @model.get 'ptype' # photolog / report / project
-      slug  = @model.get 'slug'  # home / about / contact / publications
+      # slug  = @model.get 'slug'  # home / about / contact / publications
 
       # CSS class
       @$el.addClass "page-layer__media--#{ptype}--#{ctype}"
@@ -873,6 +895,16 @@ $ ->
               (@$ '.post-preview').css 'background-image': "url('#{thumbnail.large.url}')"
             else if thumbnail.medium
               (@$ '.post-preview').css 'background-image': "url('#{thumbnail.medium.url}')"
+
+        # Home
+        # when 'page.home'
+        #   # スライダー
+        #   if photo = acf.slider01
+        #     (@$ '.archive-media--home__slider').css 'background-image': "url(\"#{photo.url}\")"
+        #     image = new Image()
+        #     image.onload = ->
+        #       $self.addClass 'loaded'
+        #     image.src = photo.url
 
         # About
         when 'page.about'
