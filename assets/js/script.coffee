@@ -486,7 +486,6 @@ $ ->
     @each ->
       $el = $ @ # wrap
       $photograph = $el.find '.archive-media--photograph'
-      console.log 'run'
       if uri = ui.sample_url($photograph.css 'background-image')
         image = new Image()
         image.onload = -> $el.addClass 'loaded'
