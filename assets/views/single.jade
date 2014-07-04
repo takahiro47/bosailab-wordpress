@@ -6,5 +6,278 @@ extends _application
   @subpackage SFC_Bosalab_2013
   @since 1.0
 
-block article
-  include _post_content
+block page_article
+  div(class!="page-layer__media--<?php echo get_post_type(); ?>--single")
+    :php
+      // 投稿があった場合，投稿表示ループを開始
+      if ( $wp_query->have_posts() ) {
+        while ( $wp_query->have_posts() ) {
+          $wp_query->the_post();
+
+    <?php if (get_post_type() == 'project') { ?>
+    :php
+      // サムネイル
+      $thumbnail_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID), 'project-single' );
+
+    .page-layer__media--project__cell
+      .archive-media--project-wrap
+        a.archive-media--project-back-wrap(href!="<?php echo get_post_type_archive_link( get_post_type() ); ?>")
+          .archive-media--project-back
+            i.fa.fa-angle-double-left
+            | Back To List
+
+        .archive-media--project
+          header.archive-media--project__header
+            .archive-media--project-head
+              .col-xs-3
+              .col-xs-6.archive-media--project-titles
+                //- タイトル
+                h1.archive-media--project__title <?php the_title(); ?>
+                //- 概要
+                p.archive-media--project__description <?php the_field( 'description' ); ?>
+              .col-xs-3
+            nav.archive-media--project-navigate(role='navigation')
+              //- 前の記事へ
+              .archive-media--project-navigate__prev(role='navigation')
+                <?php if ( $prev = get_adjacent_post( false, '', true ) ) { ?>
+                a(href!="<?php echo get_permalink( $prev->ID ); ?>", title!="<?php echo $prev->post_title; ?>")
+                  .archive-media--navigate--angle
+                    i.fa.fa-angle-left
+                    | Previous Item
+                  .archive-media--navigate--title <?php echo $prev->post_title; ?>
+                <?php } ?>
+              //- 次の記事へ
+              .archive-media--project-navigate__next
+                <?php if ( $next = get_adjacent_post( false, '', false ) ) { ?>
+                a(href!="<?php echo get_permalink( $next->ID ); ?>", title!="<?php echo $next->post_title; ?>")
+                  .archive-media--navigate--angle
+                    | Next Item
+                    i.fa.fa-angle-right
+                  .archive-media--navigate--title <?php echo $next->post_title; ?>
+                <?php } ?>
+
+          article.archive-media--project__article
+            .archive-media--project__info
+              .col-xs-5.archive-media--project__info--abstracts
+                .archive-media--project-abstract-wrap
+                  h1.archive-media--project__section-title Abstract
+                  .archive-media--project-abstract--text <?php the_field( 'abstract' ); ?>
+                  ul.archive-media--project-tags.ui-tags
+                    li.title Keywords:
+                    <?php $post_tags = get_the_tags(); if ($post_tags) { foreach($post_tags as $tag) { ?>
+                    li.tag <?php echo $tag->name; ?>
+                    <?php } } ?>
+
+                .archive-media--project__socials-wrap
+                  h1.archive-media--project__section-title Share
+                  .archive-media--project__socials.row
+                    .archive-media--project__social.facebook.col-xs-3
+                      fb:like#fb-like(href='', width='218', layout='box_count' action='like', show_faces='true', share='false')
+                    .archive-media--project__social.twitter.col-xs-3
+                      a#tw-like.twitter-share-button(href='https://twitter.com/share' data-lang='ja', data-hashtags='bosailab', data-dnt='true', data-count='vertical')
+                    .archive-media--project__social.pocket.col-xs-3
+                      a#pk-like.pocket-btn(data-pocket-label='pocket', data-pocket-count='vertical',  data-pocket-align='center', data-lang='ja')
+                    .archive-media--project__social.googleplus.col-xs-3
+                      .g-plusone(data-size='tall')
+
+              .col-xs-7.archive-media--project__info--photography
+                .archive-media--photograph-wrap
+                  .archive-media--photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
+                  .archive-media--photograph-shadow
+                  +ui-loader
+            .archive-media--project__body
+              <?php the_content(); ?>
+
+          footer.archive-media--project__footer.container-fluid
+            .archive-media--project__people
+
+
+    <?php } else if (get_post_type() == 'report') { ?>
+    :php
+      // サムネイル
+      $thumbnail_url = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'photolog_archive' )[0];
+
+    .page-layer__media--report__cell
+      .archive-media--report-wrap
+        .archive-media--report
+          .archive-media--photograph-wrap
+            a.js-navi-single(href!='<?php the_permalink(); ?>')
+              .archive-media--photograph(href!="<?php echo get_post_type_archive_link( get_post_type() ); ?>")
+              .archive-media--photograph-shadow
+              +ui-loader
+          header.archive-media--report__header
+            .ui-calendar
+              time <?php echo get_the_time('Y-m-d H:i:s'); ?>
+              .date-icon
+                .date-month <?php echo get_the_time('M'); ?>
+                .date-day <?php echo get_the_time('d'); ?>
+                .date-year <?php echo get_the_time('Y'); ?>
+            .archive-media--report__relative-date
+              | <?php echo toLastUpdateString( new DateTime( get_the_time('Y-m-d H:i:s') ) ), PHP_EOL; ?>
+          article.archive-media--report__article
+            //- タイトル
+            h1.archive-media--report__title
+              a.js-navi-single(href!='<?php the_permalink(); ?>'): span <?php the_title(); ?>
+            //- タグ
+            .archive-media--report__tags
+              .ui-tags: p: span Tags
+              <?php $post_tags = get_the_tags(); if ($post_tags) { foreach($post_tags as $tag) { ?>
+              li.tag <?php echo $tag->name; ?>
+              <?php } } ?>
+            //- カスタム投稿フィールド
+            .archive-media--report__responsibility
+              span
+                | 文責：
+                strong <?php the_field( 'responsibility' ); ?>
+            .archive-media--report__members
+              span
+                | 参加者：
+                strong <?php the_field( 'members' ); ?>
+            //- 本文
+            .archive-media--report__body
+              .excerpt.ellipsis.multiline <?php the_content(); ?>
+          footer.archive-media--report__footer
+            .archive-media--report__social-wrap
+              .archive-media--report__social.facebook.col-xs-6
+                fb:like#fb-like(href='', width='218', layout='box_count' action='like', show_faces='true', share='false')
+              .archive-media--report__social.twitter.col-xs-6
+                a#tw-like.twitter-share-button(href='https://twitter.com/share' data-lang='ja', data-hashtags='bosailab', data-dnt='true', data-count='vertical')
+              .archive-media--report__social.googleplus.col-xs-6
+                .g-plusone(data-size='tall')
+              .archive-media--report__social.pocket.col-xs-6
+                a#pk-like.pocket-btn(data-pocket-label='pocket', data-pocket-count='vertical',  data-pocket-align='center', data-lang='ja')
+
+            nav.archive-media--report-navigate(role='navigation')
+              //- 前(古い=右)の記事へ
+              .archive-media--navigate-wrap.col-xs-5
+                <?php if ( $target = get_adjacent_post( false, '', true ) ) { // prev post ?>
+                a.js-navi-next(rel='next', href!="<?php echo get_permalink( $target->ID ); ?>", title!="<?php echo $target->post_title; ?>")
+                  .archive-media--navigate
+                    .archive-media--navigate--angle
+                      i.fa.fa-angle-left
+                      | Previous Item
+                    .archive-media--navigate--title <?php echo $target->post_title; ?>
+                <?php } ?>
+              //- オフセット
+              .col-xs-2
+              //- 次(新しい=左)の記事へ
+              .archive-media--navigate-wrap.col-xs-5
+                <?php if ( $target = get_adjacent_post( false, '', false ) ) { // next post ?>
+                a.js-navi-prev(rel='prev', href!="<?php echo get_permalink( $target->ID ); ?>", title!="<?php echo $target->post_title; ?>")
+                  .archive-media--navigate
+                    .archive-media--navigate--angle
+                      | Next Item
+                      i.fa.fa-angle-right
+                    .archive-media--navigate--title <?php echo $target->post_title; ?>
+                <?php } ?>
+
+            //- nav.archive-media--report__navi-wrap.row
+            //-   <% if (previous_url) { %>
+            //-   .archive-media--report__navi.col-xs-5
+            //-     a.js-navi-prev(rel='prev', href!="<%- previous_url %>"): span
+            //-       i.fa.fa-angle-double-up
+            //-       strong Prev
+            //-   <% } else { %>
+            //-   .archive-media--report__navi.col-xs-5
+            //-   <% } if (next_url) { %>
+            //-   .archive-media--report__navi.col-xs-5.col-xs-offset-2
+            //-     a.js-navi-next(rel='next', href!="<%- next_url %>"): span
+            //-       strong Next
+            //-       i.fa.fa-angle-double-down
+            //-   <% } %>
+
+    a.archive-media--report-back-wrap(href!="<?php echo get_post_type_archive_link( get_post_type() ); ?>")
+      .archive-media--report-back
+        i.fa.fa-angle-double-left
+        | Back To List
+
+
+    <?php } else if (get_post_type() == 'paper') { ?>
+
+    <?php the_content(); ?>
+
+
+    <?php } else { ?>
+
+    <?php the_content(); ?>
+
+
+    <?php } ?>
+
+    :php
+      }} // 投稿表示ループここまで
+
+
+
+block gallery_article
+  .gallery-layer__media--single(style='height:540px;')
+    :php
+      // 投稿があった場合，投稿表示ループを開始
+      if ( $wp_query->have_posts() ) {
+        while ( $wp_query->have_posts() ) {
+          $wp_query->the_post();
+
+    <?php if (get_post_type() == 'photolog') { ?>
+    :php
+      // サムネイル
+      $thumbnail_url = get_field('photo')['sizes']['photolog-single'];
+
+    .gallery-content__picture-wrap
+      .gallery-content__picture
+        .archive-media--photograph-wrap
+          .archive-media--photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
+          .archive-media--photograph-shadow
+          +ui-loader
+        nav.gallery-navigations(role='navigation')
+          //- 前(古い=右)の記事へ
+          <?php if ( $target = get_adjacent_post( false, '', true ) ) { // prev post ?>
+          a(rel='next', href!="<?php echo get_permalink( $target->ID ); ?>", title!="<?php echo $target->post_title; ?>")
+            span.gallery-navigation.gallery-navigation--next: i.fa.fa-angle-right
+          <?php } ?>
+          //- 次(新しい=左)の記事へ
+          <?php if ( $target = get_adjacent_post( false, '', false ) ) { // next post ?>
+          a(rel='prev', href!="<?php echo get_permalink( $target->ID ); ?>", title!="<?php echo $target->post_title; ?>")
+            span.gallery-navigation.gallery-navigation--prev: i.fa.fa-angle-left
+          <?php } ?>
+    .gallery-content__info-wrap
+      .gallery-content__info
+        header.gallery-content__info__header
+          //- カレンダーアイコン
+          .ui-calendar
+            time <?php echo get_the_time('Y-m-d H:i:s'); ?>
+            .date-icon
+              .date-month <?php echo get_the_time('M'); ?>
+              .date-day <?php echo get_the_time('d'); ?>
+              .date-year <?php echo get_the_time('Y'); ?>
+          //- タイトル
+          h1.gallery-content__title
+            a(href!='<?php the_permalink(); ?>'): span <?php the_title(); ?>
+          //- 相対時刻
+          .gallery-content__relative-time-wrap
+            p.gallery-content__relative-time(data-time!="<?php echo get_the_time('Y-m-d H:i:s'); ?>")
+              | <?php echo toLastUpdateString( new DateTime( get_the_time('Y-m-d H:i:s') ) ), PHP_EOL; ?>
+          //- タグ
+          .gallery-content__tags
+            .ui-tags: p: span Tags
+        article.gallery-content__info__article
+          //- 本文
+          .gallery-content__body
+            .excerpt.ellipsis.multiline <?php the_field( 'body' ); ?>
+        footer.gallery-content__info__footer.container-fluid
+          .gallery-content__info__social-wrap.row
+            .gallery-content__info__social.facebook.col-xs-6
+              fb:like#fb-like(href='', width='218', layout='box_count' action='like', show_faces='true', share='false')
+            .gallery-content__info__social.twitter.col-xs-6
+              a#tw-like.twitter-share-button(href='https://twitter.com/share' data-lang='ja', data-hashtags='bosailab', data-dnt='true', data-count='vertical')
+            .gallery-content__info__social.googleplus.col-xs-6
+              .g-plusone(data-size='tall')
+            .gallery-content__info__social.pocket.col-xs-6
+              a#pk-like.pocket-btn(data-pocket-label='pocket', data-pocket-count='vertical',  data-pocket-align='center', data-lang='ja')
+
+    <?php } else { ?>
+
+
+    <?php } ?>
+
+    :php
+      }} // 投稿表示ループここまで

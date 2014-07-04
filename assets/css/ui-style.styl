@@ -1,4 +1,5 @@
-@import 'setting'
+@import 'config'
+
 
 /* 全体コンテナ
  * ----------------------------------------------------- */
@@ -7,6 +8,9 @@ margin_sign_in = 32px
 margin_sign_in_narrow = 44px
 
 body
+  width 100%
+  min-width 960px
+  background-color background_color
   // 管理者バー
   &.signed_in
     padding-top margin_sign_in
@@ -23,6 +27,9 @@ body
     position relative
     overflow hidden
 
+  .ui-container
+    .ui-content
+      min-height 540px
 
 /* = Header
  * ----------------------------------------------------- */
@@ -33,134 +40,131 @@ header_bar_height = 40px
   position relative
   width 100%
   margin 0
+  background #fff
+  border-bottom 1px solid rgba(0, 0, 0, .15)
 
 .header-bar-wrap
-  background-color base_color
-  border-bottom 1px solid rgba(0, 0, 0, .15)
+  container()
   .header-bar
     clearfix()
-    max-width 1080px
-    margin 0 auto
-    @media screen and (max-width: 1110px)
-      padding 0px 15px
-  .header-bar__site-wrap
-    float left
-    width (100% / 8) * 1
-    .header-bar__site
-      a
-        .header-bar__title
-        .header-bar__home-button
-          margin 0
-          padding 0
-          color lighten(sub_color, 50%)
-          font-size 13px
-          font-weight bold
-          line-height header_bar_height
+    margin 0 -15px
+    background-image url(path + '/site_logo_2x.png')
+    background-size 235px
+    background-position 50% 40px
+    background-repeat no-repeat
+    // ナビバー共通
+    .header-bar__site-menu // nav
+      margin 90px 0 0
+      .navigation-menu // ul
+        clearfix()
+        margin 0
+        padding 0
+        .menu-item // li
+          position relative
+          display block
+          float left
+          min-height 1px
           text-align left
-          text-transform uppercase
-          letter-spacing .05em
-          text-shadow 0 -1px rgba(0, 0, 0, .1)
-        .header-bar__home-button
-          hidden()
-        @media screen and (max-width: 800px)
-          .header-bar__title
-            font-size 11px
-        .header-bar__description
-          hidden()
-  .header-bar__navigation-menu-wrap
-    float left
-    width (100% / 8) * 6
-    .header-bar__navigation-menu
-      .menu-header-container
-        .navigation-menu // ul
-          clearfix()
-          margin 0
-          padding 0
-          .menu-item // menu-item-type-post_type menu-item-object-page // li
-            position relative
+          a
+            omission()
             display block
-            float left
-            width 16.666666666666664%
-            min-height 1px
-            text-align center
-            a
-              omission()
-              display block
-              padding 12px 2px
-              color sub_color
-              font-size 10px
-              font-weight bold
-              line-height 16px
-              letter-spacing .05em
-              text-shadow base_text_shadow
-              transition all .1s ease-in-out
-              text-transform uppercase
-            &:hover > a
-              background-color base_color_hover
-            &.current-menu-item
-              a
-                background-color base_color_current
-              &:hover
-                a
-                  background-color base_color_hover
+            padding 12px 2px
+            margin-right 20px
+            color #79776b // sub_color
+            font-size 13px
+            font-weight 500
+            line-height 16px
+            letter-spacing 0
+            text-transform capitalize // uppercase
+            text-decoration none
+            // text-shadow base_text_shadow
+            transition all .15s ease-in-out
+          &:hover > a
+          &.current-menu-item > a
+            color base_color
+            border-bottom 1px solid base_color
           .current_page_item > a
           .current_page_ancestor > a
           .current-menu-item > a
           .current-menu-ancestor > a
             text-decoration none
-  .header-bar__search-wrap
-    float right
-    width (100% / 8) * 1
-    .header-bar__search
-      position relative
-      .header-bar__search-form
-        .header-bar__search-form__label
-          display block
-          margin 7px
-          margin-right 0
-          text-align right
-          .header-bar__search-form__field
-            cursor pointer
-            -webkit-font-smoothing antialiased
-            width 100%
-            height header_bar_height - 14px
-            padding 0 9px
-            padding-right 25px
-            background-color #f3f3f3
-            border-width 0
-            color #6A7180
-            font-size 12px
-            font-weight normal
-            line-height header_bar_height - 14px
-            border-radius header_bar_height - 14px
-            box-shadow inset -1px -1px 0 #eee, inset 1px 1px 0 #eee
-            &:focus
-              cursor text
-              background-color #fff
-              border-width 0
-        .header-bar__search-form__icon
-          position absolute
-          top 3px
-          right 7px
-          margin 0
-          span
-            color #E9EAED
-          .fa
-            cursor pointer
-            padding-left 3px
-            color #A7ACB5
-        .header-bar__search-form__submit
+
+    // サイトナビバー
+    .header-bar__site-menu-wrap
+      .header-bar__site-menu // nav
+        .navigation-menu // ul
+          .menu-item // li
+            float left
+            text-align left
+    // サイトロゴ
+    .header-bar__site-logo-wrap
+      a.header-bar__site-logo
+        display block
+        cursor pointer
+        width 100%
+        height 165px
+        .header-bar__title
+        .header-bar__description
           hidden()
+    // サイト検索
+    .header-bar__site-search-wrap
+      .header-bar__site-search
+        position relative
+        width 160px
+        margin 92px 0 0
+        float right
+        .header-bar__search-form
+          .header-bar__search-form__label
+            display block
+            margin 7px
+            margin-right 0
+            text-align right
+            .header-bar__search-form__field
+              cursor pointer
+              -webkit-font-smoothing antialiased
+              width 100%
+              max-width 160px
+              height header_bar_height - 14px
+              padding 0 9px
+              padding-right 25px
+              background-color #f3f3f3
+              border-width 0
+              color #6A7180
+              font-size 12px
+              font-weight normal
+              line-height header_bar_height - 14px
+              border-radius header_bar_height - 14px
+              box-shadow inset -1px -1px 0 #eee, inset 1px 1px 0 #eee
+              &:focus
+                cursor text
+                background-color #fff
+                border-width 0
+          .header-bar__search-form__icon
+            position absolute
+            top 10px
+            right 7px
+            margin 0
+            span
+              color #E9EAED
+            .fa
+              cursor pointer
+              padding-left 3px
+              color #A7ACB5
+          .header-bar__search-form__submit
+            hidden()
+
+      .header-bar__site-menu // nav
+        float right
+        .navigation-menu // ul
+          .menu-item // li
+            float right
+            text-align right
 
 .header-breadcrumbs-wrap
   background-color sub_color
   border-bottom 1px solid #e1e8ed
   .header-breadcrumbs
-    clearfix()
-    max-width 1080px
-    margin 0 auto
-    @media screen and (max-width: 1110px)
-      padding 0px 15px
+    container()
 
 
 /* = #GalleryBox #ContactBox
@@ -188,18 +192,34 @@ gallery_info_width = 360px
       visible()
       opacity 1
 .gallery-layer__vertical-center
-  display table
+  hidden()
   height 100%
   width 100%
+  &.active
+    visible()
+    display table
   .gallery-layer__vertical-center__cell
     display table-cell
     vertical-align middle
     .gallery-layer__content-wrap
-      padding 32px // 8px 32px
+      container()
+      padding-top 40px
+      padding-bottom 40px
       translate3d(0, 0, 0)
+      .gallery-layer__back-wrap
+        .gallery-layer__back
+          width 130px
+          margin-top 15px
+          padding 10px 0
+          color #333
+          font-weight 700
+          text-align center
+          text-transform uppercase
+          letter-spacing .02em
+          background-color #fff
+          .fa
+            padding-right 9px
       .gallery-layer__content
-        max-width 1080px
-        margin 0 auto
         background-color #fdfdfd
         background-clip padding-box
         border-radius 4px
@@ -315,40 +335,51 @@ gallery_info_width = 360px
         line-height 24px
         text-align center
   .gallery-content__picture-wrap
+    overflow hidden
     position relative
     float left
     height 100%
     width 66.666%
-    // margin-right gallery_info_width
     border-radius 3px 0 0 3px
     .gallery-content__picture
       height 100%
-      .ui-load-event
-        clearfix()
-        .post-preview
+      background-color #000
+      .archive-media--photograph-wrap
+        .archive-media--photograph
+          opacity 0
+          position absolute
           top 0
+          left @top
           right @top
-          min-height 240px
-          background-size contain
-          background-position 50% 50%
-          background-repeat no-repeat
-        .post-background
-          background-color #1B1B1B
-          box-shadow none
-        .post-preview
-        .post-background
+          bottom @top
           border-radius 3px 0 0 3px
+          background-size cover
+          background-position 50% 25%
+          transition opacity .55s ease-out .15s
+        .archive-media--photograph-shadow
+          z-index 1
+          position absolute
+          top 0
+          left @top
+          right @top
+          bottom @top
+          border-radius 3px 0 0 3px
+          background-color rgba(0, 0, 0, .04)
+          transition background-color .05s ease-out
+        &.loaded
+          .archive-media--photograph
+            opacity 1
       .gallery-navigations
         .gallery-navigation
           z-index 300
           opacity 0
           position absolute
           top 50%
-          margin-top -(39px + 20px)
+          margin-top -(35px + 20px)
           padding 20px
           color #fff
-          font-size 75px
-          line-height 75px
+          font-size 70px
+          line-height @font-size
           text-shadow 0 0 3px rgba(0, 0, 0, .75)
           &:hover
             opacity .9 !important
@@ -361,7 +392,7 @@ gallery_info_width = 360px
       &:hover
       .gallery-navigations
         .gallery-navigation
-          opacity .2
+          opacity .6
   @media screen and (max-width: 940px)
     .gallery-content__info-wrap
       float none
@@ -403,27 +434,30 @@ gallery_info_width = 360px
       background-color #789FA5
     .wpcf7
       width 100%
-      max-width 800px
-      margin 0 auto
+      max-width 750px
+      margin -40px auto 0
       padding 20px 25px 5px
-      background sub_color
+      background #fff // sub_color
       form.wpcf7-form
         & > hgroup
           margin-bottom 40px
           text-align center
           h2
-          p
-            color base_color
+            margin-top 55px
+            color #55534D
+            font-size 26px
             font-weight bold
-          h2
-            margin-top 30px
-            font-size 36px
-            // text-transform uppercase
+            text-transform uppercase
+            letter-spacing .04em
           p
             margin 30px 0
-            font-size 15px
+            color lighten(#55534D, 10%)
+            font-size 13px
+            font-weight normal
+            font-style italic
         & > p
           margin 0 40px 20px
+          color lighten(#55534D, 10%)
           font-size 14px
           font-weight bold
           span.wpcf7-form-control-wrap
@@ -439,7 +473,7 @@ gallery_info_width = 360px
               font-size 14px
               line-height 1.42857143
               color #555
-              background-color #FFF
+              background-color background_color // #FFF
               background-image none
               border none
               border-radius 2px
@@ -490,34 +524,64 @@ gallery_info_width = 360px
   .page-layer__vertical-center__cell
     .page-layer__content-wrap
       .page-layer__content
-        max-width 1080px
-        margin 0 auto
-        padding 10px
-        border-radius 0 0 3px 3px
+        container()
+        padding-top 40px
         &.page-layer__content--archive
-          padding-top 20px
-          background-color #f3f3f3 // #eaeaea
-          border  1px solid rgba(0, 0, 0, .06)
-          border-top 0
+          hoge 0
         &.page-layer__content--report
-          max-width 810px
+          max-width 800px
           padding-top 0
-          padding-left 130px
+          padding-left 80px
+          padding-right 80px
           background-color transparent
           border none
           .page-layer__media
-            background-color #f3f3f3
-            border-radius 0 0 3px 3px
-            border  1px solid rgba(0, 0, 0, .06)
-            border-top 0
-            border-bottom 0
+            padding-top 30px
+            background-color #e9eaed
         &.page-layer__content--full
           max-width 100%
           margin 0
           padding 0
+        &.page-layer__content--search
+          .page-layer__media
+            background-color #fff
+            margin -40px 140px 40px
+            padding-top 40px
         .page-layer__media // #contesnts--page
           clearfix()
           margin 0 auto
+
+          // Archive.Search
+          .page-layer__media--search__title
+            ellipsis()
+            padding 0 60px
+            text-align center
+          .page-layer__media--search--archive-wrap
+            padding 60px 120px 120px
+            .page-layer__media--search--archive
+              padding 20px 0
+              border-bottom 1px solid #ddd
+              .page-layer__media--search__cell
+                .archive-media--search-wrap
+                  .archive-media--search
+                    .archive-media--search__title
+                      ellipsis()
+                      margin 0 0 12px
+                      font-size 16px
+                      line-height 1.6em
+                      a
+                        color font_color
+                        transition color .2s ease
+                        &:hover
+                          color #ac0404
+                    .archive-media--search__excerpt
+                    .archive-media--search__link
+                      ellipsis()
+                      font-size 12px
+                      line-height 17px
+                    .archive-media--search__excerpt
+                      color lighten(font_color, 10%)
+                      text-align justify
 
           // Archive.Photolog
           .page-layer__media--photolog--archive
@@ -525,11 +589,9 @@ gallery_info_width = 360px
             display inline
             float left
             width 20% // 160px
-            // margin 0
-            // padding 7px 0 23px
             margin 10px 0 15px
             padding 7px 0 23px
-            box-shadow inset 0px -1px 0 #F8F8F8, inset 0px -2px 0 #DFDFDF
+            // box-shadow inset 0px -1px 0 #F8F8F8, inset 0px -2px 0 #DFDFDF
             .page-layer__media--photolog__cell
               clearfix()
               margin 0 20px 10px
@@ -543,8 +605,6 @@ gallery_info_width = 360px
                     left 0
                     right 0
                     bottom 0
-                    margin -5px
-                    padding 5px
                     // background-color rgba(204, 204, 204, .8)
                     background-color #fff
                     box-shadow 0 0 0 1px rgba(0, 0, 0, .04), 0 1px 5px rgba(0, 0, 0, .1)
@@ -651,22 +711,36 @@ gallery_info_width = 360px
           // Archive.Report
           .page-layer__media--report--archive
           .page-layer__media--report--single
-            padding 24px 32px 20px
-            box-shadow inset 0px -1px 0 #F8F8F8, inset 0px -2px 0 #DFDFDF
+            padding 0 15px 15px
+            // box-shadow inset 0px -1px 0 #eee
+            .archive-media--report-back-wrap
+              .archive-media--report-back
+                width 150px
+                margin 12px 1px
+                padding 10px 0
+                color #333
+                font-weight 700
+                text-align center
+                text-transform uppercase
+                letter-spacing .02em
+                background-color #fff
+                .fa
+                  padding-right 9px
             .page-layer__media--report__cell
               clearfix()
               position relative
-              margin 10px 0 20px
-              padding 15px
-              background-color #fff
-              box-shadow 0 0 0 1px rgba(0, 0, 0, .04), 0 1px 5px rgba(0, 0, 0, .1)
+              padding 12px
+              border 1px solid
+              border-color #e5e6e9 #dfe0e4 #d0d1d5
               border-radius 3px
+              background-color #fff
               .archive-media--report-wrap
                 .archive-media--report
                   .archive-media--photograph-wrap
                     position relative
                     height 172px
-                    margin -15px -15px 0
+                    margin -12px -12px 0
+                    background-color rgba(231, 228, 218, .45)
                     .archive-media--photograph
                     .archive-media--photograph-shadow
                       border-radius 3px 3px 0 0
@@ -687,8 +761,8 @@ gallery_info_width = 360px
                       left 0
                       right 0
                       bottom 0
-                      border 1px solid rgba(0, 0, 0, .12)
                       background-color rgba(0, 0, 0, .04)
+                      border-bottom 1px solid rgba(0, 0, 0, .07)
                       transition background-color .05s ease-out
                     &.loaded
                       .archive-media--photograph
@@ -697,11 +771,11 @@ gallery_info_width = 360px
                     .ui-calendar
                       position absolute
                       top 0
-                      left -105px
+                      left -95px
                     .archive-media--report__relative-date
                       position absolute
                       top 65px
-                      left -145px
+                      left -135px
                       width 80px
                       color #999
                       font-size 13px
@@ -709,21 +783,25 @@ gallery_info_width = 360px
                       text-align right
                       text-shadow 0px 1px 0px rgba(255, 255, 255, .8)
                   .archive-media--report__article
-                    padding 0 5px
+                    margin-bottom 10px
+                    padding 0
                     .archive-media--report__title // h3
-                      margin 12px 0 8px
-                      font-size 15px
-                      font-weight bold
+                      margin 20px 0 12px
+                      font-size 16px
+                      font-weight 700
                       line-height 1.4em
+                      letter-spacing .01em
                       a
                         color #4d3636
                     .archive-media--report__excerpt
                       ellipsis()
                       margin 0
-                      height 2.8em
-                      color #666
-                      line-height 1.4em
+                      color #8A8A80
+                      font-size 12px
+                      line-height 1.5em
+                      height @line-height * 2
                       text-align justify
+                      color: #8A8A80;
                 &:hover
                   .archive-media--report
                     .archive-media--photograph-wrap
@@ -791,6 +869,8 @@ gallery_info_width = 360px
                           height auto
                   .archive-media--report__footer
                     .archive-media--report__social-wrap
+                      clearfix()
+                      padding 0 10px
                       .archive-media--report__social
                         overflow hidden
                         height 95px
@@ -808,44 +888,56 @@ gallery_info_width = 360px
                           box-shadow inset -1px 1px 0 #eee
                         &:nth-child(4)
                           box-shadow inset 0 1px 0 0 #eee
-                  .archive-media--report__navi-wrap
-                    .archive-media--report__navi
-                      a > span
+                  .archive-media--report-navigate // nav
+                    clearfix()
+                    .archive-media--navigate-wrap
+                      padding 0 10px
+                      .archive-media--navigate
                         button-pink()
-                        display block
                         padding 13px
                         color #fff
                         font-size 12px
-                        .fa-angle-double-up
-                          padding-right 15px
-                        .fa-angle-double-down
-                          padding-left 15px
+                        .archive-media--navigate--angle
+                          margin-bottom 4px
+                          font-weight 700
+                          text-align center
+                          .fa
+                            font-size 14px
+                          .fa-angle-left
+                            padding-right 6px
+                          .fa-angle-right
+                            padding-left 6px
+                        .archive-media--navigate--title
+                          omission()
                         &:hover
                           opacity .8
 
+
           // Archive.Project
           .page-layer__media--project--archive
+            clearfix()
             position relative
-            margin 32px 0 16px
-            padding-bottom 16px
-            box-shadow inset 0px -1px 0 #F8F8F8, inset 0px -2px 0 #DFDFDF
+            margin 0
+            padding-bottom 48px
             .page-layer__media--project__cell
               clearfix()
               .archive-media--project-wrap
                 .archive-media--project
                   .archive-media--photograph-wrap
                     position relative
-                    height 172px
+                    height 202px
                     .archive-media--background
                       position absolute
                       top 0
                       left 0
                       right 0
                       bottom 0
-                      margin -5px
-                      padding 5px
-                      background-color #fff
-                      box-shadow 0 0 0 1px rgba(0, 0, 0, .04), 0 1px 5px rgba(0, 0, 0, .1)
+                      // margin -5px
+                      // padding 5px
+                      background-color rgba(231, 228, 218, .45)
+                      border 1px solid rgba(121, 119, 107, .1)
+                      // background-color #fff
+                      // box-shadow 0 0 0 1px rgba(0, 0, 0, .04), 0 1px 5px rgba(0, 0, 0, .1)
                       transition margin .05s ease-out
                     .archive-media--photograph
                       opacity 0
@@ -871,15 +963,52 @@ gallery_info_width = 360px
                       .archive-media--photograph
                         opacity 1
                   .archive-media--project__article
+                    height 60px
+                    margin-top 20px
+                    border-bottom 1px solid #e7e4da
                     .archive-media--project-title // h3
-                      height 3em
-                      margin-bottom 0
-                      font-size 13px
-                      font-weight bold
+                      omission()
+                      margin 0
+                      font-size 14px
+                      font-weight 300
                       line-height 1.5em
-                      text-align center
+                      text-align justify
                       a
-                        color #4d3636
+                        color font_color
+                        font-weight 500
+                        letter-spacing .01em
+                    .archive-media--project-tags // ul
+                      clearfix()
+                      list-style none
+                      margin 0
+                      .tag // li
+                        display inline-block
+                        position relative
+                        margin 0
+                        margin-right 2px
+                        padding-left @margin-right
+                        padding-right @margin-right
+                        color #b9b9af
+                        font-size 11px
+                        white-space nowrap
+                        background-color transparent
+                        transition color .15s ease
+                        &:before
+                          content '#'
+                        &:first-child
+                          padding-left 0
+                  .archive-media--project__footer
+                    .archive-media--project-year
+                      margin-top 6px
+                      font-size 13px
+                      font-weight 300
+                      line-height 1.5em
+                      text-align justify
+                      .starting-year
+                      .separator
+                      .end-year
+                        display inline
+                        padding-right 7px
                 &:hover
                   .archive-media--project
                     .archive -media--photograph-wrap
@@ -890,37 +1019,145 @@ gallery_info_width = 360px
                         opacity 1
           .page-layer__media--project--single
             position relative
-            margin 32px 0 16px
+            // margin 32px 0 16px
             padding-bottom 16px
             .page-layer__media--project__cell
-              padding 35px
-              background-color sub_color
-              box-shadow 0 0 0 1px rgba(0, 0, 0, .04), 0 1px 5px rgba(0, 0, 0, .1)
               .archive-media--project-wrap
+                .archive-media--project-back-wrap
+                  .archive-media--project-back
+                    width 130px
+                    padding 10px 0
+                    color #333
+                    font-weight 700
+                    text-align center
+                    text-transform uppercase
+                    letter-spacing .02em
+                    background-color #fff
+                    .fa
+                      padding-right 9px
                 .archive-media--project
                   .archive-media--project__header
-                    .archive-media--project__title
-                      margin 10px 0 25px
-                      text-align center
-                      font-size 25px
-                      font-weight bold
-                      span
-                        padding 10px
-                        box-shadow inset 0 -2px darken(sub_color, 10%)
-                    .archive-media--project__description
-                      margin 0
-                      padding 15px 0
-                      font-size 15px
-                      text-align center
-                    .archive-media--project__dots
-                      padding 5px 0 15px
-                      color darken(sub_color, 10%)
-                      font-size 22px
-                      line-height @font-size
-                      text-align center
+                    clearfix()
+                    position relative
+                    padding 17px 0
+                    border-bottom 1px solid lighten(font_color, 40%)
+                    .archive-media--project-head
+                      clearfix()
+                      .archive-media--project-titles
+                        margin 0 -15px
+                        .archive-media--project__title
+                          min-height 2.2em
+                          margin 0 0 17px
+                          padding 0
+                          font-size 24px
+                          font-weight bold
+                          text-align center
+                          text-transform uppercase
+                        .archive-media--project__description
+                          margin 0
+                          padding 5px 0
+                          font-size 13px
+                          font-style italic
+                          text-align center
+                    .archive-media--project-navigate
+                      .archive-media--project-navigate__prev
+                      .archive-media--project-navigate__next
+                        position absolute
+                        bottom 17px
+                        width 25%
+                        .archive-media--navigate--angle
+                          margin 4px 0 12px
+                          color lighten(font_color, 5%)
+                          font-weight bold
+                          text-transform uppercase
+                          transition color .05s ease
+                          .fa
+                            padding 0 6px
+                        .archive-media--navigate--title
+                          omission()
+                          padding 0 15px
+                          color lighten(font_color, 25%)
+                          font-style italic
+                        &:hover
+                          .archive-media--navigate--angle
+                            color base_color
+                      .archive-media--project-navigate__prev
+                        left 0
+                        text-align left
+                      .archive-media--project-navigate__next
+                        right 0
+                        text-align right
                   .archive-media--project__article
                     clearfix()
                     margin 0 0 20px
+                    padding-bottom 17px
+                    border-bottom 1px solid lighten(font_color, 40%)
+                    .archive-media--project__info
+                      clearfix()
+                      margin 40px -15px
+                      .archive-media--project__section-title // h1
+                        margin 0 0 10px
+                        font-size 14px
+                        font-weight 700
+                        letter-spacing .05em
+                        text-align left
+                        text-transform uppercase
+                      .archive-media--project__info--abstracts
+                        .archive-media--project-abstract-wrap
+                          .archive-media--project-abstract--text
+                            min-height 120px
+                            padding 15px 0
+                            font-size 14px
+                          .archive-media--project-tags
+                            min-height 46px
+                            .title
+                            .tag
+                              display inline-block
+                              margin 0 5px 5px 0
+                              padding 0 3px
+                              color #7A7A7A
+                              font-size 13px
+                              line-height 18px
+                            .title
+                              font-weight bold
+                            .tag
+                              background-color rgba(230, 230, 230, .35)
+                        .archive-media--project__socials-wrap
+                          padding-top 15px
+                          padding-bottom 15px
+                          border-bottom 1px solid #ccc
+                          .archive-media--project__socials
+                            padding-top 10px
+                            .archive-media--project__social
+                              overflow hidden
+                              height 70px
+                      .archive-media--project__info--photography
+                        .archive-media--photograph-wrap
+                          height 360px
+                          position relative
+                          .archive-media--photograph
+                            opacity 0
+                            position absolute
+                            top 0
+                            left 0
+                            right 0
+                            bottom 0
+                            background-size cover
+                            background-position 50% 25%
+                            transition opacity .55s ease-out .15s
+                          .archive-media--photograph-shadow
+                            z-index 1
+                            position absolute
+                            top 0
+                            left 0
+                            right 0
+                            bottom 0
+                            border 1px solid rgba(0, 0, 0, .12)
+                            background-color rgba(0, 0, 0, .04)
+                            transition background-color .05s ease-out
+                          &.loaded
+                            .archive-media--photograph
+                              opacity 1
                     .archive-media--project__body
                       text-align justify
                       h1
@@ -1013,40 +1250,60 @@ gallery_info_width = 360px
           base_margin = 15px
           base_border = 3px
           .page-layer__media--home--page
+            .post-section // section
+              position relative
+              margin-bottom 0
+              padding 50px 0
+              background-size cover
+              background-position 0% 50%
             .page-layer__media--home__cell
               .archive-media--home-wrap
                 .archive-media--home
                   .archive-media--home__slider-wrap
+                    position relative
                     clearfix()
                     .archive-media--home__slider
                       overflow hidden
                       width 100%
-                      min-height 480px
-                      margin 5px 0 base_margin
-                      background-color sub_color
-                      border-radius base_border
+                      height 480px
+                      background-color background_color_dark
                       background-size cover
                       background-position 50% 50%
+                    .archive-media--home__slider--button
+                      position absolute
+                      top 50%
+                      left 50%
+                      button-pink()
+                      width 200px
+                      padding 10px
+                      margin-top 100px
+                      margin-left -100px
+                      color #fff
+                      box-shadow none
                   .archive-media--home__main-wrap
-                    clearfix()
-                    .archive-media--home__sidebar
-                      width 320px
-                      min-height 1px
-                      float left
-                      .archive-media--home__sidebar--photolog
-                      .archive-media--home__sidebar--youtube
-                        overflow hidden
-                        width 320px
-                        height 180px
-                        margin-bottom base_margin
-                        background-color base_color
-                        border-radius base_border
-                      .archive-media--home__sidebar--youtube
-                        iframe
-                          overflow hidden
-                          width 320px
-                          height 180px
-                          border-radius base_border
+                    container()
+                    padding-top 80px
+                    padding-bottom 80px
+
+                    // .archive-media--home__sidebar
+                    //   width 320px
+                    //   min-height 1px
+                    //   float left
+                    //   .archive-media--home__sidebar--photolog
+                    //   .archive-media--home__sidebar--youtube
+                    //     overflow hidden
+                    //     width 320px
+                    //     height 180px
+                    //     margin-bottom base_margin
+                    //     background-color base_color
+                    //     border-radius base_border
+                    //   .archive-media--home__sidebar--youtube
+                    //     iframe
+                    //       overflow hidden
+                    //       width 320px
+                    //       height 180px
+                    //       border-radius base_border
+
                     .archive-media--home__content
                       min-height 1px
                       margin-left 320px
@@ -1069,23 +1326,42 @@ gallery_info_width = 360px
                             color #fff
                             .fa
                               padding-right base_margin
+
                   .archive-media--home__project-wrap
+                    padding 30px 0 80px
+                    background-color #fff
                     .archive-media--home__project
-                      border-top 1px solid #ccc
-                      border-bottom 1px solid #ccc
+                      container()
+                      // border-bottom 1px solid #ccc
                       .archive-media--home__project__title
                         margin 0
-                        padding 47px 0 22px
+                        padding 47px 0
                       .archive-media--home__project__slider
+                        clearfix()
                         min-height 1px
+                        .page-layer__media--project--archive
+                          padding-bottom 36px
+                          .page-layer__media--project__cell
+                            .archive-media--project-wrap
+                              .archive-media--project
+                                .archive-media--project__article
+                                  height auto
+                                  margin-top 15px
+                                  border-bottom none
                     .archive-media--home__project__more
-                      color #222
+                      container()
+                      // color #222
                       font-size 14px
                       line-height 3em
                       text-align center
-                      text-transform uppercase
-                      .fa
-                        padding-left 5px
+                      a
+                        button-pink()
+                        width auto
+                        padding 8px 24px
+                        color #fff
+                        box-shadow none
+                        .fa
+                          padding-left 6px
 
 
           // Page.About
@@ -1104,6 +1380,17 @@ gallery_info_width = 360px
               &:first-child
                 background-color transparent
                 padding-bottom 100px
+                background-image url(path + 'about/overview_professor_message_back_2x.jpg')
+              &.nth-child(2)
+                background-color lighten(sub_color, 0%)
+              &.nth-child(3)
+                background-color #fff
+              &:nth-child(4)
+                padding 120px 0
+                background-color transparent
+              &:nth-child(5)
+                background-color #fff
+
               // 画像背景
               .img-background-frame
                 z-index -1
@@ -1165,84 +1452,6 @@ gallery_info_width = 360px
                     &:hover
                       // opacity .72
                       scale(1.2)
-              // 年表
-              #slider-holder
-                position relative
-                max-width 560px
-                margin 60px auto 40px
-                font-size 14px
-                font-weight 300
-                @media screen and (max-width: 640px)
-                  margin-top 80px
-                & > div
-                  outline none
-                .tray
-                  cursor pointer
-                  display inline-block
-                  position relative
-                  top 0
-                  left 0
-                  width 70%
-                  height 20px
-                  margin 0 20px
-                  vertical-align top
-                  @media screen and (max-width: 640px)
-                    margin 0 6.5%
-                  .bar
-                    position absolute
-                    top 50%
-                    left 0
-                    width 100%
-                    height 1px
-                    background-color #888
-                  .handle-holder
-                    position absolute !important
-                    top 50%
-                    left 0
-                    .handle
-                      cursor pointer
-                      position relative
-                      width 27px
-                      height 27px
-                      margin-left -13px
-                      margin-top -13px
-                      background-color #fff
-                      background-image url('http://images.apple.com/v/30-years/c/images/datavis/scrub-handle-light.png')
-                      background-size 25px 25px
-                      background-repeat no-repeat
-                      background-position 1px 1px
-                      box-shadow 0 0 0 3px #fff
-                      border-radius 30px
-                    .hit-area
-                      position absolute
-                      width 50px
-                      height 50px
-                      top -25px
-                      left -25px
-                    .handle-label-holder
-                      position absolute
-                      top -40px
-                      box-sizing content-box
-                      @media (max-device-width: 568px)
-                        top -30px
-                      .handle-label-text
-                        position relative
-                        left -50%
-                        color #000
-                        font-size 1.3em
-                        line-height 1.2em
-                        @media screen and (max-width: 640px)
-                          font-size 1.8em
-                .min-label
-                .max-label
-                  display inline-block
-                  height 100%
-                  vertical-align top
-                  cursor pointer
-                  color #000
-                  line-height 20px
-                  @media screen and (max-width: 640px)
-                    font-size 1.5em
               // テキスト共通
               p.text-field
               .text-field-custom
@@ -1262,13 +1471,12 @@ gallery_info_width = 360px
               .text-field-custom
                 .face
                   width 100%
-                  max-width 720px
-                  height 320px
+                  height 360px
                   margin 10px auto
                   background-color #fff
                   background-size cover
                   background-position 50% 50%
-                  box-shadow 1px 4px 0 #e7e7e7, -1px -1px 0 #e7e7e7
+                  box-shadow 1px 1px 0 #e7e7e7, -1px -1px 0 #e7e7e7
                   transition all .25s ease
                 .members
                   clearfix()
@@ -1434,3 +1642,21 @@ gallery_info_width = 360px
                   font-size 1.333em
                   line-height 1.688
 
+
+/* = Footer
+ * ----------------------------------------------------- */
+footer.ui-footer
+  position relative
+  margin-top 20px
+  .container
+    clearfix()
+    .footer__language
+    .footer__copyright
+      .footer__copyright__info
+        margin 0
+        padding 15px 0 85px
+        color darken(#b9b9af, 5%)
+        font-size 12px
+        text-align center
+        strong
+          padding 0 2px

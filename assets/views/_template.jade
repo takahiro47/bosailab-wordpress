@@ -84,9 +84,6 @@ script#tmpl-gallery(type='text/template')
       .gallery-content__info__close ×
 
 script#tmpl-container(type='text/template')
-  //- hgroup.page-title
-  //-   h1
-  //-.container.js-container
   .main-layer
     .gallery-layer__vertical-center
       .gallery-layer__vertical-center__cell
@@ -98,20 +95,30 @@ script#tmpl-container(type='text/template')
         .page-layer__content-wrap
           .page-layer__content
             .page-layer__media#contents--page
-    //- .row
-    //-   section#contents
-  //- .GridTimeline-footer.container
-  //-   .GridTimeline-footerIcon
-  //-     span.spinner
-  //-       i.fa.fa-spinner.fa-spin
-  //-       //- fa-circle-o-notch
-  //-     span.end.hidden
-  //-       i.fa.fa-cloud
 
 script#tmpl-content(type='text/template')
 
 script#tmpl-archive(type='text/template')
-  <% if (type == 'photolog') { %>
+  <% if (type == 'project') { %>
+  .page-layer__media--project__cell
+    .archive-media--project-wrap
+      .archive-media--project
+        .archive-media--photograph-wrap
+          .archive-media--background
+          a.js-navi-single(href!='<%- url %>')
+            .archive-media--photograph
+            .archive-media--photograph-shadow
+            +ui-loader
+        article.archive-media--project__article
+          h3.archive-media--project-title.ellipsis
+            a.js-navi-single(href!='<%- url %>') <%- title %>
+          ul.archive-media--project-tags.ui-tags
+        footer.archive-media--project__footer
+          .archive-media--project-year
+            .starting-year <%- acf.starting_year %>
+            .separator -
+            .end-year <%- acf.end_year %>
+  <% } else if (type == 'photolog') { %>
   .page-layer__media--photolog__cell
     .archive-media--photolog-wrap
       .archive-media--photolog
@@ -152,20 +159,6 @@ script#tmpl-archive(type='text/template')
           h3.archive-media--report__title.ellipsis
             a.js-navi-single(href!='<%- url %>') <%- title %>
           p.archive-media--report__excerpt.ellipsis.multiline
-
-  <% } else if (type == 'project') { %>
-  .page-layer__media--project__cell
-    .archive-media--project-wrap
-      .archive-media--project
-        .archive-media--photograph-wrap
-          .archive-media--background
-          a.js-navi-single(href!='<%- url %>')
-            .archive-media--photograph
-            .archive-media--photograph-shadow
-            +ui-loader
-        article.archive-media--project__article
-          h3.archive-media--project-title.ellipsis
-            a.js-navi-single(href!='<%- url %>') <%- title %>
   <% } %>
 
 script#tmpl-single(type='text/template')
@@ -282,13 +275,15 @@ script#tmpl-single(type='text/template')
   .page-layer__media--project__cell
     .archive-media--project-wrap
       .archive-media--project
+        nav.archive-media--project__nav
         header.archive-media--project__header
-          //- タイトル
-          h1.archive-media--project__title: span <%- title %>
-          //- 概要
-          p.archive-media--project__description <%= acf.description %>
-          //- 区切り
-          .archive-media--project__dots: i.fa.fa-ellipsis-h
+          .col-xs-3
+          .col-xs-6.archive-media--project-titles
+            //- タイトル
+            h1.archive-media--project__title <%- title %>
+            //- 概要
+            p.archive-media--project__description <%= acf.description %>
+          .col-xs-3
         article.archive-media--project__article
           .archive-media--project__body <%= content %>
         footer.archive-media--project__footer.container-fluid

@@ -11,7 +11,8 @@ global-reset()
 /* = Settings
  * ------------------------------------------------------------ */
 
-@import 'setting'
+@import 'config'
+
 
 
 /* = 参考サイト(綺麗なサイト)
@@ -116,6 +117,11 @@ $fa-version ?= '4.0.1'
 /* = Global
  * ------------------------------------------------------------ */
 
+::selection
+  background-color #e6e6e6
+::-moz-selection
+  background-color #e6e6e6
+
 body
   position relative
   -webkit-font-smoothing antialiased
@@ -128,7 +134,7 @@ body
   // background background_color
   // background-image url(path + 'page-bg-tile.jpg')
   // background-repeat repeat
-  background-color body_background
+  background-color #fff
   // background-image url(path + 'about/overview_professor_message_back_2x.jpg')
   // background-size cover
 
@@ -198,5 +204,4 @@ dev_width = 1980px * 1.1
 @import 'ui-plugin'
 @import 'ui-element'
 @import 'ui-style'
-@import 'ui-container'
 

@@ -90,7 +90,9 @@ function twentythirteen_setup() {
   // ) );
 
   // This theme uses wp_nav_menu() in one location.
-  register_nav_menu( 'primary', __( 'Navigation Menu', 'twentythirteen' ) );
+  register_nav_menu( 'primary_left', 'ヘッダナビ(タイトルロゴの左)' );
+
+  register_nav_menu( 'primary_right', 'ヘッダナビ(タイトルロゴの右)' );
 
   /*
    * This theme uses a custom image size for featured images, displayed on
@@ -845,5 +847,40 @@ function put_breadcrumbs() {
   }
 }
 
+function toLastUpdateString($target, $now=null) {
+  if (!$now) $now = new DateTime('@' . $_SERVER['REQUEST_TIME']);
 
+  /** @type DateInterval $diff */
+  $diff = date_diff($target, $now);
 
+  if ($diff->invert) {
+    trigger_error('未来');
+    return 'たった今';
+  }
+
+  if ($diff->y) return $diff->y . '年前';
+  if ($diff->m) return $diff->m . 'ヶ月前';
+  if ($diff->d) return $diff->d . '日前';
+  if ($diff->h) return $diff->h . '時間前';
+  if ($diff->i) return $diff->i . '分前';
+  if ($diff->s) return $diff->s . '秒前';
+  return 'たった今';
+}
+
+// 画像サイズを追加
+if ( function_exists( 'add_image_size' ) ) {
+  add_image_size( 'project-archive', 640, 404, true );
+  add_image_size( 'project-single', 1200, 720, true );
+
+  add_image_size( 'photolog-archive', 344, 344, true );
+  add_image_size( 'photolog-single', 1440, 1080, true );
+
+  add_image_size( 'report-archive', 1200, 344, true );
+}
+
+// function my_custom_sizes( $sizes ) {
+//   return array_merge( $sizes, array(
+//     'your-custom-size' => __('Your Custom Size Name'),
+//   ) );
+// }
+// add_filter( 'image_size_names_choose', 'my_custom_sizes' );

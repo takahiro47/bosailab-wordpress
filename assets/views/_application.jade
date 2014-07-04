@@ -25,7 +25,7 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
     meta(charset='UTF-8')
     //- meta(name='viewport', content='width=device-width')
     //- meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    meta(name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
+    //- meta(name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
     meta(http-equiv='Content-Type', content='text/html;charset=utf-8')
     meta(http-equiv='Cache-Control', content='no-cache')
     meta(http-equiv='Expires', content='0')
@@ -39,8 +39,9 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
     block styles
       link(rel='profile', href='http://gmpg.org/xfn/11')
       link(rel='pingback', href!="<?php bloginfo( 'pingback_url' ); ?>")
-      link(href="//fonts.googleapis.com/css?family=Lato:100italic,100,300italic,300,400italic,400,700italic,700,900italic,900" rel="stylesheet" type="text/css")
-      link(rel='stylesheet', href!="<?php echo (get_template_directory_uri() . '/public/css/style.css') ?>")
+      //- link(href="//fonts.googleapis.com/css?family=Lato:100italic,100,300italic,300,400italic,400,700italic,700,900italic,900" rel="stylesheet" type="text/css")
+      link(href='//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic', rel='stylesheet', type='text/css')
+      link(rel='stylesheet', href!="<?php echo (get_template_directory_uri() . '/dist/css/style.css') ?>")
 
     <?php // wp_head(); ?>
     :php
@@ -69,17 +70,15 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
         block header_bar
           .header-bar-wrap
             .header-bar
-              .header-bar__site-wrap
-                .header-bar__site
-                  a.js-home(href='/', title!="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>", rel='home')
-                    h1.header-bar__title <?php bloginfo( 'name' ); ?>
-                    p.header-bar__description <?php bloginfo( 'description' ); ?>
-                    i.header-bar__home-button.fa.fa-home
-              nav.header-bar__navigation-menu-wrap(role='navigation')
-                .header-bar__navigation-menu
-                  <?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_class' => 'navigation-menu' ) ); ?>
-              .header-bar__search-wrap
-                .header-bar__search
+              .col-xs-5.header-bar__site-menu-wrap
+                nav.header-bar__site-menu(role='navigation')
+                  <?php wp_nav_menu( array( 'theme_location' => 'primary_left', 'menu_class' => 'navigation-menu' ) ); ?>
+              .col-xs-2.header-bar__site-logo-wrap
+                a.js-home.header-bar__site-logo(href='/', title!="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>", rel='home')
+                  h1.header-bar__title <?php bloginfo( 'name' ); ?>
+                  p.header-bar__description <?php bloginfo( 'description' ); ?>
+              .col-xs-5.header-bar__site-search-wrap
+                .header-bar__site-search
                   form.header-bar__search-form(role='search', method='get', action!="<?php echo home_url( '/' ); ?>")
                     label.header-bar__search-form__label
                       input#s.header-bar__search-form__field(
@@ -100,11 +99,14 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
                       span |
                       i.fa.fa-search
                     input.header-bar__search-form__submit(type='submit', value='検索')
-        block header_breadcrumbs
-          .header-breadcrumbs-wrap
-            .header-breadcrumbs
-              .js-breadcrumbs
-                <?php put_breadcrumbs(); ?>
+                nav.header-bar__site-menu(role='navigation')
+                  <?php wp_nav_menu( array( 'theme_location' => 'primary_right', 'menu_class' => 'navigation-menu' ) ); ?>
+
+        //- block header_breadcrumbs
+        //-   .header-breadcrumbs-wrap
+        //-     .header-breadcrumbs
+        //-       .js-breadcrumbs
+        //-         <?php put_breadcrumbs(); ?>
 
       .ui-content
         block content
@@ -117,97 +119,147 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
                   | Loading.<br />
                   | Please wait.
             #container
-              //- block article
+              .main-layer
+                :php
+                  $galleryLayer_active = false;
+                  if (is_single() && get_post_type($post) == 'photolog') $galleryLayer_active = 'active';
+                  if ($galleryLayer_active) $class = ' active'; else $class = '';
+                .gallery-layer__vertical-center(class!='<?php echo $class; ?>')
+                  .gallery-layer__vertical-center__cell
+                    .gallery-layer__content-wrap
+                      .gallery-layer__content
+                        .gallery-layer__media#contents--gallery
+                          block gallery_article
+                      a.gallery-layer__back-wrap(href!="<?php echo get_post_type_archive_link( get_post_type() ); ?>")
+                        .gallery-layer__back
+                          i.fa.fa-angle-double-left
+                          | Back To List
+                .page-layer__vertical-center
+                  .page-layer__vertical-center__cell
+                    .page-layer__content-wrap
+                      :php
+                        $class = '';
+                        if ( is_search() ) { $class .= ' page-layer__content--search'; }
+                        switch ( $post_type = get_post_type() ) {
+                          case 'page':
+                            switch ( $page_slug = get_page_uri(get_the_ID()) ) {
+                              case 'home':
+                              case 'about':
+                                $class .= ' page-layer__content--full';
+                                break;
+                              default:
+                                $class .= ' page-layer__content--page';
+                            }
+                            break;
+                          default:
+                            $class .= ' page-layer__content--archive';
+                            $class .= ' page-layer__content--'.$post_type;
+                        }
+                      .page-layer__content(class!='<?php echo $class; ?>')
+                        .page-layer__media#contents--page
+                          block page_article
             #galleryBox
             #contactBox
 
       footer.ui-footer
         block footer
-          .footer-contents.container
-            .row
-              .footer-about.col-sm-2.col-xs-12
-                hgroup.footer-title
-                  h1 About
-                .footer-content
-                  ul.links
-                    li.link: a(href!="<?php echo home_url(); ?>/about#lab")
-                      span 研究会について
-                    //- li.link: a(href!="<?php echo home_url(); ?>/about#prof")
-                    //-   span 大木聖子について
-                    //- li.link: a(href!="<?php echo home_url(); ?>/about#members")
-                    //-   span メンバー紹介
-                    //- li.link: a(href!="<?php echo home_url(); ?>/about#welcome")
-                    //-   span 新規履修について
+          .container
+            .footer__language
+              <?php wp_footer(); ?>
 
-              .footer-projects.col-sm-2.hidden-xs
-                hgroup.footer-title
-                  h1 Project
-                .footer-content
+            .footer__copyright
+              p.footer__copyright__info
+                | Copyright © <?php echo date("Y") ?>
+                strong Oki Satoko Laboratory.
+                |  in SFC Keio University, All Rights Reserved.
 
-              .footer-links.col-sm-2.hidden-xs
-                hgroup.footer-title
-                  h1 Link
-                .footer-content
-                  ul.links
-                    li.link: a(href!="http://www.keio.ac.jp")
-                      span 慶應義塾大学
+      //- footer.ui-footer
+      //-   block footer
+      //-     .footer-contents.container
+      //-       .row
+      //-         .footer-about.col-sm-2.col-xs-12
+      //-           hgroup.footer-title
+      //-             h1 About
+      //-           .footer-content
+      //-             ul.links
+      //-               li.link: a(href!="<?php echo home_url(); ?>/about#lab")
+      //-                 span 研究会について
+      //-               //- li.link: a(href!="<?php echo home_url(); ?>/about#prof")
+      //-               //-   span 大木聖子について
+      //-               //- li.link: a(href!="<?php echo home_url(); ?>/about#members")
+      //-               //-   span メンバー紹介
+      //-               //- li.link: a(href!="<?php echo home_url(); ?>/about#welcome")
+      //-               //-   span 新規履修について
 
-              .footer-access.col-sm-3.hidden-xs
-                hgroup.footer-title
-                  h1 Access
-                .footer-content
-                  #map_canvas_footer
-                  .address
-                    p
-                      | 慶應義塾大学 湘南藤沢キャンパス（ＳＦＣ）<br />
-                      | 〒252-0882 神奈川県藤沢市遠藤5322公式ウェブ
+      //-         .footer-projects.col-sm-2.hidden-xs
+      //-           hgroup.footer-title
+      //-             h1 Project
+      //-           .footer-content
 
-              .footer-feedback.col-sm-3.hidden-xs
-                hgroup.footer-title
-                  h1 Feedback
-                .footer-content
-                  <?php echo do_shortcode('[contact-form-7 id="647" title="サイトへのフィードバック"]'); ?>
-                  p
-                    | ※お問い合わせは
-                    a(href!="<?php echo home_url(); ?>/contact") こちら
-                    | 。
-            .row
-              .footer-social.col-xs-12
-                hgroup.footer-title
-                  h1 Share Us
-                .footer-content
-                  span.twitter
-                    a.twitter-share-button(
-                      href='//twitter.com/share',
-                      data-url='https://www.facebook.com/bosailab',
-                      data-text='大木研究室公式ウェブサイト',
-                      data-lang='ja',
-                      data-hashtags='#bosailab'
-                    )
-                  //- Facebook
-                  span.facebook
-                    fb:like(
-                      href!="<?php echo home_url(); ?>",
-                      layout='standard',
-                      action='like',
-                      show_faces='true',
-                      share='false'
-                    )
-                    //- .fb-like(
-                    //-   data-href!="<?php echo home_url(); ?>",
-                    //-   data-width=450,
-                    //-   data-layout='button_count',
-                    //-   data-show-faces='true',
-                    //-   data-send='true'
-                    //- )
-          .ui-language
-            <?php wp_footer(); ?>
+      //-         .footer-links.col-sm-2.hidden-xs
+      //-           hgroup.footer-title
+      //-             h1 Link
+      //-           .footer-content
+      //-             ul.links
+      //-               li.link: a(href!="http://www.keio.ac.jp")
+      //-                 span 慶應義塾大学
 
-          .ui-site
-            p.site-info
-              | Copyright © <?php echo date("Y") ?>
-              strong  Oki Satoko Lab.
-              |  in SFC Keio University, All Rights Reserved.
+      //-         .footer-access.col-sm-3.hidden-xs
+      //-           hgroup.footer-title
+      //-             h1 Access
+      //-           .footer-content
+      //-             #map_canvas_footer
+      //-             .address
+      //-               p
+      //-                 | 慶應義塾大学 湘南藤沢キャンパス（ＳＦＣ）<br />
+      //-                 | 〒252-0882 神奈川県藤沢市遠藤5322公式ウェブ
+
+      //-         .footer-feedback.col-sm-3.hidden-xs
+      //-           hgroup.footer-title
+      //-             h1 Feedback
+      //-           .footer-content
+      //-             <?php echo do_shortcode('[contact-form-7 id="647" title="サイトへのフィードバック"]'); ?>
+      //-             p
+      //-               | ※お問い合わせは
+      //-               a(href!="<?php echo home_url(); ?>/contact") こちら
+      //-               | 。
+      //-       .row
+      //-         .footer-social.col-xs-12
+      //-           hgroup.footer-title
+      //-             h1 Share Us
+      //-           .footer-content
+      //-             span.twitter
+      //-               a.twitter-share-button(
+      //-                 href='//twitter.com/share',
+      //-                 data-url='https://www.facebook.com/bosailab',
+      //-                 data-text='大木研究室公式ウェブサイト',
+      //-                 data-lang='ja',
+      //-                 data-hashtags='#bosailab'
+      //-               )
+      //-             //- Facebook
+      //-             span.facebook
+      //-               fb:like(
+      //-                 href!="<?php echo home_url(); ?>",
+      //-                 layout='standard',
+      //-                 action='like',
+      //-                 show_faces='true',
+      //-                 share='false'
+      //-               )
+      //-               //- .fb-like(
+      //-               //-   data-href!="<?php echo home_url(); ?>",
+      //-               //-   data-width=450,
+      //-               //-   data-layout='button_count',
+      //-               //-   data-show-faces='true',
+      //-               //-   data-send='true'
+      //-               //- )
+      //-     .ui-language
+      //-       <?php wp_footer(); ?>
+
+      //-     .ui-site
+      //-       p.site-info
+      //-         | Copyright © <?php echo date("Y") ?>
+      //-         strong  Oki Satoko Lab.
+      //-         |  in SFC Keio University, All Rights Reserved.
 
       a.ui-scrollto(href='javascript:void(0)')
         i.fa.fa-caret-up
@@ -256,7 +308,7 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
       script(src='//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js')
       script(src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js')
       script(src='//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js')
-      script(src='//cdnjs.cloudflare.com/ajax/libs/masonry/3.1.5/masonry.pkgd.min.js')
+      //- script(src='//cdnjs.cloudflare.com/ajax/libs/masonry/3.1.5/masonry.pkgd.min.js')
       script(src='//cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.9/jquery.transit.min.js')
       script(src='//cdnjs.cloudflare.com/ajax/libs/wow/0.1.6/wow.min.js')
 
