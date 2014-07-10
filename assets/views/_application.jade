@@ -163,15 +163,36 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
 
       footer.ui-footer
         block footer
-          .container
-            .footer__language
+          .footer-container
+            .footer-container__socials
+              span.twitter
+                .twitter-button
+                  a.twitter-share-button(
+                    href='//twitter.com/share',
+                    data-url='https://www.facebook.com/bosailab',
+                    data-text='大木研究室公式ウェブサイト',
+                    data-lang='ja',
+                    data-hashtags='#bosailab'
+                  )
+              span.facebook
+                .facebook-button
+                  fb:like(
+                    href!="<?php echo home_url(); ?>",
+                    width='360',
+                    layout='button_count',
+                    action='like',
+                    show_faces='true',
+                    share='false'
+                  )
+                //- 'standard'
+            .footer-container__language
               <?php wp_footer(); ?>
-
-            .footer__copyright
-              p.footer__copyright__info
+            .footer-container__copyright
+              p.footer-container__copyright__info
                 | Copyright © <?php echo date("Y") ?>
                 strong Oki Satoko Laboratory.
                 |  in SFC Keio University, All Rights Reserved.
+              .footer-container__copyright__border
 
       //- footer.ui-footer
       //-   block footer
@@ -252,14 +273,6 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
       //-               //-   data-show-faces='true',
       //-               //-   data-send='true'
       //-               //- )
-      //-     .ui-language
-      //-       <?php wp_footer(); ?>
-
-      //-     .ui-site
-      //-       p.site-info
-      //-         | Copyright © <?php echo date("Y") ?>
-      //-         strong  Oki Satoko Lab.
-      //-         |  in SFC Keio University, All Rights Reserved.
 
       a.ui-scrollto(href='javascript:void(0)')
         i.fa.fa-caret-up

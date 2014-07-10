@@ -104,7 +104,12 @@ block page_article
             width=980, height=112,
             alt='わたしたちの研究会に、あなたも参加してみませんか。'
           )
-      p.text-field(style='color:#fff;') <?php the_field( 'join_us' ); ?>
+      p.text-field <?php the_field( 'join_us' ); ?>
+      .archive-media--page-about__buttons
+        a(href!='/project', title!='Our Projects')
+          .archive-media--page-about__button View Projects
+        a(href!='/contact', title!='Contact Us')
+          .archive-media--page-about__button Contact Us
 
     section.post-section
       .container
@@ -147,6 +152,13 @@ block page_article
       .contact-content-wrap
         .contact-content
           <?php echo do_shortcode('[contact-form-7 id="4" title="お問い合わせフォーム"]'); ?>
+
+          | --- OR ---
+
+          p
+            | Satoko Oki, Associate Professor
+            | office: k305, 5322 Endo, Fujisawa-shi, Kanagawa, 252-0882, JAPAN
+            | mail: soki [at] sfc.keio.ac.jp
 
     <?php } else { ?>
 

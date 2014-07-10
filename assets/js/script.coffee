@@ -15,39 +15,33 @@ $ ->
   $html.addClass 'onload'
 
   # ===================================
-  # Tests
-  # ===================================
-  # ($ '#wpadminbar').remove()
-  # $body.removeClass 'signed_in'
-
-  # ===================================
   # API
   # ===================================
 
   # https://wordpress.org/plugins/json-api/other_notes/#1.1.-Requests
-  $api =
-    domain: ($ '#api').data 'url'
+  # $api =
+  #   domain: ($ '#api').data 'url'
 
-    home: (data = {}) ->
-      return $.ajax "#{$api.domain}/?feed=json&callback=callback",
-        type: 'GET'
-        data: data
-        dataType: 'jsonp'
+  #   home: (data = {}) ->
+  #     return $.ajax "#{$api.domain}/?feed=json&callback=callback",
+  #       type: 'GET'
+  #       data: data
+  #       dataType: 'jsonp'
 
-    # archive: (data = {}) ->
-    #   return $.ajax "#{$api.domain}/#{data.post_type}/?json=get_posts&page=#{data.page}",
-    #     type: 'GET'
-    #     dataType: 'jsonp'
+  #   archive: (data = {}) ->
+  #     return $.ajax "#{$api.domain}/#{data.post_type}/?json=get_posts&page=#{data.page}",
+  #       type: 'GET'
+  #       dataType: 'jsonp'
 
-    # single: (data = {}) ->
-    #   return $.ajax "#{$api.domain}/#{data.post_type}/?json=get_post&post_id=#{data.post_id}",
-    #     type: 'GET'
-    #     dataType: 'jsonp'
+  #   single: (data = {}) ->
+  #     return $.ajax "#{$api.domain}/#{data.post_type}/?json=get_post&post_id=#{data.post_id}",
+  #       type: 'GET'
+  #       dataType: 'jsonp'
 
-    # page: (data = {}) ->
-    #   return $.ajax "#{$api.domain}/?json=get_page&page_slug=#{data.post_type}",
-    #     type: 'GET'
-    #     dataType: 'jsonp'
+  #   page: (data = {}) ->
+  #     return $.ajax "#{$api.domain}/?json=get_page&page_slug=#{data.post_type}",
+  #       type: 'GET'
+  #       dataType: 'jsonp'
 
   # ===================================
   # UI
@@ -55,22 +49,22 @@ $ ->
 
   ui =
 
-    _pl: [
-      { p: 'platform', reg: /iphone/i, id: 'iphone' },
-      { p: 'platform', reg: /ipod/i, id: 'ipod' },
-      { p: 'userAgent', reg: /ipad/i, id: 'ipad' },
-      { p: 'userAgent', reg: /blackberry/i, id: 'blackberry' },
-      { p: 'userAgent', reg: /android/i, id: 'android' },
-      { p: 'platform', reg: /mac/i, id: 'mac' },
-      { p: 'platform', reg: /win/i, id: 'windows' },
-      { p: 'platform', reg: /linux/i, id: 'linux' }
-    ]
+    # _pl: [
+    #   { p: 'platform', reg: /iphone/i, id: 'iphone' },
+    #   { p: 'platform', reg: /ipod/i, id: 'ipod' },
+    #   { p: 'userAgent', reg: /ipad/i, id: 'ipad' },
+    #   { p: 'userAgent', reg: /blackberry/i, id: 'blackberry' },
+    #   { p: 'userAgent', reg: /android/i, id: 'android' },
+    #   { p: 'platform', reg: /mac/i, id: 'mac' },
+    #   { p: 'platform', reg: /win/i, id: 'windows' },
+    #   { p: 'platform', reg: /linux/i, id: 'linux' }
+    # ]
 
-    _ua: null
+    # _ua: null
 
-    ua: ->
-      return ui._ua  unless ui._ua is null
-      return ui._ua = p.id  for p in ui._pl when p.reg.test window.navigator[p.p]
+    # ua: ->
+    #   return ui._ua  unless ui._ua is null
+    #   return ui._ua = p.id  for p in ui._pl when p.reg.test window.navigator[p.p]
 
     animationTime: 240
 
@@ -158,20 +152,23 @@ $ ->
       if not num or num is 0 then num = 1
       return num
 
-    gmap: ($el, lat=35.3876811, lng=139.4265623, zoom=13, title='慶應義塾大学湘南藤沢キャンパス 大木研究室') ->
-      zoom = 13 if zoom is 0
-      latlng = new google.maps.LatLng lat, lng
-      myOptions =
-        zoom: zoom
-        center: latlng
-        disableDefaultUI: no
-        scrollwheel: no
-      map = new google.maps.Map $el[0], myOptions
-      markerOptions =
-        position: latlng
-        map: map
-        title: title
-      marker = new google.maps.Marker markerOptions
+    initMaps: ($el=null, lat=35.3876811, lng=139.4265623, zoom=14, title='慶應義塾大学湘南藤沢キャンパス 大木研究室') ->
+      unless $el then $el = ($ '#map_canvas')
+      console.log 'initMaps', $el
+      if $el.length
+        latlng = new google.maps.LatLng lat, lng
+        myOptions =
+          zoom: zoom
+          center: latlng
+          disableDefaultUI: no
+          scrollwheel: no
+          # mapTypeId: google.maps.MapTypeId.ROADMAP
+        map = new google.maps.Map $el[0], myOptions
+        markerOptions =
+          position: latlng
+          map: map
+          title: title
+        marker = new google.maps.Marker markerOptions
 
     # staticMap: (lat, lng, size) ->
     #   base = 'http://maps.googleapis.com/maps/api/staticmap?'
@@ -293,43 +290,15 @@ $ ->
       # 生成した<nav />でパンくずを上書き更新
       $breadcrumb.html $nav
 
-    # ===================================
-    # モバイル版におけるメニューの開閉トグル
-    # ===================================
+    updateMenubar: ->
+      $menubar0 = $ ".menu-item a[href='/#{media.query.post_type}']"
+      $menubar1 = $ ".menu-item a[href='/#{media.query.post_type}/']"
+      ($ '.navigation-menu').find('.menu-item').removeClass 'current-menu-item'
+      $menubar0.parents('.menu-item').addClass 'current-menu-item'
+      $menubar1.parents('.menu-item').addClass 'current-menu-item'
+      return
 
-    toggleMobileMenu: (active = no) ->
-      $toggleTarget = $ '.ui-navi-menu'
-      if active
-        ui.toggleMobileSearch no
-        $toggleTarget.addClass 'visible'
-      else
-        $toggleTarget.removeClass 'visible'
-
-    toggleMobileSearch: (active = no) ->
-      $toggleTarget = $ '.ui-navi-search'
-      if active
-        ui.toggleMobileMenu no
-        ($ '#s').focus()
-        $toggleTarget.addClass 'visible'
-      else
-        $toggleTarget.removeClass 'visible'
-
-  ($ '.js-toggle-menu').on
-    'click': (e) ->
-      $toggleTarget = $ '.ui-navi-menu'
-      if $toggleTarget.hasClass 'visible'
-        ui.toggleMobileMenu no
-      else
-        ui.toggleMobileMenu yes
-
-  ($ '.js-toggle-search').on
-    'click': (e) ->
-      $toggleTarget = $ '.ui-navi-search'
-      if $toggleTarget.hasClass 'visible'
-        ui.toggleMobileSearch no
-      else
-        ui.toggleMobileSearch yes
-
+  ui.initMaps()
 
   # ===================================
   # LocalStorage
@@ -494,13 +463,6 @@ $ ->
 
   ($ '.archive-media--photograph-wrap').imageload()
 
-
-  # ===================================
-  # Footer Google Maps
-  # ===================================
-
-  ui.gmap ($ '#map_canvas_footer')
-  ui.gmap ($ '#map_canvas'), 35.3876811, 139.4265623, 14, "慶應義塾大学湘南藤沢キャンパス 大木研究室"
 
 # ===================================
 # Social Plugins

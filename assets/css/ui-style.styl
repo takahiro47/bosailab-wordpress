@@ -1278,6 +1278,7 @@ gallery_info_width = 360px
                       width 720px
                       margin-top -60px
                       margin-left -360px
+                      font-weight 300
                       text-align center
                     .archive-media--home__slider--button
                       button-pink()
@@ -1376,7 +1377,7 @@ gallery_info_width = 360px
             .post-section // section
               position relative
               margin-bottom 0
-              padding 50px 0
+              padding 75px 0
               background-size cover
               background-position 0% 50%
               // 背景色
@@ -1385,15 +1386,16 @@ gallery_info_width = 360px
               &:nth-child(odd)
                 background-color #fff
               &:first-child
+                padding-top 50px
                 background-color transparent
                 padding-bottom 100px
                 background-image url(path + 'about/overview_professor_message_back_2x.jpg')
               &.nth-child(2)
+                padding-top 50px
                 background-color lighten(sub_color, 0%)
               &.nth-child(3)
                 background-color #fff
               &:nth-child(4)
-                padding 120px 0
                 background-color transparent
               &:nth-child(5)
                 background-color #fff
@@ -1463,6 +1465,7 @@ gallery_info_width = 360px
               p.text-field
               .text-field-custom
               .history-field
+              .archive-media--page-about__buttons
                 margin 20px auto
                 padding 0 15px
                 width 100%
@@ -1617,6 +1620,27 @@ gallery_info_width = 360px
                         background #555
                         box-shadow 0 0 5px rgba(0, 0, 0, .1), 1px 1px 0 rgba(0, 0, 0, .2), inset 0 0 0 3px #fafafa
                         border-radius 10px
+              // ボタン
+              .archive-media--page-about__buttons
+                a
+                  .archive-media--page-about__button
+                    button-pink()
+                    display inline-block
+                    width 200px
+                    padding 10px
+                    margin 10px 20px
+                    color #fff
+                    box-shadow none
+                  &:first-child
+                    .archive-media--page-about__button
+                      background-color base_color
+                      &:hover
+                        background-color lighten(base_color, 5%)
+                  &:nth-child(2)
+                    .archive-media--page-about__button
+                      background-color #c3c3c3
+                      &:hover
+                        background-color lighten(#c3c3c3, 5%)
               // アクセス
               #map_canvas
                 height 270px
@@ -1655,15 +1679,39 @@ gallery_info_width = 360px
 footer.ui-footer
   position relative
   margin-top 20px
-  .container
-    clearfix()
-    .footer__language
-    .footer__copyright
-      .footer__copyright__info
+  .footer-container
+    container()
+    .footer-container__socials
+      clearfix()
+      text-align center
+      margin 10px auto
+      .twitter
+      .facebook
+        display block
+        width 50%
+        height 36px
+      .twitter
+        float left
+        text-align right
+        iframe
+          margin-right -20px
+      .facebook
+        float right
+        text-align left
+        padding-left 24px
+    .footer-container__language
+      hoge 0
+    .footer-container__copyright
+      .footer-container__copyright__info
         margin 0
-        padding 15px 0 85px
+        padding 15px 0
         color darken(#b9b9af, 5%)
         font-size 12px
         text-align center
         strong
           padding 0 2px
+      .footer-container__copyright__border
+        width 32px
+        height 1px
+        margin 5px auto 85px
+        background-color #ddd
