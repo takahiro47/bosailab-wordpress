@@ -118,28 +118,23 @@ block page_article
             p.archive-media--report__excerpt.ellipsis.multiline <?php echo new_excerpt(120); ?>
 
 
-  <?php } else if (get_post_type() == 'paper') { ?>
+  <?php } else if (get_post_type() == 'download') { ?>
   :php
-    $thumbnail_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID), 'paper-archive' );
+    $thumbnail_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID), 'download-archive' );
 
-  .page-layer__media--paper--archive
-    .page-layer__media--paper__cell
-      .archive-media--paper-wrap
-        .archive-media--paper
-          .archive-media--photograph-wrap
-            .archive-media--background
-            a.js-navi-single(href!='<?php the_permalink(); ?>')
-              .archive-media--photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
-              .archive-media--photograph-shadow
-              +ui-loader
-          article.archive-media--project__article
-            h3.archive-media--project-title.ellipsis
+  .page-layer__media--download--archive
+    .page-layer__media--download__cell
+      .archive-media--download-wrap
+        .archive-media--download
+          article.archive-media--download__article
+            h3.archive-media--download-title.ellipsis
               a.js-navi-single(href!='<?php the_permalink(); ?>') <?php the_title(); ?>
-            ul.archive-media--project-tags.ui-tags
+            ul.archive-media--download-tags.ui-tags
               <?php $post_tags = get_the_tags(); if ($post_tags) { foreach($post_tags as $tag) { ?>
               li.tag <?php echo $tag->name; ?>
               <?php } } ?>
-          footer.archive-media--project__footer
+            .archive-media--download-purchase
+              <?php echo do_shortcode('[purchase_link]'); ?>
 
   <?php } else { ?>
 

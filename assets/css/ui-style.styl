@@ -456,9 +456,11 @@ gallery_info_width = 360px
             font-weight normal
             font-style italic
         & > p
+          clearfix()
           margin 0 40px 20px
           color lighten(#55534D, 10%)
           font-size 14px
+          line-height 20px
           font-weight bold
           span.wpcf7-form-control-wrap
             span.wpcf7-not-valid-tip
@@ -466,6 +468,7 @@ gallery_info_width = 360px
               color #C0392B
             input
             textarea
+            select
               display block
               width 100%
               height 34px
@@ -484,6 +487,16 @@ gallery_info_width = 360px
               max-height 200px
               min-height 200px
               resize none
+            &.menu-faculty
+            &.menu-grade
+              display block
+              float left
+            &.menu-faculty
+              width 62%
+              margin-right 3%
+            &.menu-grade
+              width 35%
+              margin-top -20px
           input.wpcf7-submit
             user-select()
             cursor pointer
@@ -526,8 +539,8 @@ gallery_info_width = 360px
       .page-layer__content
         container()
         padding-top 40px
-        &.page-layer__content--archive
-          hoge 0
+        // &.page-layer__content--archive
+        //   hoge 0
         &.page-layer__content--report
           max-width 800px
           padding-top 0
@@ -543,10 +556,12 @@ gallery_info_width = 360px
           margin 0
           padding 0
         &.page-layer__content--search
+        &.page-layer__content--download
           .page-layer__media
             background-color #fff
             margin -40px 140px 40px
             padding-top 40px
+            padding-bottom 120px
         .page-layer__media // #contesnts--page
           clearfix()
           margin 0 auto
@@ -557,7 +572,7 @@ gallery_info_width = 360px
             padding 0 60px
             text-align center
           .page-layer__media--search--archive-wrap
-            padding 60px 120px 120px
+            padding 60px 120px 0
             .page-layer__media--search--archive
               padding 20px 0
               border-bottom 1px solid #ddd
@@ -582,6 +597,30 @@ gallery_info_width = 360px
                     .archive-media--search__excerpt
                       color lighten(font_color, 10%)
                       text-align justify
+
+          // Archive.Download
+          .page-layer__media--download--archive
+            position relative
+            padding 0 120px
+            .page-layer__media--download__cell
+              clearfix()
+              padding 20px 0
+              border-bottom 1px solid #ddd
+              .archive-media--download-wrap
+                .archive-media--download
+                  .archive-media--download__article
+                    .archive-media--download-title
+                      ellipsis()
+                      margin 0 0 12px
+                      font-size 16px
+                      line-height 1.6em
+                      a
+                        color font_color
+                        transition color .2s ease
+                        &:hover
+                          color #ac0404
+                    .archive-media--download-tags
+                      hoge 0
 
           // Archive.Photolog
           .page-layer__media--photolog--archive
@@ -1196,9 +1235,9 @@ gallery_info_width = 360px
                       p
                         display block
                         margin 0.7em 0 1.4em
-                        font-size 1.03em
+                        font-size 1.1em
                         line-height 1.6em
-                        text-indent @font-size
+                        // text-indent @font-size
                         word-wrap break-word
                       strong
                         font-weight bold
@@ -1210,6 +1249,16 @@ gallery_info_width = 360px
                         -webkit-margin-after 1em
                         -webkit-margin-start 40px
                         -webkit-margin-end 40px
+                      ul
+                        margin .7em .7em 1.4em
+                        li
+                          margin-bottom .4em
+                          &:before
+                            content '\f111'
+                            padding-right .7em
+                            color #cccca3
+                            font-size 1.1em
+                            font-family 'FontAwesome'
                       img
                         max-width 100%
                         height auto
@@ -1265,7 +1314,7 @@ gallery_info_width = 360px
                     .archive-media--home__slider
                       overflow hidden
                       width 100%
-                      height 480px
+                      height 540px
                       background-color background_color_dark
                       background-size cover
                       background-position 50% 50%
@@ -1275,19 +1324,26 @@ gallery_info_width = 360px
                       top 50%
                       left 50%
                     .archive-media--home__slider--title
-                      width 720px
-                      margin-top -60px
-                      margin-left -360px
+                      width 980px
+                      margin-top -185px
+                      margin-left -490px
                       font-weight 300
                       text-align center
+                      img
+                        width 980px
+                        height 114px
                     .archive-media--home__slider--button
                       button-pink()
                       width 200px
                       padding 10px
-                      margin-top 100px
-                      margin-left -100px
+                      margin-top 30px
                       color #fff
                       box-shadow none
+                      &.archive-media--home__slider--button--left
+                        margin-left -220px
+                      &.archive-media--home__slider--button--right
+                        margin-left 20px
+                        background-color #6DACB9
                   .archive-media--home__main-wrap
                     container()
                     padding-top 80px
@@ -1338,9 +1394,10 @@ gallery_info_width = 360px
                   .archive-media--home__project-wrap
                     padding 30px 0 80px
                     background-color #fff
+                    &.color
+                      background-color #F4F7F8
                     .archive-media--home__project
                       container()
-                      // border-bottom 1px solid #ccc
                       .archive-media--home__project__title
                         margin 0
                         padding 47px 0

@@ -70,7 +70,7 @@ block page_article
         h2
           img.img-responsive(
             src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_members_title_2x.png') ?>",
-            width=980, height=112,
+            width=980, height=114,
             alt='研究会の設立から1年。メンバーは50名を超えました。'
           )
 
@@ -101,7 +101,7 @@ block page_article
           //- Join Us
           img.img-responsive(
             src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_join_us_title_2x.png') ?>",
-            width=980, height=112,
+            width=980, height=114,
             alt='わたしたちの研究会に、あなたも参加してみませんか。'
           )
       p.text-field <?php the_field( 'join_us' ); ?>
@@ -153,12 +153,12 @@ block page_article
         .contact-content
           <?php echo do_shortcode('[contact-form-7 id="4" title="お問い合わせフォーム"]'); ?>
 
-          | --- OR ---
+          //- | --- OR ---
 
-          p
-            | Satoko Oki, Associate Professor
-            | office: k305, 5322 Endo, Fujisawa-shi, Kanagawa, 252-0882, JAPAN
-            | mail: soki [at] sfc.keio.ac.jp
+          //- p
+          //-   | Satoko Oki, Associate Professor
+          //-   | office: k305, 5322 Endo, Fujisawa-shi, Kanagawa, 252-0882, JAPAN
+          //-   | mail: soki [at] sfc.keio.ac.jp
 
     <?php } else { ?>
 

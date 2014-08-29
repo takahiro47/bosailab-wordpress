@@ -119,6 +119,9 @@ $ ->
     sample_url: (text) ->
       text.match /https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:@&=+$,%#]+[a-z]/g
 
+    sample_image_url: (text) ->
+      text.match /https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:@&=+$,%#]+\.(jpg|jpeg|gif|png|svg)/g
+
     # URLフォーマット
     parse_uri: (uri) ->
       reg = /^(?:([^:\/?#]+):)?(?:\/\/([^\/?#]*))?([^?#]*)(?:\?([^#]*))?(?:#(.*))?/
@@ -453,12 +456,14 @@ $ ->
 
   $.fn.imageload = ->
     @each ->
-      $el = $ @ # wrap
+      $el = $ @ # .archive-media--photograph-wrap
       $photograph = $el.find '.archive-media--photograph'
-      if uri = ui.sample_url($photograph.css 'background-image')
+      if uri = ui.sample_image_url($photograph.css 'background-image')
         image = new Image()
-        image.onload = -> $el.addClass 'loaded'
-        image.src = uri
+        image.onload = => $el.addClass 'loaded'
+        image.src = uri[0]
+      else
+        ($loader = $el.find '.ui-loader').remove()
       return
 
   ($ '.archive-media--photograph-wrap').imageload()
