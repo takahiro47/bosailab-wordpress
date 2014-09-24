@@ -31,6 +31,94 @@ body
     .ui-content
       min-height 540px
 
+  // お会計
+  #edd_checkout_wrap
+    #edd_checkout_cart_form-title // h2
+      margin 30px 0 40px
+      font-size 26px
+      text-align center
+    #edd_checkout_cart_form // form
+      #edd_checkout_cart_wrap
+        width 60%
+        margin 0 auto
+        padding 40px
+        border 1px solid #ccc
+        border-bottom none
+        background-color #fff
+        #edd_checkout_cart // table
+          width 100%
+          .edd_cart_header_row // thead > tr
+            border-bottom 1px solid #e5e5e5
+            .edd_cart_item_price // th 価格
+              hidden()
+            .edd_cart_item_name // th プロダクト名
+            .edd_cart_actions // th 操作
+              margin-bottom 4px
+              padding 12px 8px
+              color #999
+          .edd_cart_item // tbody > tr
+            .edd_cart_item_price // td 価格
+              hidden()
+            .edd_cart_item_name // td プロダクト名
+            .edd_cart_actions // td 操作
+              padding 8px
+              .edd_cart_remove_item_btn // a
+                hoge 0
+            .edd_cart_item_name // td プロダクト名
+              font-weight bold
+          .edd_cart_footer_row edd_cart_discount_row // tfoot > tr
+          .edd_cart_footer_row  // tfoot > tr
+            hidden()
+    #edd_checkout_form_wrap
+      width 60%
+      margin 0 auto
+      padding 40px
+      border 1px solid #ccc
+      border-top none
+      background-color #fff
+      #edd_purchase_form // form
+        .edd-payment-icons
+          hidden()
+        #edd_checkout_user_info // fieldset
+          p
+            .edd-label // label
+              margin 0
+              color #67655e
+              font-size 14px
+              line-height 20px
+              font-weight bold
+            .edd-description // span
+              hoge 0
+            .edd-input // input
+              display block
+              width 100%
+              height 34px
+              padding 6px 12px
+              margin-bottom 20px
+              font-size 14px
+              line-height 1.42857143
+              color #555
+              background-color #f4f7f8
+              background-image none
+              border none
+              border-radius 2px
+              box-shadow inset 0 1px 1px rgba(0, 0, 0, .07)
+              transition border-color, box-shadow ease-in-out .15s
+        #edd_purchase_submit
+          #edd_final_total_wrap // p
+            hidden()
+          #edd-purchase-button // button
+            button-pink()
+            display block
+            width 240px
+            margin 50px auto 10px
+            padding 10px
+            color #fff
+            box-shadow none
+            border none
+            transition box-shadow, background-color .25s ease
+
+
 /* = Header
  * ----------------------------------------------------- */
 
@@ -555,8 +643,8 @@ gallery_info_width = 360px
           max-width 100%
           margin 0
           padding 0
+        // &.page-layer__content--download
         &.page-layer__content--search
-        &.page-layer__content--download
           .page-layer__media
             background-color #fff
             margin -40px 140px 40px
@@ -600,27 +688,128 @@ gallery_info_width = 360px
 
           // Archive.Download
           .page-layer__media--download--archive
+            clearfix()
             position relative
-            padding 0 120px
+            width 33.33333333333%
+            min-height 1px
+            float left
+            margin 0
+            padding-left 15px
+            padding-right 15px
+            padding-bottom 48px
             .page-layer__media--download__cell
               clearfix()
-              padding 20px 0
-              border-bottom 1px solid #ddd
               .archive-media--download-wrap
                 .archive-media--download
+                  .archive-media--photograph-wrap
+                    position relative
+                    height 202px
+                    .archive-media--background
+                      position absolute
+                      top 0
+                      left 0
+                      right 0
+                      bottom 0
+                      // margin -5px
+                      // padding 5px
+                      background-color rgba(231, 228, 218, .45)
+                      border 1px solid rgba(121, 119, 107, .1)
+                      // background-color #fff
+                      // box-shadow 0 0 0 1px rgba(0, 0, 0, .04), 0 1px 5px rgba(0, 0, 0, .1)
+                      transition margin .05s ease-out
+                    .archive-media--photograph
+                      opacity 0
+                      position absolute
+                      top 0
+                      left 0
+                      right 0
+                      bottom 0
+                      background-size cover
+                      background-position 50% 25%
+                      transition opacity .55s ease-out .15s
+                    .archive-media--photograph-shadow
+                      z-index 1
+                      position absolute
+                      top 0
+                      left 0
+                      right 0
+                      bottom 0
+                      border 1px solid rgba(0, 0, 0, .12)
+                      background-color rgba(0, 0, 0, .04)
+                      transition background-color .05s ease-out
+                    &.loaded
+                      .archive-media--photograph
+                        opacity 1
                   .archive-media--download__article
-                    .archive-media--download-title
-                      ellipsis()
-                      margin 0 0 12px
-                      font-size 16px
-                      line-height 1.6em
+                    height 50px
+                    margin-top 20px
+                    border-bottom 1px solid #e7e4da
+                    .archive-media--download-button // button
+                      float right
+                      display block
+                      height 30px
+                      width 160px
+                      color darken(#b9b9af, 40%)
+                      font-size 12px
+                      font-weight 100
+                      letter-spacing .03em
+                      background-color #fafafa
+                      border 1px solid #b9b9af
+                      transition background-color .25s ease
+                      .fa
+                        padding-right 4px
+                      &:hover
+                        background-color darken(#fafafa, 4%)
+                    .archive-media--download-title // h3
+                      omission()
+                      margin 0
+                      font-size 14px
+                      font-weight 300
+                      line-height 1.5em
+                      text-align justify
                       a
                         color font_color
-                        transition color .2s ease
-                        &:hover
-                          color #ac0404
-                    .archive-media--download-tags
-                      hoge 0
+                        font-weight 500
+                        letter-spacing .01em
+                    .archive-media--download-tags // ul
+                      clearfix()
+                      list-style none
+                      margin 0
+                      .tag // li
+                        display inline-block
+                        position relative
+                        margin 0
+                        margin-right 2px
+                        padding-left @margin-right
+                        padding-right @margin-right
+                        color #b9b9af
+                        font-size 11px
+                        white-space nowrap
+                        background-color transparent
+                        transition color .15s ease
+                        &:before
+                          content '#'
+                        &:first-child
+                          padding-left 0
+                  .archive-media--download__footer
+                    .archive-media--download__views
+                    .archive-media--download__date
+                      float left
+                      margin-top 6px
+                      margin-right 14px
+                      font-size 13px
+                      font-weight 300
+                      line-height 1.5em
+                      text-align justify
+                      .fa
+                        padding-right 5px
+                        color #666
+                &:hover
+                  .archive-media--download
+                    .archive -media--photograph-wrap
+                      .archive-media--photograph-shadow
+                        background-color transparent
+
 
           // Archive.Photolog
           .page-layer__media--photolog--archive
@@ -956,7 +1145,12 @@ gallery_info_width = 360px
           .page-layer__media--project--archive
             clearfix()
             position relative
+            width 33.33333333333%
+            min-height 1px
+            float left
             margin 0
+            padding-left 15px
+            padding-right 15px
             padding-bottom 48px
             .page-layer__media--project__cell
               clearfix()
@@ -1254,7 +1448,7 @@ gallery_info_width = 360px
                         li
                           margin-bottom .4em
                           &:before
-                            content '\f111'
+                            content '●' //'\f111'
                             padding-right .7em
                             color #cccca3
                             font-size 1.1em
@@ -1332,6 +1526,8 @@ gallery_info_width = 360px
                       img
                         width 980px
                         height 114px
+                    button_color__left = #e76860
+                    button_color__right = #6dacb9
                     .archive-media--home__slider--button
                       button-pink()
                       width 200px
@@ -1339,11 +1535,19 @@ gallery_info_width = 360px
                       margin-top 30px
                       color #fff
                       box-shadow none
+                      transition box-shadow, background-color .25s ease
                       &.archive-media--home__slider--button--left
                         margin-left -220px
+                        background-color rgba(button_color__left, 1)
                       &.archive-media--home__slider--button--right
                         margin-left 20px
-                        background-color #6DACB9
+                        background-color rgba(button_color__right, 1)
+                      &:hover
+                        box-shadow inset -2px -2px 0 0 rgba(#fff, .1), inset 2px 2px 0 0 rgba(#fff, .1)
+                        // &.archive-media--home__slider--button--left
+                        //   background-color rgba(button_color__left, .75)
+                        // &.archive-media--home__slider--button--right
+                        //   background-color rgba(button_color__right, .75)
                   .archive-media--home__main-wrap
                     container()
                     padding-top 80px
@@ -1413,6 +1617,10 @@ gallery_info_width = 360px
                                   height auto
                                   margin-top 15px
                                   border-bottom none
+                      .archive-media--home__youtube
+                        width 320px
+                        height 180px
+                        background-color #000
                     .archive-media--home__project__more
                       container()
                       // color #222

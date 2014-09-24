@@ -26,12 +26,19 @@ block page_article
               img.img-responsive.animate.fadeInUp(
                 src!="<?php echo (get_template_directory_uri().'/public/images/home/overview_home_header-title_2x.png') ?>",
                 width=980, height=114,
+                style='width:980px; height:114px; visibility:hidden;',
                 alt='RE:DESIGN BOSAI'
               )
-            a(href!='/about', title!='Learn More')
-              .archive-media--home__slider--button.archive-media--home__slider--button--left Learn More
-            a(href!='/projects', title!='Projects')
-              .archive-media--home__slider--button.archive-media--home__slider--button--right Projects
+            a(href!='/about', title!='Learn More', style='visibility:hidden;')
+              .archive-media--home__slider--button.archive-media--home__slider--button--left.animate.zoomIn(
+                  data-wow-duration='2s',
+                  data-wow-delay='0.8s'
+                ) Learn More
+            a(href!='/projects', title!='Projects', style='visibility:hidden;')
+              .archive-media--home__slider--button.archive-media--home__slider--button--right.animate.zoomIn(
+                  data-wow-duration='2s',
+                  data-wow-delay='1.0s'
+                ) Projects
 
           //- .archive-media--home__main-wrap
 

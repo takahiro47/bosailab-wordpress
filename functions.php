@@ -847,6 +847,7 @@ function put_breadcrumbs() {
   }
 }
 
+
 function toLastUpdateString($target, $now=null) {
   if (!$now) $now = new DateTime('@' . $_SERVER['REQUEST_TIME']);
 

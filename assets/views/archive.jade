@@ -41,7 +41,7 @@ block page_article
   :php
     $thumbnail_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID), 'project-archive' );
 
-  .col-sm-4.page-layer__media--project--archive
+  .page-layer__media--project--archive
     .page-layer__media--project__cell
       .archive-media--project-wrap
         .archive-media--project
@@ -126,15 +126,58 @@ block page_article
     .page-layer__media--download__cell
       .archive-media--download-wrap
         .archive-media--download
+          .archive-media--photograph-wrap
+            .archive-media--background
+            a.js-navi-single(href!="checkout?edd_action=add_to_cart&download_id=<?php echo get_the_ID(); ?>")
+              .archive-media--photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
+              .archive-media--photograph-shadow
+              +ui-loader
           article.archive-media--download__article
+            //- | <?php do_shortcode('[purchase_link id="'.get_the_ID().'" price=0 text="ダウンロード" style="button" direct="true"]'); ?>
+            //- | <?php echo do_shortcode('[downloads]'); ?>
+            a(href!="checkout?edd_action=add_to_cart&download_id=<?php echo get_the_ID(); ?>")
+              button.archive-media--download-button
+                i.fa.fa-download
+                | 資料をダウンロード
             h3.archive-media--download-title.ellipsis
-              a.js-navi-single(href!='<?php the_permalink(); ?>') <?php the_title(); ?>
+              a.js-navi-single(href!="checkout?edd_action=add_to_cart&download_id=<?php echo get_the_ID(); ?>") <?php the_title(); ?>
             ul.archive-media--download-tags.ui-tags
               <?php $post_tags = get_the_tags(); if ($post_tags) { foreach($post_tags as $tag) { ?>
               li.tag <?php echo $tag->name; ?>
               <?php } } ?>
-            .archive-media--download-purchase
-              <?php echo do_shortcode('[purchase_link]'); ?>
+          footer.archive-media--download__footer
+            .archive-media--download__views
+              i.fa.fa-download
+              | <?php echo $post->pvc_views; ?>
+            .archive-media--download__date
+              i.fa.fa-cloud-upload
+              | <?php echo toLastUpdateString( new DateTime( get_the_time('Y-m-d H:i:s') ) ), PHP_EOL; ?>
+
+  //- .page-layer__media--download--archive
+  //-   .page-layer__media--download__cell
+  //-     .archive-media--download-wrap
+  //-       .archive-media--download
+  //-         .archive-media--background
+  //-         .archive-media--photograph-wrap
+  //-           a.js-navi-single(href!='<?php the_permalink(); ?>')
+  //-             .archive-media--photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
+  //-             .archive-media--photograph-shadow
+  //-             +ui-loader
+  //-         header.archive-media--download__header
+  //-           .archive-media--download__date <?php echo toLastUpdateString( new DateTime( get_the_time('Y-m-d H:i:s') ) ), PHP_EOL; ?>
+  //-         article.archive-media--download__article
+  //-           h3.archive-media--download-title.ellipsis
+  //-             a.js-navi-single(href!='<?php the_permalink(); ?>') <?php the_title(); ?>
+  //-           ul.archive-media--download-tags.ui-tags
+  //-             <?php $post_tags = get_the_tags(); if ($post_tags) { foreach($post_tags as $tag) { ?>
+  //-             li.tag <?php echo $tag->name; ?>
+  //-             <?php } } ?>
+  //-           .archive-media--download-purchase
+  //-             <?php echo do_shortcode('[purchase_link]'); ?>
+  //-         footer.archive-media--download__footer
+  //-           .archive-media--download__views
+  //-             i.fa.fa-heart
+  //-             | <?php echo $post->pvc_views; ?>
 
   <?php } else { ?>
 

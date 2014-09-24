@@ -469,6 +469,17 @@ $ ->
   ($ '.archive-media--photograph-wrap').imageload()
 
 
+  # ===================================
+  # Run Animation via WOW
+  # ===================================
+
+  wow = new WOW
+    boxClass:     'animate'
+    animateClass: 'animated'
+    offset:       0
+
+  wow.init()
+
 # ===================================
 # Social Plugins
 # ===================================

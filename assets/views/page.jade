@@ -28,18 +28,23 @@ block page_article
           img.img-responsive.animate.fadeInUp(
             src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_professor_message_title_2x.png') ?>",
             width=980, height=114,
+            style='width:980px; height:114px; visibility:hidden;',
             alt='SFCから、日本の、いや世界の防災を変えよう。'
           )
-      p.text-field <?php the_field( 'professor_message' ); ?>
+      p.text-field.animate.fadeIn(
+        style='width:980px; height:114px; visibility:hidden;',
+        data-wow-duration='1s'
+      )
+        | <?php the_field( 'professor_message' ); ?>
 
     section.post-section
       hgroup.page-subtitle
         .face(style!="background-image: url('<?php echo get_field('professor_face')['sizes']['medium']; ?>');")
         h2
           img.img-responsive(
-            class='img-responsive',
             src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_about_professor_title_2x.png') ?>",
             width=980, height=75,
+            style='width:980px; height:75px;',
             alt='大木 聖子（おおき さとこ）'
           )
       .socials
@@ -71,6 +76,7 @@ block page_article
           img.img-responsive(
             src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_members_title_2x.png') ?>",
             width=980, height=114,
+            style='width:980px; height:114px;',
             alt='研究会の設立から1年。メンバーは50名を超えました。'
           )
 
@@ -99,9 +105,10 @@ block page_article
       hgroup.page-subtitle
         h2
           //- Join Us
-          img.img-responsive(
+          img.img-responsive.animate.pulse(
             src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_join_us_title_2x.png') ?>",
             width=980, height=114,
+            style='width:980px; height:114px;',
             alt='わたしたちの研究会に、あなたも参加してみませんか。'
           )
       p.text-field <?php the_field( 'join_us' ); ?>
@@ -121,6 +128,7 @@ block page_article
                 img.img-responsive(
                   src!="<?php echo (get_template_directory_uri().'/public/images/about/overview_accessmap_title_2x.png') ?>",
                   width=254, height=41,
+                  style='width:254px; height:41px;',
                   alt='アクセスマップ'
                 )
           //- 住所とマップ
