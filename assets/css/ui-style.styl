@@ -31,6 +31,72 @@ body
     .ui-content
       min-height 540px
 
+  &.customize-support
+    .contact-content-wrap
+      .contact-content
+        width 60%
+        margin 0 auto
+        padding 40px
+        border 1px solid #ccc
+        background-color #fff
+        & > p
+          margin 30px 0 40px
+          font-size 26px
+          text-align center
+        & > h3
+          @extend legend
+          // display block
+          // width 100%
+          // padding 0
+          // margin-bottom 20px
+          // color #333
+          // font-size: 21px
+          // line-height inherit
+          // border 0
+          // border-bottom 1px solid #e5e5e5
+
+  // お会計 - 購入確認
+  #edd_purchase_receipt // table
+    hidden()
+  #edd_purchase_receipt_products // table
+    width 98%
+    margin 0 2% 0 1%
+    thead
+      tr
+        border-bottom 1px solid #e5e5e5
+        th
+          margin-bottom 4px
+          padding 12px 8px
+          color #999
+          &:first-child
+            visible()
+          &:last-child
+            hidden()
+    tbody
+      tr
+        border-bottom 1px solid lighten(#e5e5e5, 50%)
+        &:last-child
+          border-bottom none
+        td
+          clearfix()
+          &:first-child
+            visible()
+          &:last-child
+            hidden()
+          .edd_purchase_receipt_product_name
+          .edd_purchase_receipt_product_notes
+          .edd_purchase_receipt_files .edd_download_file .edd_download_file_link // ul > li > a
+            display block
+            float left
+            width 33.3333%
+            padding 8px
+          .edd_purchase_receipt_files .edd_download_file .edd_download_file_link
+            float right
+          .edd_purchase_receipt_files /* ul */
+            .edd_download_file /* li */
+              .edd_download_file_link /* a */
+                hoge 0
+
   // お会計
   #edd_checkout_wrap
     #edd_checkout_cart_form-title // h2
@@ -39,12 +105,7 @@ body
       text-align center
     #edd_checkout_cart_form // form
       #edd_checkout_cart_wrap
-        width 60%
-        margin 0 auto
-        padding 40px
-        border 1px solid #ccc
-        border-bottom none
-        background-color #fff
+        margin-bottom 80px
         #edd_checkout_cart // table
           width 100%
           .edd_cart_header_row // thead > tr
@@ -70,12 +131,6 @@ body
           .edd_cart_footer_row  // tfoot > tr
             hidden()
     #edd_checkout_form_wrap
-      width 60%
-      margin 0 auto
-      padding 40px
-      border 1px solid #ccc
-      border-top none
-      background-color #fff
       #edd_purchase_form // form
         .edd-payment-icons
           hidden()
@@ -109,6 +164,7 @@ body
             hidden()
           #edd-purchase-button // button
             button-pink()
+            outline none
             display block
             width 240px
             margin 50px auto 10px
