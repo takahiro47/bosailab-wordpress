@@ -885,3 +885,77 @@ if ( function_exists( 'add_image_size' ) ) {
 //   ) );
 // }
 // add_filter( 'image_size_names_choose', 'my_custom_sizes' );
+
+
+/* ----------------------------------------------------- *
+ * = ダウンロード(会計ページ)への追加フィールド
+ * ----------------------------------------------------- */
+function pippin_edd_custom_checkout_fields() {
+  ?>
+  <p id="edd-company-wrap">
+    <label class="edd-label" for="edd-company">
+      <?php //_e( 'Company Name', 'edd' ); ?>ご所属（学校名・企業名など）
+      <?php if( edd_field_is_required( 'edd_company' ) ) { ?>
+        <span class="edd-required-indicator">*</span>
+      <?php } ?>
+    </label>
+    <input class="edd-input required" type="text" name="edd_company" placeholder="<?php //_e('Company name', 'edd'); ?>所属（学校名・企業名など）" id="edd-company" value="" />
+  </p>
+
+  <p id="edd-objective-wrap">
+    <label class="edd-label" for="edd-objective">
+      <?php //_e( 'Objective', 'edd' ); ?>ご使用目的
+      <?php if( edd_field_is_required( 'edd_objective' ) ) { ?>
+        <span class="edd-required-indicator">*</span>
+      <?php } ?>
+    </label>
+    <textarea class="edd-input required" type="text" name="edd_objective" placeholder="<?php //_e('Objective', 'edd'); ?>ご使用目的" id="edd-objective" value=""></textarea>
+  </p>
+  <?php
+}
+add_action('edd_purchase_form_user_info', 'pippin_edd_custom_checkout_fields');
+/* ----------------------------------------------------- *
+ * = ダウンロード(会計ページ)への追加フィールドのバリデーション
+ * ----------------------------------------------------- */
+// function pippin_edd_validate_custom_fields($data) {
+//   echo $data['edd_company'];
+//   if(!isset($data['edd_company']) || $data['edd_company'] == '') {
+//     edd_set_error( 'invalid_company', /*__('You must provide your company name.', 'pippin_edd')*/'ご所属（学校名・企業名など）を入力して下さい。' );
+//   }
+//   if(!isset($data['edd_objective']) || $data['edd_objective'] == '') {
+//     edd_set_error( 'invalid_objective', /*__('You must provide your objective.', 'pippin_edd')*/'ご使用目的を入力して下さい。' );
+//   }
+// }
+// add_action('edd_checkout_error_checks', 'pippin_edd_validate_custom_fields');
+/* ----------------------------------------------------- *
+ * = ダウンロード(会計ページ)への追加フィールドの保存
+ * // Store the custom field data in the payment meta
+ * ----------------------------------------------------- */
+function pippin_edd_store_custom_fields($payment_meta) {
+  $payment_meta['company'] = isset($_POST['edd_company']) ? $_POST['edd_company'] : '';
+  $payment_meta['objective'] = isset($_POST['edd_objective']) ? $_POST['edd_objective'] : '';
+  return $payment_meta;
+}
+add_filter('edd_payment_meta', 'pippin_edd_store_custom_fields');
+/* ----------------------------------------------------- *
+ * = ダウンロード(会計ページ)への追加フィールドの確認表示
+ * // Displaying the Custom Payment Meta
+ * // Show the custom fields in the "View Order Details" popup
+ * ----------------------------------------------------- */
+function pippin_edd_purchase_details($payment_meta, $user_info) {
+  $company = isset($payment_meta['company']) ? $payment_meta['company'] : 'none';
+  $objective = isset($payment_meta['objective']) ? $payment_meta['objective'] : 'none';
+  ?>
+  <div class="column-container">
+    <div class="column">
+      <strong><?php echo /*__('Company:', 'pippin')*/ '所属（学校名・企業名など）'; ?>:</strong>&nbsp;
+      <input type="text" name="edd-payment-company" value="<?php echo $company; ?>" class="medium-text" placeholder="COMPANY NAME">
+    </div>
+    <div class="column">
+      <strong><?php echo /*__('Objective:', 'pippin')*/ '使用目的'; ?>:</strong>&nbsp;
+      <input type="text" name="edd-payment-company" value="<?php echo $objective; ?>" class="medium-text" placeholder="OBJECTIVE">
+    </div>
+  </div>
+  <?php
+}
+add_action('edd_payment_personal_details_list', 'pippin_edd_purchase_details', 10, 2);

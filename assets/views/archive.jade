@@ -128,19 +128,19 @@ block page_article
         .archive-media--download
           .archive-media--photograph-wrap
             .archive-media--background
-            a.js-navi-single(href!="checkout?edd_action=add_to_cart&download_id=<?php echo get_the_ID(); ?>")
+            a.js-navi-single(href!="confirm?edd_action=add_to_cart&download_id=<?php echo get_the_ID(); ?>")
               .archive-media--photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
               .archive-media--photograph-shadow
               +ui-loader
           article.archive-media--download__article
             //- | <?php do_shortcode('[purchase_link id="'.get_the_ID().'" price=0 text="ダウンロード" style="button" direct="true"]'); ?>
             //- | <?php echo do_shortcode('[downloads]'); ?>
-            a(href!="checkout?edd_action=add_to_cart&download_id=<?php echo get_the_ID(); ?>")
+            a(href!="confirm?edd_action=add_to_cart&download_id=<?php echo get_the_ID(); ?>")
               button.archive-media--download-button
                 i.fa.fa-download
                 | 資料をダウンロード
             h3.archive-media--download-title.ellipsis
-              a.js-navi-single(href!="checkout?edd_action=add_to_cart&download_id=<?php echo get_the_ID(); ?>") <?php the_title(); ?>
+              a.js-navi-single(href!="confirm?edd_action=add_to_cart&download_id=<?php echo get_the_ID(); ?>") <?php the_title(); ?>
             ul.archive-media--download-tags.ui-tags
               <?php $post_tags = get_the_tags(); if ($post_tags) { foreach($post_tags as $tag) { ?>
               li.tag <?php echo $tag->name; ?>
