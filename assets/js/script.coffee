@@ -157,7 +157,7 @@ $ ->
 
     initMaps: ($el=null, lat=35.3876811, lng=139.4265623, zoom=14, title='慶應義塾大学湘南藤沢キャンパス 大木研究室') ->
       unless $el then $el = ($ '#map_canvas')
-      console.log 'initMaps', $el
+      # console.log 'initMaps', $el
       if $el.length
         latlng = new google.maps.LatLng lat, lng
         myOptions =
@@ -520,32 +520,33 @@ not ((d, i) ->
 not ((d, s, id) ->
   js = undefined
   fjs = d.getElementsByTagName(s)[0]
-  p = (if /^http:/.test(d.location) then "http" else "https")
+  p = (if /^http:/.test(d.location) then 'http' else 'https')
   unless d.getElementById(id)
     js = d.createElement(s)
     js.id = id
     js.async = yes #
-    js.src = p + "://platform.twitter.com/widgets.js"
+    js.src = p + '://platform.twitter.com/widgets.js'
     fjs.parentNode.insertBefore js, fjs
   return
-) document, "script", "twitter-wjs"
+) document, 'script', 'twitter-wjs'
 
 # Google Analytics
-###((i, s, o, g, r, a, m) ->
+((i, s, o, g, r, a, m) ->
   i['GoogleAnalyticsObject'] = r
   i[r] = i[r] or ->
-    (i[r].q = i[r].q or []).push arguments_
+    (i[r].q = i[r].q or []).push arguments
     return
   i[r].l = 1 * new Date()
-  a = s.createElement o
+  a = s.createElement(o)
   m = s.getElementsByTagName(o)[0]
-  a.async = yes
+  a.async = 1
   a.src = g
   m.parentNode.insertBefore a, m
   return
 ) window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga'
-ga 'create', 'UA-41455390-1', 'keio.ac.jp'
-ga 'send', 'pageview' ###
+ga 'create', 'UA-41455390-1', 'auto'
+ga 'send', 'pageview'
+###
 root = exports ? @
 root._gaq = [
   ['_setAccount', 'UA-41455390-1'],
@@ -562,3 +563,4 @@ insertGAScript = ->
   s = document.getElementsByTagName 'script'
   s[0].parentNode.insertBefore ga, s
 insertGAScript()
+###

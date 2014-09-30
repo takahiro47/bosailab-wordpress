@@ -869,7 +869,7 @@ function toLastUpdateString($target, $now=null) {
 }
 
 // 画像サイズを追加
-if ( function_exists( 'add_image_size' ) ) {
+if ( true || function_exists( 'add_image_size' ) ) { // TEMP
   add_image_size( 'project-archive', 640, 404, true );
   add_image_size( 'project-single', 1200, 720, true );
 

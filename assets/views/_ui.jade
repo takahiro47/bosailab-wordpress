@@ -44,6 +44,9 @@ mixin ui-edit
 //- ナビバー領域
 mixin ui-navigation
   :php
+    //- $archives = get_archives_array( array( 'period' => 'yearly' ) );
+    //- var_dump( $archives );
+
     $class = '';
     if ( is_search() ) { $class .= ' page-layer__navigation--search'; }
     switch ( $post_type = get_post_type() ) {
@@ -67,8 +70,7 @@ mixin ui-navigation
         .page-layer__navigation__media--category.col-xs-3
           .dropdown.page-layer__navigation__media__inside
             a#navigationDropdown-category.page-layer__navigation__media__current(
-              role='button', data-toggle='dropdown',
-              data-target="#", href!='/<?php echo get_post_type(); ?>'
+              role='button', data-toggle='dropdown', data-target="#", href!='#'
             )
               :php
                 //- var_dump( $wp_query->get_queried_object() );
@@ -80,23 +82,24 @@ mixin ui-navigation
                 }
               i.fa.fa-sliders
               span <?php echo $text; ?>
-            ul.dropdown-menu.page-layer__navigation__media__tab.page-layer__navigation__media__tab--category(
-              role='menu', aria-labelledby='navigationDropdown-category'
-            )
+            ul.dropdown-menu.page-layer__navigation__media__tab.page-layer__navigation__media__tab--category(role='menu', aria-labelledby='navigationDropdown-category')
               li.cat-item(class!='<?php if ( !is_tax() && !is_single() ) { echo " current-cat"; } ?>')
                 a(href!='/<?php echo get_post_type(); ?>')
                   <?php echo 'All '.ucfirst( get_post_type() ).'s'; ?>
               :php
                 $args = array(
+                  'style'               => 'list',
                   'orderby'             => 'name',
                   'order'               => 'ASC',
-                  'style'               => 'list',
-                  'show_count'          => 0,
-                  'hide_empty'          => 1,
+                  'taxonomy'            => substr(get_post_type(), 0, 2).'-types',
                   'title_li'            => '',
-                  'taxonomy'            => substr(get_post_type(), 0, 2).'-types'
+                  'show_count'          => 1,
+                  'hide_empty'          => 0,
+                  'echo'                => 0
                 );
-                wp_list_categories( $args );
+                $html = wp_list_categories( $args );
+                $html = preg_replace('/<\/a> \(([0-9]*)\)/', ' <em>$1</em></a>', $html);
+                echo $html;
 
         .page-layer__navigation__media--term.col-xs-2
           <?php if ( false && get_post_type() == 'project' ) { // TODO ?>
@@ -104,8 +107,7 @@ mixin ui-navigation
           <?php } else { ?>
           .dropdown.page-layer__navigation__media__inside
             a#navigationDropdown-term.page-layer__navigation__media__current(
-              role='button', data-toggle='dropdown',
-              data-target="#", href!='/<?php echo get_post_type(); ?>'
+              role='button', data-toggle='dropdown', data-target="#", href!='#'
             )
               :php
                 $text = 'Filter Terms';
@@ -114,17 +116,24 @@ mixin ui-navigation
                 }
               i.fa.fa-calendar
               span <?php echo $text; ?>
-            ul.dropdown-menu.page-layer__navigation__media__tab.page-layer__navigation__media__tab--term(
-              role='menu', aria-labelledby='navigationDropdown-term'
-            )
+            ul.dropdown-menu.page-layer__navigation__media__tab.page-layer__navigation__media__tab--term(role='menu', aria-labelledby='navigationDropdown-term')
               li.cat-item(class!='<?php if ( !is_month() && !is_single() ) { echo " current-cat"; } ?>')
                 a(href!='/<?php echo get_post_type(); ?>') All Terms
               :php
                 $args = array(
                   'type'                => 'monthly',
-                  'post_type'           => get_post_type()
+                  'post_type'           => get_post_type(),
+                  //- 'limit'               => '',
+                  'format'              => 'html',
+                  'before'              => '',
+                  'after'               => '',
+                  'show_post_count'     => false,
+                  'echo'                => 0,
+                  'order'               => 'DESC',
+                  'echo'                => 0
                 );
-                wp_get_archives( $args );
+                $html = wp_get_archives( $args );
+                echo $html;
           <?php } ?>
 
         .page-layer__navigation__media--space-a.col-xs-4

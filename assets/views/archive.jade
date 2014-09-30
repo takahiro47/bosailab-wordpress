@@ -28,23 +28,30 @@ block page_article
       'orderby' => 'date',
       'order' => 'DESC'
     );
-    // 年月の取得
-    if ( is_month() ) {
-      $params += array( 'year' => get_query_var( 'year' ) );
-      $params += array( 'month' => get_query_var( 'monthnum' ) );
+    // 年月フィルターの取得
+    if ( false && get_post_type() == 'project' ) { // TODO
+
+    } else if ( is_month() ) {
+      $date_query = array(
+        array(
+          'year'  => get_query_var( 'year' ),
+          'month' => get_query_var( 'monthnum' )
+        )
+      );
+      $params += array('date_query' => $date_query);
     }
-    // タクソノミーの取得
+    // タクソノミーフィルターの取得
     $tax = '';
     if ( is_tax() || is_category() ) { // is_tag()
       $qobj = get_queried_object();
-      $tax_param = array(
+      $tax_query = array(
         array(
           'taxonomy' => $qobj->taxonomy,
           'field'    => 'id',
           'terms'    => $qobj->term_id
         )
       );
-      $params += array('tax_query' => $tax_param);
+      $params += array('tax_query' => $tax_query);
     }
     // クエリを実行して投稿を取得
     $wp_query = new WP_Query();
