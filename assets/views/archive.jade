@@ -21,16 +21,34 @@ block page_article
   :php
     // クエリの生成
     $title = false;
-    $param = array(
-      'posts_per_page' => 200,
-      'post_type' => get_post_type(),
+    $params = array(
       'post_status' => 'publish',
+      'post_type' => get_post_type(),
+      'posts_per_page' => 200,
       'orderby' => 'date',
       'order' => 'DESC'
     );
+    // 年月の取得
+    if ( is_month() ) {
+      $params += array( 'year' => get_query_var( 'year' ) );
+      $params += array( 'month' => get_query_var( 'monthnum' ) );
+    }
+    // タクソノミーの取得
+    $tax = '';
+    if ( is_tax() || is_category() ) { // is_tag()
+      $qobj = get_queried_object();
+      $tax_param = array(
+        array(
+          'taxonomy' => $qobj->taxonomy,
+          'field'    => 'id',
+          'terms'    => $qobj->term_id
+        )
+      );
+      $params += array('tax_query' => $tax_param);
+    }
     // クエリを実行して投稿を取得
     $wp_query = new WP_Query();
-    $wp_query->query($param);
+    $wp_query->query( $params );
 
     // 投稿があった場合，投稿表示ループを開始
     if ( $wp_query->have_posts() ) {
@@ -126,12 +144,12 @@ block page_article
     .page-layer__media--download__cell
       .archive-media--download-wrap
         .archive-media--download
-          .archive-media--photograph-wrap
-            .archive-media--background
-            a.js-navi-single(href!="confirm?edd_action=add_to_cart&download_id=<?php echo get_the_ID(); ?>")
-              .archive-media--photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
-              .archive-media--photograph-shadow
-              +ui-loader
+          //- .archive-media--photograph-wrap
+          //-   .archive-media--background
+          //-   a.js-navi-single(href!="confirm?edd_action=add_to_cart&download_id=<?php echo get_the_ID(); ?>")
+          //-     .archive-media--photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
+          //-     .archive-media--photograph-shadow
+          //-     +ui-loader
           article.archive-media--download__article
             //- | <?php do_shortcode('[purchase_link id="'.get_the_ID().'" price=0 text="ダウンロード" style="button" direct="true"]'); ?>
             //- | <?php echo do_shortcode('[downloads]'); ?>

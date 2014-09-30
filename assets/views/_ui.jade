@@ -40,3 +40,101 @@ mixin ui-load-event
 
 mixin ui-edit
   <?php edit_post_link( '<i class="fa fa-pencil"></i>', '<p class="ui-edit-link">', '</p>' ); ?>
+
+//- ナビバー領域
+mixin ui-navigation
+  :php
+    $class = '';
+    if ( is_search() ) { $class .= ' page-layer__navigation--search'; }
+    switch ( $post_type = get_post_type() ) {
+      case 'page':
+        switch ( $page_slug = get_page_uri(get_the_ID()) ) {
+          default:
+            $class .= ' page-layer__navigation--page';
+        }
+        break;
+      default:
+        $class .= ' page-layer__navigation--archive';
+        $class .= ' page-layer__navigation--'.$post_type;
+    }
+  nav.page-layer__navigation(class!='<?php echo $class; ?>')
+    block page_navigation
+      .page-layer__navigation__media
+        //- .page-layer__navigation__media--back.col-xs-1
+        //-   i.fa.fa-mail-reply
+        //-   strong Back to List
+
+        .page-layer__navigation__media--category.col-xs-3
+          .dropdown.page-layer__navigation__media__inside
+            a#navigationDropdown-category.page-layer__navigation__media__current(
+              role='button', data-toggle='dropdown',
+              data-target="#", href!='/<?php echo get_post_type(); ?>'
+            )
+              :php
+                //- var_dump( $wp_query->get_queried_object() );
+                $text = 'Filter '.ucfirst( get_post_type() ).'s';
+                if ( is_tax() ) {
+                  global $wp_query;
+                  $term = $wp_query->get_queried_object();
+                  $text = $term->name;
+                }
+              i.fa.fa-sliders
+              span <?php echo $text; ?>
+            ul.dropdown-menu.page-layer__navigation__media__tab.page-layer__navigation__media__tab--category(
+              role='menu', aria-labelledby='navigationDropdown-category'
+            )
+              li.cat-item(class!='<?php if ( !is_tax() && !is_single() ) { echo " current-cat"; } ?>')
+                a(href!='/<?php echo get_post_type(); ?>')
+                  <?php echo 'All '.ucfirst( get_post_type() ).'s'; ?>
+              :php
+                $args = array(
+                  'orderby'             => 'name',
+                  'order'               => 'ASC',
+                  'style'               => 'list',
+                  'show_count'          => 0,
+                  'hide_empty'          => 1,
+                  'title_li'            => '',
+                  'taxonomy'            => substr(get_post_type(), 0, 2).'-types'
+                );
+                wp_list_categories( $args );
+
+        .page-layer__navigation__media--term.col-xs-2
+          <?php if ( false && get_post_type() == 'project' ) { // TODO ?>
+          .page-layer__navigation__media__inside
+          <?php } else { ?>
+          .dropdown.page-layer__navigation__media__inside
+            a#navigationDropdown-term.page-layer__navigation__media__current(
+              role='button', data-toggle='dropdown',
+              data-target="#", href!='/<?php echo get_post_type(); ?>'
+            )
+              :php
+                $text = 'Filter Terms';
+                if ( is_year() || is_month() ) {
+                  $text = get_query_var( 'year' ) . '年' . get_query_var( 'monthnum' ) . '月';
+                }
+              i.fa.fa-calendar
+              span <?php echo $text; ?>
+            ul.dropdown-menu.page-layer__navigation__media__tab.page-layer__navigation__media__tab--term(
+              role='menu', aria-labelledby='navigationDropdown-term'
+            )
+              li.cat-item(class!='<?php if ( !is_month() && !is_single() ) { echo " current-cat"; } ?>')
+                a(href!='/<?php echo get_post_type(); ?>') All Terms
+              :php
+                $args = array(
+                  'type'                => 'monthly',
+                  'post_type'           => get_post_type()
+                );
+                wp_get_archives( $args );
+          <?php } ?>
+
+        .page-layer__navigation__media--space-a.col-xs-4
+          .page-layer__navigation__media__inside
+
+        .page-layer__navigation__media--detail.col-xs-2
+          .page-layer__navigation__media__inside
+            .page-layer__navigation__media__breadcrumbs
+              i.fa.fa-home
+              i.fa.fa-angle-right
+              span <?php echo ucfirst( get_post_type() ).'s'; ?>
+
+        .page-layer__navigation__media--space-b.col-xs-1

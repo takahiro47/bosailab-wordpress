@@ -48,15 +48,6 @@ body
           text-align center
         & > h3
           @extend legend
-          // display block
-          // width 100%
-          // padding 0
-          // margin-bottom 20px
-          // color #333
-          // font-size: 21px
-          // line-height inherit
-          // border 0
-          // border-bottom 1px solid #e5e5e5
 
   // お会計 - 購入確認
   #edd_purchase_receipt // table
@@ -223,7 +214,7 @@ header_bar_height = 40px
   width 100%
   margin 0
   background #fff
-  border-bottom 1px solid rgba(0, 0, 0, .15)
+  border-bottom 1px solid rgba(0, 0, 0, .075)
 
 .header-bar-wrap
   container()
@@ -236,7 +227,7 @@ header_bar_height = 40px
     background-repeat no-repeat
     // ナビバー共通
     .header-bar__site-menu // nav
-      margin 90px 0 0
+      margin 96px 0 0
       .navigation-menu // ul
         clearfix()
         margin 0
@@ -250,21 +241,21 @@ header_bar_height = 40px
           a
             omission()
             display block
-            padding 12px 2px
+            padding 8px 0
             margin-right 20px
             color #79776b // sub_color
-            font-size 13px
+            font-size 14px // 13px
             font-weight 500
             line-height 16px
             letter-spacing 0
             text-transform capitalize // uppercase
             text-decoration none
-            // text-shadow base_text_shadow
+            // box-shadow inset 0 -1px 0 #ddd
             transition all .15s ease-in-out
           &:hover > a
           &.current-menu-item > a
-            color base_color
-            border-bottom 1px solid base_color
+            color darken(base_color, 25%)
+            box-shadow inset 0 -1px 0 @color
           .current_page_item > a
           .current_page_ancestor > a
           .current-menu-item > a
@@ -284,7 +275,7 @@ header_bar_height = 40px
         display block
         cursor pointer
         width 100%
-        height 165px
+        height 140px // 165px
         .header-bar__title
         .header-bar__description
           hidden()
@@ -307,14 +298,14 @@ header_bar_height = 40px
               width 100%
               max-width 160px
               height header_bar_height - 14px
-              padding 0 9px
+              padding 5px 9px
               padding-right 25px
               background-color #f3f3f3
               border-width 0
               color #6A7180
               font-size 12px
               font-weight normal
-              line-height header_bar_height - 14px
+              line-height header_bar_height - 14px - (5px * 2)
               border-radius header_bar_height - 14px
               box-shadow inset -1px -1px 0 #eee, inset 1px 1px 0 #eee
               &:focus
@@ -718,11 +709,142 @@ gallery_info_width = 360px
 .page-layer__vertical-center
   .page-layer__vertical-center__cell
     .page-layer__content-wrap
+      //- ナビバー領域
+      .page-layer__navigation
+        hidden()
+        &.page-layer__navigation--archive
+          visible()
+          @extend .ui-header
+          z-index 11
+          position relative
+          position -webkit-sticky
+          position sticky
+          overflow visible
+          top 0
+          left 0
+          width 100%
+          max-width none
+          margin-top 0
+          &.lock
+            position fixed
+            position -webkit-sticky
+            position sticky
+            top 0
+            width 100%
+          .page-layer__navigation__media
+            container()
+            height 54px
+            padding 8px 0
+            & > div
+              height 38px
+              .page-layer__navigation__media__inside
+                height 54px
+                margin -8px -15px
+                .page-layer__navigation__media__current
+                  display block
+                  height 54px
+                  padding 8px 0
+                  &
+                  i
+                  span
+                    outline none
+                    color darken(#64635F, 4%)
+                    font-size 13px
+                    font-weight 700
+                    line-height 38px
+                    text-decoration none
+                  i
+                    color #e76860
+                    padding-right 12px
+                    font-size 1.2em
+                  span
+                    text-decoration none
+                  &:hover
+                    cursor pointer
+                    background-color #f4f5f5
+                &.open
+                  .page-layer__navigation__media__current
+                    background-color #f4f5f5
+                .page-layer__navigation__media__tab
+                  clearfix()
+                  whiteboard()
+                  left 0
+                  right 0
+                  margin 0
+                  padding 0
+                  box-shadow none
+                  border-radius 0
+                  & > li // .cat-item
+                    height 48px
+                    margin 0 8px
+                    padding 0
+                    color darken(#64635F, 8%)
+                    font-size 13px
+                    font-weight 700
+                    line-height 38px
+                    text-align left
+                    box-shadow 0 1px 0 #f4f5f5
+                    a
+                      omission()
+                      height 48px
+                      margin 0 -8px
+                      padding 4px 20px 6px
+                      font-weight 700
+                      line-height 38px
+                      text-align left
+                      transition background-color .2s ease
+                      &:hover
+                        background-color #f4f5f5
+                    &.cat-item-none // カテゴリなし
+                      hidden()
+                    &.current-cat // 現在のカテゴリ
+                      box-shadow none
+                      a
+                        background-color #f4f5f5
+                        box-shadow inset 3px 0px 0 darken(#64635F, 8%)
+                    &:hover
+                      box-shadow none
+                      a
+                        color #e76860
+                        box-shadow inset 3px 0px 0 #e76860
+                    &:last-child
+                      box-shadow none
+                      a
+                        &
+                        &:hover
+                          margin-bottom 0
+            .page-layer__navigation__media--category
+            .page-layer__navigation__media--term
+            .page-layer__navigation__media--space-a
+            .page-layer__navigation__media--detail
+              line-height 38px
+              text-align center
+              box-shadow inset -1px 0px 0px #eee
+              transition background-color .2s ease
+            .page-layer__navigation__media--detail
+              .page-layer__navigation__media__inside
+                .page-layer__navigation__media__breadcrumbs
+                  i
+                  span
+                    display inline-block
+                    height 54px
+                    padding 8px 4px
+                    color darken(#64635F, 4%)
+                    font-size 13px
+                    font-weight 700
+                    line-height 38px
+                    text-align center
+                    text-transform uppercase
+            .page-layer__navigation__media--term
+              .page-layer__navigation__media__inside
+                .page-layer__navigation__media__current
+                  margin-left -1px
+      //- メイン領域
       .page-layer__content
         container()
         padding-top 40px
-        // &.page-layer__content--archive
-        //   hoge 0
+        &.page-layer__content--project
+          padding-top 24px
         &.page-layer__content--report
           max-width 800px
           padding-top 0
@@ -737,7 +859,6 @@ gallery_info_width = 360px
           max-width 100%
           margin 0
           padding 0
-        // &.page-layer__content--download
         &.page-layer__content--search
           .page-layer__media
             background-color #fff
@@ -1050,12 +1171,9 @@ gallery_info_width = 360px
                   padding-right 9px
             .page-layer__media--report__cell
               clearfix()
+              whiteboard()
               position relative
               padding 12px
-              border 1px solid
-              border-color #e5e6e9 #dfe0e4 #d0d1d5
-              border-radius 3px
-              background-color #fff
               .archive-media--report-wrap
                 .archive-media--report
                   .archive-media--photograph-wrap
@@ -1107,9 +1225,9 @@ gallery_info_width = 360px
                   .archive-media--report__article
                     margin-bottom 10px
                     padding 0
-                    .archive-media--report__title // h3
+                    .archive-media--report__title // h1
                       margin 20px 0 12px
-                      font-size 16px
+                      font-size 18px
                       font-weight 700
                       line-height 1.4em
                       letter-spacing .01em
@@ -1138,13 +1256,9 @@ gallery_info_width = 360px
                   .archive-media--report__article
                     padding 0 12px 12px
                     .archive-media--report__title
-                      margin 12px 0 24px
-                    .archive-media--report__tags
+                      margin 12px 0
+                    .archive-media--report__categories
                       margin 4px 0 12px
-                    .archive-media--report__responsibility
-                    .archive-media--report__members
-                      margin 0 0 2px
-                      line-height 1.3em
                     .archive-media--report__edit
                       display block
                     .archive-media--report__body
@@ -1161,7 +1275,7 @@ gallery_info_width = 360px
                         margin .7em 0 1.4em
                         font-size 14px
                         line-height 1.9em
-                        text-indent 1em
+                        // text-indent 1em
                         word-wrap break-word
                       strong
                         font-weight bold
@@ -1189,8 +1303,69 @@ gallery_info_width = 360px
                         &[class*="attachment-"]
                           max-width 100%
                           height auto
+                    .archive-media--report__tags
+                      margin 4px 0 12px
+                    .archive-media--report__socials-wrap
+                      whiteboard()
+                      position absolute
+                      bottom 0
+                      right -145px
+                      width 100px
+                      text-align center
+                      .archive-media--report__socials
+                        clearfix()
+                        padding 16px 10px 10px
+                        .archive-media--report__social
+                          overflow hidden
+                          height 80px
+                          padding 5px 0
+                    .archive-media--report__custom_fields
+                      position relative
+                      margin-top 48px
+                      padding 20px 20px 14px
+                      background-color #f5f5f5
+                      .archive-media--report__responsibility--avatar
+                        width 48px
+                        height @width
+                        margin -45px auto 4px
+                        background-color #fff
+                        border 1px solid #C0B9B9
+                        border-radius 50%
+                        .fa
+                          display block
+                          padding 8px
+                          color #C0B9B9
+                          font-size 24px
+                          line-height 32px
+                          text-align center
+                      .archive-media--report__responsibility
+                      .archive-media--report__members
+                        .title
+                          margin 4px 0
+                          color #777
+                          font-size 11px
+                          line-height 1.3em
+                          text-align center
+                        .body
+                          margin 4px 0 12px
+                          font-size 15px
+                          line-height 1.3em
+                          text-align center
+                      .archive-media--report__members
+                        .body
+                          font-size 13px
                   .archive-media--report__footer
-                    .archive-media--report__social-wrap
+                    // .archive-media--report__socials-wrap
+                    //   padding-top 15px
+                    //   padding-bottom 15px
+                    //   border-bottom 1px solid #ccc
+                    //   .archive-media--report__socials
+                    //     clearfix()
+                    //     padding-top 10px
+                    //     .archive-media--report__social
+                    //       overflow hidden
+                    //       height 70px
+                    .archive-media--report__socials-wrap
                       clearfix()
                       padding 0 10px
                       .archive-media--report__social
@@ -1251,6 +1426,7 @@ gallery_info_width = 360px
               .archive-media--project-wrap
                 .archive-media--project
                   .archive-media--photograph-wrap
+                    overflow hidden
                     position relative
                     height 202px
                     .archive-media--background
@@ -1289,6 +1465,9 @@ gallery_info_width = 360px
                     &.loaded
                       .archive-media--photograph
                         opacity 1
+                    // &:hover
+                    //   .archive-media--photograph
+                    //     scale(1.1)
                   .archive-media--project__article
                     height 60px
                     margin-top 20px
@@ -1352,7 +1531,8 @@ gallery_info_width = 360px
               .archive-media--project-wrap
                 .archive-media--project-back-wrap
                   .archive-media--project-back
-                    width 130px
+                    width 172px
+                    margin-top 24px
                     padding 10px 0
                     color #333
                     font-weight 700
@@ -1363,11 +1543,13 @@ gallery_info_width = 360px
                     .fa
                       padding-right 9px
                 .archive-media--project
+                  whiteboard()
+                  padding 50px 40px
                   .archive-media--project__header
                     clearfix()
                     position relative
                     padding 17px 0
-                    border-bottom 1px solid lighten(font_color, 40%)
+                    border-bottom 1px solid lighten(font_color, 80%)
                     .archive-media--project-head
                       clearfix()
                       .archive-media--project-titles
@@ -1418,7 +1600,7 @@ gallery_info_width = 360px
                     clearfix()
                     margin 0 0 20px
                     padding-bottom 17px
-                    border-bottom 1px solid lighten(font_color, 40%)
+                    // border-bottom 1px solid lighten(font_color, 40%)
                     .archive-media--project__info
                       clearfix()
                       margin 40px -15px

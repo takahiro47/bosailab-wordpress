@@ -137,6 +137,10 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
                 .page-layer__vertical-center
                   .page-layer__vertical-center__cell
                     .page-layer__content-wrap
+                      //- ナビバー領域
+                      +ui-navigation
+
+                      //- メイン領域
                       :php
                         $class = '';
                         if ( is_search() ) { $class .= ' page-layer__content--search'; }
