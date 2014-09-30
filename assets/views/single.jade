@@ -16,7 +16,6 @@ block page_article
 
     <?php if (get_post_type() == 'project') { ?>
     :php
-      // サムネイル
       $thumbnail_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID), 'project-single' );
 
     .page-layer__media--project__cell
@@ -205,11 +204,6 @@ block page_article
       .archive-media--report-back
         i.fa.fa-angle-double-left
         | Back To List
-
-
-    <?php } else if (get_post_type() == 'paper') { ?>
-
-    <?php the_content(); ?>
 
 
     <?php } else { ?>
