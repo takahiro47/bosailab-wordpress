@@ -876,7 +876,7 @@ if ( true || function_exists( 'add_image_size' ) ) { // TEMP
   add_image_size( 'photolog-archive', 344, 344, true );
   add_image_size( 'photolog-single', 1440, 1080, true );
 
-  add_image_size( 'report-archive', 1200, 344, true );
+  add_image_size( 'report-archive', 1200, 688, true );
 }
 
 // function my_custom_sizes( $sizes ) {

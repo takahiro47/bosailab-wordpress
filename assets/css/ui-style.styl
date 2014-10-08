@@ -811,7 +811,7 @@ gallery_info_width = 360px
                       box-shadow none
                       a
                         color #e76860
-                        box-shadow inset 3px 0px 0 darken(#64635F, 8%) // #e76860
+                        box-shadow inset 3px 0px 0 #e76860
                     &:last-child
                       box-shadow none
                       a
@@ -923,47 +923,113 @@ gallery_info_width = 360px
                 .archive-media--download
                   .archive-media--photograph-wrap
                     position relative
-                    height 202px
-                    .archive-media--background
+                    height 202px + 12px
+                    background-color lighten(#E0E0E0, 50%)
+                    border-radius 3px 3px 0 0
+                    .archive-media--header
                       position absolute
                       top 0
                       left 0
                       right 0
+                      height 12px
+                      .fa
+                        display block
+                        float left
+                        padding 1px 0 0 5px
+                        color #aaa
+                        font-size 10px
+                        line-height 12px
+                        &:first-child
+                          color #FF6057
+                        &:nth-child(2)
+                          color #FFC330
+                        // &:nth-child(3)
+                        //   color #29CF42
+                    .archive-media--background
+                      position absolute
+                      top 12px
+                      left 0
+                      right 0
                       bottom 0
-                      // margin -5px
-                      // padding 5px
-                      background-color rgba(231, 228, 218, .45)
-                      border 1px solid rgba(121, 119, 107, .1)
-                      // background-color #fff
-                      // box-shadow 0 0 0 1px rgba(0, 0, 0, .04), 0 1px 5px rgba(0, 0, 0, .1)
+                      background-color #fefefe
                       transition margin .05s ease-out
                     .archive-media--photograph
                       opacity 0
                       position absolute
-                      top 0
+                      top 12px
                       left 0
                       right 0
                       bottom 0
                       background-size cover
                       background-position 50% 25%
                       transition opacity .55s ease-out .15s
-                    .archive-media--photograph-shadow
-                      z-index 1
+                    .archive-media--overflow
+                      opacity 0
+                      cursor pointer
                       position absolute
-                      top 0
+                      top 12px
                       left 0
                       right 0
                       bottom 0
-                      border 1px solid rgba(0, 0, 0, .12)
-                      background-color rgba(0, 0, 0, .04)
-                      transition background-color .05s ease-out
+                      text-align center
+                      background-color #000
+                      background-color rgba(0, 0, 0, .65)
+                      transition all .35s ease
+                      .archive-media--download-button
+                        cursor pointer
+                        display inline-block
+                        margin-top 85px
+                        padding 10px 30px
+                        color #222
+                        font-size 12px
+                        font-weight 700
+                        line-height 14px
+                        text-align center
+                        text-transform uppercase
+                        letter-spacing 1px
+                        white-space nowrap
+                        background-color #e9e9e9
+                        border-radius 50px
+                        .fa
+                          padding-right 4px
+                          &:hover
+                            background-color lighten(#e9e9e9, 15%)
+                      .archive-media--download__views
+                      .archive-media--download__date
+                        position absolute
+                        top 125px
+                        width 80px
+                        color #e9e9e9
+                        font-weight 700
+                        text-align center
+                        letter-spacing .04em
+                        .fa
+                          padding-right 4px
+                      .archive-media--download__views
+                      .archive-media--download__date
+                        left 50%
+                        margin-left -40px
+                        text-align center
+                    .archive-media--excerpt
+                      position absolute
+                      top 0
+                      left @top
+                      right @top
+                      bottom @top
+                      margin 0
+                      padding (8px + 12px) 8px 8px
+                      color #555
+                      font-size 12px
+                      line-height 1.7em
                     &.loaded
                       .archive-media--photograph
                         opacity 1
+                    &:hover
+                      .archive-media--overflow
+                        opacity 1
                   .archive-media--download__article
                     height 50px
-                    margin-top 20px
-                    border-bottom 1px solid #e7e4da
+                    margin-top 12px
                     .archive-media--download-button // button
                       float right
                       display block
@@ -981,16 +1047,18 @@ gallery_info_width = 360px
                       &:hover
                         background-color darken(#fafafa, 4%)
                     .archive-media--download-title // h3
-                      omission()
+                      // omission()
                       margin 0
-                      font-size 14px
-                      font-weight 300
-                      line-height 1.5em
-                      text-align justify
+                      font-size 13px
+                      line-height 1.6em
+                      text-align center
+                      height @line-height * 2
                       a
                         color font_color
-                        font-weight 500
-                        letter-spacing .01em
+                        font-size 13px
+                        font-weight 700
+                        text-align center
+                        letter-spacing .03em
                     .archive-media--download-tags // ul
                       clearfix()
                       list-style none
@@ -1011,19 +1079,6 @@ gallery_info_width = 360px
                           content '#'
                         &:first-child
                           padding-left 0
-                  .archive-media--download__footer
-                    .archive-media--download__views
-                    .archive-media--download__date
-                      float left
-                      margin-top 6px
-                      margin-right 14px
-                      font-size 13px
-                      font-weight 300
-                      line-height 1.5em
-                      text-align justify
-                      .fa
-                        padding-right 5px
-                        color #666
                 &:hover
                   .archive-media--download
                     .archive -media--photograph-wrap
@@ -1159,7 +1214,7 @@ gallery_info_width = 360px
           // Archive.Report
           .page-layer__media--report--archive
           .page-layer__media--report--single
-            padding 0 15px 15px
+            padding 0 19px 19px
             // box-shadow inset 0px -1px 0 #eee
             .archive-media--report-back-wrap
               .archive-media--report-back
@@ -1178,13 +1233,13 @@ gallery_info_width = 360px
               clearfix()
               whiteboard()
               position relative
-              padding 12px
+              padding 20px
               .archive-media--report-wrap
                 .archive-media--report
                   .archive-media--photograph-wrap
                     position relative
-                    height 172px
-                    margin -12px -12px 0
+                    height 172px * 1.8
+                    margin -20px -20px 0
                     background-color rgba(231, 228, 218, .45)
                     .archive-media--photograph
                     .archive-media--photograph-shadow
@@ -1206,9 +1261,9 @@ gallery_info_width = 360px
                       left 0
                       right 0
                       bottom 0
-                      background-color rgba(0, 0, 0, .04)
+                      background-color rgba(0, 0, 0, .14)
                       border-bottom 1px solid rgba(0, 0, 0, .07)
-                      transition background-color .05s ease-out
+                      transition background-color .15s ease-in-out
                     &.loaded
                       .archive-media--photograph
                         opacity 1
@@ -1216,19 +1271,54 @@ gallery_info_width = 360px
                     .ui-calendar
                       position absolute
                       top 0
-                      left -95px
+                      left -57px - 42px
                     .archive-media--report__relative-date
                       position absolute
                       top 65px
-                      left -135px
-                      width 80px
+                      left -57px - 120px
+                      width 120px
+                      margin 0
                       color #999
                       font-size 13px
                       font-weight bold
+                      line-height 1.4em
                       text-align right
                       text-shadow 0px 1px 0px rgba(255, 255, 255, .8)
+                    .archive-media--report__categories
+                      z-index 9
+                      position absolute
+                      top 17px
+                      right -14px
+                      margin 0
+                      font-size 13px
+                      font-weight bold
+                      line-height 1.4em
+                      text-align left
+                      .category
+                        $ribbon_base = 13px
+                        a
+                          position relative
+                          display block
+                          min-width 84px
+                          margin-bottom 12px
+                          padding 4px 14px
+                          color #fff
+                          text-align center
+                          background-color #D5584C
+                          &:before
+                          &:after
+                            content ''
+                            z-index -1
+                            position absolute
+                            top 50%
+                            border $ribbon_base solid transparent
+                          &:before
+                            left - $ribbon_base
+                            border-right-color transparent
+                          &:after
+                            right - $ribbon_base
+                            border-left-color darken(#D5584C, 15%)
                   .archive-media--report__article
-                    margin-bottom 10px
                     padding 0
                     .archive-media--report__title // h1
                       margin 20px 0 12px
@@ -1244,7 +1334,7 @@ gallery_info_width = 360px
                       color #8A8A80
                       font-size 12px
                       line-height 1.5em
-                      height @line-height * 2
+                      height @line-height * 3
                       text-align justify
                       color: #8A8A80;
                 &:hover

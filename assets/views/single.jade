@@ -104,34 +104,35 @@ block page_article
               .archive-media--photograph-shadow
               +ui-loader
           header.archive-media--report__header
+            //- 投稿日時
             .ui-calendar
               time <?php echo get_the_time('Y-m-d H:i:s'); ?>
               .date-icon
                 .date-month <?php echo get_the_time('M'); ?>
                 .date-day <?php echo get_the_time('d'); ?>
                 .date-year <?php echo get_the_time('Y'); ?>
-            .archive-media--report__categories
-              <?php $post_tags = get_the_tags(); if ($post_tags) { foreach($post_tags as $tag) { ?>
-              li.category <?php echo $tag->name; ?>
+            //- カテゴリ
+            ul.archive-media--report__categories.clearfix
+              <?php $terms = get_the_terms( $post->ID, 're-types' ); // var_dump( $terms ); ?>
+              <?php if ($terms) { foreach($terms as $term) { ?>
+              li.category: a(href!='<?php echo "/report/re-types/".$term->slug; ?>') <?php echo $term->name; ?>
               <?php } } ?>
+            //- 相対日時
             .archive-media--report__relative-date
               | <?php echo toLastUpdateString( new DateTime( get_the_time('Y-m-d H:i:s') ) ), PHP_EOL; ?>
           article.archive-media--report__article
             //- タイトル
             h1.archive-media--report__title
               a.js-navi-single(href!='<?php the_permalink(); ?>'): span <?php the_title(); ?>
-
             //- 本文
             .archive-media--report__body
               .excerpt.ellipsis.multiline <?php the_content(); ?>
-
-            //- タグ(非表示)
-            //- .archive-media--report__tags
-            //-   .ui-tags: p: span Tags
-            //-   <?php $post_tags = get_the_tags(); if ($post_tags) { foreach($post_tags as $tag) { ?>
+            //- タグ
+            //- ul.archive-media--report__tags.clearfix
+            //-   <?php $tags = get_the_tags(); var_dump( $tags ); ?>
+            //-   <?php if ( $tags ) { foreach($tags as $tag) { ?>
             //-   li.tag <?php echo $tag->name; ?>
             //-   <?php } } ?>
-
             //- SNSボタン
             .archive-media--report__socials-wrap
               .archive-media--report__socials
