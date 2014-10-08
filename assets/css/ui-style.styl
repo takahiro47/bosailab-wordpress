@@ -725,12 +725,6 @@ gallery_info_width = 360px
           width 100%
           max-width none
           margin-top 0
-          &.lock
-            position fixed
-            position -webkit-sticky
-            position sticky
-            top 0
-            width 100%
           .page-layer__navigation__media
             container()
             height 54px
@@ -844,6 +838,18 @@ gallery_info_width = 360px
               .page-layer__navigation__media__inside
                 .page-layer__navigation__media__current
                   margin-left -1px
+      //- スクロール固定
+      &.lock
+        padding-top 55px
+        .page-layer__navigation
+          position fixed
+          position -webkit-sticky
+          position sticky
+          top 0
+          width 100%
+        &.lock--add
+          .page-layer__navigation
+            top 32px
       //- メイン領域
       .page-layer__content
         container()

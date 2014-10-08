@@ -323,7 +323,12 @@ $ ->
   # Actions
   # ===================================
 
-  $win.on 'resize scroll', _.throttle (event) ->
+  media =
+    signed_in: $body.hasClass 'signed_in'
+
+  console.log media.signed_in
+
+  scrollActions = (event = null) ->
     winheight     = $win.height()
     docheight     = $doc.height()
     scrollheight  = $doc.scrollTop()
@@ -355,8 +360,25 @@ $ ->
     #   $body.removeClass 'scroll'
     #   media.scrolltop = no
 
-  , 20 # 12ミリ秒に1回しか実行できないように
+    # ナビの調整
+    $page_navigation = $ '.page-layer__content-wrap'
+    if 782 < winwidth
+      if media.signed_in and 141 < scrollheight
+        $page_navigation.addClass 'lock lock--add'
+      else if not media.signed_in and 141 < scrollheight
+        $page_navigation.remove('lock--add').addClass 'lock'
+      else
+        $page_navigation.removeClass 'lock lock--add'
+    else
+      $page_navigation.removeClass 'lock lock--add'
 
+  scrollActions()
+
+  # スクロールに伴うアクション
+
+  $win.on 'resize scroll', _.throttle (event) ->
+    scrollActions event
+  , 20 # 12ミリ秒に1回しか実行できないように
 
   $doc.on 'click', '.ui-scrollto', ->
     ui.scroll.fast()
