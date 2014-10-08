@@ -123,11 +123,13 @@ block page_article
     .page-layer__media--report__cell
       .archive-media--report-wrap
         .archive-media--report
+          <?php if ( has_post_thumbnail() ) { ?>
           .archive-media--photograph-wrap
             a.js-navi-single(href!='<?php the_permalink(); ?>')
               .archive-media--photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
               .archive-media--photograph-shadow
               +ui-loader
+          <?php } ?>
           header.archive-media--report__header
             //- 投稿日時
             .ui-calendar
