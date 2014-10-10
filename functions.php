@@ -588,14 +588,14 @@ function custom_pages_columns ($columns) {
 add_filter('manage_pages_columns', 'custom_pages_columns');
 
 // 投稿一覧、固定ページ一覧に項目を追加(カスタム投稿フィールド)
-add_theme_support( 'post-thumbnails' );
-function manage_posts_columns($columns) {
-  $columns['thumbnail'] = __('Thumbnail');
-  $columns['photo'] = "写真";
-  $columns['responsibility'] = "文責";
-  // $columns['members'] = "参加者";
-  return $columns;
-}
+// add_theme_support( 'post-thumbnails' );
+// function manage_posts_columns($columns) {
+//   $columns['thumbnail'] = __('Thumbnail');
+//   $columns['photo'] = "写真";
+//   $columns['responsibility'] = "文責";
+//   // $columns['members'] = "参加者";
+//   return $columns;
+// }
 
 // 投稿一覧、固定ページ一覧に項目を追加(アイキャッチ)
 function add_column($column_name, $post_id) {
