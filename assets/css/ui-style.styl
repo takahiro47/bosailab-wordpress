@@ -1328,7 +1328,7 @@ gallery_info_width = 360px
                     padding 0
                     .archive-media--report__title // h1
                       margin 20px 0 12px
-                      font-size 18px
+                      font-size 20px
                       font-weight 700
                       line-height 1.4em
                       letter-spacing .01em
@@ -1357,7 +1357,7 @@ gallery_info_width = 360px
                   .archive-media--report__article
                     padding 0 12px 12px
                     .archive-media--report__title
-                      margin 12px 0
+                      margin 24px 0 12px
                     .archive-media--report__categories
                       margin 4px 0 12px
                     .archive-media--report__edit
@@ -1851,13 +1851,26 @@ gallery_info_width = 360px
                       legend
                         hoge 0
                       button
+                      input[type='reset']
+                      input[type='submit']
                         @extend .btn
+                        @extend .btn-default
+                      input[type='submit']
+                        @extend .btn-danger
                       form
                         @extend .form-horizontal
+                        margin 60px 180px
                         input[type='text']
                         input[type='email']
+                        input[type='password']
+                        select
                         textarea
                           @extend .form-control
+                        input
+                          outline 0
+                          display inline-block
+                          font-size 1.1em
+                          border-radius 1px
                       table
                         @extend .table
                         // @extend .table-striped
@@ -1870,7 +1883,6 @@ gallery_info_width = 360px
                           &:nth-child(even)
                             td
                               background-color #f9f9f9
-
                       blockquote
                         margin .5em 20px
                         padding 1px 15px

@@ -254,7 +254,7 @@ module.exports = (grunt) ->
         files: [{
           expand: yes
           cwd: 'assets/'
-          src: [ 'style.styl', '**/style.styl' ] # [ '*.styl', '**/*.styl' ]
+          src: [ 'style.styl', '**/style.styl' ]
           dest: 'dist/'
           ext: '.css'
         }]
