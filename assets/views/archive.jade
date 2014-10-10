@@ -62,7 +62,7 @@ block page_article
       while ( $wp_query->have_posts() ) {
         $wp_query->the_post();
 
-  <?php if (get_post_type() == 'project') { ?>
+  <?php if (get_post_type() == 'project') { if ( !get_field( 'is_child' ) ) { ?>
   :php
     $thumbnail_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'project-archive' )[0];
 
@@ -90,7 +90,7 @@ block page_article
               .end-year <?php the_field( 'end_year' ); ?>
 
 
-  <?php } else if (get_post_type() == 'photolog') { ?>
+  <?php } } else if (get_post_type() == 'photolog') { ?>
   :php
     $thumbnail_url = get_field('photo')['sizes']['photolog-archive'];
 
