@@ -32,7 +32,7 @@ block page_article
                 p.archive-media--project__description <?php the_field( 'description' ); ?>
               .col-xs-3
             nav.archive-media--project-navigate(role='navigation')
-              <? if ( !get_field( 'is_child' ) ) { ?>
+              <?php if ( !get_field( 'is_child' ) ) { ?>
               //- 前の記事へ
               .archive-media--project-navigate__prev(role='navigation')
                 <?php if ( $prev = get_adjacent_post( false, '', true ) ) { ?>
