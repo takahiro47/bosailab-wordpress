@@ -86,7 +86,7 @@ visible()
 
 // フォント
 font-reset()
-  font-family 'Lato', 'Helvetica', 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', 'メイリオ', 'Meiryo', 'MS PGothic', 'Arial', 'Verdana', sans-serif
+  font-family YuGothic, 'Yu Gothic', "游ゴシック体", "游ゴシック", 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', 'Lato', 'Helvetica', 'メイリオ', 'Meiryo', 'MS PGothic', 'Arial', 'Verdana', sans-serif
 font-helvetica()
   font-family 'Helvetica Neue', Arial, 'hiragino kaku gothic pro', meiryo, 'ms pgothic', sans-serif
 font-helvetica-ultra()
@@ -138,21 +138,177 @@ button-pink()
   letter-spacing .1em
   text-align center
   text-transform uppercase
+  text-decoration none
   background-color #e76860
-  border-radius 2px
+  border-radius 4px
   box-shadow 0 2px 0 #c65953
-  transition all .15s ease
   &:hover
-    background-color lighten(#E76860, 7%)
+    background-color darken(#e76860, 4%)
   &:active
-    background-color lighten(#E76860, 14%)
+    margin 10px 0 8px
+    padding 15px 30px
+    background-color darken(#e76860, 8%)
     box-shadow inset 0px 2px 0 #C65953
 
-whiteboard()
+formal_whiteboard()
   background-color #fff
   border 1px solid
   border-color #e5e6e9 #dfe0e4 #d0d1d5
   border-radius 3px
+
+whiteboard()
+  background-color #fff
+  // box-shadow 0 3px 0 #e5eef1
+  box-shadow 0 3px 0 #D7E4E8, inset 0px 0 0px 5px rgba(229, 238, 241, .64)
+  border-radius 2px
+
+readmore()
+  float right
+  margin-top 1.6em
+  color #999
+  font-size 12px
+  font-weight bold
+  transition color .2s ease-in-out
+  &:hover
+    color #222
+
+markdown()
+  color #222
+  text-align justify
+  h1
+  h2
+  h3
+  h4
+  h5
+  h6
+    // @extend .clearfix
+    font-size 1.20em
+    font-weight bold
+    line-height @font-size
+    word-wrap break-word
+  h1
+  h3
+  h2
+    &:before
+      content '■'
+      padding-right .5em
+      color #8DB95C
+  h1
+  h2
+  h3
+    margin-bottom 16px
+    padding-bottom 0.3em
+    border-bottom 1px solid #eee
+  h1
+    font-size 2.15em
+    line-height 1.40em
+    margin-top @font-size
+    &:before
+      color base_color
+  h2
+    font-size 1.70em
+    line-height 1.50em
+    margin-top 1.50em
+    &:before
+      color #C54A48
+  h3
+    font-size 1.40em
+    line-height @font-size
+  h4
+    font-size 1.30em
+    line-height @font-size
+  h5
+    font-size 1.20em
+    line-height @font-size
+  h6
+    font-size 1.10em
+    line-height @font-size
+  p
+    display block
+    margin .7em 0 1.4em
+    font-size 1.1em
+    line-height 1.6em
+    // text-indent @font-size
+    word-wrap break-word
+  strong
+    font-weight bold
+  em
+    font-style italic
+  blockquote
+    display block
+    -webkit-margin-before 1em
+    -webkit-margin-after 1em
+    -webkit-margin-start 40px
+    -webkit-margin-end 40px
+  ul
+  ol
+    margin .7em .7em 1.4em
+    li
+      margin-bottom .3em
+      &:before
+        content '●' //'\f111'
+        padding-right .7em
+        color #cccca3
+        font-size 1.1em
+        font-family 'FontAwesome'
+      & ul
+        margin 0
+  legend
+    hoge 0
+  button
+  input[type='reset']
+  input[type='submit']
+    @extend .btn
+    @extend .btn-default
+  input[type='submit']
+    @extend .btn-danger
+  form
+    @extend .form-horizontal
+    margin 60px 180px
+    input[type='text']
+    input[type='email']
+    input[type='password']
+    select
+    textarea
+      @extend .form-control
+    input
+      outline 0
+      display inline-block
+      font-size 1.1em
+      border-radius 1px
+  table
+    @extend .table
+    // @extend .table-striped
+    // @extend .table-condensed
+    // @extend .table-hover
+    margin .7em 0 1.4em
+    tr
+      th
+        @extend .table > thead > tr > th
+      &:nth-child(even)
+        td
+          background-color #f9f9f9
+  blockquote
+    margin .5em 20px
+    padding 1px 15px
+    p
+      font-size
+  img
+    max-width 100%
+    height auto
+    &.aligncenter
+      display block
+      margin 0 auto
+    &.alignright
+      float right
+      margin 0 0 30px 30px
+    &.alignleft
+      float left
+      margin 0 30px 30px 0
+    &[class*="wp-image-"]
+    &[class*="attachment-"]
+      max-width 100%
+      height auto
 
 /* = Animations
  * ------------------------------------------------------------ */

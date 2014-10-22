@@ -490,6 +490,19 @@ $ ->
 
   ($ '.archive-media--photograph-wrap').imageload()
 
+  $.fn.imageload_new = ->
+    @each ->
+      $el = $ @
+      $photograph = $el.find '.photograph'
+      if uri = ui.sample_image_url($photograph.css 'background-image')
+        image = new Image()
+        image.onload = => $el.addClass 'loaded'
+        image.src = uri[0]
+      else
+        ($loader = $el.find '.ui-loader').remove()
+      return
+
+  ($ '.photograph-container').imageload_new()
 
   # ===================================
   # Run Animation via WOW

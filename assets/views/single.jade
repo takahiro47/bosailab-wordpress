@@ -95,117 +95,102 @@ block page_article
 
     <?php } else if (get_post_type() == 'report') { ?>
     :php
-      $thumbnail_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'photolog_archive' )[0];
+      $thumbnail_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'report-archive' )[0];
 
-    .page-layer__media--report__cell
-      .archive-media--report-wrap
-        .archive-media--report
-          .archive-media--photograph-wrap
-            a.js-navi-single(href!='<?php the_permalink(); ?>')
-              .archive-media--photograph(href!="<?php echo get_post_type_archive_link( get_post_type() ); ?>")
-              .archive-media--photograph-shadow
-              +ui-loader
-          header.archive-media--report__header
-            //- 投稿日時
-            .ui-calendar
-              time <?php echo get_the_time('Y-m-d H:i:s'); ?>
-              .date-icon
-                .date-month <?php echo get_the_time('M'); ?>
-                .date-day <?php echo get_the_time('d'); ?>
-                .date-year <?php echo get_the_time('Y'); ?>
-            //- カテゴリ
-            ul.archive-media--report__categories.clearfix
-              <?php $terms = get_the_terms( $post->ID, 're-types' ); // var_dump( $terms ); ?>
-              <?php if ($terms) { foreach($terms as $term) { ?>
-              li.category: a(href!='<?php echo "/report/re-types/".$term->slug; ?>') <?php echo $term->name; ?>
-              <?php } } ?>
-            //- 相対日時
-            .archive-media--report__relative-date
-              | <?php echo toLastUpdateString( new DateTime( get_the_time('Y-m-d H:i:s') ) ), PHP_EOL; ?>
-          article.archive-media--report__article
-            //- タイトル
-            h1.archive-media--report__title
-              a.js-navi-single(href!='<?php the_permalink(); ?>'): span <?php the_title(); ?>
-            //- 本文
-            .archive-media--report__body
-              .excerpt.ellipsis.multiline <?php the_content(); ?>
-            //- タグ
-            //- ul.archive-media--report__tags.clearfix
-            //-   <?php $tags = get_the_tags(); var_dump( $tags ); ?>
-            //-   <?php if ( $tags ) { foreach($tags as $tag) { ?>
-            //-   li.tag <?php echo $tag->name; ?>
-            //-   <?php } } ?>
-            //- SNSボタン
-            .archive-media--report__socials-wrap
-              .archive-media--report__socials
-                .archive-media--report__social.facebook
-                  fb:like#fb-like(href='', width='218', layout='box_count' action='like', show_faces='true', share='false')
-                .archive-media--report__social.twitter
-                  a#tw-like.twitter-share-button(href='https://twitter.com/share' data-lang='ja', data-hashtags='bosailab', data-dnt='true', data-count='vertical')
-                .archive-media--report__social.pocket
-                  a#pk-like.pocket-btn(data-pocket-label='pocket', data-pocket-count='vertical',  data-pocket-align='center', data-lang='ja')
-                //- .archive-media--report__social.googleplus
-                //-   .g-plusone(data-size='tall')
+    .item-cell.item-cell__single.item-cell__single--report
+      header.header
+        //- 投稿日時
+        .ui-calendar
+          time <?php echo get_the_time('Y-m-d H:i:s'); ?>
+          .date-icon
+            .date-month <?php echo get_the_time('M'); ?>
+            .date-day <?php echo get_the_time('d'); ?>
+            .date-year <?php echo get_the_time('Y'); ?>
+        //- タイトル
+        h3.title
+          a.js-navi-single(href!='<?php the_permalink(); ?>') <?php the_title(); ?>
+        //- 相対日時
+        .relative-date
+          | <?php echo toLastUpdateString( new DateTime( get_the_time('Y-m-d H:i:s') ) ), PHP_EOL; ?>
 
-            //- カスタム投稿フィールド
-            <?php if( get_field('responsibility') || get_field('members') ) { ?>
-            .archive-media--report__custom_fields
-              .archive-media--report__responsibility--avatar
-                i.fa.fa-mortar-board
-              <?php if( get_field('responsibility') ) { ?>
-              .archive-media--report__responsibility
-                p.title 文責
-                p.body <?php the_field( 'responsibility' ); ?>
-              <?php } if( get_field('members') ) { ?>
-              .archive-media--report__members
-                p.title 参加者
-                p.body <?php the_field( 'members' ); ?>
-              <?php } ?>
+      article.article
+        //- サムネイル
+        //- <?php if ( has_post_thumbnail() ) { ?>
+        //- .photograph-container
+        //-   a.js-navi-single(href!='<?php the_permalink(); ?>')
+        //-     .photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
+        //-     .photograph-shadow
+        //-     +ui-loader
+        //- <?php } ?>
+        //- 抜粋
+        //- p.excerpt.ellipsis.multiline <?php echo new_excerpt(); ?>
+        .excerpt <?php the_content(); ?>
+        //- カテゴリ
+        .categories-container
+          ul.categories.clearfix
+            <?php $terms = get_the_terms( $post->ID, 're-types' ); // var_dump( $terms ); ?>
+            <?php if ($terms) { foreach($terms as $term) { ?>
+            li.category: a(href!='<?php echo "/report/re-types/".$term->slug; ?>')
+              i.fa.fa-tag
+              <?php echo $term->name; ?>
+            <?php } } ?>
+        //- SNSボタン
+        .socials-container
+          .socials
+            .social.social-facebook
+              fb:like#fb-like(href='', width='218', layout='box_count' action='like', show_faces='true', share='false')
+            .social.social-twitter
+              a#tw-like.twitter-share-button(href='https://twitter.com/share' data-lang='ja', data-hashtags='bosailab', data-dnt='true', data-count='vertical')
+            .social.social-pocket
+              a#pk-like.pocket-btn(data-pocket-label='pocket', data-pocket-count='vertical',  data-pocket-align='center', data-lang='ja')
+            //- .social.social-googleplus
+            //-   .g-plusone(data-size='tall')
+        //- カスタムフィールド
+        <?php if( get_field('responsibility') || get_field('members') ) { ?>
+        .custom_fields
+          .custom_field.responsibility-avatar
+            i.fa.fa-mortar-board
+          <?php if( get_field('responsibility') ) { ?>
+          .custom_field.responsibility
+            p.cf--title 文責
+            p.cf--body <?php the_field( 'responsibility' ); ?>
+          <?php } if( get_field('members') ) { ?>
+          .custom_field.members
+            p.cf--title 参加者
+            p.cf--body <?php the_field( 'members' ); ?>
+          <?php } ?>
+        <?php } ?>
+
+      footer.footer
+        //- ナビ(前後の記事)
+        nav.item-navigations(role='navigation')
+          //- 前(古い=右)の記事へ
+          .item-navigation.col-xs-5
+            <?php if ( $target = get_adjacent_post( false, '', true ) ) { // prev post ?>
+            a.js-navi-next(rel='next', href!="<?php echo get_permalink( $target->ID ); ?>", title!="<?php echo $target->post_title; ?>")
+              .item-navigation--button
+                .item-navigation--angle
+                  i.fa.fa-angle-left
+                  | Previous Item
+              .item-navigation--title <?php echo $target->post_title; ?>
             <?php } ?>
-          footer.archive-media--report__footer
-            nav.archive-media--report-navigate(role='navigation')
-              //- 前(古い=右)の記事へ
-              .archive-media--navigate-wrap.col-xs-5
-                <?php if ( $target = get_adjacent_post( false, '', true ) ) { // prev post ?>
-                a.js-navi-next(rel='next', href!="<?php echo get_permalink( $target->ID ); ?>", title!="<?php echo $target->post_title; ?>")
-                  .archive-media--navigate
-                    .archive-media--navigate--angle
-                      i.fa.fa-angle-left
-                      | Previous Item
-                    .archive-media--navigate--title <?php echo $target->post_title; ?>
-                <?php } ?>
-              //- オフセット
-              .col-xs-2
-              //- 次(新しい=左)の記事へ
-              .archive-media--navigate-wrap.col-xs-5
-                <?php if ( $target = get_adjacent_post( false, '', false ) ) { // next post ?>
-                a.js-navi-prev(rel='prev', href!="<?php echo get_permalink( $target->ID ); ?>", title!="<?php echo $target->post_title; ?>")
-                  .archive-media--navigate
-                    .archive-media--navigate--angle
-                      | Next Item
-                      i.fa.fa-angle-right
-                    .archive-media--navigate--title <?php echo $target->post_title; ?>
-                <?php } ?>
+          //- オフセット
+          .col-xs-2
+          //- 次(新しい=左)の記事へ
+          .item-navigation.col-xs-5
+            <?php if ( $target = get_adjacent_post( false, '', false ) ) { // next post ?>
+            a.js-navi-prev(rel='prev', href!="<?php echo get_permalink( $target->ID ); ?>", title!="<?php echo $target->post_title; ?>")
+              .item-navigation--button
+                .item-navigation--angle
+                  | Next Item
+                  i.fa.fa-angle-right
+              .item-navigation--title <?php echo $target->post_title; ?>
+            <?php } ?>
 
-            //- nav.archive-media--report__navi-wrap.row
-            //-   <% if (previous_url) { %>
-            //-   .archive-media--report__navi.col-xs-5
-            //-     a.js-navi-prev(rel='prev', href!="<%- previous_url %>"): span
-            //-       i.fa.fa-angle-double-up
-            //-       strong Prev
-            //-   <% } else { %>
-            //-   .archive-media--report__navi.col-xs-5
-            //-   <% } if (next_url) { %>
-            //-   .archive-media--report__navi.col-xs-5.col-xs-offset-2
-            //-     a.js-navi-next(rel='next', href!="<%- next_url %>"): span
-            //-       strong Next
-            //-       i.fa.fa-angle-double-down
-            //-   <% } %>
-
-    a.archive-media--report-back-wrap(href!="<?php echo get_post_type_archive_link( get_post_type() ); ?>")
-      .archive-media--report-back
-        i.fa.fa-angle-double-left
-        | Back To List
+      a.backtolist-container(href!="<?php echo get_post_type_archive_link( get_post_type() ); ?>")
+        .backtolist
+          i.fa.fa-angle-double-left
+          | Back To List
 
 
     <?php } else { ?>

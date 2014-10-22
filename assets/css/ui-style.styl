@@ -859,13 +859,14 @@ gallery_info_width = 360px
         &.page-layer__content--report
           max-width 800px
           padding-top 0
-          padding-left 80px
-          padding-right 80px
+          padding-left 110px
+          padding-right 110px
           background-color transparent
           border none
           .page-layer__media
-            padding-top 30px
-            background-color #e9eaed
+            padding-top 32px
+            // background-color #e9eaed
+            // box-shadow inset 1px 0 0 rgba(0, 0, 0, .05), inset -1px -1px 0 rgba(0, 0, 0, .05)
         &.page-layer__content--full
           max-width 100%
           margin 0
@@ -1217,13 +1218,195 @@ gallery_info_width = 360px
                       .archive-media--photolog__views
                         opacity 1
 
+
           // Archive.Report
-          .page-layer__media--report--archive
-          .page-layer__media--report--single
-            padding 0 19px 19px
-            // box-shadow inset 0px -1px 0 #eee
-            .archive-media--report-back-wrap
-              .archive-media--report-back
+          padding-base = 34px
+          .item-cell__archive--report
+          .item-cell__single--report
+            padding padding-base*1.2 0 padding-base*0.8
+            .header
+              position relative
+              min-height 62px
+              margin-bottom 12px
+              .ui-calendar
+                absolute top 0 left 5px
+                padding 5px 10px 0 0
+                width 42px + @padding
+              .title
+              .relative-date
+                margin-left 68px
+                font-weight 700
+                line-height 1.4em
+                letter-spacing .01em
+                text-align left
+              .title
+                margin-top 0
+                margin-right 5px
+                margin-bottom 5px
+                font-size 24px
+                a
+                  color #222 // #4d3636
+              .relative-date
+                color #999
+                font-size 13px
+                text-shadow 0px 1px 0px rgba(255, 255, 255, .8)
+            .article
+              clearfix()
+              whiteboard()
+              position relative
+              .photograph-container
+                position relative
+                height 172px * 1.4
+                background-color rgba(231, 228, 218, .45)
+                .photograph
+                .photograph-shadow
+                  border-radius 3px 3px 0 0
+                .photograph
+                  opacity 0
+                  position absolute
+                  top 0
+                  left 0
+                  right 0
+                  bottom 0
+                  background-size cover
+                  background-position 50% 25%
+                  transition opacity .55s ease-out .15s
+                .photograph-shadow
+                  z-index 1
+                  position absolute
+                  top 0
+                  left 0
+                  right 0
+                  bottom 0
+                  background-color rgba(0, 0, 0, .14)
+                  border-bottom 1px solid rgba(0, 0, 0, .07)
+                  transition background-color .15s ease-in-out
+                &.loaded
+                  .photograph
+                    opacity 1
+              .excerpt
+                clearfix()
+                markdown()
+                margin padding-base
+                margin-top (padding-base - 10px)
+                form
+                  margin-left 18px
+                  margin-right @margin-left
+                img
+                  &.size-large
+                    max-width 580px
+                    margin-left (0 - padding-base)
+                    margin-right @margin-left
+                .read-more
+                  readmore()
+              .categories-container
+                position relative
+                height 2px
+                margin 0 padding-base padding-base
+                background-color #f3f3f3
+                .categories
+                  position absolute
+                  top -9px
+                  left 16px
+                  margin 0
+                  padding 0 0 0 8px
+                  background-color #fff
+                  .category
+                    display inline
+                    font-size 12px
+                    font-weight 700
+                    line-height 1.6em
+                    padding-right 8px
+                    a
+                      color #999
+                      .fa
+                        padding-right 5px
+                      &:hover
+                        color #222
+          .item-cell__archive--report
+            .article
+              .excerpt
+                color #677171
+                line-height 2.1em
+          .item-cell__single--report
+            .article
+              //- SNSボタン
+              .socials-container
+                whiteboard()
+                position absolute
+                bottom 0
+                right -145px
+                width 100px
+                text-align center
+                .socials
+                  clearfix()
+                  padding 16px 10px 10px
+                  .social
+                    overflow hidden
+                    height 80px
+                    padding 5px 0
+              //- カスタムフィールド
+              .custom_fields
+                position: relative;
+                margin 48px 34px 34px
+                padding 20px 20px 14px
+                background-color #f5f5f5
+                .responsibility-avatar
+                  width 96px
+                  height 72px
+                  margin -45px auto -25px
+                  .fa
+                    display block
+                    color #E5E5E5
+                    font-size 72px
+                    text-align center
+                .responsibility
+                .members
+                  .cf--title
+                    margin 4px 0
+                    color #777
+                    font-size 11px
+                    line-height 1.3em
+                    text-align center
+                  .cf--body
+                    margin 4px 0 12px
+                    font-size 15px
+                    font-weight 700
+                    line-height 1.3em
+                    text-align center
+                .members
+                  .cf--body
+                    font-size 13px
+            .footer
+              margin 10px -10px 0
+              //- ナビ(前後の記事)
+              .item-navigations // nav
+                clearfix()
+                .item-navigation
+                  padding 0 10px
+                  .item-navigation--button
+                    button-pink()
+                    padding 14px
+                    color #fff
+                    font-size 12px
+                    .item-navigation--angle
+                      font-weight 700
+                      text-align center
+                      .fa
+                        font-size 14px
+                      .fa-angle-left
+                        padding-right 6px
+                      .fa-angle-right
+                        padding-left 6px
+                  .item-navigation--title
+                    omission()
+                    color #888
+                    font-size 12px
+                    text-align right
+                  .js-navi-next .item-navigation--title
+                    text-align left
+            .backtolist-container
+              .backtolist
                 width 150px
                 margin 12px 1px
                 padding 10px 0
@@ -1235,280 +1418,6 @@ gallery_info_width = 360px
                 background-color #fff
                 .fa
                   padding-right 9px
-            .page-layer__media--report__cell
-              clearfix()
-              whiteboard()
-              position relative
-              padding 20px
-              .archive-media--report-wrap
-                .archive-media--report
-                  .archive-media--photograph-wrap
-                    position relative
-                    height 172px * 1.8
-                    margin -20px -20px 0
-                    background-color rgba(231, 228, 218, .45)
-                    .archive-media--photograph
-                    .archive-media--photograph-shadow
-                      border-radius 3px 3px 0 0
-                    .archive-media--photograph
-                      opacity 0
-                      position absolute
-                      top 0
-                      left 0
-                      right 0
-                      bottom 0
-                      background-size cover
-                      background-position 50% 25%
-                      transition opacity .55s ease-out .15s
-                    .archive-media--photograph-shadow
-                      z-index 1
-                      position absolute
-                      top 0
-                      left 0
-                      right 0
-                      bottom 0
-                      background-color rgba(0, 0, 0, .14)
-                      border-bottom 1px solid rgba(0, 0, 0, .07)
-                      transition background-color .15s ease-in-out
-                    &.loaded
-                      .archive-media--photograph
-                        opacity 1
-                  .archive-media--report__header
-                    .ui-calendar
-                      position absolute
-                      top 0
-                      left -57px - 42px
-                    .archive-media--report__relative-date
-                      position absolute
-                      top 65px
-                      left -57px - 120px
-                      width 120px
-                      margin 0
-                      color #999
-                      font-size 13px
-                      font-weight bold
-                      line-height 1.4em
-                      text-align right
-                      text-shadow 0px 1px 0px rgba(255, 255, 255, .8)
-                    .archive-media--report__categories
-                      z-index 9
-                      position absolute
-                      top 17px
-                      right -14px
-                      margin 0
-                      font-size 13px
-                      font-weight bold
-                      line-height 1.4em
-                      text-align left
-                      .category
-                        $ribbon_base = 13px
-                        a
-                          position relative
-                          display block
-                          min-width 84px
-                          margin-bottom 12px
-                          padding 4px 14px
-                          color #fff
-                          text-align center
-                          background-color #D5584C
-                          &:before
-                          &:after
-                            content ''
-                            z-index -1
-                            position absolute
-                            top 50%
-                            border $ribbon_base solid transparent
-                          &:before
-                            left - $ribbon_base
-                            border-right-color transparent
-                          &:after
-                            right - $ribbon_base
-                            border-left-color darken(#D5584C, 15%)
-                  .archive-media--report__article
-                    padding 0
-                    .archive-media--report__title // h1
-                      margin 20px 0 12px
-                      font-size 20px
-                      font-weight 700
-                      line-height 1.4em
-                      letter-spacing .01em
-                      a
-                        color #4d3636
-                    .archive-media--report__excerpt
-                      ellipsis()
-                      margin 0
-                      color #8A8A80
-                      font-size 12px
-                      line-height 1.5em
-                      height @line-height * 3
-                      text-align justify
-                      color: #8A8A80;
-                &:hover
-                  .archive-media--report
-                    .archive-media--photograph-wrap
-                      .archive-media--photograph-shadow
-                        background-color transparent
-          .page-layer__media--report--single
-            .page-layer__media--report__cell
-              .archive-media--report-wrap
-                .archive-media--report
-                  .archive-media--photograph-wrap
-                    hidden()
-                  .archive-media--report__article
-                    padding 0 12px 12px
-                    .archive-media--report__title
-                      margin 24px 0 12px
-                    .archive-media--report__categories
-                      margin 4px 0 12px
-                    .archive-media--report__edit
-                      display block
-                    .archive-media--report__body
-                      margin 12px 0
-                      padding 24px 0
-                      box-shadow inset 0 1px 0 #F3F3F3
-                      color #222
-                      font-size 14px
-                      line-height 1.7em
-                      text-align justify
-                      // 本文
-                      p
-                        display block
-                        margin .7em 0 1.4em
-                        font-size 14px
-                        line-height 1.9em
-                        // text-indent 1em
-                        word-wrap break-word
-                      strong
-                        font-weight bold
-                      em
-                        font-style italic
-                      blockquote
-                        display block
-                        -webkit-margin-before 1em
-                        -webkit-margin-after 1em
-                        -webkit-margin-start 40px
-                        -webkit-margin-end 40px
-                      img
-                        max-width 100%
-                        height auto
-                        &.aligncenter
-                          display block
-                          margin 0 auto
-                        &.alignright
-                          float right
-                          margin 0 0 30px 30px
-                        &.alignleft
-                          float left
-                          margin 0 30px 30px 0
-                        &[class*="wp-image-"]
-                        &[class*="attachment-"]
-                          max-width 100%
-                          height auto
-                    .archive-media--report__tags
-                      margin 4px 0 12px
-                    .archive-media--report__socials-wrap
-                      whiteboard()
-                      position absolute
-                      bottom 0
-                      right -145px
-                      width 100px
-                      text-align center
-                      .archive-media--report__socials
-                        clearfix()
-                        padding 16px 10px 10px
-                        .archive-media--report__social
-                          overflow hidden
-                          height 80px
-                          padding 5px 0
-                    .archive-media--report__custom_fields
-                      position relative
-                      margin-top 48px
-                      padding 20px 20px 14px
-                      background-color #f5f5f5
-                      .archive-media--report__responsibility--avatar
-                        width 48px
-                        height @width
-                        margin -45px auto 4px
-                        background-color #fff
-                        border 1px solid #C0B9B9
-                        border-radius 50%
-                        .fa
-                          display block
-                          padding 8px
-                          color #C0B9B9
-                          font-size 24px
-                          line-height 32px
-                          text-align center
-                      .archive-media--report__responsibility
-                      .archive-media--report__members
-                        .title
-                          margin 4px 0
-                          color #777
-                          font-size 11px
-                          line-height 1.3em
-                          text-align center
-                        .body
-                          margin 4px 0 12px
-                          font-size 15px
-                          line-height 1.3em
-                          text-align center
-                      .archive-media--report__members
-                        .body
-                          font-size 13px
-                  .archive-media--report__footer
-                    // .archive-media--report__socials-wrap
-                    //   padding-top 15px
-                    //   padding-bottom 15px
-                    //   border-bottom 1px solid #ccc
-                    //   .archive-media--report__socials
-                    //     clearfix()
-                    //     padding-top 10px
-                    //     .archive-media--report__social
-                    //       overflow hidden
-                    //       height 70px
-                    .archive-media--report__socials-wrap
-                      clearfix()
-                      padding 0 10px
-                      .archive-media--report__social
-                        overflow hidden
-                        height 95px
-                        padding 15px
-                        text-align center
-                        &:nth-child(1)
-                        &:nth-child(2)
-                          padding-top 5px
-                        &:nth-child(3)
-                        &:nth-child(4)
-                          padding-bottom 5px
-                        &:nth-child(1)
-                          box-shadow inset -1px 0 0 #eee
-                        &:nth-child(3)
-                          box-shadow inset -1px 1px 0 #eee
-                        &:nth-child(4)
-                          box-shadow inset 0 1px 0 0 #eee
-                  .archive-media--report-navigate // nav
-                    clearfix()
-                    .archive-media--navigate-wrap
-                      padding 0 10px
-                      .archive-media--navigate
-                        button-pink()
-                        padding 13px
-                        color #fff
-                        font-size 12px
-                        .archive-media--navigate--angle
-                          margin-bottom 4px
-                          font-weight 700
-                          text-align center
-                          .fa
-                            font-size 14px
-                          .fa-angle-left
-                            padding-right 6px
-                          .fa-angle-right
-                            padding-left 6px
-                        .archive-media--navigate--title
-                          omission()
-                        &:hover
-                          opacity .8
 
 
           // Archive.Project
@@ -1769,141 +1678,7 @@ gallery_info_width = 360px
                             .archive-media--photograph
                               opacity 1
                     .archive-media--project__body
-                      text-align justify
-                      h1
-                      h2
-                      h3
-                      h4
-                      h5
-                      h6
-                        // @extend .clearfix
-                        font-size 1.20em
-                        font-weight bold
-                        line-height @font-size
-                        word-wrap break-word
-                      h1
-                      h3
-                      h2
-                        &:before
-                          content '■'
-                          padding-right .5em
-                          color #8DB95C
-                      h1
-                      h2
-                      h3
-                        margin-bottom 16px
-                        padding-bottom 0.3em
-                        border-bottom 1px solid #eee
-                      h1
-                        font-size 2.15em
-                        line-height 1.40em
-                        margin-top @font-size
-                        &:before
-                          color base_color
-                      h2
-                        font-size 1.70em
-                        line-height 1.50em
-                        margin-top 1.50em
-                        &:before
-                          color #C54A48
-                      h3
-                        font-size 1.40em
-                        line-height @font-size
-                      h4
-                        font-size 1.30em
-                        line-height @font-size
-                      h5
-                        font-size 1.20em
-                        line-height @font-size
-                      h6
-                        font-size 1.10em
-                        line-height @font-size
-                      p
-                        display block
-                        margin 0.7em 0 1.4em
-                        font-size 1.1em
-                        line-height 1.6em
-                        // text-indent @font-size
-                        word-wrap break-word
-                      strong
-                        font-weight bold
-                      em
-                        font-style italic
-                      blockquote
-                        display block
-                        -webkit-margin-before 1em
-                        -webkit-margin-after 1em
-                        -webkit-margin-start 40px
-                        -webkit-margin-end 40px
-                      ul
-                      ol
-                        margin .7em .7em 1.4em
-                        li
-                          margin-bottom .3em
-                          &:before
-                            content '●' //'\f111'
-                            padding-right .7em
-                            color #cccca3
-                            font-size 1.1em
-                            font-family 'FontAwesome'
-                          & ul
-                            margin 0
-                      legend
-                        hoge 0
-                      button
-                      input[type='reset']
-                      input[type='submit']
-                        @extend .btn
-                        @extend .btn-default
-                      input[type='submit']
-                        @extend .btn-danger
-                      form
-                        @extend .form-horizontal
-                        margin 60px 180px
-                        input[type='text']
-                        input[type='email']
-                        input[type='password']
-                        select
-                        textarea
-                          @extend .form-control
-                        input
-                          outline 0
-                          display inline-block
-                          font-size 1.1em
-                          border-radius 1px
-                      table
-                        @extend .table
-                        // @extend .table-striped
-                        // @extend .table-condensed
-                        // @extend .table-hover
-                        margin .7em 0 1.4em
-                        tr
-                          th
-                            @extend .table > thead > tr > th
-                          &:nth-child(even)
-                            td
-                              background-color #f9f9f9
-                      blockquote
-                        margin .5em 20px
-                        padding 1px 15px
-                        p
-                          font-size
-                      img
-                        max-width 100%
-                        height auto
-                        &.aligncenter
-                          display block
-                          margin 0 auto
-                        &.alignright
-                          float right
-                          margin 0 0 30px 30px
-                        &.alignleft
-                          float left
-                          margin 0 30px 30px 0
-                        &[class*="wp-image-"]
-                        &[class*="attachment-"]
-                          max-width 100%
-                          height auto
+                      markdown()
                   .archive-media--project__footer
                     .archive-media--project__social-wrap
                       .archive-media--project__social
