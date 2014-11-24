@@ -61,10 +61,10 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
     //-   .progress.progress-striped
     //-     .progress-bar
 
-    .ui-container
+    .ui-container(class!="<?php if(is_page('contact')){echo 'background';} ?>")
       :php
         $class = '';
-        if ( is_home() || is_front_page() || is_page( 'about' ) ) {
+        if ( is_home() || is_front_page() || is_page( 'about' ) || is_page( 'contact' ) ) {
           $class = 'home';
         }
       header.ui-header(role='banner', class!="<?php echo $class; ?>")
@@ -123,26 +123,35 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
             :php
               //- クラス名の調整
               $class = '';
-              if ( is_search() ) { $class .= ' layer-search'; }
-              switch ( $post_type = get_post_type() ) {
-                case 'page':
-                  $class .= ' layer-page';
-                  switch ( $page_slug = get_page_uri(get_the_ID()) ) {
-                    case 'home':
-                    case 'about':
-                      $class .= ' layer-width-full';
-                  }
-                  break;
-                default:
-                  $class .= ' layer-archive';
-                  $class .= ' layer-'.$post_type;
+              if ( is_404() ) {
+                $class .= ' layer-404';
+              } else if ( is_search() ) {
+                $class .= ' layer-search';
+              } else {
+                //- 単体記事とアーカイブ記事
+                if ( is_single()  ) { $class .= ' layer-single';  }
+                if ( is_archive() ) { $class .= ' layer-archive'; }
+                //- カスタムポストタイプ
+                $post_type = get_post_type();
+                $class .= ' layer-'.$post_type;
+                //- 静的ページと全幅設定
+                switch ( $post_type ) {
+                  case 'page':
+                    switch ( $page_slug = get_page_uri(get_the_ID()) ) {
+                      case 'home':
+                      case 'about':
+                        $class .= ' layer-width-full';
+                    }
+                    break;
+                }
+                //- ページスラッグ
+                $page = get_page( get_the_ID() );
+                $page_slug = $page->post_name;
+                $class .= ' layer-page-'.$page_slug;
               }
-            :php
-              $page = get_page( get_the_ID() );
-              $page_slug = $page->post_name;
 
             .layer-main(
-              class!="<?php echo $class.' layer-page-'.$page_slug; ?>",
+              class!="<?php echo $class; ?>"
               data-id!="<?php the_ID(); ?>"
             )
               block page_article
@@ -153,20 +162,20 @@ html(lang!='<?php echo get_bloginfo("language"); ?>', class!='<?php echo $IEclas
             span.social.twitter
               .button
                 a.twitter-share-button(
-                  href='//twitter.com/share',
-                  data-url='https://www.facebook.com/bosailab',
-                  data-text='大木研究室公式ウェブサイト',
-                  data-lang='ja',
+                  href='//twitter.com/share'
+                  data-url='https://www.facebook.com/bosailab'
+                  data-text='大木研究室公式ウェブサイト'
+                  data-lang='ja'
                   data-hashtags='#bosailab'
                 )
             span.social.facebook
               .button
                 fb:like(
-                  href!="<?php echo home_url(); ?>",
-                  width='360',
-                  layout='button_count',
-                  action='like',
-                  show_faces='true',
+                  href!="<?php echo home_url(); ?>"
+                  width='360'
+                  layout='button_count'
+                  action='like'
+                  show_faces='true'
                   share='false'
                 )
           .languages

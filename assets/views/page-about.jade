@@ -143,7 +143,7 @@ block page_article
   //- アクセス
   section.ui-section
     .section
-      h1.section-title
+      h1.section-title.left
         img.img-responsive(
           src!="<?php echo (get_template_directory_uri().'/dist/images/about/overview_accessmap_title_2x.png') ?>",
           width=254, height=41,
@@ -151,20 +151,20 @@ block page_article
           alt='アクセスマップ'
         )
       .container-fluid
-        .row
+        .google-maps.row
           //- 住所とマップ
           .col-xs-6(style='margin-top:50px;')
-            i.fa.fa-map-marker
-            .address-wrap
-              p.room
+            i.marker.fa.fa-map-marker
+            .address-container
+              p.room-address
                 strong 慶應義塾大学 湘南藤沢キャンパス
                 | 研究棟 κ305
               address.address
                 | 〒252-0882 神奈川県藤沢市遠藤5322
-                a(href='http://www.sfc.keio.ac.jp/maps.html', style='padding-left:8px;')
+                a(href='http://www.sfc.keio.ac.jp/maps.html', target='_blank', style='padding-left:8px;')
                   i.fa.fa-external-link
                   | 公式ウェブサイト
               p.attention
                 | ※ 当キャンパスへご来場される場合は、必ず事前にご連絡ください。
-          .col-xs-6.google-maps
+          .col-xs-6
             #map_canvas

@@ -12,6 +12,10 @@ body
   .ui-container
     position relative
     overflow hidden
+    &.background
+      background-size(cover)
+      background-repeat no-repeat
+      background-image url(path + '/about/overview_professor_message_back_2x.jpg')
 
   // 管理画面にログイン時
   &.signed_in
@@ -199,11 +203,24 @@ body
   #container
     hoge 0
 
+
 // すべてのページに共通
 .layer-main
   max-width-container()
   &.layer-width-full
     max-width page-max-width
+
+  // セクション
+  .ui-section
+    padding 40px 0
+    background-color #fff
+    &:nth-child(even)
+      background-color transparent
+    &:nth-child(odd)
+      background-color #fff
+    .section
+      max-width-container()
+
 
 // ホーム
 .layer-page-home
@@ -295,17 +312,50 @@ body
         width 100%
         padding 0 15px
 
-// page共通
-.layer-page
+
+// 検索結果
+.layer-search
   .ui-section
-    padding 40px 0
-    background-color #fff
-    &:nth-child(even)
-      background-color transparent
-    &:nth-child(odd)
-      background-color #fff
+    max-width page-about-width
+    margin -40px auto 0
+    padding space2 0 space4
+    background-color #fff !important
     .section
-      max-width-container()
+      padding 0 space6 0
+      .results
+        .result
+          padding space 0
+          border-bottom 1px solid #ddd
+          &:last-child
+            border-bottom none
+          .title
+            ellipsis()
+            margin 0 0 space*0.5
+            font-size 17px
+            line-height 1.6em
+            a
+              color base-color-black
+              transition all base-transition
+              &:hover
+                color base-color-orange
+          &.notfound
+            .title
+              font-size 28px
+              font-weight 100
+              text-align center
+          .excerpt
+          .link
+            omission()
+            font-size 12px
+            line-height 17px
+          .excerpt
+            margin 0 0 space*0.5
+            color base-color-gray
+            text-align justify
+          .link
+            margin 0
+            color base-color-orange
+
 
 // about (研究室について)
 .layer-page-about
@@ -325,12 +375,17 @@ body
         text-transform uppercase
         .img-responsive // img
           margin 0 auto
+        &.left
+          padding 0 0 10px
+          border-bottom 1px solid #ddd
+          .img-responsive
+            margin 0
       // 文章
       .section-text // p
         margin 20px auto
         padding 0 15px
         width 100%
-        max-width 860px
+        max-width page-about-width
         color #333
         font-size 1.333em
         line-height 1.688
@@ -387,7 +442,7 @@ body
       // 集合写真
       .photograph
         display block
-        max-width 860px
+        max-width page-about-width
         width 100%
         margin 60px auto 0
         box-shadow 1px 1px 0 #e7e7e7, -1px -1px 0 #e7e7e7
@@ -426,9 +481,55 @@ body
               letter-spacing .1em
             .name
               font-size 13px
+      // Google Maps
+      .google-maps
+        position relative
+        .marker
+          position absolute
+          top 0
+          left 0
+          color base-color-gray
+          font-size 128px
+        .address-container
+          margin-left space6
+          .room-address
+          .address
+            margin 0
+          .room-address // p
+            margin-bottom 8px
+            font-size 16px
+            line-height 1.588
+            strong
+              display block
+              padding-bottom 1px
+              font-size 1.333em
+              font-weight 300
+          .address // address
+            padding-bottom 30px
+            font-size 12px
+            line-height 1.588
+            .fa
+              padding-right 4px
+          .attention // p
+            color #BE1E1E
+            font-size 1.333em
+            line-height 1.688
+        #map_canvas
+          height 510px * (3 / 4)
+          margin 0
+
+
+// お問い合わせ
+.layer-page-contact
+  max-width page-about-width
+  padding-top space4
+
 
 // 投稿一覧ページ共通
 .layer-archive
+.layer-single
+.layer-search
+.layer-404
   .layer-header
     section-border()
     margin 0
@@ -497,12 +598,139 @@ body
               color base-color-orange
 
   .singles
-    .single
-      hoge 0
+    //- 実質フォトログ
+    .single-default
+      .single-cell
+        clearfix()
+        overview hidden
+        transform translate3d(0, 0, 0)
+        height 960px * (9 / 16) * 0.9
+        background-color base-color-beige
+        background-clip padding-box
+        box-shadow 0 1px 5px rgba(0, 0, 0, .1)
+        box-shadow 0 0 0 1px rgba(0, 0, 0, .06), 0 1px 12px rgba(0, 0, 0, .12)
+        border-radius base-radius-small
+
+        @media screen and (min-width: 1080px) and (min-device-width: 1079px)
+          height 1080px * (9 / 16) * 0.9
+
+        .left-container
+        .right-container
+          position relative
+          overview hidden
+          min-height 1px
+          height 100%
+        .left-container
+          float left
+          width (100 / 3 * 2)%
+          border-radius base-radius-small 0 0 base-radius-small
+          .photograph-container
+            height 100%
+            &
+            .background
+            .photograph
+            .photograph-shadow
+              border-radius base-radius-small 0 0 base-radius-small
+            .background
+              border 0
+            .photograph-shadow
+              border 0
+              background-color transparent
+          .navigations
+            .navigate-prev
+            .navigate-next
+              z-index 99
+              position absolute
+              top 50%
+              margin-top -55px
+              padding 20px
+              a
+                opacity .6
+                color #fff
+                font-size 70px
+                font-weight 100
+                line-height @font-size
+                text-shadow 0 0 3px rgba(0, 0, 0, .75)
+                transition all base-transition
+                &:hover
+                  opacity .9
+            .navigate-prev
+              left 0
+              padding-right 100px
+            .navigate-next
+              right 0
+              padding-left 100px
+        .right-container
+          float right
+          width (100 / 3 * 1)%
+          padding space * 1.5
+          border-radius 0 base-radius-small base-radius-small 0
+          .header
+            padding-bottom space2
+            .ui-calender
+              position absolute
+              top space * 1.5
+              left @top
+              margin 0
+              padding 0
+            .title
+            .relative-time
+            .taxs
+              color #42413e
+              font-size 17px
+              line-height 19px
+              margin 0 0 space * 0.25 space * 3.5
+              font-weight 700
+            .title // h1
+              word-wrap break-word
+            .relative-time
+              color #aaa
+              font-size 13px
+            .taxs // ul
+              margin 0
+          .article
+            .content
+              height hoge
+          .footer
+            position absolute
+            bottom space * 1.5
+            left @bottom
+            right @bottom
+            min-height 160px
+            .actions
+              .socials
+                .social
+                  overflow hidden
+                  height space5
+                  padding space
+                  text-align center
+                  &:nth-child(1)
+                  &:nth-child(2)
+                    padding-top 5px
+                  &:nth-child(3)
+                  &:nth-child(4)
+                    padding-bottom 5px
+                  &:nth-child(1)
+                    box-shadow inset -1px 0 0 #fff
+                  &:nth-child(3)
+                    box-shadow inset -1px 1px 0 #fff
+                  &:nth-child(4)
+                    box-shadow inset 0 1px 0 0 #fff
 
   .archives
     .archive
       display none
+    //- 実質フォトログ
+    .archive-default
+      hoge 0
+
+
+  &.layer-download
+    .archives
+      .archive
+        .archive-cell
+          border 1px solid #eee
+          background-color #fdfdfd
 
 
   &.layer-report
@@ -559,6 +787,37 @@ body
                   padding 8px 0
             .content
               hoge 0
+            .custom-fields
+              position relative
+              margin space3 0 space
+              padding space
+              background-color #f5f5f5
+              .avatar
+                width 96px
+                height 72px
+                margin space3 * -1 auto space * -0.5
+                .fa
+                  display block
+                  color #E5E5E5
+                  font-size 72px
+                  text-align center
+              .responsibility
+              .members
+                .custom-title
+                  margin 0 0 8px
+                  color #777
+                  font-size 11px
+                  line-height 1.3em
+                  text-align center
+                .custom-body
+                  margin 4px 0 12px
+                  font-size 15px
+                  font-weight 700
+                  line-height 1.3em
+                  text-align center
+              .members
+                .custom-body
+                  font-size 13px
           .footer
             .navigations
               background-color #f7f7f7
@@ -583,17 +842,27 @@ body
               .navigate-prev
                 float left
                 text-align left
-                box-shadow inset -1px 1px 0 #ddd
+                box-shadow inset -1px 1px 0 #ddd, inset 0 -1px 0 #ddd
                 .navigate-angle
                   .fa
                     padding-right 8px
               .navigate-next
                 float right
                 text-align right
-                box-shadow inset 0 1px 0 #ddd
+                box-shadow inset 0 1px 0 #ddd, inset 0 -1px 0 #ddd
                 .navigate-angle
                   .fa
                     padding-left 8px
+            .relevant-works
+              clearfix()
+              .relevant-projects
+                margin 0
+                .project
+                  float left
+                  min-height 1px
+                  width (100 / 3)%
+                  &:nth-child(3n)
+                    float right
 
     .archives
       .archive

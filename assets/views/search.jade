@@ -1,43 +1,47 @@
 extends _application
-//-
-  The template for displaying Search Results pages.
-
-  @package WordPress
-  @subpackage SFC_Bosalab_2013
-  @since 1.0
+include _ui
 
 block page_article
-  h2.page-layer__media--search__title
-    strong
-      | SEARCH RESULTS FOR&nbsp;
-      em(style='font-style: italic;') '<?php the_search_query(); ?>'
+  .layer-header
+    header.container-fluid
+      .navi-title
+        | 検索結果
+      .controls
+        h1.title
+          | Search results for&nbsp;
+          strong “<?php the_search_query(); ?>”
 
-  .page-layer__media--search--archive-wrap
+  //- 検索結果
+  section.ui-section
+    .section
+      .results
+        :php
+          global $query_string;
+          query_posts($query_string);
 
-    :php
-      global $query_string;
-      query_posts($query_string);
+          if (have_posts()) {
+            while (have_posts()) { the_post();
 
-      if (have_posts()) {
-        while (have_posts()) { the_post();
+        //- 単体記事ここから
+        //------------------------------------------------------------
 
-    .page-layer__media--search--archive
-      .page-layer__media--search__cell
-        .archive-media--search-wrap
-          .archive-media--search
-            h3.archive-media--search__title: a(href!='<?php the_permalink(); ?>')
-              | <?php the_title(); ?>
-            p.archive-media--search__excerpt.ellipsis.multiline
-              | <?php echo new_excerpt(160); ?>…
-            p.archive-media--search__link.ellipsis: a(href!='<?php the_permalink(); ?>')
+        .result
+          h3.title: a(href!='<?php the_permalink(); ?>')
+            | <?php the_title(); ?>
+          p.excerpt.ellipsis.multiline
+            | <?php echo new_excerpt(160); ?>…
+          p.link.ellipsis
+            a(href!='<?php the_permalink(); ?>')
               | <?php echo get_bloginfo('url') ?><?php the_permalink(); ?>
 
-    <?php }} else { ?>
+        //- 単体記事ここまで
+        //------------------------------------------------------------
+        :php
+          } } else {
 
-    .page-layer__media--search--archive.page-layer__media--search--archive--notfound
-      .page-layer__media--search__cell
-        .archive-media--search-wrap
-          .archive-media--search
-            h3.archive-media--search__title Sorry, but not found.
+        .result.notfound
+          h3.title
+            | Sorry, but not found.
 
-    <?php } ?>
+        :php
+          }

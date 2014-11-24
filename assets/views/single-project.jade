@@ -41,7 +41,7 @@ block page_article
       //------------------------------------------------------------
       :php
         // サムネイル
-        $thumbnail_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'project-single' )[0];
+        $thumbnail_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), get_post_type().'-single' )[0];
 
         // クラス名
         $class = 'filter ';

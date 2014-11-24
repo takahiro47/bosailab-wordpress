@@ -1,36 +1,12 @@
 extends _application
 include _ui
-//-
-  The template for displaying all pages.
-
-  This is the template that displays all pages by default.
-  Please note that this is the WordPress construct of pages and that other
-  'pages' on your WordPress site will use a different template.
-
-  @package WordPress
-  @subpackage SFC_Bosalab_2013
-  @since 1.0
 
 block page_article
-  <?php while ( have_posts() ) : the_post(); ?>
-  div(data-id!="<?php the_ID(); ?>", class!="page-layer__media--<?php echo $page_slug; ?>--page")
+  <?php while ( have_posts() ) { the_post(); ?>
 
-    <?php if ( is_page( 'contact' ) ) { ?>
+  //- コンテンツ
+  section.ui-section(style='background-color:transparent;')
+    .section
+      <?php the_content(); ?>
 
-    section.post-section
-      .contact-content-wrap
-        .contact-content
-          <?php echo do_shortcode('[contact-form-7 id="4" title="お問い合わせフォーム"]'); ?>
-
-    <?php } else { ?>
-
-    section.post-section
-      .contact-content-wrap
-        .contact-content
-          <?php the_content(); ?>
-
-    <?php } ?>
-
-    <?php endwhile; ?>
-
-
+  <?php } ?>

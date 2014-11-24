@@ -1,11 +1,8 @@
 include _ui
 
-<?php if ( get_post_type() == 'project' ) { ?>
 :php
-  // TODO: 子プロジェクトではない場合のみ一覧に出力する
-
   // サムネイル
-  $thumbnail_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'project-archive' )[0];
+  $thumbnail_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), get_post_type().'-single' )[0];
 
   // クラス名
   $class = 'filter ';
@@ -15,6 +12,10 @@ include _ui
   if ($terms = get_the_terms($post->ID, substr(get_post_type(), 0, 2).'-types')) {
     foreach ( $terms as $term ) { $class .= ' filter-'.esc_html($term->name); }
   }
+
+<?php if ( get_post_type() == 'project' ) { ?>
+:php
+  // TODO: 子プロジェクトではない場合のみ一覧に出力する
 
 .col-xs-4.mix.archive(
   id!="archive-<?php the_ID(); ?>"
@@ -56,18 +57,6 @@ include _ui
 
 
 <?php } else if ( get_post_type() == 'report' ) { ?>
-:php
-  // サムネイル
-  $thumbnail_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'project-archive' )[0];
-
-  // クラス名
-  $class = 'filter ';
-  foreach (get_post_class() as $v) { $class .= ' '.$v; }
-
-  // タクソノミー(カテゴリ)フィルタのためのクラス名
-  if ($terms = get_the_terms($post->ID, substr(get_post_type(), 0, 2).'-types')) {
-    foreach ( $terms as $term ) { $class .= ' filter-'.esc_html($term->name); }
-  }
 
 .col-xs-4.mix.archive(
   id!="archive-<?php the_ID(); ?>"
@@ -107,18 +96,6 @@ include _ui
 
 
 <?php } else if ( get_post_type() == 'download' ) { ?>
-:php
-  // サムネイル
-  $thumbnail_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'project-archive' )[0];
-
-  // クラス名
-  $class = 'filter ';
-  foreach (get_post_class() as $v) { $class .= ' '.$v; }
-
-  // タクソノミー(カテゴリ)フィルタのためのクラス名
-  if ($terms = get_the_terms($post->ID, substr(get_post_type(), 0, 2).'-types')) {
-    foreach ( $terms as $term ) { $class .= ' filter-'.esc_html($term->name); }
-  }
 
 .col-xs-4.mix.archive(
   id!="archive-<?php the_ID(); ?>"
@@ -140,19 +117,7 @@ include _ui
           | <?php the_title(); ?>
 
 
-<?php } else if ( get_post_type() == 'photolog' ) { ?>
-:php
-  // サムネイル
-  $thumbnail_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'project-archive' )[0];
-
-  // クラス名
-  $class = 'filter ';
-  foreach (get_post_class() as $v) { $class .= ' '.$v; }
-
-  // タクソノミー(カテゴリ)フィルタのためのクラス名
-  if ($terms = get_the_terms($post->ID, substr(get_post_type(), 0, 2).'-types')) {
-    foreach ( $terms as $term ) { $class .= ' filter-'.esc_html($term->name); }
-  }
+<?php } else { // 実質フォトログ ?>
 
 .col-xs-2.mix.archive(
   id!="archive-<?php the_ID(); ?>"

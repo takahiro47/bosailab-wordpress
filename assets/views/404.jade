@@ -1,26 +1,30 @@
 extends _application
 include _ui
-//-
-  The template for displaying 404 pages (Not Found).
-  @package WordPress
-  @subpackage SFC_Bosalab_2013
-  @since 1.0
 
 block page_article
-  div(class!="page-layer__media--404--page")
-    section.post-section
-      .contact-content-wrap
-        .contact-content
-          h2(style='text-align: center;')
-            strong
-              | SORRY, THAT PAGE IS&nbsp;
-              em(style='color: #E24848;') NOT FOUND
-              | …
-          p(style='text-align: center;')
-            | Click&nbsp;
-            a(href='/') here
-            | &nbsp;to go back to our top page.
-          hr
-          p(style='text-align: center;')
-            span(style='color: #808080;')
-              strong 404 Not Found
+  .layer-header
+    header.container-fluid(role='navigation')
+      a.navi-title(href!="<?php echo get_home_url(); ?>")
+        i.fa.fa-angle-left
+        | ホーム
+      .controls
+        h1.title
+          | 404 - Page Not Found
+
+  //- コンテンツ
+  section.ui-section(style='background-color:transparent;padding-top:16px;')
+    .section
+      h2(style='text-align: center;')
+        strong
+          | SORRY, THAT PAGE IS&nbsp;
+          em(style='color: #E24848;') NOT FOUND
+          | …
+      p(style='text-align: center;')
+        | Click&nbsp;
+        a(href='/') here
+        | &nbsp;to go back to our top page.
+      hr
+      p(style='text-align: center;')
+        span(style='color: #808080;')
+          strong 404 Not Found
+
