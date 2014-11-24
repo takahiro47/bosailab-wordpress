@@ -1,0 +1,145 @@
+extends _application
+include _ui
+
+block page_article
+  .layer-header
+    header.container-fluid(role='navigation')
+      a.navi-title(href!="<?php echo get_post_type_archive_link( get_post_type() ); ?>")
+          i.fa.fa-angle-left
+          | すべて
+      .controls
+        h1.title
+          | <?php echo strip_tags(get_the_title()); ?>
+      nav.navigations
+        //- 前の記事へ
+        .navigate-prev
+          <?php if ( $prev = get_adjacent_post( false, '', false ) ) { ?>
+          a(
+            href!="<?php echo get_permalink( $prev->ID ); ?>"
+            title!="<?php echo $prev->post_title; ?>"
+          )
+            i.fa.fa-angle-left
+          <?php } ?>
+        //- 次の記事へ
+        .navigate-next
+          <?php if ( $next = get_adjacent_post( false, '', true ) ) { ?>
+          a(
+            href!="<?php echo get_permalink( $next->ID ); ?>"
+            title!="<?php echo $next->post_title; ?>"
+          )
+            i.fa.fa-angle-right
+          <?php } ?>
+
+  .container-fluid.singles
+    .row
+      //- 記事ループ
+      :php
+        while ( have_posts() ) {
+          the_post();
+
+      //- 単体記事ここから
+      //------------------------------------------------------------
+      :php
+        // サムネイル
+        $thumbnail_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'project-single' )[0];
+
+        // クラス名
+        $class = 'filter ';
+        foreach (get_post_class() as $v) { $class .= ' '.$v; }
+
+      .col-xs-12.single(
+        id!="single-<?php the_ID(); ?>"
+        class!="<?php echo $class; ?> single-<?php get_post_type(); ?>"
+        data-order-created!="<?php the_ID(); ?>"
+      )
+        .single-cell
+          //- タイトルとナビ
+          header.header
+            .row
+              .col-xs-3
+              .col-xs-6.headline
+                //- タイトル
+                h1.title <?php the_title(); ?>
+                //- 概要
+                p.description <?php the_field( 'description' ); ?>
+              .col-xs-3
+            nav.navigations(role='navigation')
+              <?php if ( !get_field( 'is_child' ) ) { ?>
+              //- 前の記事へ
+              .navigate-prev
+                <?php if ( $prev = get_adjacent_post( false, '', false ) ) { ?>
+                a(
+                  href!="<?php echo get_permalink( $prev->ID ); ?>"
+                  title!="<?php echo $prev->post_title; ?>"
+                )
+                  .navigate-angle
+                    i.fa.fa-angle-left
+                    | Previous Item
+                  .navigate-title <?php echo $prev->post_title; ?>
+                <?php } ?>
+              //- 次の記事へ
+              .navigate-next
+                <?php if ( $next = get_adjacent_post( false, '', true ) ) { ?>
+                a(
+                  href!="<?php echo get_permalink( $next->ID ); ?>"
+                  title!="<?php echo $next->post_title; ?>"
+                )
+                  .navigate-angle
+                    | Next Item
+                    i.fa.fa-angle-right
+                  .navigate-title <?php echo $next->post_title; ?>
+                <?php } ?>
+              <?php } ?>
+
+          article.article
+            .row.meta
+              .col-xs-7
+                .photograph-container
+                  .background
+                  .photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
+                  .photograph-shadow
+                  +ui-loader
+              .col-xs-5
+                .outlines-container
+                  .outlines
+                    h2.title
+                      | Abstract
+                    p.abstract
+                      | <?php the_field( 'abstract' ); ?>
+                  ul.tags
+                    li.tag-title Keywords:
+                    <?php if ($post_tags = get_the_tags()) { ?>
+                    <?php foreach($post_tags as $tag) { ?>
+                    li.tag <?php echo $tag->name; ?>
+                    <?php } ?>
+                    <?php } ?>
+                  .actions
+                    h2.title
+                      | Share
+                    .socials.row
+                      .social.facebook.col-xs-3
+                        fb:like#fb-like(href='', width='218', layout='box_count' action='like', show_faces='true', share='false')
+                      .social.twitter.col-xs-3
+                        a#tw-like.twitter-share-button(href='https://twitter.com/share' data-lang='ja', data-hashtags='bosailab', data-dnt='true', data-count='vertical')
+                      .social.pocket.col-xs-3
+                        a#pk-like.pocket-btn(data-pocket-label='pocket', data-pocket-count='vertical',  data-pocket-align='center', data-lang='ja')
+                      .social.googleplus.col-xs-3
+                        .g-plusone(data-size='tall')
+            .content.markdown
+              <?php the_content(); ?>
+
+          footer.footer.container-fluid
+            .relevant-works
+              ul.relevant-projects
+
+              ul.relevant-documents
+
+            .relevant-members
+              ul.members
+                li.member
+
+
+      //- 単体記事ここまで
+      //------------------------------------------------------------
+      :php
+        }

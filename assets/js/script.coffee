@@ -336,6 +336,24 @@ $ ->
     winwidth      = $win.width()
     docwidth      = $doc.width()
 
+    # ヘッダナビの固定
+    $header_nav = $ '.ui-header'
+    if 20 < scrollheight
+      $header_nav.addClass 'scrolled'
+    else
+      $header_nav.removeClass 'scrolled'
+
+    # スクロールアイコンの表示
+    if 320 < scrollheight
+      return if media.scrolltop
+      $body.addClass 'scroll'
+      media.scrolltop = yes
+    else
+      return if not media.scrolltop
+      $body.removeClass 'scroll'
+      media.scrolltop = no
+
+
     # loadNext
     # if docheight < window.scrollY + winheight + 1200
     #   $app.loadNext()
@@ -350,27 +368,19 @@ $ ->
     #   # if 0 <= percent and percent <= 100
     #   media.scrollel.css 'background-position-y', "#{percent}%"
 
-    # # スクロールアイコンの表示／非表示
-    # if 50 < scrollheight
-    #   return if media.scrolltop
-    #   $body.addClass 'scroll'
-    #   media.scrolltop = yes
-    # else
-    #   return if not media.scrolltop
-    #   $body.removeClass 'scroll'
-    #   media.scrolltop = no
 
-    # ナビの調整
-    $page_navigation = $ '.page-layer__content-wrap'
-    if 782 < winwidth
-      if media.signed_in and 141 < scrollheight
-        $page_navigation.addClass 'lock lock--add'
-      else if not media.signed_in and 141 < scrollheight
-        $page_navigation.remove('lock--add').addClass 'lock'
-      else
-        $page_navigation.removeClass 'lock lock--add'
-    else
-      $page_navigation.removeClass 'lock lock--add'
+
+    # # ナビの調整
+    # $page_navigation = $ '.page-layer__content-wrap'
+    # if 782 < winwidth
+    #   if media.signed_in and 141 < scrollheight
+    #     $page_navigation.addClass 'lock lock--add'
+    #   else if not media.signed_in and 141 < scrollheight
+    #     $page_navigation.remove('lock--add').addClass 'lock'
+    #   else
+    #     $page_navigation.removeClass 'lock lock--add'
+    # else
+    #   $page_navigation.removeClass 'lock lock--add'
 
   scrollActions()
 
@@ -387,33 +397,33 @@ $ ->
   # Key Actions
   # ===================================
 
-  $doc.on 'keydown', _.debounce (event) ->
-    # console.log "#{String.fromCharCode event.keyCode}(#{event.keyCode}) has pushed"
-    switch event.keyCode
-      when 83 # s, 検索窓をアンフォーカス
-        # if ($ ':focus').attr('id') is 's' and ($ '#s').val() is ''
-        #   ($ '#s').blur()
-        #   media.search.focusEnable = no
-        return
-      when 74 # j
-        # ui.moveto yes unless searchfocus
-        return
-      when 75 # k
-        # ui.moveto no unless searchfocus
-        return
-      when 76 # l
-        # ui.liketo()
-        return
-  , 240 # 最後に実行されてから240ミリ秒以内にもう一度実行されたらabort、実行されなければexec
+  # $doc.on 'keydown', _.debounce (event) ->
+  #   # console.log "#{String.fromCharCode event.keyCode}(#{event.keyCode}) has pushed"
+  #   switch event.keyCode
+  #     when 83 # s, 検索窓をアンフォーカス
+  #       # if ($ ':focus').attr('id') is 's' and ($ '#s').val() is ''
+  #       #   ($ '#s').blur()
+  #       #   media.search.focusEnable = no
+  #       return
+  #     when 74 # j
+  #       # ui.moveto yes unless searchfocus
+  #       return
+  #     when 75 # k
+  #       # ui.moveto no unless searchfocus
+  #       return
+  #     when 76 # l
+  #       # ui.liketo()
+  #       return
+  # , 240 # 最後に実行されてから240ミリ秒以内にもう一度実行されたらabort、実行されなければexec
 
-  $doc.on 'keyup', _.debounce (event) ->
-    switch event.keyCode
-      when 83 # s, 検索窓をフォーカス
-        # if media.search.focusEnable and ($ ':focus').attr('id') isnt 's'
-        #   ($ '#s').focus()
-        # media.search.focusEnable = yes
-        return
-  , 240 # 最後に実行されてから240ミリ秒以内にもう一度実行されたらabort、実行されなければexec
+  # $doc.on 'keyup', _.debounce (event) ->
+  #   switch event.keyCode
+  #     when 83 # s, 検索窓をフォーカス
+  #       # if media.search.focusEnable and ($ ':focus').attr('id') isnt 's'
+  #       #   ($ '#s').focus()
+  #       # media.search.focusEnable = yes
+  #       return
+  # , 240 # 最後に実行されてから240ミリ秒以内にもう一度実行されたらabort、実行されなければexec
 
   # ===================================
   # 検索窓
@@ -431,9 +441,24 @@ $ ->
       q.focus()
 
   # ===================================
+  # 画像の遅延ロード
+  # ===================================
+  $.fn.imageload = ->
+    @each ->
+      $el = $ @
+      $photograph = $el.find '.photograph'
+      if uri = ui.sample_image_url($photograph.css 'background-image')
+        image = new Image()
+        image.onload = => $el.addClass 'loaded'
+        image.src = uri[0]
+      else
+        ($loader = $el.find '.ui-loader').remove()
+      return
+  ($ '.photograph-container').imageload()
+
+  # ===================================
   # 複数行における省略
   # ===================================
-
   $.fn.ellipsis = ->
     @each ->
       $el = $ @
@@ -473,47 +498,40 @@ $ ->
 
 
   # ===================================
-  # Delay load images
+  # アイテムの絞り込み(Aboutページ)
   # ===================================
 
-  $.fn.imageload = ->
-    @each ->
-      $el = $ @ # .archive-media--photograph-wrap
-      $photograph = $el.find '.archive-media--photograph'
-      if uri = ui.sample_image_url($photograph.css 'background-image')
-        image = new Image()
-        image.onload = => $el.addClass 'loaded'
-        image.src = uri[0]
-      else
-        ($loader = $el.find '.ui-loader').remove()
-      return
+  ($ '.members .row').mixItUp
+    load:
+      filter: '.filter'
 
-  ($ '.archive-media--photograph-wrap').imageload()
+  ($ '.archives .row').mixItUp
+    load:
+      filter: '.filter'
+    animation:
+      effects: 'fade translateX stagger'
 
-  $.fn.imageload_new = ->
-    @each ->
-      $el = $ @
-      $photograph = $el.find '.photograph'
-      if uri = ui.sample_image_url($photograph.css 'background-image')
-        image = new Image()
-        image.onload = => $el.addClass 'loaded'
-        image.src = uri[0]
-      else
-        ($loader = $el.find '.ui-loader').remove()
-      return
+  # 切り替えにあわせてページタイトルも変更
 
-  ($ '.photograph-container').imageload_new()
+  ($ '.control-buttons .filter a').on
+    'click': (e) ->
+      e.preventDefault()
+
+  ($ '.control-buttons .filter').on
+    'click': ->
+      ($ '.navi-title').text ($ @).data 'title'
+
 
   # ===================================
-  # Run Animation via WOW
+  # スクロールアニメーション
   # ===================================
 
   wow = new WOW
-    boxClass:     'animate'
+    boxClass: 'animate'
     animateClass: 'animated'
-    offset:       0
-
+    offset: 0
   wow.init()
+
 
 # ===================================
 # Social Plugins
@@ -564,6 +582,20 @@ not ((d, s, id) ->
     fjs.parentNode.insertBefore js, fjs
   return
 ) document, 'script', 'twitter-wjs'
+
+# Google Maps V3
+# $ ->
+#   gmaps_initialize = ->
+#     base_uri = ($ '#config').data 'config-base-uri'
+#     kesennuma = new google.maps.LatLng(38.875992, 141.535374)
+#     mapOptions =
+#       zoom: 11
+#       center: kesennuma
+#     map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions)
+#     ctaLayer = new google.maps.KmlLayer(url: "#{base_uri}/static/gmaps_adachi.kml")
+#     ctaLayer.setMap map
+#     return
+#   google.maps.event.addDomListener window, 'load', gmaps_initialize
 
 # Google Analytics
 ((i, s, o, g, r, a, m) ->

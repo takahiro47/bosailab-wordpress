@@ -1,257 +1,204 @@
 extends _application
 include _ui
-//-
-  The template for displaying Archive pages.
-
-  Used to display archive-type pages if nothing more specific matches a query.
-  For example, puts together date-based pages if no date.php file exists.
-
-  If you'd like to further customize these archive views, you may create a
-  new template file for each specific one. For example, Twenty Thirteen
-  already has tag.php for Tag archives, category.php for Category archives,
-  and author.php for Author archives.
-
-  Learn more: http://codex.wordpress.org/Template_Hierarchy
-
-  @package WordPress
-  @subpackage SFC_Bosalab_2013
-  @since 1.0
 
 block page_article
-  :php
-    // クエリの生成
-    $title = false;
-    $params = array(
-      'post_status' => 'publish',
-      'post_type' => get_post_type(),
-      'posts_per_page' => 200,
-      'orderby' => 'date',
-      'order' => 'DESC'
-    );
-    // 年月フィルターの取得
-    if ( false && get_post_type() == 'project' ) { // TODO
+  .layer-header
+    header.container-fluid
+      .navi-title
+        :php
+          if ( is_day() ) :
+            printf( __( 'Daily Archives: %s', 'twentyfourteen' ), get_the_date() );
+          elseif ( is_month() ) :
+            printf( __( 'Monthly Archives: %s', 'twentyfourteen' ), get_the_date( _x( 'F Y', 'monthly archives date format', 'twentyfourteen' ) ) );
+          elseif ( is_year() ) :
+            printf( __( 'Yearly Archives: %s', 'twentyfourteen' ), get_the_date( _x( 'Y', 'yearly archives date format', 'twentyfourteen' ) ) );
+          else :
+            echo 'すべて';
+          endif;
 
-    } else if ( is_month() ) {
-      $date_query = array(
-        array(
-          'year'  => get_query_var( 'year' ),
-          'month' => get_query_var( 'monthnum' )
-        )
-      );
-      $params += array('date_query' => $date_query);
+      .controls
+        ul.control-buttons(role='menu')
+          li.filter(
+            class!='<?php if ( !is_tax() && !is_single() ) { echo " active"; } ?>'
+            data-filter!='.filter'
+            data-title!='すべて'
+          )
+            a(href!='/<?php echo get_post_type(); ?>')
+              | すべて
+              //- <?php echo 'All '.ucfirst( get_post_type() ).'s'; ?>
+          :php
+            $args = array(
+              'style'               => 'list',
+              'orderby'             => 'name',
+              'order'               => 'ASC',
+              'taxonomy'            => substr(get_post_type(), 0, 2).'-types',
+              'title_li'            => '',
+              'show_count'          => 0, // 1
+              'hide_empty'          => 0,
+              'echo'                => 0
+            );
+            $html = wp_list_categories( $args );
+            $html = preg_replace('/<\/a> \(([0-9]*)\)/', ' <em>$1</em></a>', $html);
+            // JSフィルタのために最適化
+            $html = preg_replace('/(cat-item)/', 'filter', $html);
+            $html = preg_replace('/(current-cat)/', 'active', $html);
+            $html = preg_replace('/><a\ href="(.*)"(.*)?>(.*)<\/a>/', ' data-filter=".filter-$3" data-title="$3"><a\ href="$1">$3</a>', $html);
+            // 出力
+            echo $html;
+
+  :php
+    if ( have_posts() ) {
+  .container-fluid.archives
+    .row
+      //- 記事ループ
+      :php
+        while ( have_posts() ) {
+          the_post();
+          get_template_part( 'content', get_post_format() );
+        }
+  :php
+    } else {
+  .archives.nil
+  :php
+    get_template_part( 'content', 'none' );
     }
-    // タクソノミーフィルターの取得
-    $tax = '';
-    if ( is_tax() || is_category() ) { // is_tag()
-      $qobj = get_queried_object();
-      $tax_query = array(
-        array(
-          'taxonomy' => $qobj->taxonomy,
-          'field'    => 'id',
-          'terms'    => $qobj->term_id
-        )
-      );
-      $params += array('tax_query' => $tax_query);
-    }
-    // クエリを実行して投稿を取得
-    $wp_query = new WP_Query();
-    $wp_query->query( $params );
-
-    // 投稿があった場合，投稿表示ループを開始
-    if ( $wp_query->have_posts() ) {
-      while ( $wp_query->have_posts() ) {
-        $wp_query->the_post();
-
-  <?php if (get_post_type() == 'project') { if ( !get_field( 'is_child' ) ) { ?>
-  :php
-    $thumbnail_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'project-archive' )[0];
-
-  .page-layer__media--project--archive
-    .page-layer__media--project__cell
-      .archive-media--project-wrap
-        .archive-media--project
-          .archive-media--photograph-wrap
-            .archive-media--background
-            a.js-navi-single(href!='<?php the_permalink(); ?>')
-              .archive-media--photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
-              .archive-media--photograph-shadow
-              +ui-loader
-          article.archive-media--project__article
-            h3.archive-media--project-title.ellipsis
-              a.js-navi-single(href!='<?php the_permalink(); ?>') <?php the_title(); ?>
-            ul.archive-media--project-tags.ui-tags
-              <?php $post_tags = get_the_tags(); if ($post_tags) { foreach($post_tags as $tag) { ?>
-              li.tag <?php echo $tag->name; ?>
-              <?php } } ?>
-          footer.archive-media--project__footer
-            .archive-media--project-year
-              .starting-year <?php the_field( 'starting_year' ); ?>
-              .separator -
-              .end-year <?php the_field( 'end_year' ); ?>
 
 
-  <?php } } else if (get_post_type() == 'photolog') { ?>
-  :php
-    $thumbnail_url = get_field('photo')['sizes']['photolog-archive'];
 
-  .page-layer__media--photolog--archive
-    .page-layer__media--photolog__cell
-      .archive-media--photolog-wrap
-        .archive-media--photolog
-          .archive-media--background
-          .archive-media--photograph-wrap
-            a.js-navi-single(href!='<?php the_permalink(); ?>')
-              .archive-media--photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
-              .archive-media--photograph-shadow
-              +ui-loader
-          header.archive-media--photolog__header
-            .archive-media--photolog__date <?php echo toLastUpdateString( new DateTime( get_the_time('Y-m-d H:i:s') ) ), PHP_EOL; ?>
-          article.archive-media--photolog__article
-            h3.archive-media--photolog-title
-              a.js-navi-single(href!='<?php the_permalink(); ?>') <?php the_title(); ?>
-          footer.archive-media--photolog__footer
-            .archive-media--photolog__views
-              i.fa.fa-heart
-              | <?php echo $post->pvc_views; ?>
+  //- :php
+  //-   // クエリの生成
+  //-   $title = false;
+  //-   $params = array(
+  //-     'post_status' => 'publish',
+  //-     'post_type' => get_post_type(),
+  //-     'posts_per_page' => 200,
+  //-     'orderby' => 'date',
+  //-     'order' => 'DESC'
+  //-   );
+  //-   // 年月フィルターの取得
+  //-   if ( false && get_post_type() == 'project' ) {
 
+  //-   } else if ( is_month() ) {
+  //-     $date_query = array(
+  //-       array(
+  //-         'year'  => get_query_var( 'year' ),
+  //-         'month' => get_query_var( 'monthnum' )
+  //-       )
+  //-     );
+  //-     $params += array('date_query' => $date_query);
+  //-   }
+  //-   // タクソノミーフィルターの取得
+  //-   $tax = '';
+  //-   if ( is_tax() || is_category() ) { // is_tag()
+  //-     $qobj = get_queried_object();
+  //-     $tax_query = array(
+  //-       array(
+  //-         'taxonomy' => $qobj->taxonomy,
+  //-         'field'    => 'id',
+  //-         'terms'    => $qobj->term_id
+  //-       )
+  //-     );
+  //-     $params += array('tax_query' => $tax_query);
+  //-   }
+  //-   // クエリを実行して投稿を取得
+  //-   $wp_query = new WP_Query();
+  //-   $wp_query->query( $params );
 
-  <?php } else if (get_post_type() == 'report') { ?>
-  :php
-    $thumbnail_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'report-archive' )[0];
+  //-   // 投稿があった場合，投稿表示ループを開始
+  //-   if ( $wp_query->have_posts() ) {
+  //-     while ( $wp_query->have_posts() ) {
+  //-       $wp_query->the_post();
 
-  .item-cell.item-cell__archive.item-cell__archive--report
-    header.header
-      //- 投稿日時
-      .ui-calendar
-        time <?php echo get_the_time('Y-m-d H:i:s'); ?>
-        .date-icon
-          .date-month <?php echo get_the_time('M'); ?>
-          .date-day <?php echo get_the_time('d'); ?>
-          .date-year <?php echo get_the_time('Y'); ?>
-      //- タイトル
-      h3.title
-        a.js-navi-single(href!='<?php the_permalink(); ?>') <?php the_title(); ?>
-      //- 相対日時
-      .relative-date
-        | <?php echo toLastUpdateString( new DateTime( get_the_time('Y-m-d H:i:s') ) ), PHP_EOL; ?>
-    article.article
-      //- サムネイル
-      <?php if ( has_post_thumbnail() ) { ?>
-      .photograph-container
-        a.js-navi-single(href!='<?php the_permalink(); ?>')
-          .photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
-          .photograph-shadow
-          +ui-loader
-      <?php } ?>
-      //- 抜粋
-      //- p.excerpt.ellipsis.multiline <?php echo new_excerpt(); ?>
-      .excerpt <?php the_excerpt(); ?>
-      //- カテゴリ
-      .categories-container
-        ul.categories.clearfix
-          <?php $terms = get_the_terms( $post->ID, 're-types' ); // var_dump( $terms ); ?>
-          <?php if ($terms) { foreach($terms as $term) { ?>
-          li.category: a(href!='<?php echo "/report/re-types/".$term->slug; ?>')
-            i.fa.fa-tag
-            <?php echo $term->name; ?>
-          <?php } } ?>
-
-
-  //- .page-layer__media--report--archive
-
-  //-   header.archive-media--report__header
-  //-     //- 投稿日時
-  //-     .ui-calendar
-  //-       time <?php echo get_the_time('Y-m-d H:i:s'); ?>
-  //-       .date-icon
-  //-         .date-month <?php echo get_the_time('M'); ?>
-  //-         .date-day <?php echo get_the_time('d'); ?>
-  //-         .date-year <?php echo get_the_time('Y'); ?>
-  //-     //- タイトル
-  //-     h3.archive-media--report__title.ellipsis
-  //-       a.js-navi-single(href!='<?php the_permalink(); ?>') <?php the_title(); ?>
-  //-     //- 相対日時
-  //-     .archive-media--report__relative-date
-  //-       | <?php echo toLastUpdateString( new DateTime( get_the_time('Y-m-d H:i:s') ) ), PHP_EOL; ?>
-
-  //-   .page-layer__media--report__cell
-  //-     .archive-media--report-wrap
-  //-       .archive-media--report
-  //-         <?php if ( has_post_thumbnail() ) { ?>
-  //-         .archive-media--photograph-wrap
-  //-           a.js-navi-single(href!='<?php the_permalink(); ?>')
-  //-             .archive-media--photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
-  //-             .archive-media--photograph-shadow
-  //-             +ui-loader
-  //-         <?php } ?>
-  //-         article.archive-media--report__article
-  //-           //- 抜粋
-  //-           p.archive-media--report__excerpt.ellipsis.multiline <?php echo new_excerpt(180); ?>
-  //-           //- カテゴリ
-  //-           ul.archive-media--report__categories.clearfix
-  //-             <?php $terms = get_the_terms( $post->ID, 're-types' ); // var_dump( $terms ); ?>
-  //-             <?php if ($terms) { foreach($terms as $term) { ?>
-  //-             li.category: a(href!='<?php echo "/report/re-types/".$term->slug; ?>')
-  //-               i.fa.fa-tag
-  //-               <?php echo $term->name; ?>
-  //-             <?php } } ?>
-  //-           //- タグ
-  //-           //- ul.archive-media--report__tags.clearfix
-  //-           //-   <?php $tags = get_the_tags(); var_dump( $tags ); ?>
-  //-           //-   <?php if ( $tags ) { foreach($tags as $tag) { ?>
-  //-           //-   li.tag <?php echo $tag->name; ?>
-  //-           //-   <?php } } ?>
-
-
-  <?php } else if (get_post_type() == 'download') { ?>
-  :php
-    $thumbnail_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'download-archive' )[0];
-
-  .page-layer__media--download--archive
-    .page-layer__media--download__cell
-      .archive-media--download-wrap
-        .archive-media--download
-          .archive-media--photograph-wrap
-            .archive-media--header
-              i.fa.fa-circle
-              i.fa.fa-circle
-              i.fa.fa-circle
-            .archive-media--background
-            a.js-navi-single(href!="confirm?edd_action=add_to_cart&download_id=<?php echo get_the_ID(); ?>")
-              .archive-media--photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
-              +ui-loader
-              //- オーバーフロー
-              .archive-media--overflow
-                //- ダウンロードボタン
-                .archive-media--download-button
-                  i.fa.fa-plus
-                  | Download Item
-                //- ダウンロード回数
-                //- .archive-media--download__views
-                //-   i.fa.fa-download
-                //-   | <?php echo $post->pvc_views; ?>
-                //- アップロード日時
-                .archive-media--download__date
-                  i.fa.fa-cloud-upload
-                  | <?php echo toLastUpdateString( new DateTime( get_the_time('Y-m-d H:i:s') ) ), PHP_EOL; ?>
-              //- 抜粋
-              p.archive-media--excerpt
-                <?php echo new_excerpt(1000); ?>
-
-          article.archive-media--download__article
-            //- | <?php do_shortcode('[purchase_link id="'.get_the_ID().'" price=0 text="ダウンロード" style="button" direct="true"]'); ?>
-            //- | <?php echo do_shortcode('[downloads]'); ?>
-            h3.archive-media--download-title.ellipsis
-              a.js-navi-single(href!="confirm?edd_action=add_to_cart&download_id=<?php echo get_the_ID(); ?>") <?php the_title(); ?>
-            ul.archive-media--download-tags.ui-tags
-              <?php $post_tags = get_the_tags(); if ($post_tags) { foreach($post_tags as $tag) { ?>
-              li.tag <?php echo $tag->name; ?>
-              <?php } } ?>
-
-  <?php } else { ?>
-
-
-  <?php } ?>
-
-  :php
-    }} // 投稿表示ループここまで
+  //-  <?php if (get_post_type() == 'report') { ?>
+  //-  :php
+  //-    $thumbnail_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'report-archive' )[0];
+  //-
+  //-  .item-cell.item-cell__archive.item-cell__archive--report
+  //-    header.header
+  //-      //- 投稿日時
+  //-      .ui-calendar
+  //-        time <?php echo get_the_time('Y-m-d H:i:s'); ?>
+  //-        .date-icon
+  //-          .date-month <?php echo get_the_time('M'); ?>
+  //-          .date-day <?php echo get_the_time('d'); ?>
+  //-          .date-year <?php echo get_the_time('Y'); ?>
+  //-      //- タイトル
+  //-      h3.title
+  //-        a.js-navi-single(href!='<?php the_permalink(); ?>') <?php the_title(); ?>
+  //-      //- 相対日時
+  //-      .relative-date
+  //-        | <?php echo toLastUpdateString( new DateTime( get_the_time('Y-m-d H:i:s') ) ), PHP_EOL; ?>
+  //-    article.article
+  //-      //- サムネイル
+  //-      <?php if ( has_post_thumbnail() ) { ?>
+  //-      .photograph-container
+  //-        a.js-navi-single(href!='<?php the_permalink(); ?>')
+  //-          .photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
+  //-          .photograph-shadow
+  //-          +ui-loader
+  //-      <?php } ?>
+  //-      //- 抜粋
+  //-      //- p.excerpt.ellipsis.multiline <?php echo new_excerpt(); ?>
+  //-      .excerpt <?php the_excerpt(); ?>
+  //-      //- カテゴリ
+  //-      .categories-container
+  //-        ul.categories.clearfix
+  //-          <?php $terms = get_the_terms( $post->ID, 're-types' ); // var_dump( $terms ); ?>
+  //-          <?php if ($terms) { foreach($terms as $term) { ?>
+  //-          li.category: a(href!='<?php echo "/report/re-types/".$term->slug; ?>')
+  //-            i.fa.fa-tag
+  //-            <?php echo $term->name; ?>
+  //-          <?php } } ?>
+  //-
+  //-  <?php } else if (get_post_type() == 'download') { ?>
+  //-  :php
+  //-    $thumbnail_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'download-archive' )[0];
+  //-
+  //-  .page-layer__media--download--archive
+  //-    .page-layer__media--download__cell
+  //-      .archive-media--download-wrap
+  //-        .archive-media--download
+  //-          .archive-media--photograph-wrap
+  //-            .archive-media--header
+  //-              i.fa.fa-circle
+  //-              i.fa.fa-circle
+  //-              i.fa.fa-circle
+  //-            .archive-media--background
+  //-            a.js-navi-single(href!="confirm?edd_action=add_to_cart&download_id=<?php echo get_the_ID(); ?>")
+  //-              .archive-media--photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
+  //-              +ui-loader
+  //-              //- オーバーフロー
+  //-              .archive-media--overflow
+  //-                //- ダウンロードボタン
+  //-                .archive-media--download-button
+  //-                  i.fa.fa-plus
+  //-                  | Download Item
+  //-                //- ダウンロード回数
+  //-                //- .archive-media--download__views
+  //-                //-   i.fa.fa-download
+  //-                //-   | <?php echo $post->pvc_views; ?>
+  //-                //- アップロード日時
+  //-                .archive-media--download__date
+  //-                  i.fa.fa-cloud-upload
+  //-                  | <?php echo toLastUpdateString( new DateTime( get_the_time('Y-m-d H:i:s') ) ), PHP_EOL; ?>
+  //-              //- 抜粋
+  //-              p.archive-media--excerpt
+  //-                <?php echo new_excerpt(1000); ?>
+  //-
+  //-          article.archive-media--download__article
+  //-            //- | <?php do_shortcode('[purchase_link id="'.get_the_ID().'" price=0 text="ダウンロード" style="button" direct="true"]'); ?>
+  //-            //- | <?php echo do_shortcode('[downloads]'); ?>
+  //-            h3.archive-media--download-title.ellipsis
+  //-              a.js-navi-single(href!="confirm?edd_action=add_to_cart&download_id=<?php echo get_the_ID(); ?>") <?php the_title(); ?>
+  //-            ul.archive-media--download-tags.ui-tags
+  //-              <?php $post_tags = get_the_tags(); if ($post_tags) { foreach($post_tags as $tag) { ?>
+  //-              li.tag <?php echo $tag->name; ?>
+  //-              <?php } } ?>
+  //-
+  //-  <?php } else { ?>
+  //-
+  //-
+  //-  <?php } ?>
+  //-
+  //-  :php
+  //-    //- }} // 投稿表示ループここまで

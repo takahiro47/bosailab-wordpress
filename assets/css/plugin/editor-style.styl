@@ -1,228 +1,254 @@
 @import 'nib'
-// @import '../config'
-// @import '../../../client/components/bootstrap-stylus/stylus/bootstrap'
+@import '../_config'
 
-html .mceContentBody
-  font-size: 100%
-  max-width: 604px
+/* = Resets
+ * ------------------------------------------------------------ */
+
+global-reset()
+
+
+/* = Plugins
+ * ------------------------------------------------------------ */
+
+@import '../../../client/components/bootstrap-stylus/stylus/bootstrap'
+@import '../../../client/components/font-awesome-stylus/stylus/font-awesome'
+@import 'animate'
+
+
+/* = Defaults
+ * ------------------------------------------------------------ */
+
+::selection
+  background-color #e6e6e6
+::-moz-selection
+  background-color #e6e6e6
 
 body
-  color: #141412
-  font-family: "Source Sans Pro", Helvetica, sans-serif
-  line-height: 1.5
-  text-rendering: optimizeLegibility
-  vertical-align: baseline
+  &
+  &.mceContentBody
+    position relative
+    text-rendering optimizeLegibility
+    -webkit-font-smoothing antialiased
+    vertical-align baseline
+    color base-color-black
+    font-size 100%
+    font-weight normal
+    line-height 1.5
+    text-align left
+    font-family "Source Sans Pro", Helvetica, sans-serif
+    font-family font-gothic
+    max-width 604px
 
-h1
-h2
-h3
-h4
-h5
-h6
-  clear: both
-  font-family: Bitter, Georgia, serif
-  line-height: 1.3
+// h1
+// h2
+// h3
+// h4
+// h5
+// h6
+//   clear: both
+//   font-family: Bitter, Georgia, serif
+//   line-height: 1.3
 
-h1
-  font-size: 48px
-  margin: 33px 0
+// h1
+//   font-size: 48px
+//   margin: 33px 0
 
-h2
-  font-size: 30px
-  margin: 25px 0
+// h2
+//   font-size: 30px
+//   margin: 25px 0
 
-h3
-  font-size: 22px
-  margin: 22px 0
+// h3
+//   font-size: 22px
+//   margin: 22px 0
 
-h4
-  font-size: 20px
-  margin: 25px 0
+// h4
+//   font-size: 20px
+//   margin: 25px 0
 
-h5
-  font-size: 18px
-  margin: 30px 0
+// h5
+//   font-size: 18px
+//   margin: 30px 0
 
-h6
-  font-size: 16px
-  margin: 36px 0
+// h6
+//   font-size: 16px
+//   margin: 36px 0
 
-hr
-  background: url('../images/dotted-line.png') repeat center top
-  background-size: 4px 4px
-  border: 0
-  height: 1px
-  margin: 0 0 24px
+// hr
+//   background: url('../images/dotted-line.png') repeat center top
+//   background-size: 4px 4px
+//   border: 0
+//   height: 1px
+//   margin: 0 0 24px
 
-p
-  margin: 0 0 24px
+// p
+//   margin: 0 0 24px
 
-ol
-ul
-  margin: 16px 0
-  padding: 0 0 0 40px
+// ol
+// ul
+//   margin: 16px 0
+//   padding: 0 0 0 40px
 
-ul
-  list-style-type: square
+// ul
+//   list-style-type: square
 
-ol
-  list-style: decimal outside
+// ol
+//   list-style: decimal outside
 
-li > ul
-li > ol
-  margin: 0
+// li > ul
+// li > ol
+//   margin: 0
 
-dl
-  margin: 0 20px
+// dl
+//   margin: 0 20px
 
-dt
-  font-weight: bold
+// dt
+//   font-weight: bold
 
-dd
-  margin: 0 0 20px
+// dd
+//   margin: 0 0 20px
 
-strong
-  font-weight: bold
+// strong
+//   font-weight: bold
 
-code
-kbd
-pre
-samp
-  font-family: monospace, serif
-  font-size: 14px
+// code
+// kbd
+// pre
+// samp
+//   font-family: monospace, serif
+//   font-size: 14px
 
-pre
-  background: #f5f5f5
-  color: #666
-  font-family: monospace
-  font-size: 14px
-  margin: 20px 0
-  overflow: auto
-  padding: 20px
-  white-space: pre-wrap
-  word-wrap: break-word
+// pre
+//   background: #f5f5f5
+//   color: #666
+//   font-family: monospace
+//   font-size: 14px
+//   margin: 20px 0
+//   overflow: auto
+//   padding: 20px
+//   white-space: pre-wrap
+//   word-wrap: break-word
 
-blockquote
-q
-  quotes: none
+// blockquote
+// q
+//   quotes: none
 
-blockquote:before
-blockquote:after
-q:before
-q:after
-  content: none
+// blockquote:before
+// blockquote:after
+// q:before
+// q:after
+//   content: none
 
-blockquote
-  font-size: 24px
-  font-style: italic
-  font-weight: 300
-  margin: 24px 40px
+// blockquote
+//   font-size: 24px
+//   font-style: italic
+//   font-weight: 300
+//   margin: 24px 40px
 
-blockquote blockquote
-  margin-right: 0
+// blockquote blockquote
+//   margin-right: 0
 
-blockquote cite
-blockquote small
-  font-size: 14px
-  font-weight: normal
-  text-transform: uppercase
+// blockquote cite
+// blockquote small
+//   font-size: 14px
+//   font-weight: normal
+//   text-transform: uppercase
 
-cite
-  border-bottom: 0
+// cite
+//   border-bottom: 0
 
-abbr[title]
-  border-bottom: 1px dotted
+// abbr[title]
+//   border-bottom: 1px dotted
 
-address
-  font-style: italic
-  margin: 0 0 24px
+// address
+//   font-style: italic
+//   margin: 0 0 24px
 
-del
-  color: #333
+// del
+//   color: #333
 
-ins
-  background: #fff9c0
-  border: none
-  color: #333
-  text-decoration: none
+// ins
+//   background: #fff9c0
+//   border: none
+//   color: #333
+//   text-decoration: none
 
-sub
-sup
-  font-size: 75%
-  line-height: 0
-  position: relative
-  vertical-align: baseline
+// sub
+// sup
+//   font-size: 75%
+//   line-height: 0
+//   position: relative
+//   vertical-align: baseline
 
-sup
-  top: -0.5em
+// sup
+//   top: -0.5em
 
-sub
-  bottom: -0.25em
+// sub
+//   bottom: -0.25em
 
-a
-  color: #ca3c08
-  text-decoration: none
+// a
+//   color: #ca3c08
+//   text-decoration: none
 
-a:visited
-  color: #ac0404
+// a:visited
+//   color: #ac0404
 
-a:focus
-  outline: thin dotted
+// a:focus
+//   outline: thin dotted
 
-a:active
-a:hover
-  color: #ea9629
-  outline: 0
+// a:active
+// a:hover
+//   color: #ea9629
+//   outline: 0
 
-a:hover
-  text-decoration: underline
+// a:hover
+//   text-decoration: underline
 
-.alignleft
-  float: left
-  margin: 5px 20px 5px 0
+// .alignleft
+//   float: left
+//   margin: 5px 20px 5px 0
 
-.alignright
-  float: right
-  margin: 5px 0 5px 20px
+// .alignright
+//   float: right
+//   margin: 5px 0 5px 20px
 
-.aligncenter
-  display: block
-  margin: 5px auto
+// .aligncenter
+//   display: block
+//   margin: 5px auto
 
-img.alignnone
-  margin: 5px 0
+// img.alignnone
+//   margin: 5px 0
 
-table
-  border-bottom: 1px solid #ededed
-  border-collapse: collapse
-  border-spacing: 0
-  font-size: 14px
-  line-height: 2
-  margin: 0 0 20px
-  width: 100%
+// table
+//   border-bottom: 1px solid #ededed
+//   border-collapse: collapse
+//   border-spacing: 0
+//   font-size: 14px
+//   line-height: 2
+//   margin: 0 0 20px
+//   width: 100%
 
-caption
-th
-td
-  font-weight: normal
-  text-align: left
+// caption
+// th
+// td
+//   font-weight: normal
+//   text-align: left
 
-caption
-  font-size: 16px
-  margin: 20px 0
+// caption
+//   font-size: 16px
+//   margin: 20px 0
 
-th
-  font-weight: bold
-  text-transform: uppercase
+// th
+//   font-weight: bold
+//   text-transform: uppercase
 
-td
-  border-top: 1px solid #ededed
-  padding: 6px 10px 6px 0
+// td
+//   border-top: 1px solid #ededed
+//   padding: 6px 10px 6px 0
 
-img
-  height: auto
-  max-width: 100%
-  vertical-align: middle
+// img
+//   height: auto
+//   max-width: 100%
+//   vertical-align: middle
 
 .wp-caption
   background: transparent
@@ -407,4 +433,148 @@ html .mceContentBody.rtl
   content: none
 
 
+/* = Original markdown
+ * ------------------------------------------------------------ */
+markdown-zoom = 0.75
 
+h1
+h2
+h3
+h4
+h5
+h6
+  font-size 1.20em * markdown-zoom
+  font-weight 300
+  line-height @font-size
+  word-wrap break-word
+h1
+h2
+h3
+  margin-bottom 16px
+  padding-bottom 0.3em * markdown-zoom
+  border-bottom 1px solid #eee
+  // &:before
+  //   content '■'
+  //   padding-right .5em
+  //   color #8DB95C
+h1
+  font-size 2.15em * markdown-zoom
+  line-height 1.40em
+  margin-top @font-size
+  &:before
+    color base_color
+h2
+  font-size 1.70em * markdown-zoom
+  line-height 1.50em
+  margin-top 1.50em
+  &:before
+    color #C54A48
+h3
+  font-size 1.40em * markdown-zoom
+  line-height @font-size
+h4
+  font-size 1.30em * markdown-zoom
+  line-height @font-size
+h5
+  font-size 1.20em * markdown-zoom
+  line-height @font-size
+h6
+  font-size 1.10em * markdown-zoom
+  line-height @font-size
+p
+  display block
+  margin .7em 0 1.4em
+  font-size 13px
+  line-height 1.6em
+  word-wrap break-word
+strong
+  font-weight bold
+em
+  font-style italic
+blockquote
+  display block
+  -webkit-margin-before 1em
+  -webkit-margin-after 1em
+  -webkit-margin-start 40px
+  -webkit-margin-end 40px
+ul
+ol
+  margin 0 0 24px 0
+  padding-left 40px
+  li
+    margin-bottom 8px
+    font-size 13px
+    & > ul
+    & > ol
+      margin 0 0 0 20px
+ul
+  list-style disc
+ol
+  list-style decimal
+img
+  -ms-interpolation-mode bicubic
+  border 0
+  vertical-align middle
+legend
+  white-space normal
+button
+input
+select
+textarea
+  -webkit-box-sizing border-box
+  -moz-box-sizing border-box
+  box-sizing border-box
+button
+input[type='reset']
+input[type='submit']
+  @extend .btn
+  @extend .btn-default
+input[type='submit']
+  @extend .btn-danger
+form
+  @extend .form-horizontal
+  margin 60px 180px
+  input[type='text']
+  input[type='email']
+  input[type='password']
+  select
+  textarea
+    @extend .form-control
+  input
+    outline 0
+    display inline-block
+    font-size 1.1em
+    border-radius 1px
+table
+  @extend .table
+  // @extend .table-striped
+  // @extend .table-condensed
+  // @extend .table-hover
+  margin .7em 0 1.4em
+  tr
+    th
+      @extend .table > thead > tr > th
+    &:nth-child(even)
+      td
+        background-color #f9f9f9
+blockquote
+  margin .5em 20px
+  padding 1px 15px
+  p
+    font-size
+img
+  max-width 100%
+  height auto
+  &.aligncenter
+    display block
+    margin 0 auto
+  &.alignright
+    float right
+    margin 0 0 30px 30px
+  &.alignleft
+    float left
+    margin 0 30px 30px 0
+  &[class*="wp-image-"]
+  &[class*="attachment-"]
+    max-width 100%
+    height auto

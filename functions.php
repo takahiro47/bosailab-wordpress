@@ -962,7 +962,7 @@ add_action('edd_payment_personal_details_list', 'pippin_edd_purchase_details', 1
 
 
 
-add_editor_style('public/css/plugin/editor-style.css');
+add_editor_style('dist/css/plugin/editor-style.css');
 function custom_editor_settings( $initArray ) {
     $initArray['body_class'] = 'editor-area';
     return $initArray;

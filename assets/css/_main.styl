@@ -1,0 +1,836 @@
+@import '_config'
+
+
+/* = 全体
+ * ------------------------------------------------------------ */
+body
+  width 100%
+  min-width page-min-width
+  background-color base-background-color
+
+  // コンテナ
+  .ui-container
+    position relative
+    overflow hidden
+
+  // 管理画面にログイン時
+  &.signed_in
+    padding-top admin-navi-height-min
+    @media screen and (max-width: 782px)
+      padding-top admin-navi-height-max
+    .ui-header
+      top 0
+      @media screen and (min-width: 0px) and (min-device-width: 0px)
+        top 0
+      @media screen and (mix-width: 782px) and (min-device-width: 781px)
+        top 0
+      @media screen and (min-width: 1080px) and (min-device-width: 1079px)
+        top admin-navi-height-min
+
+
+/* = ヘッダ
+ * ------------------------------------------------------------ */
+
+.ui-header // header
+  section-border()
+  z-index 110
+  top 0
+  left @top
+  width 100%
+  margin 0
+  transition background-color base-transition
+
+  @media screen and (min-width: 0px) and (min-device-width: 0px)
+    position absolute
+  @media screen and (min-width: 1080px) and (min-device-width: 1079px)
+    position fixed
+
+  &.home
+    background-color transparent
+    border-bottom-color transparent
+    .header-nav
+      .header-nav-left
+      .header-nav-right
+        .nav-left
+        .nav-right
+          .navigation-menu
+            .menu-item
+              a
+                color darken(base-color-gray, 30%)
+  &.scrolled
+    section-border()
+    // background-color rgba(240, 242, 244, .85)
+    .header-nav
+      background-size 225px
+      background-position 50% -41px
+      .header-nav-left
+      .header-nav-right
+        margin-top 0
+        .nav-left
+        .nav-right
+          .navigation-menu
+            .menu-item
+              a
+                color base-color-gray
+      .header-title-logo
+        .title-logo
+          height 50px
+
+  // ヘッダナビ
+  .header-nav // nav
+    max-width-container()
+    background-image url(path + '/site_logo_2x.png')
+    background-size 235px
+    background-position 50% 20px
+    background-repeat no-repeat
+    transition all header-navi-transition
+
+    // ナビメニュー
+    .header-nav-left
+    .header-nav-right
+      margin-top 70px
+      transition all header-navi-transition
+      .nav-left
+      .nav-right
+        .navigation-menu // ul
+          clearfix()
+          margin 0
+          padding 0
+          .menu-item // li
+            position relative
+            display block
+            float left
+            min-height 1px
+            text-align @float
+            a
+              omission()
+              display block
+              padding 0
+              margin-right 20px
+              color base-color-gray
+              font-size 13px
+              font-weight 700
+              line-height header-navi-height-max - header-navi-margintop
+              letter-spacing .03em
+              text-transform capitalize // uppercase
+              text-decoration none
+              transition all base-transition
+            & > a:hover
+            &.current-menu-item > a
+              color base-color-gray-current
+              box-shadow inset 0 -2px 0 base-color-gray-current
+            .current_page_item > a
+            .current_page_ancestor > a
+            .current-menu-item > a
+            .current-menu-ancestor > a
+              text-decoration none
+      .nav-right
+        .navigation-menu // ul
+          .menu-item // li
+            float right
+            text-align @float
+
+    // サイトロゴ
+    .header-title-logo
+      .title-logo // a
+        display block
+        cursor pointer
+        width 100%
+        height header-navi-height-max
+        transition all header-navi-transition
+        .title
+        .description
+          hidden()
+
+    // サイト内検索
+    .header-nav-right
+      .search
+        position relative
+        width 160px
+        margin 0
+        margin-top (header-navi-height-max - header-navi-margintop - header-navi-form-height)*0.5
+        float right
+        .search-form
+          .label
+            display block
+            margin 0
+            margin-left 7px
+            padding 0
+            text-align right
+            .field
+              cursor pointer
+              -webkit-font-smoothing antialiased
+              width 100%
+              max-width 160px
+              height 25px
+              padding 0 9px
+              padding-right @height
+              background-color #f3f3f3
+              border-width 0
+              color #6A7180
+              font-size 12px
+              font-weight normal
+              line-height @height
+              border-radius @height * 0.5
+              box-shadow inset -1px -1px 0 #eee, inset 1px 1px 0 #eee
+              &:focus
+                cursor text
+                background-color #fff
+                border-width 0
+          .search-icon
+            position absolute
+            top 3px
+            right 7px
+            margin 0
+            span
+              color #E9EAED
+            .fa
+              cursor pointer
+              padding-left 3px
+              color #A7ACB5
+          .submit
+            hidden()
+
+/* = コンテンツ
+ * ------------------------------------------------------------ */
+.ui-content
+  margin-top header-navi-height-max
+
+  #container
+    hoge 0
+
+// すべてのページに共通
+.layer-main
+  max-width-container()
+  &.layer-width-full
+    max-width page-max-width
+
+// ホーム
+.layer-page-home
+  // スライダ
+  .ui-slider
+    position relative
+    margin-top header-navi-height-max * -1
+    .slides
+      overflow hidden
+      .slide
+        position relative
+        width 100%
+        height 640px
+        background-color background_color_dark
+        background-size cover
+        background-position 50% 50%
+        .title
+        .actions
+          width 980px
+          margin 0 auto
+          padding 0
+        .title // h1
+          height 112px
+          margin-top 200px
+        .actions
+          width 415px
+          margin-top 70px
+          .btn // a
+            display block
+            width 200px
+            margin 0 15px 10px 0
+            &:last-child
+              margin-right 0
+
+  // セクション
+  .ui-section
+    padding 40px 0
+    background-color #fff
+    &.colored
+      background-color #F4F7F8
+    .section
+      max-width-container()
+      .section-title // h1
+        margin 20px 0
+        padding 0
+      // アクティビティ / プロジェクト
+      .section-archives
+        margin-bottom 40px
+        .archive
+          &.archive-activity
+            iframe
+              width 100%
+          &.archive-project
+            .archive-cell
+              .photograph-container
+                height 330px * (9 / 16)
+              .archive-article
+                height auto
+                margin-top 15px
+                border-bottom none
+                .title
+                  omission()
+                  margin 0
+                  font-size 14px
+                  font-weight 300
+                  line-height 1.5em
+                  text-align justify
+                  a
+                    color base-color-black
+                    font-weight 500
+                    letter-spacing .01em
+      .section-archives-more
+        max-width-container()
+        font-size 14px
+        line-height 3em
+        text-align center
+        a
+          float none
+          display inline
+          padding 8px 24px
+          font-weight 500
+          .fa
+            padding-left 6px
+      // Google my maps
+      #map-canvas
+        height 480px
+        margin 0 15px 30px
+      #map-canvas-iframe // iframe
+        width 100%
+        padding 0 15px
+
+// page共通
+.layer-page
+  .ui-section
+    padding 40px 0
+    background-color #fff
+    &:nth-child(even)
+      background-color transparent
+    &:nth-child(odd)
+      background-color #fff
+    .section
+      max-width-container()
+
+// about (研究室について)
+.layer-page-about
+  .ui-section
+    &:first-child
+      margin-top -120px
+      padding-bottom 120px
+      .section
+        padding-top 120px
+    &.ui-section-colored
+      background-color base-color-beige
+    .section
+      max-width-container()
+      .section-title // h1
+        margin 30px 0
+        text-align center
+        text-transform uppercase
+        .img-responsive // img
+          margin 0 auto
+      // 文章
+      .section-text // p
+        margin 20px auto
+        padding 0 15px
+        width 100%
+        max-width 860px
+        color #333
+        font-size 1.333em
+        line-height 1.688
+        text-align center
+        text-decoration none
+        @media (max-width: 768px)
+          font-size 1.111em
+      // ボタン
+      .actions
+        clearfix()
+        width 415px
+        margin 30px auto 60px
+        .btn // a
+          display block
+          width 200px
+          margin 0 15px 10px 0
+          &:last-child
+            margin-right 0
+      // 教授の顔
+      .professor-face
+        height 180px
+        width @height
+        margin -140px auto 0
+        background-color #fff
+        background-size cover
+        background-position 50% 25%
+        border-radius 50%
+        border 6px solid base-color-beige
+        transition all base-transition
+        &:hover
+          position relative
+          transform translateY(-0.5em)
+      // ソーシャルアイコン
+      .social-accounts
+        padding-bottom 10px
+        text-align center
+        .social-account // a
+          padding 0 8px
+          font-size 32px
+          .fa
+            transition all base-transition
+            &.fa-globe
+            &.fa-home
+              color #E76860
+            &.fa-twitter
+              color #7A9EA2
+            &.fa-youtube-play
+              color #64615A //#C51514
+            &.fa-envelope
+              color #64615A
+            &:hover
+              transform scale(1.1)
+              filter gray
+      // 集合写真
+      .photograph
+        display block
+        max-width 860px
+        width 100%
+        margin 60px auto 0
+        box-shadow 1px 1px 0 #e7e7e7, -1px -1px 0 #e7e7e7
+      // メンバー
+      .controls
+        margin 0 0 40px
+      .members
+        .mix
+          display none
+        .member
+          margin 4px 0
+          overflow hidden
+          padding-bottom 4px
+          text-align center
+          // &:nth-child(11n + 1)
+          //   margin-left 90px
+          .thumbnail
+            display block
+            width 128px
+            height @width
+            margin 0 auto 10px
+            padding 0
+            border 0
+            border-radius 50%
+            background-size cover
+            transition all base-transition
+          .profile
+            margin 0
+            .name
+            .grade
+              display block
+              color base-color-black
+              font-size 10px
+              text-align center
+              line-height 1.3em
+              letter-spacing .1em
+            .name
+              font-size 13px
+
+// 投稿一覧ページ共通
+.layer-archive
+  .layer-header
+    section-border()
+    margin 0
+    margin-left centerize-base-width * -0.5
+    margin-top header-navi-height-max * -1
+    margin-bottom 40px
+    padding header-navi-height-max+10px 0 10px
+
+    @media screen and (min-width: 0px) and (min-device-width: 0px)
+      width page-min-width + centerize-base-width
+    @media screen and (min-width: 1080px) and (min-device-width: 1079px)
+      width page-width + centerize-base-width
+
+    .container-fluid
+      max-width-container()
+      .navi-title // h1
+        omission()
+        position absolute
+        top 0
+        left 15px
+        margin 0
+        padding 0
+        color base-color-gray
+        font-size 18px
+        font-weight 300
+        line-height 26px
+        // border-right header-navi-border
+        transition all base-transition
+        .fa
+          float left
+          display inline-block
+          height 26px
+          padding-right 7.5px
+          font-size 26px
+      a.navi-title:hover
+        color base-color-orange
+      .controls
+        height 26px
+        text-align center
+        .title
+          omission()
+          margin 0
+          padding 0
+          color base-color-black
+          font-size 18px
+          font-weight 300
+          line-height 26px
+          transition all base-transition
+      .navigations
+        position absolute
+        top 0
+        right 7.5px
+        .navigate-prev
+        .navigate-next
+          display inline-block
+          margin 0
+          padding 0
+          .fa
+            padding 0 7.5px
+            color base-color-gray
+            font-size 26px
+            font-weight 300
+            line-height 26px
+            transition all base-transition
+            &:hover
+              color base-color-orange
+
+  .singles
+    .single
+      hoge 0
+
+  .archives
+    .archive
+      display none
+
+
+  &.layer-report
+    .singles
+      .single
+        .single-cell
+          position relative
+          border 1px solid #eee
+          background-color #fdfdfd
+          .photograph-container
+            height 290px * 1.1
+            @media screen and (min-width: 1080px) and (min-device-width: 1079px)
+              height 330px * 1.1
+          .header
+            position relative
+            padding space space2
+            background-color #f7f7f7
+            border-bottom 1px solid #fdfdfd
+            .ui-calender
+              position absolute
+              top 17px
+              left 32px
+            .title
+              position relative
+              margin 0 0 8px 42px+space
+              padding 0
+              font-size 24px
+              font-weight 300
+              line-height 28px
+            .taxs // ul
+              margin 0 0 0 42px+space
+              height 15px
+              .tax // li
+                color #696969
+                font-size 13px
+                line-height 1.4em
+                .fa
+                  padding-right 4px
+          .article
+            padding space space2
+            .actions
+              .socials
+                position absolute
+                bottom 0
+                right -144px
+                width 108px
+                padding 8px 0
+                text-align center
+                border 1px solid #eee
+                background-color #fdfdfd
+                .social
+                  overflow hidden
+                  height 80px
+                  padding 8px 0
+            .content
+              hoge 0
+          .footer
+            .navigations
+              background-color #f7f7f7
+              .navigate-prev
+              .navigate-next
+                width 50%
+                min-height 67px
+                padding space space2
+                .navigate-angle
+                  padding-bottom 4px
+                  color base-color-black
+                  font-size 14px
+                  line-height @font-size
+                  transition all base-transition
+                .navigate-title
+                  omission()
+                  color base-color-gray
+                  font-size 12px
+                &:hover
+                  .navigate-angle
+                    color base-color-orange
+              .navigate-prev
+                float left
+                text-align left
+                box-shadow inset -1px 1px 0 #ddd
+                .navigate-angle
+                  .fa
+                    padding-right 8px
+              .navigate-next
+                float right
+                text-align right
+                box-shadow inset 0 1px 0 #ddd
+                .navigate-angle
+                  .fa
+                    padding-left 8px
+
+    .archives
+      .archive
+        .archive-cell
+          border 1px solid #eee
+          background-color #fdfdfd
+          .photograph-container
+            height 290px * 1.1
+            @media screen and (min-width: 1080px) and (min-device-width: 1079px)
+              height 330px * 1.1
+          .archive-article
+            overview hidden
+            padding space space space*0.5
+            background-color #f7f7f7
+            border-bottom 1px solid #fdfdfd
+            height 84px
+            .title // h2
+              position relative
+              overview hidden
+              margin 0 0 8px
+              padding 0
+              font-size 14px
+              font-weight 700
+              line-height 18px
+              max-height @line-height * 2
+              a
+                color #393836
+            .taxs // ul
+              margin 0
+              height 15px
+              .tax // li
+                color #696969
+                font-size 11px
+                line-height 1.4em
+                .fa
+                  padding-right 4px
+          .archive-footer
+            padding space*0.5 space space
+            .excerpt
+              overflow hidden
+              margin 0
+              padding 0
+              color #696969
+              font-size 12px
+              text-align justify
+              line-height 16px
+              height @line-height * 4
+
+
+  &.layer-project
+    .singles
+      .single
+        .single-cell
+          whiteboard()
+          position relative
+          padding space3
+          .header
+            position relative
+            padding space 0
+            border-bottom 1px solid base-color-gray
+            .headline
+              .title
+                margin 0 0 space2
+                padding 0
+                font-size 24px
+                font-weight bold
+                text-align center
+                text-transform uppercase
+              .description
+                margin 0
+                padding 0
+                font-size 13px
+                font-style italic
+                text-align center
+            .navigations // nav
+              .navigate-prev
+              .navigate-next
+                position absolute
+                bottom space
+                width 25%
+                a
+                  .navigate-angle
+                    margin 0 0 10px
+                    color base-color-black
+                    font-weight 500
+                    text-transform uppercase
+                    transition color base-transition
+                    .fa
+                      padding 0 6px
+                  .navigate-title
+                    omission()
+                    color base-color-gray
+                    font-style italic
+                  &:hover
+                    .navigate-angle
+                      color #000
+              .navigate-prev
+                left 0
+                text-align left
+              .navigate-next
+                right 0
+                text-align right
+          .article
+            .meta
+              padding space2 0
+              .photograph-container
+                height 474px * 0.7
+                @media screen and (min-width: 1080px) and (min-device-width: 1079px)
+                  height 544px * 0.7
+                &:hover
+                  .photograph
+                    transform scale(1)
+
+              .outlines-container
+                .outlines
+                  margin 0
+                  padding space 0 space2
+                  .title // h2
+                    margin 0
+                    padding 0 0 space6
+                    font-size 14px
+                    font-weight 700
+                    letter-spacing .05em
+                    text-align left
+                    text-transform uppercase
+                  .abstract // p
+                    margin 0
+                    text-align justify
+                .tags // ul
+                  margin 0
+                  padding 0 0 space2
+                  .tag-title
+                    display inline-block
+                    padding-right 8px
+                    color base-color-black
+                    font-size 13px
+                    line-height 18px
+                .actions
+                  margin 0
+                  padding 0 0 space2
+                  .title // h2
+                    margin 0
+                    padding 0 0 space
+                    font-size 14px
+                    font-weight 700
+                    letter-spacing .05em
+                    text-align left
+                    text-transform uppercase
+                  .socials
+                    .social
+                      overflow hidden
+                      height 72px
+            .content
+              markdown()
+              padding space2 0
+              border-top 1px solid base-color-gray
+          .footer
+            padding space2 0
+
+    .archives
+      .archive
+        .archive-cell
+          .photograph-container
+            height 330px * (9 / 16)
+          .archive-article
+            height 60px
+            margin 0
+            padding 10px 0
+            border-bottom 1px solid #e7e4da
+            .title
+              omission()
+              margin 0
+              padding-bottom 5px
+              color base-color-black
+              font-size 14px
+              font-weight 300
+              line-height 1.5em
+              text-align justify
+              a
+                color base-color-black
+                font-weight 500
+                letter-spacing .01em
+            .tags
+              overflow hidden
+              height 18px
+          .archive-footer
+            margin 0 0 30px
+            .project-term
+              margin-top 5px
+              font-size 13px
+              font-weight 300
+              line-height 1.5em
+              text-align justify
+              .started
+              .separator
+              .ended
+                display inline
+                padding-right 5px
+
+
+/* = フッタ
+ * ----------------------------------------------------- */
+
+.ui-footer // footer
+  position relative
+  margin-top space6
+  .footer
+    container()
+    .socials
+      clearfix()
+      text-align center
+      margin space auto
+      .social
+        display block
+        width 50%
+        height 24px
+      .twitter
+        float left
+        text-align right
+        iframe
+          margin-right -20px
+      .facebook
+        float right
+        text-align left
+        padding-left 24px
+    .languages
+      hoge 0
+    .copyright
+      margin 0
+      padding space 0
+      color darken(#b9b9af, 5%)
+      font-size 12px
+      text-align center
+      strong
+        padding 0 2px
+      .copyright-border
+        width space2
+        height 1px
+        margin space auto space6
+        background-color #ddd

@@ -1,0 +1,257 @@
+@import 'nib'
+
+/* = Settings
+ * ------------------------------------------------------------ */
+
+// 設定
+path                        = '/content/themes/bosai/dist/images/'
+support-for-ie              = true
+vendors                     = moz webkit o ms official
+
+// ページ全般
+page-width                  = 1080px
+page-min-width              = 960px
+page-max-width              = 1920px
+centerize-base-width        = 2000px
+
+base-background-color       = #f4f7f8
+base-background-color-dark  = #e9eaed
+
+base-radius                 = 4px
+base-radius-small           = 2px
+base-text-shadow            = 0 -1px rgba(0, 0, 0, .1)
+base-transition             = .2s ease-in-out
+
+base-color                  = #799FA4 // グリーン系
+base-color-current          = darken(#799FA4, 20%)
+base-color-white            = #fff
+base-color-gray             = #A7A7A7
+base-color-gray-current     = darken(base-color-gray, 75%)
+base-color-black            = #222
+base-color-green            = #05ADA9
+base-color-beige            = #F7F3EC
+base-color-blue             = #0A6E83
+base-color-red              = #ac0404
+base-color-orange           = #e76860
+
+// 余白
+base-space                  = 16px
+space                       = base-space * 1
+space2                      = base-space * 2
+space3                      = base-space * 3
+space4                      = base-space * 4
+space5                      = base-space * 5
+space6                      = base-space * 6
+
+// 管理バー
+admin-navi-height-min       = 32px
+admin-navi-height-max       = 44px
+
+// ヘッダバー
+header-navi-font-color      = #79776b
+header-navi-height-max      = 120px
+header-navi-height          = 60px
+header-navi-margintop       = 70px
+header-navi-form-height     = 25px
+header-navi-border          = 1px solid rgba(0, 0, 0, .075)
+
+header-navi-transition      = .8s ease-in-out
+
+// スライダー
+slider-button-left          = #e76860
+slider-button-right         = #6dacb9
+
+// フォント
+font-gothic = Lato, Verdana, '游ゴシック', YuGothic, 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, sans-serif
+font-mincho = 'Times New Roman', '游明朝', YuMincho, 'ヒラギノ明朝 ProN W3', 'Hiragino Mincho ProN', 'メイリオ', Meiryo, serif
+font-helvetica = 'Helvetica Neue', Arial, 'hiragino kaku gothic pro', meiryo, 'ms pgothic', sans-serif
+font-helvetica-neue = HelveticaNeueLight
+
+/* = Minins (Original)
+ * ------------------------------------------------------------ */
+
+max-width-container()
+  position relative
+  width 100%
+  max-width 1080px
+  margin 0 auto
+  transition all header-navi-transition
+  @media screen and (max-width: 1110px)
+    max-width 960px
+
+section-border()
+  background-color #fff
+  background-image none
+  border-bottom header-navi-border
+
+button()
+  width 100%
+  margin 10px 0
+  padding 13px 30px
+  font-size 13px
+  letter-spacing .1em
+  text-align center
+  text-transform uppercase
+  text-decoration none
+  background-color #e76860
+  border-radius 4px
+  box-shadow 0 2px 0 #c65953
+  &:hover
+    background-color darken(#e76860, 4%)
+  &:active
+    margin 10px 0 8px
+    padding 15px 30px
+    background-color darken(#e76860, 8%)
+    box-shadow inset 0px 2px 0 #C65953
+
+
+/* = Minins
+ * ------------------------------------------------------------ */
+
+sc-view()
+  cursor default
+  overflow hidden
+  border solid 0 rgba(0, 0, 0, 0)
+  user-select()
+  -webkit-touch-callout none
+  -webkit-tap-highlight-color rgba(0,0,0,0)
+
+user-select()
+  -moz-user-select -moz-none
+  -khtml-user-select none
+  -ms-user-select none
+  -webkit-user-select none
+  user-select none
+
+// 文字詰め
+ellipsis()
+  white-space nowrap
+  overflow hidden
+  text-overflow ellipsis
+  &.multiline
+    white-space normal
+
+// 文字省略
+omission()
+  white-space nowrap
+  text-overflow ellipsis
+  overflow hidden
+
+hidden(force=false)
+  if force
+    display none !important
+    visibility hidden !important
+  else
+    display none
+    visibility hidden
+
+visible(force=false)
+  if force
+    display block !important
+    visibility visible !important
+  else
+    display block
+    visibility visible
+
+font-reset()
+  font-family font-gothic
+
+font-helvetica()
+  font-family font-helvetica
+
+font-helvetica-ultra()
+  font-family font-helvetica-neue
+
+font-shadow()
+  text-shadow 0 1px 0 #FFFFFF
+
+background-blurred()
+  background-color #2C4347
+  background-image url('/images/blurred-bkg.png')
+  background-size cover
+  background-position 50% 50%
+
+cover()
+  background-size cover
+  background-position 50% 25%
+
+contain()
+  background-repeat no-repeat
+  background-size contain
+  background-position 50% 0%
+
+background-clip-padding-box()
+  -webkit-background-clip padding-box
+  -moz-background-clip padding
+  background-clip padding-box
+
+background-size(n)
+  // cover, etc
+  -webkit-background-size n
+  -moz-background-size n
+  -o-background-size n
+  background-size n
+
+zoom-in()
+  cursor pointer
+  cursor -webkit-zoom-in
+  cursor zoom-in
+
+cursor-grab()
+  cursor move
+  cursor -webkit-grab
+  cursor -moz-grab
+  cursor grab
+
+scrollbar()
+  ::-webkit-scrollbar
+    width 6px
+    height 6px
+    background-color #fff
+  ::-webkit-scrollbar-track
+    background-color rgba(0, 0, 0, .1)
+    background-color #f5f5f5
+  ::-webkit-scrollbar-thumb
+    cursor pointer
+    background-color rgba(0, 0, 0, .2)
+    transition background-color .05s ease
+    &:hover
+      background-color rgba(0, 0, 0, .3)
+    &:active
+      background-color rgba(0, 0, 0, .45)
+
+button-pink()
+  width 100%
+  margin 10px 0
+  padding 13px 30px
+  font-size 13px
+  letter-spacing .1em
+  text-align center
+  text-transform uppercase
+  text-decoration none
+  background-color #e76860
+  border-radius 4px
+  box-shadow 0 2px 0 #c65953
+  &:hover
+    background-color darken(#e76860, 4%)
+  &:active
+    margin 10px 0 8px
+    padding 15px 30px
+    background-color darken(#e76860, 8%)
+    box-shadow inset 0px 2px 0 #C65953
+
+// whiteboard_v1()
+//   background-color #fff
+//   border 1px solid
+//   border-color #e5e6e9 #dfe0e4 #d0d1d5
+//   border-radius 3px
+
+// whiteboard_v2()
+//   background-color #fff
+//   box-shadow 0 3px 0 #e5eef1
+//   box-shadow 0 3px 0 #D7E4E8, inset 0px 0 0px 5px rgba(229, 238, 241, .64)
+//   border-radius 2px
+
+whiteboard()
+  background-color #fff
+  box-shadow 0 -1px 0 base-color-blue, 0 1px 0 #d7e4e8, inset 0 0 0 1px rgba(229, 238, 241, .64)

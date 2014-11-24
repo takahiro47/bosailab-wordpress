@@ -54,7 +54,7 @@ module.exports = (grunt) ->
   # Load grunt tasks automatically
 
   require('load-grunt-tasks') grunt,
-    scope: 'devDependencies'
+    scope: 'dependencies'
 
   # Time how long tasks take. Can help when optimizing build times
 
@@ -73,7 +73,7 @@ module.exports = (grunt) ->
     grunt.task.run ['serve']
     return
   grunt.registerTask 'build', [ 'clean', 'copy', 'coffee', 'uglify', 'stylus', 'cssmin', 'jade', 'imagemin', 'svgmin', 'htmlmin' ]
-  grunt.registerTask 'test',  [ 'coffeelint', 'build', 'simplemocha', 'play' ] # [ 'coffeelint', 'build', 'csslint', 'simplemocha', 'play' ]
+  grunt.registerTask 'test',  [ 'coffeelint', 'build', 'simplemocha', 'play' ]
   grunt.registerTask 'default', [ 'serve' ]
 
 
@@ -83,9 +83,17 @@ module.exports = (grunt) ->
 
   grunt.initConfig
 
-    picha:
-      dist: 'dist/'
-      public: 'public/'
+    serverConfig:
+      dir:
+        assets: 'assets/'
+        dist: 'dist/'
+        public: 'public/'
+      livereload:
+        port: 35729
+      express:
+        port: 4001
+      connect:
+        port: 4002
 
     pkg: grunt.file.readJSON 'package.json'
     hash: fs.readFileSync('.git/FETCH_HEAD', 'utf-8').trim().split(' ').shift().slice(0, 7)
@@ -105,43 +113,58 @@ module.exports = (grunt) ->
         tasks: [ 'jade' ]
       stylus:
         files: [ 'assets/**/*.styl']
-        tasks: [ 'stylus', 'cssmin' ] # 'csslint'
+        tasks: [ 'stylus', 'cssmin' ] # 'csslint',
       gruntfile:
         files: [ 'Gruntfile.coffee' ]
         tasks: [ 'test' ]
+      # express:
+      #   files: [ 'config/{,*/}*.{json,coffee}', '{events,helper,models}/{,*/}*.coffee' ],
+      #   tasks: [ 'forever:express:restart' ]
       livereload:
         options:
           livereload: '<%= connect.options.livereload %>'
-        files: [ 'assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}' ]
+        files: [ 'assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}', 'views/{,*/}*.jade' ]
         tasks: [ 'test' ]
 
     # The actual grunt server settings
     connect:
       options:
-        port: 4000
-        hostname: 'localhost' # Change this to '0.0.0.0' to access the server from outside.
+        port: '<%= serverConfig.connect.port %>'
+        hostname: '127.0.0.1' # Change this to '0.0.0.0' to access the server from outside.
         livereload: 35729
       livereload:
         options:
           middleware: (connect, options) ->
-            mw = [connect.logger 'dev']
-            mw.push (req, res) ->
-              route = path.resolve MODE, (url.parse req.url).pathname.replace /^\//, ''
-              fs.exists route, (exist) ->
-                fs.stat route, (err, stat) ->
-                  return fs.createReadStream(route).pipe(res) if exist and stat.isFile()
-                  return fs.createReadStream(index).pipe(res)
-            return mw
-            # return [
-            #   require('connect-livereload')()
-            #   mountFolder connect, '.'
-            # ]
+            return [
+              require('connect-livereload')()
+              mountFolder connect, '.'
+            ]
           open: no
           livereload: yes
           base: '.'
       dist:
         options:
           base: 'dist/'
+
+    forever:
+      express:
+        options:
+          index: 'config/web.coffee'
+          command: 'node_modules/coffee-script/bin/coffee DEBUG=tsuchitaka* NODE_ENV=production PORT=<%= serverConfig.express.port %>'
+          logDir: 'logs'
+
+    # shell:
+    #   options:
+    #     stdout: yes
+    #   start:
+    #     command: '''
+    #       NODE_ENV=development \
+    #       PORT=<%= serverConfig.express.port %> \
+    #       pm2 start ./config/web.coffee --name media-server -i 4'''
+    #   reload:
+    #     command: 'pm2 reload media-server'
+    #   kill:
+    #     command: 'pm2 kill'
 
     clean:
       dist:
@@ -168,21 +191,21 @@ module.exports = (grunt) ->
         files: [{
           expand: yes
           cwd: 'assets/'
-          src: [ '**/*.{jpg,png,gif}' ]
+          src: [ '*.{jpg,png,gif,ico}', '**/*.{jpg,png,gif,ico}' ]
           dest: 'dist/'
         }]
       js:
         files: [{
           expand: yes
           cwd: 'assets/'
-          src: [ '**/*.js' ]
+          src: [ '*.js', '**/*.js' ]
           dest: 'dist/'
         }]
       css:
         files: [{
           expand: yes
           cwd: 'assets/'
-          src: [ '**/*.css' ]
+          src: [ '*.css', '**/*.css' ]
           dest: 'dist/'
         }]
       font:
@@ -196,7 +219,7 @@ module.exports = (grunt) ->
         files: [{
           expand: yes
           cwd: 'assets/'
-          src: [ '**/*.coffee' ]
+          src: [ '*.coffee', '**/*.coffee' ]
           dest: 'dist/'
         }]
 
@@ -212,6 +235,8 @@ module.exports = (grunt) ->
           level: 'error'
         no_unnecessary_fat_arrows:
           level: 'ignore'
+        line_endings:
+          value : 'unix'
       dist:
         files: [
           { expand: yes, cwd: 'assets/', src: [ '**/*.coffee' ] }
@@ -235,26 +260,30 @@ module.exports = (grunt) ->
         sourceMap: yes
         sourceRoot: ''
         bare: yes
-        #> Angular.jsによってglobal空間でオブジェクトを使いまわす
         separator: 'linefeed'
       compile:
-        files: [{
-          expand: yes
-          cwd: 'assets/'
-          src: [ '*.coffee', '**/*.coffee' ]
-          dest: 'dist/'
-          ext: '.js'
-        }]
+        expand: yes
+        cwd: 'assets/'
+        src: [ '*.coffee', '**/*.coffee' ]
+        dest: 'dist/'
+        ext: '.js'
+      # compileJoined:
+      #   expand: yes
+      #   join: yes
+      #   files: [{
+      #     'dist/js/script.js': [ 'assets/*.coffee', 'assets/**/*.coffee' ]
+      #   }]
 
     stylus:
       options:
         compress: no
         urlfunc: 'embedurl'
+        linenos: yes
       compile:
         files: [{
           expand: yes
           cwd: 'assets/'
-          src: [ 'style.styl', '**/style.styl' ]
+          src: [ '!(_)*.styl', '**/!(_)*.styl' ]
           dest: 'dist/'
           ext: '.css'
         }]
@@ -262,23 +291,25 @@ module.exports = (grunt) ->
     jade:
       options:
         filters: require('./static/filters.js')
-      # debug:
-      #   options:
-      #     pretty: yes
-      #     data:
-      #       version: '<%- pkg.version %>'
-      #       timestamp: "<%= new Date().getTime() %>"
-      #   files: [{
-      #     expand: yes
-      #     cwd: 'assets/views'
-      #     src: [ '*.jade', '**/*.jade' ]
-      #     dest: 'dist/'
-      #     ext: '.php'
-      #   }]
+      debug:
+        options:
+          pretty: yes
+          data:
+            hash: '<%- hash %>'
+            version: '<%- pkg.version %>'
+            timestamp: "<%= new Date().getTime() %>"
+        files: [{
+          expand: yes
+          cwd: 'assets/'
+          src: [ '*.jade', '**/*.jade' ]
+          dest: 'dist/'
+          ext: '.html'
+        }]
       compile:
         options:
           pretty: no
           data:
+            hash: '<%- hash %>'
             version: '<%- pkg.version %>'
             timestamp: "<%= new Date().getTime() %>"
         files: [{
@@ -289,25 +320,25 @@ module.exports = (grunt) ->
           ext: '.php'
         }]
 
-    # jadephp:
-    #   prettify:
-    #     options:
-    #       pretty: yes
-    #     files: [{
-    #       expand: yes
-    #       cwd: 'assets/'
-    #       src: [ '*.jade', '**/*.jade' ]
-    #       dest: 'dist/'
-    #       ext: '.php'
-    #     }]
-    #   compile:
-    #     files: [{
-    #       expand: yes
-    #       cwd: 'assets/'
-    #       src: [ '!(_)*.jade', '**/!(_)*.jade' ]
-    #       dest: './'
-    #       ext: '.php'
-    #     }]
+    jadephp:
+      prettify:
+        options:
+          pretty: yes
+        files: [{
+          expand: yes
+          cwd: 'assets/'
+          src: [ '*.jade', '**/*.jade' ]
+          dest: 'dist/'
+          ext: '.php'
+        }]
+      compile:
+        files: [{
+          expand: yes
+          cwd: 'assets/'
+          src: [ '!(_)*.jade', '**/!(_)*.jade' ]
+          dest: './'
+          ext: '.php'
+        }]
 
     uglify:
       dist:
@@ -345,7 +376,7 @@ module.exports = (grunt) ->
         files: [
           expand: yes
           cwd: 'dist/'
-          src: [ '{,*/}*.svg', '!{fonts,font}/*.svg' ]
+          src: '{,*/}*.svg'
           dest: 'public/'
         ]
 
@@ -374,8 +405,8 @@ module.exports = (grunt) ->
 
     play:
       fanfare:
-        # file: 'node_modules/grunt-play/sounds/fanfare.mp3'
-        file: 'assets/sounds/ta_ta_pi01.mp3'
+        file: 'node_modules/grunt-play/node_modules/pkay/wavs/tick.wav'
+        # file: 'assets/sounds/ta_ta_pi01.mp3'
 
 
 

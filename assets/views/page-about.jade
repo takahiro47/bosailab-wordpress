@@ -1,0 +1,170 @@
+extends _application
+include _ui
+
+block page_article
+
+  //- メッセージ
+  section.ui-section(
+          style!="background-image:url('<?php echo (get_template_directory_uri().'/dist/images/about/overview_professor_message_back_2x.jpg') ?>')")
+    .section
+      h1.section-title
+        img.img-responsive.animate.fadeInUp(
+          src!="<?php echo (get_template_directory_uri().'/dist/images/about/overview_professor_message_title_2x.png') ?>",
+          width=980, height=114,
+          style='width:980px; height:114px; visibility:hidden;',
+          alt='SFCから、日本の、いや世界の防災を変えよう。'
+        )
+      .section-text.animate.fadeIn(
+        style='width:980px; height:114px; visibility:hidden;',
+        data-wow-duration='1s'
+      )
+        | <?php the_field( 'professor_message' ); ?>
+
+  //- 教授紹介
+  section.ui-section.ui-section-colored
+    .section
+      .professor-face(style!="background-image: url('<?php echo get_field('professor_face')['sizes']['medium']; ?>');")
+      h1.section-title
+        img.img-responsive(
+          src!="<?php echo (get_template_directory_uri().'/dist/images/about/overview_about_professor_title_2x.png') ?>",
+          width=980, height=75,
+          style='width:980px; height:75px;',
+          alt='大木 聖子（おおき さとこ）'
+        )
+      .social-accounts
+        a.social-account(href='http://raytheory.jp', target='_blank'): i.fa.fa-globe
+        a.social-account(href='https://twitter.com/toko311', target='_blank'): i.fa.fa-twitter
+        a.social-account(href='http://youtu.be/cAF8gcdMvGM', target='_blank'): i.fa.fa-youtube-play
+        //- a(href='mailto:soki@sfc.keio.ac.jp', target='_blank'): i.fa.fa-envelope
+      .section-text
+        | <?php the_field( 'about_the_professor' ); ?>
+
+  //- メンバー集合写真
+  section.ui-section
+    .section
+      h1.section-title
+        img.img-responsive(
+          src!="<?php echo (get_template_directory_uri().'/dist/images/about/overview_members_title_2x.png') ?>",
+          width=980, height=114,
+          style='width:980px; height:114px;',
+          alt='研究会の設立から1年。メンバーは50名を超えました。'
+        )
+      img.photograph(src!="<?php echo get_field('member_face')['sizes']['large']; ?>")
+
+  //- メンバー紹介
+  section.ui-section
+    .section
+      h1.section-title
+
+      //- メンバー一覧
+      :php
+        // INPUT: ex) "B4, 齋藤文, aya.saito"...
+        // データを行ごとに分割
+        $members = explode( '<br />', get_field( 'member_lists' ) );
+        // 各要素をtrim()にかけ，余分な空白などを除去
+        $members = array_map( 'trim', $members );
+        // 文字数が0の行を取り除く
+        $members = array_filter( $members, 'strlen' );
+        // キー配列を数字配列に変更する
+        $members = array_values( $members );
+        // データの整理／学年をもとにオーダー番号を付与する
+        $grades = array(); $profiles = array();
+        foreach ( $members as $key => $member ) {
+          // 情報を,で分割
+          $current_profile = explode( ', ', $member );
+          $profile = array(
+            'key' => $key,
+            'grade' => $current_profile[0],
+            'name' => $current_profile[1],
+            'facebook_id' => $current_profile[2]
+          );
+          // 学年一覧フィルタに値を追加
+          array_push($grades, $profile['grade']);
+          // メンバーデータを追加
+          array_push($profiles, $profile);
+        }
+        // 学年一覧フィルタの重複を削除
+        $grades = array_unique( $grades );
+      .controls
+
+        ul.control-buttons
+          li.filter.active(data-filter='.filter') すべて
+          <?php foreach ( $grades as $grade ) { ?>
+          li.filter(data-filter!=".filter-<?php echo $grade; ?>") <?php echo $grade; ?>
+          <?php } ?>
+        //- ul.control-lis
+        //-   li.sort.active(data-sort='order-name:asc') 名前(昇順)
+        //-   li.sort(data-sort='order-name:desc') 名前順(降順)
+      .members.container-fluid
+        .row
+          <?php foreach ( $profiles as $profile ) { ?>
+          .mix.member.col-xs-2(
+            data-order-name!="<?php echo $profile['key']; ?>"
+            data-member-id!="<?php echo $profile['key']; ?>"
+            class!="filter filter-<?php echo $profile['grade']; ?>"
+          )
+            .thumbnail(style!="background-image:url('https://graph.facebook.com/<?php echo $profile['facebook_id']; ?>/picture?width=256&height=256');")
+            p.profile
+              span.name <?php echo $profile['name']; ?>
+              span.grade <?php echo $profile['grade']; ?>
+          <?php } ?>
+
+  //- メンバー募集
+  section.ui-section
+    .section
+      h1.section-title
+        img.img-responsive.animate.pulse(
+            src!="<?php echo (get_template_directory_uri().'/dist/images/about/overview_join_us_title_2x.png') ?>",
+            width=980, height=114,
+            style='width:980px; height:114px;',
+            alt='わたしたちの研究会に、あなたも参加してみませんか。'
+          )
+      //- 勧誘文
+      .section-text.animate.fadeIn(
+        style='width:980px; height:114px; visibility:hidden;',
+        data-wow-duration='1s'
+      )
+        | <?php the_field( 'join_us' ); ?>
+
+      //- ボタン
+      .actions
+        a.btn.btn-large.btn-primary.btn-pink(
+          href!='/project'
+          title!='Our Projects'
+        )
+          | View Projects
+        a.btn.btn-large.btn-primary.btn-green(
+          href!='/contact'
+          title!='Contact Us'
+        )
+          | Contact Us
+          i.fa.fa-mail
+
+  //- アクセス
+  section.ui-section
+    .section
+      h1.section-title
+        img.img-responsive(
+          src!="<?php echo (get_template_directory_uri().'/dist/images/about/overview_accessmap_title_2x.png') ?>",
+          width=254, height=41,
+          style='width:254px; height:41px;',
+          alt='アクセスマップ'
+        )
+      .container-fluid
+        .row
+          //- 住所とマップ
+          .col-xs-6(style='margin-top:50px;')
+            i.fa.fa-map-marker
+            .address-wrap
+              p.room
+                strong 慶應義塾大学 湘南藤沢キャンパス
+                | 研究棟 κ305
+              address.address
+                | 〒252-0882 神奈川県藤沢市遠藤5322
+                a(href='http://www.sfc.keio.ac.jp/maps.html', style='padding-left:8px;')
+                  i.fa.fa-external-link
+                  | 公式ウェブサイト
+              p.attention
+                | ※ 当キャンパスへご来場される場合は、必ず事前にご連絡ください。
+          .col-xs-6.google-maps
+            #map_canvas
