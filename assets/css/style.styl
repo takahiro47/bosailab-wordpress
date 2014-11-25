@@ -173,14 +173,7 @@ body
   font-size 13px
   font-weight normal
   font-reset()
-  // font-helvetica()
-  // background #f0eae1
-  // background background_color
-  // background-image url(path + 'page-bg-tile.jpg')
-  // background-repeat repeat
-  background-color #fff
-  // background-image url(path + 'about/overview_professor_message_back_2x.jpg')
-  // background-size cover
+  background-color base-color-white
 
 h1
 h2
@@ -368,34 +361,31 @@ markdown-zoom = 0.9
 /* = 開発用プレビュー
  * ------------------------------------------------------------ */
 
-dev_height = 15360px * 1.1
-dev_width = 1980px * 1.1
-.ui-dev
-  hidden()
-  position absolute
-  top -10px
-  top -8151px
-  left 50%
-  z-index -1
-  opacity .35
-  overflow hidden
-  width 960px
-  height dev_height
-  margin-left -480px
-  .preview
-    width dev_width
-    height dev_height
-    margin-left -((dev_width - 960px)/2)
-    background-image url(path + '../../_/doc/okilab-web-v1.1.png')
-    background-size dev_width dev_height
-    background-repeat no-repeat
+// dev_height = 15360px * 1.1
+// dev_width = 1980px * 1.1
+// .ui-dev
+//   hidden()
+//   position absolute
+//   top -10px
+//   top -8151px
+//   left 50%
+//   z-index -1
+//   opacity .35
+//   overflow hidden
+//   width 960px
+//   height dev_height
+//   margin-left -480px
+//   .preview
+//     width dev_width
+//     height dev_height
+//     margin-left -((dev_width - 960px)/2)
+//     background-image url(path + '../../_/doc/okilab-web-v1.1.png')
+//     background-size dev_width dev_height
+//     background-repeat no-repeat
 
 
 /* = UI
  * ------------------------------------------------------------ */
-
-// @import 'ui-element'
-// @import 'ui-style'
 
 @import '_ui'
 @import '_main'

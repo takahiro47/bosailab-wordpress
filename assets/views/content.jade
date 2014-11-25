@@ -84,12 +84,6 @@ include _ui
           i.fa.fa-tag
           | <?php echo esc_html( $term->name ); ?>
         <?php } } ?>
-      //- タグ
-      //- ul.tags
-      //-   <?php if ($post_tags = get_the_tags()) { ?>
-      //-   <?php foreach($post_tags as $tag) { ?>
-      //-   li.tag <?php echo $tag->name; ?>
-      //-   <?php } } ?>
     footer.archive-footer
       p.excerpt.ellipsis.multiline
         | <?php echo new_excerpt(120); // the_excerpt(); ?>
@@ -103,28 +97,36 @@ include _ui
   data-order-created!="<?php the_ID(); ?>"
 )
   .archive-cell
-    .photograph-container.link
-      .background
-      a(href!='<?php the_permalink(); ?>')
-        .photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
-        .photograph-shadow
-        span.link-icon +
-        +ui-loader
     article.archive-article
+      //- アイコン
+      i.fa.fa-file-text-o.title-icon
       //- タイトル
       h2.title.ellipsis(rel='bookmark')
         a.js-navi-single(href!='<?php the_permalink(); ?>')
           | <?php the_title(); ?>
+      //- タクソノミー(カテゴリ)
+      ul.taxs
+        <?php if ($terms = get_the_terms($post->ID, substr(get_post_type(), 0, 2).'-types')) { ?>
+        <?php foreach ( $terms as $term ) { ?>
+        li.tax
+          i.fa.fa-tag
+          | <?php echo esc_html( $term->name ); ?>
+        <?php } } ?>
+    footer.archive-footer
+      //- 本文
+      .content.markdown
+        <?php the_excerpt(''); ?>
 
 
 <?php } else { // 実質フォトログ ?>
 
-.col-xs-2.mix.archive(
+.mix.archive.archive-default(
   id!="archive-<?php the_ID(); ?>"
   class!="<?php echo $class; ?> archive-<?php get_post_type(); ?>"
   data-order-created!="<?php the_ID(); ?>"
 )
   .archive-cell
+    .archive-cell-background
     .photograph-container.link
       .background
       a(href!='<?php the_permalink(); ?>')
@@ -132,14 +134,16 @@ include _ui
         .photograph-shadow
         span.link-icon +
         +ui-loader
-    article.archive-article
-      //- タイトル
-      h2.title.ellipsis(rel='bookmark')
-        a.js-navi-single(href!='<?php the_permalink(); ?>')
+    header.header
+      .date
+        | <?php echo toLastUpdateString( new DateTime( get_the_time('Y-m-d H:i:s') ) ), PHP_EOL; ?>
+    article.article
+      h2.title
+        a(href!='<?php the_permalink(); ?>')
           | <?php the_title(); ?>
-
-
-<?php } else { ?>
-
+    footer.footer
+      .views
+        i.fa.fa-heart
+        | <?php echo $post->pvc_views; ?>
 
 <?php } ?>

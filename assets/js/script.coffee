@@ -338,10 +338,13 @@ $ ->
 
     # ヘッダナビの固定
     $header_nav = $ '.ui-header'
+    $layer_header = $ '.layer-header'
     if 20 < scrollheight
       $header_nav.addClass 'scrolled'
+      $layer_header.addClass 'scrolled'
     else
       $header_nav.removeClass 'scrolled'
+      $layer_header.removeClass 'scrolled'
 
     # スクロールアイコンの表示
     if 320 < scrollheight

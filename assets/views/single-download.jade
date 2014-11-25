@@ -60,13 +60,8 @@ block page_article
             +ui-loader
           //- タイトルとナビ
           header.header
-            //- 投稿日時
-            .ui-calender
-              time <?php echo get_the_time('Y-m-d H:i:s'); ?>
-              .date-icon
-                .date-month <?php echo get_the_time('M'); ?>
-                .date-day <?php echo get_the_time('d'); ?>
-                .date-year <?php echo get_the_time('Y'); ?>
+            //- アイコン
+            i.fa.fa-file-text-o.title-icon
             //- タイトル
             h1.title
               | <?php the_title(); ?>
@@ -95,22 +90,6 @@ block page_article
             //- 本文
             .content.markdown
               <?php the_content(); ?>
-
-            //- 文責など
-            <?php if( get_field('responsibility') || get_field('members') ) { ?>
-            .custom-fields
-              .custom-field.avatar
-                i.fa.fa-mortar-board
-              <?php if( get_field('responsibility') ) { ?>
-              .custom-field.responsibility
-                p.custom-title 文責
-                p.custom-body <?php the_field( 'responsibility' ); ?>
-              <?php } if( get_field('members') ) { ?>
-              .custom-field.members
-                p.custom-title 参加者
-                p.custom-body <?php the_field( 'members' ); ?>
-              <?php } ?>
-            <?php } ?>
 
           footer.footer
             //- 前後へのナビ

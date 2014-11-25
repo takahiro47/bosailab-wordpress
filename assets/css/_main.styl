@@ -31,6 +31,14 @@ body
       @media screen and (min-width: 1080px) and (min-device-width: 1079px)
         top admin-navi-height-min
 
+    // ページナビバー
+    .layer-archive
+    .layer-single
+    .layer-search
+    .layer-404
+      .layer-header
+        @media screen and (min-width: 1080px) and (min-device-width: 1079px)
+          top admin-navi-height-min
 
 /* = ヘッダ
  * ------------------------------------------------------------ */
@@ -61,24 +69,26 @@ body
             .menu-item
               a
                 color darken(base-color-gray, 30%)
-  &.scrolled
-    section-border()
-    // background-color rgba(240, 242, 244, .85)
-    .header-nav
-      background-size 225px
-      background-position 50% -41px
-      .header-nav-left
-      .header-nav-right
-        margin-top 0
-        .nav-left
-        .nav-right
-          .navigation-menu
-            .menu-item
-              a
-                color base-color-gray
-      .header-title-logo
-        .title-logo
-          height 50px
+
+  @media screen and (min-width: 1080px) and (min-device-width: 1079px)
+    &.scrolled
+      section-border()
+      .header-nav
+        background-size 225px
+        background-position 50% -41px
+        .header-nav-left
+        .header-nav-right
+          margin-top 0
+          .nav-left
+          .nav-right
+            .navigation-menu
+              .menu-item
+                a
+                  color base-color-gray
+        .header-title-logo
+          .title-logo
+            height 50px
+
 
   // ヘッダナビ
   .header-nav // nav
@@ -222,308 +232,12 @@ body
       max-width-container()
 
 
-// ホーム
-.layer-page-home
-  // スライダ
-  .ui-slider
-    position relative
-    margin-top header-navi-height-max * -1
-    .slides
-      overflow hidden
-      .slide
-        position relative
-        width 100%
-        height 640px
-        background-color background_color_dark
-        background-size cover
-        background-position 50% 50%
-        .title
-        .actions
-          width 980px
-          margin 0 auto
-          padding 0
-        .title // h1
-          height 112px
-          margin-top 200px
-        .actions
-          width 415px
-          margin-top 70px
-          .btn // a
-            display block
-            width 200px
-            margin 0 15px 10px 0
-            &:last-child
-              margin-right 0
-
-  // セクション
-  .ui-section
-    padding 40px 0
-    background-color #fff
-    &.colored
-      background-color #F4F7F8
-    .section
-      max-width-container()
-      .section-title // h1
-        margin 20px 0
-        padding 0
-      // アクティビティ / プロジェクト
-      .section-archives
-        margin-bottom 40px
-        .archive
-          &.archive-activity
-            iframe
-              width 100%
-          &.archive-project
-            .archive-cell
-              .photograph-container
-                height 330px * (9 / 16)
-              .archive-article
-                height auto
-                margin-top 15px
-                border-bottom none
-                .title
-                  omission()
-                  margin 0
-                  font-size 14px
-                  font-weight 300
-                  line-height 1.5em
-                  text-align justify
-                  a
-                    color base-color-black
-                    font-weight 500
-                    letter-spacing .01em
-      .section-archives-more
-        max-width-container()
-        font-size 14px
-        line-height 3em
-        text-align center
-        a
-          float none
-          display inline
-          padding 8px 24px
-          font-weight 500
-          .fa
-            padding-left 6px
-      // Google my maps
-      #map-canvas
-        height 480px
-        margin 0 15px 30px
-      #map-canvas-iframe // iframe
-        width 100%
-        padding 0 15px
-
-
-// 検索結果
+// スクロールの挙動
 .layer-search
+.layer-404
   .ui-section
-    max-width page-about-width
-    margin -40px auto 0
-    padding space2 0 space4
-    background-color #fff !important
-    .section
-      padding 0 space6 0
-      .results
-        .result
-          padding space 0
-          border-bottom 1px solid #ddd
-          &:last-child
-            border-bottom none
-          .title
-            ellipsis()
-            margin 0 0 space*0.5
-            font-size 17px
-            line-height 1.6em
-            a
-              color base-color-black
-              transition all base-transition
-              &:hover
-                color base-color-orange
-          &.notfound
-            .title
-              font-size 28px
-              font-weight 100
-              text-align center
-          .excerpt
-          .link
-            omission()
-            font-size 12px
-            line-height 17px
-          .excerpt
-            margin 0 0 space*0.5
-            color base-color-gray
-            text-align justify
-          .link
-            margin 0
-            color base-color-orange
-
-
-// about (研究室について)
-.layer-page-about
-  .ui-section
-    &:first-child
-      margin-top -120px
-      padding-bottom 120px
-      .section
-        padding-top 120px
-    &.ui-section-colored
-      background-color base-color-beige
-    .section
-      max-width-container()
-      .section-title // h1
-        margin 30px 0
-        text-align center
-        text-transform uppercase
-        .img-responsive // img
-          margin 0 auto
-        &.left
-          padding 0 0 10px
-          border-bottom 1px solid #ddd
-          .img-responsive
-            margin 0
-      // 文章
-      .section-text // p
-        margin 20px auto
-        padding 0 15px
-        width 100%
-        max-width page-about-width
-        color #333
-        font-size 1.333em
-        line-height 1.688
-        text-align center
-        text-decoration none
-        @media (max-width: 768px)
-          font-size 1.111em
-      // ボタン
-      .actions
-        clearfix()
-        width 415px
-        margin 30px auto 60px
-        .btn // a
-          display block
-          width 200px
-          margin 0 15px 10px 0
-          &:last-child
-            margin-right 0
-      // 教授の顔
-      .professor-face
-        height 180px
-        width @height
-        margin -140px auto 0
-        background-color #fff
-        background-size cover
-        background-position 50% 25%
-        border-radius 50%
-        border 6px solid base-color-beige
-        transition all base-transition
-        &:hover
-          position relative
-          transform translateY(-0.5em)
-      // ソーシャルアイコン
-      .social-accounts
-        padding-bottom 10px
-        text-align center
-        .social-account // a
-          padding 0 8px
-          font-size 32px
-          .fa
-            transition all base-transition
-            &.fa-globe
-            &.fa-home
-              color #E76860
-            &.fa-twitter
-              color #7A9EA2
-            &.fa-youtube-play
-              color #64615A //#C51514
-            &.fa-envelope
-              color #64615A
-            &:hover
-              transform scale(1.1)
-              filter gray
-      // 集合写真
-      .photograph
-        display block
-        max-width page-about-width
-        width 100%
-        margin 60px auto 0
-        box-shadow 1px 1px 0 #e7e7e7, -1px -1px 0 #e7e7e7
-      // メンバー
-      .controls
-        margin 0 0 40px
-      .members
-        .mix
-          display none
-        .member
-          margin 4px 0
-          overflow hidden
-          padding-bottom 4px
-          text-align center
-          // &:nth-child(11n + 1)
-          //   margin-left 90px
-          .thumbnail
-            display block
-            width 128px
-            height @width
-            margin 0 auto 10px
-            padding 0
-            border 0
-            border-radius 50%
-            background-size cover
-            transition all base-transition
-          .profile
-            margin 0
-            .name
-            .grade
-              display block
-              color base-color-black
-              font-size 10px
-              text-align center
-              line-height 1.3em
-              letter-spacing .1em
-            .name
-              font-size 13px
-      // Google Maps
-      .google-maps
-        position relative
-        .marker
-          position absolute
-          top 0
-          left 0
-          color base-color-gray
-          font-size 128px
-        .address-container
-          margin-left space6
-          .room-address
-          .address
-            margin 0
-          .room-address // p
-            margin-bottom 8px
-            font-size 16px
-            line-height 1.588
-            strong
-              display block
-              padding-bottom 1px
-              font-size 1.333em
-              font-weight 300
-          .address // address
-            padding-bottom 30px
-            font-size 12px
-            line-height 1.588
-            .fa
-              padding-right 4px
-          .attention // p
-            color #BE1E1E
-            font-size 1.333em
-            line-height 1.688
-        #map_canvas
-          height 510px * (3 / 4)
-          margin 0
-
-
-// お問い合わせ
-.layer-page-contact
-  max-width page-about-width
-  padding-top space4
-
+    @media screen and (min-width: 1080px) and (min-device-width: 1079px)
+      padding-top 90px
 
 // 投稿一覧ページ共通
 .layer-archive
@@ -532,16 +246,26 @@ body
 .layer-404
   .layer-header
     section-border()
+    z-index 100
     margin 0
     margin-left centerize-base-width * -0.5
     margin-top header-navi-height-max * -1
     margin-bottom 40px
     padding header-navi-height-max+10px 0 10px
+    transition all header-navi-transition
 
     @media screen and (min-width: 0px) and (min-device-width: 0px)
       width page-min-width + centerize-base-width
     @media screen and (min-width: 1080px) and (min-device-width: 1079px)
-      width page-width + centerize-base-width
+      // width page-width + centerize-base-width
+      position fixed
+      top 0
+      left @top
+      right @top
+      width 100%
+      margin 0
+      &.scrolled
+        padding-top header-navi-height-min+10px
 
     .container-fluid
       max-width-container()
@@ -598,6 +322,9 @@ body
               color base-color-orange
 
   .singles
+    @media screen and (min-width: 1080px) and (min-device-width: 1079px)
+      padding-top 90px
+
     //- 実質フォトログ
     .single-default
       .single-cell
@@ -718,19 +445,223 @@ body
                     box-shadow inset 0 1px 0 0 #fff
 
   .archives
+    @media screen and (min-width: 1080px) and (min-device-width: 1079px)
+      padding-top 90px
     .archive
       display none
+
     //- 実質フォトログ
     .archive-default
-      hoge 0
+      position relative
+      float left
+      min-height 1px
+      width (100 / 5)%
+      padding-left 15px
+      padding-right @padding-left
+      margin 0 0 54px
+      .archive-cell
+        clearfix()
+        position relative
+        height 146px
+        margin 0 8px
+        @media screen and (min-width: 1110px) and (min-device-width: 1109px)
+          height 170px
+
+        .archive-cell-background
+          position absolute
+          top 0
+          left @top
+          right @top
+          bottom @top
+          background-color #fff
+          box-shadow 0 0 0 1px rgba(0, 0, 0, .04), 0 1px 5px rgba(0, 0, 0, .1)
+          transition all .05s ease-out
+        .photograph-container
+          height 100%
+        .header
+          .date
+            opacity 0
+            height 25px
+            position absolute
+            top - @height
+            left 0
+            right @left
+            color rgb(126, 116, 116)
+            font-size 12px
+            font-weight 700
+            line-height @height
+            text-align center
+            text-shadow 0px 1px 0px rgba(255, 255, 255, .8)
+            transition opacity .12s ease-out .03s
+        .article
+          z-index 1
+          position absolute
+          bottom 0
+          left @bottom
+          right @bottom
+          margin 0
+          padding 6px 9px
+          background-color transparent
+          background-image linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .6) 100%)
+          .title // h2
+            margin 16px 0 2px
+            text-overflow ellipsis
+            text-shadow 0 0 3px rgba(0, 0, 0, .75)
+            font-size 13px
+            font-weight bold
+            line-height 1.5em
+            a
+              color base-color-white
+        .footer
+          .views
+            opacity 0
+            height 25px
+            position absolute
+            bottom - @height
+            left 0
+            right 0
+            color rgb(126, 116, 116)
+            font-size 12px
+            font-weight bold
+            line-height @height
+            text-align center
+            text-shadow 0px 1px 0px rgba(255, 255, 255, .8)
+            transition opacity .12s ease-out .03s
+            .fa
+              padding-right 3px
+        &:hover
+          .archive-cell-background
+            margin -25px -8px
+          .photograph-container
+            .photograph-shadow
+              background-color transparent
+          .header
+          .article
+            .date
+              opacity 1
+          .footer
+            .views
+              opacity 1
 
 
   &.layer-download
+    .singles
+      .single
+        .single-cell
+          position relative
+          border 1px solid #eee
+          background-color #fdfdfd
+          .photograph-container
+            height 290px * 1.1
+            @media screen and (min-width: 1080px) and (min-device-width: 1079px)
+              height 330px * 1.1
+          .header
+            position relative
+            padding space space2
+            background-color #f7f7f7
+            border-bottom 1px solid #fdfdfd
+            .title-icon
+              position absolute
+              top space * 1.5
+              left space2
+              color base-color-orange
+              font-size 32px * 1.2
+              font-weight 100
+              line-height @font-size
+            .title
+              position relative
+              margin 0 0 8px 42px+space
+              padding 0
+              font-size 24px
+              font-weight 300
+              line-height 28px
+            .taxs // ul
+              margin 0 0 0 42px+space
+              height 15px
+              .tax // li
+                color #696969
+                font-size 13px
+                line-height 1.4em
+                .fa
+                  padding-right 4px
+          .article
+            padding space space2
+            .actions
+              .socials
+                position absolute
+                bottom 0
+                right -144px
+                width 108px
+                padding 8px 0
+                text-align center
+                border 1px solid #eee
+                background-color #fdfdfd
+                .social
+                  overflow hidden
+                  height 80px
+                  padding 8px 0
+            .content
+              hoge 0
     .archives
       .archive
         .archive-cell
           border 1px solid #eee
           background-color #fdfdfd
+          .archive-article
+            overflow hidden
+            position relative
+            padding space
+            background-color #f7f7f7
+            border-bottom 1px solid #fdfdfd
+            .title-icon
+              position absolute
+              top space * 1.5
+              left @top
+              color base-color-orange
+              font-size 32px
+              font-weight 100
+              line-height @font-size
+            .title // h2
+              position relative
+              overview hidden
+              margin 0 0 0 space3
+              padding 4px 0 0
+              font-size 14px
+              font-weight 700
+              line-height 18px
+              height @line-height * 3
+              a
+                color #393836
+            .taxs // ul
+              margin 0
+              height 18px
+              margin 0 0 0 space3
+              .tax // li
+                color #696969
+                font-size 11px
+                line-height 18px
+                .fa
+                  padding-right 4px
+          .archive-footer
+            padding space space*1.5 space*1.5
+            .content
+              position relative
+              overflow hidden
+              margin 0
+              padding 0
+              color #696969
+              font-size 12px
+              text-align justify
+              line-height 16px
+              height @line-height * 20
+              .read-more
+                position absolute
+                bottom 0
+                right @bottom
+                color base-color-gray
+                transition all base-transition
+                &:hover
+                  color base-color-orange
 
 
   &.layer-report
@@ -1061,6 +992,308 @@ body
               .ended
                 display inline
                 padding-right 5px
+
+
+// ホーム
+.layer-page-home
+  // スライダ
+  .ui-slider
+    position relative
+    margin-top header-navi-height-max * -1
+    .slides
+      overflow hidden
+      .slide
+        position relative
+        width 100%
+        height 640px
+        background-color background_color_dark
+        background-size cover
+        background-position 50% 50%
+        .title
+        .actions
+          width 980px
+          margin 0 auto
+          padding 0
+        .title // h1
+          height 112px
+          margin-top 200px
+        .actions
+          width 415px
+          margin-top 70px
+          .btn // a
+            display block
+            width 200px
+            margin 0 15px 10px 0
+            &:last-child
+              margin-right 0
+
+  // セクション
+  .ui-section
+    padding 40px 0
+    background-color #fff
+    &.colored
+      background-color #F4F7F8
+    .section
+      max-width-container()
+      .section-title // h1
+        margin 20px 0
+        padding 0
+      // アクティビティ / プロジェクト
+      .section-archives
+        margin-bottom 40px
+        .archive
+          &.archive-activity
+            iframe
+              width 100%
+          &.archive-project
+            .archive-cell
+              .photograph-container
+                height 330px * (9 / 16)
+              .archive-article
+                height auto
+                margin-top 15px
+                border-bottom none
+                .title
+                  omission()
+                  margin 0
+                  font-size 14px
+                  font-weight 300
+                  line-height 1.5em
+                  text-align justify
+                  a
+                    color base-color-black
+                    font-weight 500
+                    letter-spacing .01em
+      .section-archives-more
+        max-width-container()
+        font-size 14px
+        line-height 3em
+        text-align center
+        a
+          float none
+          display inline
+          padding 8px 24px
+          font-weight 500
+          .fa
+            padding-left 6px
+      // Google my maps
+      #map-canvas
+        height 480px
+        margin 0 15px 30px
+      #map-canvas-iframe // iframe
+        width 100%
+        padding 0 15px
+
+
+// about (研究室について)
+.layer-page-about
+  .ui-section
+    &:first-child
+      margin-top -120px
+      padding-bottom 120px
+      .section
+        padding-top 120px
+    &.ui-section-colored
+      background-color base-color-beige
+    .section
+      max-width-container()
+      .section-title // h1
+        margin 30px 0
+        text-align center
+        text-transform uppercase
+        .img-responsive // img
+          margin 0 auto
+        &.left
+          padding 0 0 10px
+          border-bottom 1px solid #ddd
+          .img-responsive
+            margin 0
+      // 文章
+      .section-text // p
+        margin 20px auto
+        padding 0 15px
+        width 100%
+        max-width page-about-width
+        color #333
+        font-size 1.333em
+        line-height 1.688
+        text-align center
+        text-decoration none
+        @media (max-width: 768px)
+          font-size 1.111em
+      // ボタン
+      .actions
+        clearfix()
+        width 415px
+        margin 30px auto 60px
+        .btn // a
+          display block
+          width 200px
+          margin 0 15px 10px 0
+          &:last-child
+            margin-right 0
+      // 教授の顔
+      .professor-face
+        height 180px
+        width @height
+        margin -140px auto 0
+        background-color #fff
+        background-size cover
+        background-position 50% 25%
+        border-radius 50%
+        border 6px solid base-color-beige
+        transition all base-transition
+        &:hover
+          position relative
+          transform translateY(-0.5em)
+      // ソーシャルアイコン
+      .social-accounts
+        padding-bottom 10px
+        text-align center
+        .social-account // a
+          padding 0 8px
+          font-size 32px
+          .fa
+            transition all base-transition
+            &.fa-globe
+            &.fa-home
+              color #E76860
+            &.fa-twitter
+              color #7A9EA2
+            &.fa-youtube-play
+              color #64615A //#C51514
+            &.fa-envelope
+              color #64615A
+            &:hover
+              transform scale(1.1)
+              filter gray
+      // 集合写真
+      .photograph
+        display block
+        max-width page-about-width
+        width 100%
+        margin 60px auto 0
+        box-shadow 1px 1px 0 #e7e7e7, -1px -1px 0 #e7e7e7
+      // メンバー
+      .controls
+        margin 0 0 40px
+      .members
+        .mix
+          display none
+        .member
+          margin 4px 0
+          overflow hidden
+          padding-bottom 4px
+          text-align center
+          // &:nth-child(11n + 1)
+          //   margin-left 90px
+          .thumbnail
+            display block
+            width 128px
+            height @width
+            margin 0 auto 10px
+            padding 0
+            border 0
+            border-radius 50%
+            background-size cover
+            transition all base-transition
+          .profile
+            margin 0
+            .name
+            .grade
+              display block
+              color base-color-black
+              font-size 10px
+              text-align center
+              line-height 1.3em
+              letter-spacing .1em
+            .name
+              font-size 13px
+      // Google Maps
+      .google-maps
+        position relative
+        .marker
+          position absolute
+          top 0
+          left 0
+          color base-color-gray
+          font-size 128px
+        .address-container
+          margin-left space6
+          .room-address
+          .address
+            margin 0
+          .room-address // p
+            margin-bottom 8px
+            font-size 16px
+            line-height 1.588
+            strong
+              display block
+              padding-bottom 1px
+              font-size 1.333em
+              font-weight 300
+          .address // address
+            padding-bottom 30px
+            font-size 12px
+            line-height 1.588
+            .fa
+              padding-right 4px
+          .attention // p
+            color #BE1E1E
+            font-size 1.333em
+            line-height 1.688
+        #map_canvas
+          height 510px * (3 / 4)
+          margin 0
+
+
+// お問い合わせ
+.layer-page-contact
+  max-width page-about-width
+  padding-top space4
+
+
+// 検索結果
+.layer-search
+  .ui-section
+    max-width page-about-width
+    margin -40px auto 0
+    background-color #fff !important
+    .section
+      padding space2 space6 space4
+      .results
+        .result
+          padding space 0
+          border-bottom 1px solid #ddd
+          &:last-child
+            border-bottom none
+          .title
+            ellipsis()
+            margin 0 0 space*0.5
+            font-size 17px
+            line-height 1.6em
+            a
+              color base-color-black
+              transition all base-transition
+              &:hover
+                color base-color-orange
+          &.notfound
+            .title
+              font-size 28px
+              font-weight 100
+              text-align center
+          .excerpt
+          .link
+            omission()
+            font-size 12px
+            line-height 17px
+          .excerpt
+            margin 0 0 space*0.5
+            color base-color-gray
+            text-align justify
+          .link
+            margin 0
+            color base-color-orange
 
 
 /* = フッタ
