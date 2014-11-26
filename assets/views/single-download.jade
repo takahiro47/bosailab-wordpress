@@ -53,11 +53,6 @@ block page_article
         data-order-created!="<?php the_ID(); ?>"
       )
         .single-cell
-          .photograph-container
-            .background
-            .photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
-            .photograph-shadow
-            +ui-loader
           //- タイトルとナビ
           header.header
             //- アイコン
