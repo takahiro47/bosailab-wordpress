@@ -9,13 +9,13 @@ block page_article
     .section
       h1.section-title
         img.img-responsive.animate.fadeInUp(
-          src!="<?php echo (get_template_directory_uri().'/dist/images/about/overview_professor_message_title_2x.png') ?>",
-          width=980, height=114,
-          style='width:980px; height:114px; visibility:hidden;',
+          src!="<?php echo (get_template_directory_uri().'/dist/images/about/overview_professor_message_title_2x.png') ?>"
+          width=980, height=114
+          style='width:980px; height:114px; visibility:hidden;'
           alt='SFCから、日本の、いや世界の防災を変えよう。'
         )
       .section-text.animate.fadeIn(
-        style='width:980px; height:114px; visibility:hidden;',
+        style='width:980px; height:114px; visibility:hidden;'
         data-wow-duration='1s'
       )
         | <?php the_field( 'professor_message' ); ?>
@@ -26,9 +26,9 @@ block page_article
       .professor-face(style!="background-image: url('<?php echo get_field('professor_face')['sizes']['medium']; ?>');")
       h1.section-title
         img.img-responsive(
-          src!="<?php echo (get_template_directory_uri().'/dist/images/about/overview_about_professor_title_2x.png') ?>",
-          width=980, height=75,
-          style='width:980px; height:75px;',
+          src!="<?php echo (get_template_directory_uri().'/dist/images/about/overview_about_professor_title_2x.png') ?>"
+          width=980, height=75
+          style='width:980px; height:75px;'
           alt='大木 聖子（おおき さとこ）'
         )
       .social-accounts
@@ -44,9 +44,9 @@ block page_article
     .section
       h1.section-title
         img.img-responsive(
-          src!="<?php echo (get_template_directory_uri().'/dist/images/about/overview_members_title_2x.png') ?>",
-          width=980, height=114,
-          style='width:980px; height:114px;',
+          src!="<?php echo (get_template_directory_uri().'/dist/images/about/overview_members_title_2x.png') ?>"
+          width=980, height=114
+          style='width:980px; height:114px;'
           alt='研究会の設立から1年。メンバーは50名を超えました。'
         )
       img.photograph(src!="<?php echo get_field('member_face')['sizes']['large']; ?>")
@@ -113,20 +113,21 @@ block page_article
   section.ui-section
     .section
       h1.section-title
+        div(style='margin-bottom:48px;')
+          img.img-responsive.animate.pulse(
+            src!="<?php echo (get_template_directory_uri().'/dist/images/about/Namazu_v2_x720.png') ?>"
+            width=360, height=271
+            style='width:360px; height:271px;'
+          )
         img.img-responsive.animate.pulse(
-          src!="<?php echo (get_template_directory_uri().'/dist/images/about/Namazu_v2_x720.png') ?>",
-          width=360, height=271,
-          style='width:360px; height:271px; margin-bottom: 48px;',
-        )
-        img.img-responsive.animate.pulse(
-          src!="<?php echo (get_template_directory_uri().'/dist/images/about/overview_join_us_title_2x.png') ?>",
-          width=980, height=114,
-          style='width:980px; height:114px;',
+          src!="<?php echo (get_template_directory_uri().'/dist/images/about/overview_join_us_title_2x.png') ?>"
+          width=980, height=114
+          style='width:980px; height:114px;'
           alt='わたしたちの研究会に、あなたも参加してみませんか。'
         )
       //- 勧誘文
       .section-text.animate.fadeIn(
-        style='width:980px; height:114px; visibility:hidden;',
+        style='width:980px; height:114px; visibility:hidden;'
         data-wow-duration='1s'
       )
         | <?php the_field( 'join_us' ); ?>
@@ -150,9 +151,9 @@ block page_article
     .section
       h1.section-title.left
         img.img-responsive(
-          src!="<?php echo (get_template_directory_uri().'/dist/images/about/overview_accessmap_title_2x.png') ?>",
-          width=254, height=41,
-          style='width:254px; height:41px;',
+          src!="<?php echo (get_template_directory_uri().'/dist/images/about/overview_accessmap_title_2x.png') ?>"
+          width=254, height=41
+          style='width:254px; height:41px;'
           alt='アクセスマップ'
         )
       .container-fluid
