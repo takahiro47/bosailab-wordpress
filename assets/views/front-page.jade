@@ -107,11 +107,12 @@ block page_article
               $thumbnail_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID), 'project-archive' );
           .col-xs-4.archive.archive-project
             .archive-cell
-              .photograph-container
+              .photograph-container.link
                 .background
                 a(href!='<?php the_permalink(); ?>')
                   .photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
                   .photograph-shadow
+                  span.link-icon +
                   +ui-loader
               article.archive-article
                 h2.title.ellipsis
