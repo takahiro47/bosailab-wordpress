@@ -5,7 +5,7 @@ block page_article
   .layer-header
     header.container-fluid(role='navigation')
       //- バックリンク
-      <?php if ( !($parent = get_field( 'parent_project' )) ) { ?>
+      <?php if ( $parent = get_field( 'parent_project' ) ) { ?>
       a.navi-title(href!="<?php echo get_permalink( $parent->ID ); ?>")
         i.fa.fa-angle-left
         | <?php echo $parent->post_title; ?>
@@ -75,7 +75,7 @@ block page_article
                 p.description <?php the_field( 'description' ); ?>
               .col-xs-3
             nav.navigations(role='navigation')
-              <?php if ( $parent = get_field( 'parent_project' ) ) { ?>
+              <?php if ( !($parent = get_field( 'parent_project' )) ) { ?>
               //- 前の記事へ
               .navigate-prev
                 <?php if ( $prev = get_adjacent_post( false, '', false ) ) { ?>
