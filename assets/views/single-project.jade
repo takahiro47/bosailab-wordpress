@@ -4,12 +4,22 @@ include _ui
 block page_article
   .layer-header
     header.container-fluid(role='navigation')
+      //- バックリンク
+      <?php if ( $parent = get_field( 'parent_project' ) ) { ?>
+      a.navi-title(href!="<?php echo get_permalink( $parent->ID ); ?>")
+        i.fa.fa-angle-left
+        | <?php echo $parent->post_title; ?>
+      <?php } else { ?>
       a.navi-title(href!="<?php echo get_post_type_archive_link( get_post_type() ); ?>")
-          i.fa.fa-angle-left
-          | すべて
+        i.fa.fa-angle-left
+        | すべて
+      <?php } ?>
+      //- ページタイトル
       .controls
         h1.title
           | <?php echo strip_tags(get_the_title()); ?>
+      <?php if ( $parent = get_field( 'parent_project' ) ) { ?>
+      //- 前後へのナビ
       nav.navigations
         //- 前の記事へ
         .navigate-prev
@@ -29,6 +39,7 @@ block page_article
           )
             i.fa.fa-angle-right
           <?php } ?>
+      <?php } ?>
 
   .container-fluid.singles
     .row
@@ -64,7 +75,7 @@ block page_article
                 p.description <?php the_field( 'description' ); ?>
               .col-xs-3
             nav.navigations(role='navigation')
-              <?php if ( !get_field( 'is_child' ) ) { ?>
+              <?php if ( $parent = get_field( 'parent_project' ) ) { ?>
               //- 前の記事へ
               .navigate-prev
                 <?php if ( $prev = get_adjacent_post( false, '', false ) ) { ?>

@@ -14,8 +14,7 @@ include _ui
   }
 
 <?php if ( get_post_type() == 'project' ) { ?>
-:php
-  // TODO: 子プロジェクトではない場合のみ一覧に出力する
+<?php if ( !get_field( 'parent_project' ) ) { ?>
 
 .col-xs-4.mix.archive(
   id!="archive-<?php the_ID(); ?>"
@@ -56,6 +55,7 @@ include _ui
         .ended <?php the_field( 'end_year' ); ?>
 
 
+<?php } ?>
 <?php } else if ( get_post_type() == 'report' ) { ?>
 
 .col-xs-4.mix.archive(
@@ -85,8 +85,8 @@ include _ui
           | <?php echo esc_html( $term->name ); ?>
         <?php } } ?>
     footer.archive-footer
-      p.excerpt.ellipsis.multiline
-        | <?php echo new_excerpt(120); // the_excerpt(); ?>
+      .excerpt.markdown
+        | <?php echo new_excerpt(150); ?>
 
 
 <?php } else if ( get_post_type() == 'download' ) { ?>
@@ -115,7 +115,7 @@ include _ui
     footer.archive-footer
       //- 本文
       .content.markdown
-        <?php the_excerpt(''); ?>
+        <?php the_excerpt(); ?>
 
 
 <?php } else { // 実質フォトログ ?>
