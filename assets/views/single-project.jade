@@ -8,7 +8,7 @@ block page_article
       <?php if ( $parent = get_field( 'parent_project' ) ) { ?>
       a.navi-title(href!="<?php echo get_permalink( $parent->ID ); ?>")
         i.fa.fa-angle-left
-        | <?php echo $parent->post_title; ?>
+        | <?php echo strip_tags($parent->post_title); ?>
       <?php } else { ?>
       a.navi-title(href!="<?php echo get_post_type_archive_link( get_post_type() ); ?>")
         i.fa.fa-angle-left
