@@ -118,13 +118,32 @@ block page_article
                       | Share
                     .socials.row
                       .social.facebook.col-xs-3
-                        fb:like#fb-like(href='', width='218', layout='box_count' action='like', show_faces='true', share='false')
+                        fb:like#fb-like(
+                          href=''
+                          width='218'
+                          layout='box_count'
+                          action='like'
+                          show_faces='true'
+                          share='false'
+                        )
                       .social.twitter.col-xs-3
-                        a#tw-like.twitter-share-button(href='https://twitter.com/share' data-lang='ja', data-hashtags='bosailab', data-dnt='true', data-count='vertical')
+                        a#tw-like.twitter-share-button(
+                          href='https://twitter.com/share'
+                          data-lang='ja'
+                          data-hashtags='bosailab'
+                          data-dnt='true'
+                          data-count='vertical'
+                        )
                       .social.pocket.col-xs-3
-                        a#pk-like.pocket-btn(data-pocket-label='pocket', data-pocket-count='vertical',  data-pocket-align='center', data-lang='ja')
+                        a#pk-like.pocket-btn(
+                          data-pocket-label='pocket'
+                          data-pocket-count='vertical'
+                          data-lang='ja'
+                        )
                       .social.googleplus.col-xs-3
-                        .g-plusone(data-size='tall')
+                        .g-plusone(
+                          data-size='tall'
+                        )
             .content.markdown
               <?php the_content(); ?>
 

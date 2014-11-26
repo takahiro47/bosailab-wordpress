@@ -15,56 +15,27 @@ $ ->
   $html.addClass 'onload'
 
   # ===================================
-  # API
-  # ===================================
-
-  # https://wordpress.org/plugins/json-api/other_notes/#1.1.-Requests
-  # $api =
-  #   domain: ($ '#api').data 'url'
-
-  #   home: (data = {}) ->
-  #     return $.ajax "#{$api.domain}/?feed=json&callback=callback",
-  #       type: 'GET'
-  #       data: data
-  #       dataType: 'jsonp'
-
-  #   archive: (data = {}) ->
-  #     return $.ajax "#{$api.domain}/#{data.post_type}/?json=get_posts&page=#{data.page}",
-  #       type: 'GET'
-  #       dataType: 'jsonp'
-
-  #   single: (data = {}) ->
-  #     return $.ajax "#{$api.domain}/#{data.post_type}/?json=get_post&post_id=#{data.post_id}",
-  #       type: 'GET'
-  #       dataType: 'jsonp'
-
-  #   page: (data = {}) ->
-  #     return $.ajax "#{$api.domain}/?json=get_page&page_slug=#{data.post_type}",
-  #       type: 'GET'
-  #       dataType: 'jsonp'
-
-  # ===================================
   # UI
   # ===================================
 
   ui =
 
-    # _pl: [
-    #   { p: 'platform', reg: /iphone/i, id: 'iphone' },
-    #   { p: 'platform', reg: /ipod/i, id: 'ipod' },
-    #   { p: 'userAgent', reg: /ipad/i, id: 'ipad' },
-    #   { p: 'userAgent', reg: /blackberry/i, id: 'blackberry' },
-    #   { p: 'userAgent', reg: /android/i, id: 'android' },
-    #   { p: 'platform', reg: /mac/i, id: 'mac' },
-    #   { p: 'platform', reg: /win/i, id: 'windows' },
-    #   { p: 'platform', reg: /linux/i, id: 'linux' }
-    # ]
+    _pl: [
+      { p: 'platform', reg: /iphone/i, id: 'iphone' },
+      { p: 'platform', reg: /ipod/i, id: 'ipod' },
+      { p: 'userAgent', reg: /ipad/i, id: 'ipad' },
+      { p: 'userAgent', reg: /blackberry/i, id: 'blackberry' },
+      { p: 'userAgent', reg: /android/i, id: 'android' },
+      { p: 'platform', reg: /mac/i, id: 'mac' },
+      { p: 'platform', reg: /win/i, id: 'windows' },
+      { p: 'platform', reg: /linux/i, id: 'linux' }
+    ]
 
-    # _ua: null
+    _ua: null
 
-    # ua: ->
-    #   return ui._ua  unless ui._ua is null
-    #   return ui._ua = p.id  for p in ui._pl when p.reg.test window.navigator[p.p]
+    ua: ->
+      return ui._ua  unless ui._ua is null
+      return ui._ua = p.id  for p in ui._pl when p.reg.test window.navigator[p.p]
 
     animationTime: 240
 
@@ -93,27 +64,27 @@ $ ->
       fast: ->
         $all.animate scrollTop: 0, 'fast'
 
-    # datetimeUpdate: ->
-    #   clearInterval ui._datetimeUpdate
-    #   ui._datetimeUpdate = setInterval ->
-    #     ($ 'time').each (i, el) ->
-    #       $el = $ el
-    #       $el.html moment($el.attr 'datetime').fromNow()
-    #   , 1000 * 10
+    datetimeUpdate: ->
+      clearInterval ui._datetimeUpdate
+      ui._datetimeUpdate = setInterval ->
+        ($ 'time').each (i, el) ->
+          $el = $ el
+          $el.html moment($el.attr 'datetime').fromNow()
+      , 1000 * 10
 
-    # datetime: (date) ->
-    #   date = moment date
-    #   ui.datetimeUpdate()
-    #   return ($ '<time>')
-    #     .addClass('ui-datetime')
-    #     .attr('datetime', date.toISOString())
-    #     .attr('title', date.format('YYYY-MM-DD HH:mm:ss'))
-    #     .text(date.fromNow())
+    datetime: (date) ->
+      date = moment date
+      ui.datetimeUpdate()
+      return ($ '<time>')
+        .addClass('ui-datetime')
+        .attr('datetime', date.toISOString())
+        .attr('title', date.format('YYYY-MM-DD HH:mm:ss'))
+        .text(date.fromNow())
 
-    # filesize: (size, unit = 0) ->
-    #   units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-    #   size = size / 1024 while size > 1024 when ++unit
-    #   return "#{(Math.max size, 0.1).toFixed(1)} #{units[unit]}"
+    filesize: (size, unit = 0) ->
+      units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+      size = size / 1024 while size > 1024 when ++unit
+      return "#{(Math.max size, 0.1).toFixed(1)} #{units[unit]}"
 
     # URLの抽出
     sample_url: (text) ->
@@ -173,20 +144,6 @@ $ ->
           title: title
         marker = new google.maps.Marker markerOptions
 
-    # staticMap: (lat, lng, size) ->
-    #   base = 'http://maps.googleapis.com/maps/api/staticmap?'
-    #   params =
-    #     center: "#{lat},#{lng}"
-    #     zoom: 13
-    #     size: size
-    #     markers: "color:brown|label:S|#{lat},#{lng}"
-    #     sensor: no
-    #   url = base + Object.keys(params).map((key) ->
-    #     return "#{encodeURIComponent key}=#{encodeURIComponent params[key]}"
-    #   ).join '&'
-    #   return url
-
-    # in  : 2014-04-21 21:18:12
     getRelativeTime: (entryDate='2000-01-01 00:00:00') ->
       currentDate = new Date()
       time = entryDate.match /^([0-9]+)-([0-9]+)-([0-9]+) ([0-9]+):([0-9]+):([0-9]+)$/
@@ -194,21 +151,22 @@ $ ->
       elapsedTime = (currentDate.getTime() - entryDate.getTime()) / 1000
       elapsedTime = Math.ceil(elapsedTime) # 小数点以下切り上げ
       message = null
-      if elapsedTime < 60 #  1 分未満
+      if elapsedTime < 60 # 1分未満
         message = "たった今"
-      else if elapsedTime < 120 #  2 分未満
+      else if elapsedTime < 120 #  2分未満
         message = "約 1分前"
-      else if elapsedTime < (60 * 60) #  1 時間未満
+      else if elapsedTime < (60 * 60) # 1時間未満
         message = "約" + Math.floor(elapsedTime / 60) + "分前"
-      else if elapsedTime < (120 * 60) #  2 時間未満
+      else if elapsedTime < (120 * 60) # 2時間未満
         message = "約 1時間前"
-      else if elapsedTime < (24 * 60 * 60) #  1 日未満
+      else if elapsedTime < (24 * 60 * 60) # 1日未満
         message = "約" + Math.floor(elapsedTime / 3600) + "時間前"
-      else if elapsedTime < (7 * 24 * 60 * 60) # 1 週間未満
+      else if elapsedTime < (7 * 24 * 60 * 60) # 1週間未満
         message = "約" + Math.floor(elapsedTime / 86400) + "日前"
       else # 1 週間以上
         message = "約" + Math.floor(elapsedTime / 604800) + "週間前"
       return message
+
 
     # ===================================
     # ローディング
@@ -223,20 +181,20 @@ $ ->
         $container.removeClass('container-fluid')
           .addClass 'container'
 
-    pageLoader: (active = no) ->
-      $pageLoader = $ '.ui-page-loader'
-      if active
-        ($ '.ui-article').addClass 'fetching'
-        $pageLoader.transition
-          opacity: 1
-          # y: '0'
-          duration: 200
-      else
-        ($ '.ui-article').removeClass 'fetching'
-        $pageLoader.transition
-          opacity: 0
-          # y: '-200px'
-          duration: 200
+    # pageLoader: (active = no) ->
+    #   $pageLoader = $ '.ui-page-loader'
+    #   if active
+    #     ($ '.ui-article').addClass 'fetching'
+    #     $pageLoader.transition
+    #       opacity: 1
+    #       # y: '0'
+    #       duration: 200
+    #   else
+    #     ($ '.ui-article').removeClass 'fetching'
+    #     $pageLoader.transition
+    #       opacity: 0
+    #       # y: '-200px'
+    #       duration: 200
 
     # フォトログ用ポップアップウィンドウ
     window: (active = no) ->
@@ -303,6 +261,7 @@ $ ->
 
   ui.initMaps()
 
+
   # ===================================
   # LocalStorage
   # ===================================
@@ -318,6 +277,7 @@ $ ->
       if window.localStorage?
         return window.localStorage.setItem key, val
       return no
+
 
   # ===================================
   # Actions
@@ -371,20 +331,6 @@ $ ->
     #   # if 0 <= percent and percent <= 100
     #   media.scrollel.css 'background-position-y', "#{percent}%"
 
-
-
-    # # ナビの調整
-    # $page_navigation = $ '.page-layer__content-wrap'
-    # if 782 < winwidth
-    #   if media.signed_in and 141 < scrollheight
-    #     $page_navigation.addClass 'lock lock--add'
-    #   else if not media.signed_in and 141 < scrollheight
-    #     $page_navigation.remove('lock--add').addClass 'lock'
-    #   else
-    #     $page_navigation.removeClass 'lock lock--add'
-    # else
-    #   $page_navigation.removeClass 'lock lock--add'
-
   scrollActions()
 
   # スクロールに伴うアクション
@@ -428,6 +374,7 @@ $ ->
   #       return
   # , 240 # 最後に実行されてから240ミリ秒以内にもう一度実行されたらabort、実行されなければexec
 
+
   # ===================================
   # 検索窓
   # ===================================
@@ -442,6 +389,7 @@ $ ->
     'click': ->
       q = $ '#s'
       q.focus()
+
 
   # ===================================
   # 画像の遅延ロード
@@ -458,6 +406,7 @@ $ ->
         ($loader = $el.find '.ui-loader').remove()
       return
   ($ '.photograph-container').imageload()
+
 
   # ===================================
   # 複数行における省略

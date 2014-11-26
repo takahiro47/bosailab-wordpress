@@ -118,14 +118,33 @@ block page_article
               //- シェアボタンなど
               .actions.container-fluid
                 .socials.row
-                  .col-xs-6.social.facebook
-                    fb:like#fb-like(href='', width='218', layout='box_count' action='like', show_faces='true', share='false')
-                  .col-xs-6.social.twitter
-                    a#tw-like.twitter-share-button(href='https://twitter.com/share' data-lang='ja', data-hashtags='bosailab', data-dnt='true', data-count='vertical')
-                  .col-xs-6.social.pocket
-                    a#pk-like.pocket-btn(data-pocket-label='pocket', data-pocket-count='vertical',  data-pocket-align='center', data-lang='ja')
-                  .col-xs-6.social.googleplus
-                    .g-plusone(data-size='tall')
+                  .social.facebook.col-xs-6
+                    fb:like#fb-like(
+                      href=''
+                      width='218'
+                      layout='box_count'
+                      action='like'
+                      show_faces='true'
+                      share='false'
+                    )
+                  .social.twitter.col-xs-6
+                    a#tw-like.twitter-share-button(
+                      href='https://twitter.com/share'
+                      data-lang='ja'
+                      data-hashtags='bosailab'
+                      data-dnt='true'
+                      data-count='vertical'
+                    )
+                  .social.pocket.col-xs-6
+                    a#pk-like.pocket-btn(
+                      data-pocket-label='pocket'
+                      data-pocket-count='vertical'
+                      data-lang='ja'
+                    )
+                  .social.googleplus.col-xs-6
+                    .g-plusone(
+                      data-size='tall'
+                    )
 
       //- 単体記事ここまで
       //------------------------------------------------------------

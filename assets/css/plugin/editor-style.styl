@@ -37,7 +37,10 @@ body
     text-align left
     font-family "Source Sans Pro", Helvetica, sans-serif
     font-family font-gothic
-    max-width 604px
+    width 100%
+  &.mceContentBody
+    max-width page-about-width
+    margin 0 auto
 
 // h1
 // h2
@@ -435,7 +438,7 @@ html .mceContentBody.rtl
 
 /* = Original markdown
  * ------------------------------------------------------------ */
-markdown-zoom = 0.75
+markdown-zoom = 1.0
 
 h1
 h2
@@ -562,6 +565,8 @@ blockquote
   padding 1px 15px
   p
     font-size
+pre
+  border-radius 0
 img
   max-width 100%
   height auto

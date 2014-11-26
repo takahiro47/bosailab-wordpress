@@ -1,6 +1,8 @@
+// filter: (.+)$ => filter: unquote("\1")
 @charset 'UTF-8'
 @import 'nib'
 @import '_config'
+
 
 /* = Resets
  * ------------------------------------------------------------ */
@@ -14,84 +16,7 @@ global-reset()
 @import '../../client/components/bootstrap-stylus/stylus/bootstrap'
 @import '../../client/components/font-awesome-stylus/stylus/font-awesome'
 @import 'plugin/animate'
-
-// @import 'plugin/theme'
-// @import 'ie'
-// @import 'editor-style'
-
-
-/* = 参考サイト(綺麗なサイト)
- * ------------------------------------------------------------
-filter: (.+)$ => filter: unquote("\1")
-http://blog.mah-lab.com/2013/05/01/wordpress-on-heroku/
-
-オーバーラップ
-http://blueimp.github.io/jQuery-File-Upload/
-
-PJAX
-http://kakurezatou.com/
-
-デザイン
-http://100tokyo.jp/listings/arare
-
-スタバ
-http://www.starbucks.co.jp/coffee/?nid=tbn_02_pc
-
-アイコン
-http://design-develop.net/vector-design/page/2
-
-Apple
-http://www.apple.com/jp/environment/our-progress/
-http://www.apple.com/safari/
-
-アナ雪(スライダー)
-http://ugc.disney.co.jp/blog/movie/category/anayuki#gallerySliderArea
-
-その他
-http://handmade-marche.jp/
-http://bradleyhaynes.com/freelance
-
-れすぽんしぶ参考
-https://iroya.jp/
-
-google地図
-https://developers.google.com/maps/documentation/javascript/examples/map-simple-async
-地図れすぽんしぶ
-http://www.lifehacker.jp/2013/12/131209google_maps_responsive.html
-
-Amazon
-http://www.amazon.co.jp/gp/product/B00IPJNROO/ref=sr_1_2_rd?ie=UTF8&child=B00IPJNSYI&qid=1398656036&sr=1-2%3C/a%3E
-
-twitterのポップアップ
-https://twitter.com/syotaaaaan13/status/460068236994682880/photo/1
-
-綺麗なサイト au
-http://www.au.kddi.com/content/utapass/?bid=we-we-sn-0013
-http://www.kddi.com/phone/au-hikariphone/
-
-Aboutページの沿革によさそう
-http://ricostacruz.com/jquery.transit/#top
-Aboutページの顔アイコン
-http://leko.jp/archives/157
-
-Aboutページ背景の参考
-http://runnable.com/about
-
-Aboutページのプロジェクト一覧？さんこう
-http://runnable.com/
-
-フォトログなどのページの切り替え。うつくしい
-http://builtbybuffalo.com/project/i-love-dust
-ふらっと
-http://www.squarespace.com/tour/shops
-http://etchapps.com/
-
-http://fltdsgn.com/
-http://www.sfc.keio.ac.jp/campuslife/scholarship.html
-
-ぎゃらりー
-http://tympanus.net/Development/GammaGallery/
-*/
+// @import 'plugin/ie'
 
 
 /* = Fonts
@@ -211,7 +136,7 @@ textarea
 .off
   animation fadeOutFrame .8s linear
 
-markdown-zoom = 0.9
+markdown-zoom = 1.0
 .markdown
   color base-color-black
   text-align left
@@ -340,6 +265,8 @@ markdown-zoom = 0.9
     padding 1px 15px
     p
       font-size
+  pre
+    border-radius 0
   img
     max-width 100%
     height auto
@@ -356,33 +283,22 @@ markdown-zoom = 0.9
     &[class*="attachment-"]
       max-width 100%
       height auto
-
-
-/* = 開発用プレビュー
- * ------------------------------------------------------------ */
-
-// dev_height = 15360px * 1.1
-// dev_width = 1980px * 1.1
-// .ui-dev
-//   hidden()
-//   position absolute
-//   top -10px
-//   top -8151px
-//   left 50%
-//   z-index -1
-//   opacity .35
-//   overflow hidden
-//   width 960px
-//   height dev_height
-//   margin-left -480px
-//   .preview
-//     width dev_width
-//     height dev_height
-//     margin-left -((dev_width - 960px)/2)
-//     background-image url(path + '../../_/doc/okilab-web-v1.1.png')
-//     background-size dev_width dev_height
-//     background-repeat no-repeat
-
+  embed
+  iframe
+  object
+  video
+    margin-bottom 24px
+    max-width 100%
+  p
+    & > embed
+    & > iframe
+    & > object
+      margin-bottom 0
+  span
+    & > embed
+    & > iframe
+    & > object
+      margin-bottom 0
 
 /* = UI
  * ------------------------------------------------------------ */
