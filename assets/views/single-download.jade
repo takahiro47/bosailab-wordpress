@@ -103,6 +103,8 @@ block page_article
             //- 本文
             .content.markdown
               <?php the_content(); ?>
+              .cart
+                <?php echo do_shortcode( '[download_checkout]' ); ?>
 
           footer.footer
             //- 前後へのナビ

@@ -1,0 +1,18 @@
+extends _application
+include _ui
+
+block page_article
+  <?php while ( have_posts() ) { the_post(); ?>
+  //- フォーム
+  section.ui-section
+    .section
+      .container-fluid.singles
+        .row
+          .col-xs-offset-2.col-xs-8.single(
+            id!="single-<?php the_ID(); ?>"
+            class!="<?php echo $class; ?> single-<?php get_post_type(); ?>"
+            data-order-created!="<?php the_ID(); ?>"
+          )
+            .content.markdown
+              <?php the_content(); ?>
+  <?php } ?>

@@ -220,6 +220,10 @@ body
   &.layer-width-full
     max-width page-max-width
 
+  &.layer-page-confirm
+  &.layer-page-success
+    background-color transparent
+
   // セクション
   .ui-section
     padding 40px 0
@@ -544,457 +548,521 @@ body
             .views
               opacity 1
 
-
-  &.layer-download
-    .singles
-      .single
-        .single-cell
+.layer-download
+  .singles
+    .single
+      .single-cell
+        position relative
+        border 1px solid #eee
+        background-color #fdfdfd
+        .photograph-container
+          height 290px * 1.1
+          @media screen and (min-width: 1080px) and (min-device-width: 1079px)
+            height 330px * 1.1
+        .header
           position relative
-          border 1px solid #eee
-          background-color #fdfdfd
-          .photograph-container
-            height 290px * 1.1
-            @media screen and (min-width: 1080px) and (min-device-width: 1079px)
-              height 330px * 1.1
-          .header
+          padding space space2
+          background-color #f7f7f7
+          border-bottom 1px solid #fdfdfd
+          .title-icon
+            position absolute
+            top space * 1.5
+            left space2
+            color base-color-orange
+            font-size 32px * 1.2
+            font-weight 100
+            line-height @font-size
+          .title
             position relative
-            padding space space2
-            background-color #f7f7f7
-            border-bottom 1px solid #fdfdfd
-            .title-icon
-              position absolute
-              top space * 1.5
-              left space2
-              color base-color-orange
-              font-size 32px * 1.2
-              font-weight 100
-              line-height @font-size
-            .title
-              position relative
-              margin 0 0 8px 42px+space
-              padding 0
-              font-size 24px
-              font-weight 300
-              line-height 28px
-            .taxs // ul
-              margin 0 0 0 42px+space
-              height 15px
-              .tax // li
-                color #696969
-                font-size 13px
-                line-height 1.4em
-                .fa
-                  padding-right 4px
-          .article
-            padding space space2
-            .actions
-              .socials
-                position absolute
-                bottom 0
-                right -144px
-                width 108px
-                padding 8px 0
-                text-align center
-                border 1px solid #eee
-                background-color #fdfdfd
-                .social
-                  overflow hidden
-                  height 80px
-                  padding 8px 0
-            .content
-              hoge 0
-    .archives
-      .archive
-        .archive-cell
-          border 1px solid #eee
-          background-color #fdfdfd
-          .archive-article
-            overflow hidden
-            position relative
-            padding space
-            background-color #f7f7f7
-            border-bottom 1px solid #fdfdfd
-            .title-icon
-              position absolute
-              top space * 1.5
-              left @top
-              color base-color-orange
-              font-size 32px
-              font-weight 100
-              line-height @font-size
-            .title // h2
-              position relative
-              overview hidden
-              margin 0 0 0 space3
-              padding 4px 0 0
-              font-size 14px
-              font-weight 700
-              line-height 18px
-              height @line-height * 3
-              a
-                color #393836
-            .taxs // ul
-              margin 0
-              height 18px
-              margin 0 0 0 space3
-              .tax // li
-                color #696969
-                font-size 11px
-                line-height 18px
-                .fa
-                  padding-right 4px
-          .archive-footer
-            padding space space*1.5 space*1.5
-            .content
-              position relative
-              overflow hidden
-              margin 0
-              padding 0
+            margin 0 0 8px 42px+space
+            padding 0
+            font-size 24px
+            font-weight 300
+            line-height 28px
+          .taxs // ul
+            margin 0 0 0 42px+space
+            height 15px
+            .tax // li
               color #696969
-              font-size 12px
-              text-align justify
-              line-height 16px
-              height @line-height * 20
-              .read-more
-                position absolute
-                bottom 0
-                right @bottom
-                color base-color-gray
-                transition all base-transition
-                &:hover
-                  color base-color-orange
-
-
-  &.layer-report
-    .singles
-      .single
-        .single-cell
-          position relative
-          border 1px solid #eee
-          background-color #fdfdfd
-          .photograph-container
-            height 290px * 1.1
-            @media screen and (min-width: 1080px) and (min-device-width: 1079px)
-              height 330px * 1.1
-          .header
-            position relative
-            padding space space2
-            background-color #f7f7f7
-            border-bottom 1px solid #fdfdfd
-            .ui-calender
+              font-size 13px
+              line-height 1.4em
+              .fa
+                padding-right 4px
+        .article
+          padding space space2
+          .actions
+            .socials
               position absolute
-              top 17px
-              left 32px
+              bottom 0
+              right -144px
+              width 108px
+              padding 8px 0
+              text-align center
+              border 1px solid #eee
+              background-color #fdfdfd
+              .social
+                overflow hidden
+                height 80px
+                padding 8px 0
+          .content
+            // Easy Digital Downloads
+            .edd_download_purchase_form // form
+              margin space4 space2*-1 space*-1
+              padding space space4
+              background-color #f7f7f7
+              border-top 1px solid #fdfdfd
+              .edd_purchase_submit_wrapper
+                width 100%
+                a.edd-add-to-cart //
+                  hidden()
+                input.edd-add-to-cart
+                  width 100%
+                a.edd_go_to_checkout // お会計
+                  hidden()
+                span.edd-cart-ajax-alert //
+                  hoge 0
+            .cart
+              margin 0 space2*-1 space*-1
+              padding space space4
+              background-color #f7f7f7
+              border-bottom 1px solid #fdfdfd
+              span.edd_empty_cart // 買い物カゴは空です
+                hidden()
+
+        .footer
+          .navigations
+            background-color #f7f7f7
+            .navigate-prev
+            .navigate-next
+              width 50%
+              min-height 67px
+              padding space space2
+              .navigate-angle
+                padding-bottom 4px
+                color base-color-black
+                font-size 14px
+                line-height @font-size
+                transition all base-transition
+              .navigate-title
+                omission()
+                color base-color-gray
+                font-size 12px
+              &:hover
+                .navigate-angle
+                  color base-color-orange
+            .navigate-prev
+              float left
+              text-align left
+              box-shadow inset -1px 1px 0 #ddd, inset 0 -1px 0 #ddd
+              .navigate-angle
+                .fa
+                  padding-right 8px
+            .navigate-next
+              float right
+              text-align right
+              box-shadow inset 0 1px 0 #ddd, inset 0 -1px 0 #ddd
+              .navigate-angle
+                .fa
+                  padding-left 8px
+          .relevant-works
+            clearfix()
+            .relevant-projects
+              margin 0
+              .project
+                float left
+                min-height 1px
+                width (100 / 3)%
+                &:nth-child(3n)
+                  float right
+  .archives
+    .archive
+      .archive-cell
+        border 1px solid #eee
+        background-color #fdfdfd
+        .archive-article
+          overflow hidden
+          position relative
+          padding space
+          background-color #f7f7f7
+          border-bottom 1px solid #fdfdfd
+          .title-icon
+            position absolute
+            top space * 1.5
+            left @top
+            color base-color-orange
+            font-size 32px
+            font-weight 100
+            line-height @font-size
+          .title // h2
+            position relative
+            overview hidden
+            margin 0 0 0 space3
+            padding 4px 0 0
+            font-size 14px
+            font-weight 700
+            line-height 18px
+            height @line-height * 3
+            a
+              color #393836
+          .taxs // ul
+            margin 0
+            height 18px
+            margin 0 0 0 space3
+            .tax // li
+              color #696969
+              font-size 11px
+              line-height 18px
+              .fa
+                padding-right 4px
+        .archive-footer
+          padding space space*1.5 space*1.5
+          .content
+            position relative
+            overflow hidden
+            margin 0
+            padding 0
+            color #696969
+            font-size 12px
+            text-align justify
+            line-height 16px
+            height @line-height * 20
+            .read-more
+              position absolute
+              bottom 0
+              right @bottom
+              color base-color-gray
+              transition all base-transition
+              &:hover
+                color base-color-orange
+
+.layer-report
+  .singles
+    .single
+      .single-cell
+        position relative
+        border 1px solid #eee
+        background-color #fdfdfd
+        .photograph-container
+          height 290px * 1.1
+          @media screen and (min-width: 1080px) and (min-device-width: 1079px)
+            height 330px * 1.1
+        .header
+          position relative
+          padding space space2
+          background-color #f7f7f7
+          border-bottom 1px solid #fdfdfd
+          .ui-calender
+            position absolute
+            top 17px
+            left 32px
+          .title
+            position relative
+            margin 0 0 8px 42px+space
+            padding 0
+            font-size 24px
+            font-weight 300
+            line-height 28px
+          .taxs // ul
+            margin 0 0 0 42px+space
+            height 15px
+            .tax // li
+              color #696969
+              font-size 13px
+              line-height 1.4em
+              .fa
+                padding-right 4px
+        .article
+          padding space space2
+          .actions
+            .socials
+              position absolute
+              bottom 0
+              right -144px
+              width 108px
+              padding 8px 0
+              text-align center
+              border 1px solid #eee
+              background-color #fdfdfd
+              .social
+                overflow hidden
+                height 80px
+                padding 8px 0
+          .content
+            hoge 0
+          .custom-fields
+            position relative
+            margin space3 0 space
+            padding space
+            background-color #f5f5f5
+            .avatar
+              width 96px
+              height 72px
+              margin space3 * -1 auto space * -0.5
+              .fa
+                display block
+                color #E5E5E5
+                font-size 72px
+                text-align center
+            .responsibility
+            .members
+              .custom-title
+                margin 0 0 8px
+                color #777
+                font-size 11px
+                line-height 1.3em
+                text-align center
+              .custom-body
+                margin 4px 0 12px
+                font-size 15px
+                font-weight 700
+                line-height 1.3em
+                text-align center
+            .members
+              .custom-body
+                font-size 13px
+        .footer
+          .navigations
+            background-color #f7f7f7
+            .navigate-prev
+            .navigate-next
+              width 50%
+              min-height 67px
+              padding space space2
+              .navigate-angle
+                padding-bottom 4px
+                color base-color-black
+                font-size 14px
+                line-height @font-size
+                transition all base-transition
+              .navigate-title
+                omission()
+                color base-color-gray
+                font-size 12px
+              &:hover
+                .navigate-angle
+                  color base-color-orange
+            .navigate-prev
+              float left
+              text-align left
+              box-shadow inset -1px 1px 0 #ddd, inset 0 -1px 0 #ddd
+              .navigate-angle
+                .fa
+                  padding-right 8px
+            .navigate-next
+              float right
+              text-align right
+              box-shadow inset 0 1px 0 #ddd, inset 0 -1px 0 #ddd
+              .navigate-angle
+                .fa
+                  padding-left 8px
+          .relevant-works
+            clearfix()
+            .relevant-projects
+              margin 0
+              .project
+                float left
+                min-height 1px
+                width (100 / 3)%
+                &:nth-child(3n)
+                  float right
+
+  .archives
+    .archive
+      .archive-cell
+        border 1px solid #eee
+        background-color #fdfdfd
+        margin-bottom space2
+        .photograph-container
+          height 290px * 1.2
+          @media screen and (min-width: 1080px) and (min-device-width: 1079px)
+            height 330px * 1.2
+        .archive-article
+          overview hidden
+          padding space space space*0.5
+          background-color #f7f7f7
+          border-bottom 1px solid #fdfdfd
+          height 84px
+          .title // h2
+            position relative
+            overview hidden
+            margin 0 0 8px
+            padding 0
+            font-size 14px
+            font-weight 700
+            line-height 18px
+            max-height @line-height * 2
+            a
+              color #393836
+          .taxs // ul
+            margin 0
+            height 15px
+            .tax // li
+              color #696969
+              font-size 11px
+              line-height 1.4em
+              .fa
+                padding-right 4px
+        .archive-footer
+          padding space*0.5 space space
+          .excerpt
+            overflow hidden
+            margin 0
+            padding 0
+            color #696969
+            font-size 12px
+            text-align justify
+            line-height 16px
+            height @line-height * 4
+
+.layer-project
+  .singles
+    .single
+      .single-cell
+        whiteboard()
+        position relative
+        padding space3
+        .header
+          position relative
+          padding space 0
+          border-bottom 1px solid base-color-gray
+          .headline
             .title
-              position relative
-              margin 0 0 8px 42px+space
+              margin 0 0 space2
               padding 0
               font-size 24px
-              font-weight 300
-              line-height 28px
-            .taxs // ul
-              margin 0 0 0 42px+space
-              height 15px
-              .tax // li
-                color #696969
-                font-size 13px
-                line-height 1.4em
-                .fa
-                  padding-right 4px
-          .article
-            padding space space2
-            .actions
-              .socials
-                position absolute
-                bottom 0
-                right -144px
-                width 108px
-                padding 8px 0
-                text-align center
-                border 1px solid #eee
-                background-color #fdfdfd
-                .social
-                  overflow hidden
-                  height 80px
-                  padding 8px 0
-            .content
-              hoge 0
-            .custom-fields
-              position relative
-              margin space3 0 space
-              padding space
-              background-color #f5f5f5
-              .avatar
-                width 96px
-                height 72px
-                margin space3 * -1 auto space * -0.5
-                .fa
-                  display block
-                  color #E5E5E5
-                  font-size 72px
-                  text-align center
-              .responsibility
-              .members
-                .custom-title
-                  margin 0 0 8px
-                  color #777
-                  font-size 11px
-                  line-height 1.3em
-                  text-align center
-                .custom-body
-                  margin 4px 0 12px
-                  font-size 15px
-                  font-weight 700
-                  line-height 1.3em
-                  text-align center
-              .members
-                .custom-body
-                  font-size 13px
-          .footer
-            .navigations
-              background-color #f7f7f7
-              .navigate-prev
-              .navigate-next
-                width 50%
-                min-height 67px
-                padding space space2
+              font-weight bold
+              text-align center
+              text-transform uppercase
+            .description
+              margin 0
+              padding 0
+              font-size 13px
+              font-style italic
+              text-align center
+          .navigations // nav
+            .navigate-prev
+            .navigate-next
+              position absolute
+              bottom space
+              width 25%
+              a
                 .navigate-angle
-                  padding-bottom 4px
+                  margin 0 0 10px
                   color base-color-black
-                  font-size 14px
-                  line-height @font-size
-                  transition all base-transition
+                  font-weight 500
+                  text-transform uppercase
+                  transition color base-transition
+                  .fa
+                    padding 0 6px
                 .navigate-title
                   omission()
                   color base-color-gray
-                  font-size 12px
+                  font-style italic
                 &:hover
                   .navigate-angle
-                    color base-color-orange
-              .navigate-prev
-                float left
-                text-align left
-                box-shadow inset -1px 1px 0 #ddd, inset 0 -1px 0 #ddd
-                .navigate-angle
-                  .fa
-                    padding-right 8px
-              .navigate-next
-                float right
-                text-align right
-                box-shadow inset 0 1px 0 #ddd, inset 0 -1px 0 #ddd
-                .navigate-angle
-                  .fa
-                    padding-left 8px
-            .relevant-works
-              clearfix()
-              .relevant-projects
-                margin 0
-                .project
-                  float left
-                  min-height 1px
-                  width (100 / 3)%
-                  &:nth-child(3n)
-                    float right
-
-    .archives
-      .archive
-        .archive-cell
-          border 1px solid #eee
-          background-color #fdfdfd
-          margin-bottom space2
-          .photograph-container
-            height 290px * 1.2
-            @media screen and (min-width: 1080px) and (min-device-width: 1079px)
-              height 330px * 1.2
-          .archive-article
-            overview hidden
-            padding space space space*0.5
-            background-color #f7f7f7
-            border-bottom 1px solid #fdfdfd
-            height 84px
-            .title // h2
-              position relative
-              overview hidden
-              margin 0 0 8px
-              padding 0
-              font-size 14px
-              font-weight 700
-              line-height 18px
-              max-height @line-height * 2
-              a
-                color #393836
-            .taxs // ul
-              margin 0
-              height 15px
-              .tax // li
-                color #696969
-                font-size 11px
-                line-height 1.4em
-                .fa
-                  padding-right 4px
-          .archive-footer
-            padding space*0.5 space space
-            .excerpt
-              overflow hidden
-              margin 0
-              padding 0
-              color #696969
-              font-size 12px
-              text-align justify
-              line-height 16px
-              height @line-height * 4
-
-
-  &.layer-project
-    .singles
-      .single
-        .single-cell
-          whiteboard()
-          position relative
-          padding space3
-          .header
-            position relative
-            padding space 0
-            border-bottom 1px solid base-color-gray
-            .headline
-              .title
-                margin 0 0 space2
-                padding 0
-                font-size 24px
-                font-weight bold
-                text-align center
-                text-transform uppercase
-              .description
-                margin 0
-                padding 0
-                font-size 13px
-                font-style italic
-                text-align center
-            .navigations // nav
-              .navigate-prev
-              .navigate-next
-                position absolute
-                bottom space
-                width 25%
-                a
-                  .navigate-angle
-                    margin 0 0 10px
-                    color base-color-black
-                    font-weight 500
-                    text-transform uppercase
-                    transition color base-transition
-                    .fa
-                      padding 0 6px
-                  .navigate-title
-                    omission()
-                    color base-color-gray
-                    font-style italic
-                  &:hover
-                    .navigate-angle
-                      color #000
-              .navigate-prev
-                left 0
-                text-align left
-              .navigate-next
-                right 0
-                text-align right
-          .article
-            .meta
-              padding space2 0
-              .photograph-container
-                height 474px * 0.7
-                @media screen and (min-width: 1080px) and (min-device-width: 1079px)
-                  height 544px * 0.7
-                &:hover
-                  .photograph
-                    transform scale(1)
-
-              .outlines-container
-                .outlines
-                  margin 0
-                  padding space 0 space2
-                  .title // h2
-                    margin 0
-                    padding 0 0 space
-                    font-size 14px
-                    font-weight 700
-                    letter-spacing .05em
-                    text-align left
-                    text-transform uppercase
-                  .abstract // p
-                    margin 0
-                    text-align justify
-                .tags // ul
-                  margin 0
-                  padding 0 0 space2
-                  .tag-title
-                    display inline-block
-                    padding-right 8px
-                    color base-color-black
-                    font-size 13px
-                    line-height 18px
-                .actions
-                  margin 0
-                  padding 0 0 space2
-                  .title // h2
-                    margin 0
-                    padding 0 0 space
-                    font-size 14px
-                    font-weight 700
-                    letter-spacing .05em
-                    text-align left
-                    text-transform uppercase
-                  .socials
-                    .social
-                      overflow hidden
-                      height 72px
-            .content
-              markdown()
-              padding space2 0
-              border-top 1px solid base-color-gray
-          .footer
+                    color #000
+            .navigate-prev
+              left 0
+              text-align left
+            .navigate-next
+              right 0
+              text-align right
+        .article
+          .meta
             padding space2 0
+            .photograph-container
+              height 474px * 0.7
+              @media screen and (min-width: 1080px) and (min-device-width: 1079px)
+                height 544px * 0.7
+              &:hover
+                .photograph
+                  transform scale(1)
 
-    .archives
-      .archive
-        .archive-cell
-          .photograph-container
-            height 330px * (9 / 16)
-          .archive-article
-            height 60px
+            .outlines-container
+              .outlines
+                margin 0
+                padding space 0 space2
+                .title // h2
+                  margin 0
+                  padding 0 0 space
+                  font-size 14px
+                  font-weight 700
+                  letter-spacing .05em
+                  text-align left
+                  text-transform uppercase
+                .abstract // p
+                  margin 0
+                  text-align justify
+              .tags // ul
+                margin 0
+                padding 0 0 space2
+                .tag-title
+                  display inline-block
+                  padding-right 8px
+                  color base-color-black
+                  font-size 13px
+                  line-height 18px
+              .actions
+                margin 0
+                padding 0 0 space2
+                .title // h2
+                  margin 0
+                  padding 0 0 space
+                  font-size 14px
+                  font-weight 700
+                  letter-spacing .05em
+                  text-align left
+                  text-transform uppercase
+                .socials
+                  .social
+                    overflow hidden
+                    height 72px
+          .content
+            markdown()
+            padding space2 0
+            border-top 1px solid base-color-gray
+        .footer
+          padding space2 0
+
+  .archives
+    .archive
+      .archive-cell
+        .photograph-container
+          height 330px * (9 / 16)
+        .archive-article
+          height 60px
+          margin 0
+          padding 10px 0
+          border-bottom 1px solid #e7e4da
+          .title
+            omission()
             margin 0
-            padding 10px 0
-            border-bottom 1px solid #e7e4da
-            .title
-              omission()
-              margin 0
-              padding-bottom 5px
+            padding-bottom 5px
+            color base-color-black
+            font-size 14px
+            font-weight 300
+            line-height 1.5em
+            text-align justify
+            a
               color base-color-black
-              font-size 14px
-              font-weight 300
-              line-height 1.5em
-              text-align justify
-              a
-                color base-color-black
-                font-weight 500
-                letter-spacing .01em
-            .tags
-              overflow hidden
-              height 18px
-          .archive-footer
-            margin 0 0 30px
-            .project-term
-              margin-top 5px
-              font-size 13px
-              font-weight 300
-              line-height 1.5em
-              text-align justify
-              .started
-              .separator
-              .ended
-                display inline
-                padding-right 5px
-
+              font-weight 500
+              letter-spacing .01em
+          .tags
+            overflow hidden
+            height 18px
+        .archive-footer
+          margin 0 0 30px
+          .project-term
+            margin-top 5px
+            font-size 13px
+            font-weight 300
+            line-height 1.5em
+            text-align justify
+            .started
+            .separator
+            .ended
+              display inline
+              padding-right 5px
 
 // ホーム
 .layer-page-home
@@ -1255,6 +1323,38 @@ body
   max-width page-about-width
   padding-top space4
 
+
+// ダウンロード完了
+.layer-page-success
+  max-width page-about-width
+  background-color base-color-white
+  table#edd_purchase_receipt
+    hidden()
+  table#edd_purchase_receipt_products
+    tr
+      th
+      td
+        &:last-child
+          hidden()
+      td
+        padding space
+      &:last-child
+        td
+          border-bottom 2px solid #ddd
+    .edd_purchase_receipt_product_name
+      padding 0 0 4px
+      font-weight 700
+    .edd_purchase_receipt_product_notes
+      p
+        color base-color-gray
+        margin 0 0 8px
+    ul.edd_purchase_receipt_files
+      margin 8px 0 0 space2
+      padding 0
+      li.edd_download_file
+        margin-bottom 4px
+        a.edd_download_file_link
+          color darken(base-color-orange, 25%)
 
 // 検索結果
 .layer-search

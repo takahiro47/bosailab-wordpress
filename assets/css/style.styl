@@ -300,6 +300,42 @@ markdown-zoom = 1.0
     & > object
       margin-bottom 0
 
+
+/* = 資料ダウンロードフォーム
+ * ------------------------------------------------------------ */
+
+#edd_checkout_wrap
+  // @extends .markdown
+  form#edd_checkout_cart_form // 商品一覧
+    margin 0
+    #edd_checkout_cart_wrap
+      table#edd_checkout_cart
+        // 価格欄を削除
+        tr.edd_cart_header_row th.edd_cart_item_price
+        tr.edd_cart_item td.edd_cart_item_price
+        tr.edd_cart_footer_row
+          hidden()
+        // 書き換え
+        th.edd_cart_actions
+          text-indent -100em
+  #edd_checkout_form_wrap // 情報入力
+    form#edd_purchase_form
+      margin 32px 0
+      .edd-payment-icons
+        hidden()
+      fieldset#edd_purchase_submit
+        p#edd_final_total_wrap // 購入額合計
+          hidden()
+        p#edd-cancel // 戻る
+          hidden()
+        input#edd-purchase-button
+          width 100%
+      fieldset#edd_checkout_user_info
+        textarea
+          resize vertical
+          min-height 68px
+
+
 /* = UI
  * ------------------------------------------------------------ */
 

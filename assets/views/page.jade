@@ -3,10 +3,8 @@ include _ui
 
 block page_article
   <?php while ( have_posts() ) { the_post(); ?>
-
   //- コンテンツ
   section.ui-section(style='background-color:transparent;')
     .section
       <?php the_content(); ?>
-
   <?php } ?>

@@ -14,6 +14,14 @@ Wordpress theme for Satoko Oki lab.
 
 # References
 
+* NHK/綺麗なサイト http://www3.nhk.or.jp/news/akiya/
+* http://kinhr.com/
+* http://artbees.net/themes/ken/convallis-tempus-phasellus/
+* http://colorlib.com/wp/flat-design-wordpress-theme/
+* http://www.hongkiat.com/blog/flat-design-wordpress-themes/
+
+
+
 * 美女図鑑 http://bigakusei.campus-web.jp/binan-bijo/6652/
 * https://kippt.com/ks/favorites
 * http://www.wan55.co.jp
