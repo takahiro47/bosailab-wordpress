@@ -2251,7 +2251,10 @@ footer.entry-meta
   .comment-list .reply
     width: 100%
 
-@media print(-o-min-device-pixel-ratio: 5/4)(-webkit-min-device-pixel-ratio: 1.25)(min-resolution: 120dpi)
+@media
+print and (-o-min-device-pixel-ratio: 5/4),
+print and (-webkit-min-device-pixel-ratio: 1.25),
+print and (min-resolution: 120dpi)
   .site-header .search-field
     background-image: url(images/search-icon-2x.png)
 
