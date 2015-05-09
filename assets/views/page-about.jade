@@ -98,7 +98,7 @@ block page_article
         //-   li.sort(data-sort='order-name:desc') 名前順(降順)
       .members.container-fluid
         .row
-          <?php foreach ( $profiles as $profile ) { ?>
+          <?php foreach ( $profiles as $profile ) { if ( $profile['facebook_id'] != '' ) {?>
           .mix.member.col-xs-2(
             data-order-name!="<?php echo $profile['key']; ?>"
             data-member-id!="<?php echo $profile['key']; ?>"
@@ -108,7 +108,22 @@ block page_article
             p.profile
               span.name <?php echo $profile['name']; ?>
               span.grade <?php echo $profile['grade']; ?>
-          <?php } ?>
+          <?php } else { ?>
+          .mix.member.col-xs-2(
+            data-order-name!="<?php echo $profile['key']; ?>"
+            data-member-id!="<?php echo $profile['key']; ?>"
+            class!="filter filter-<?php echo $profile['grade']; ?>"
+          )
+            .thumbnail(style!="background-color:#D3C9BA; position: relative;")
+              p.member-title(style!="z-index: 2; position: absolute; top: 44px; left: 0; width: 100%; margin: 0; padding: 0; font-size: 11px; line-height: 1.0em; text-align: center; letter-spacing: 0.1em;")
+                <?php echo $profile['grade']; ?>
+              p.member-title(style!="z-index: 2; position: absolute; top: 64px; left: 0; width: 100%; margin: 0; padding: 0; font-size: 14px; line-height: 1.0em; text-align: center; letter-spacing: 0.1em;")
+                <?php echo $profile['name']; ?>
+              i.fa.fa-arrow-right(style!="z-index: 1; position: absolute; bottom: 0; right: 0; margin: 0; padding: 0; color: #C3B6A2; font-size: 104px; line-height: 1.0em;")
+            p.profile
+              span.name &nbsp;
+              span.grade &nbsp;
+          <?php } } ?>
 
   //- メンバー募集
   section.ui-section
