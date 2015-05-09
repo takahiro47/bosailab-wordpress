@@ -961,10 +961,11 @@ function pippin_edd_purchase_details($payment_meta, $user_info) {
 add_action('edd_payment_personal_details_list', 'pippin_edd_purchase_details', 10, 2);
 
 
-
 add_editor_style('dist/css/plugin/editor-style.css');
 function custom_editor_settings( $initArray ) {
     $initArray['body_class'] = 'editor-area';
     return $initArray;
 }
 add_filter( 'tiny_mce_before_init', 'custom_editor_settings' );
+
+remove_filter( 'the_content', 'wpautop' );
