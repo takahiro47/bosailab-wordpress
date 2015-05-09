@@ -73,8 +73,8 @@ date_width = 120px * 0.35
       text-align center
     .date-month
       top 0
-      padding 2px 0
-      background-color #D35950 //#E8675E
+      padding 2px 0 3px
+      background-color #C34B4B // #D35950
       border-radius base-radius-small base-radius-small 0 0
       color #fff
       font-size 10px
@@ -82,16 +82,16 @@ date_width = 120px * 0.35
       line-height 10px
     .date-day
       top 14px
-      font-size 20px
+      font-size 22px
       line-height 27px
       // background-color base-color-white
-      border 1px solid #eee
+      // border 1px solid #eee
       border-top 0
       border-radius 0 0 6px 2px
     .date-year
       top 42px
-      font-size 10px
-      line-height 15px
+      font-size 12px
+      line-height 18px
 
 
 /* = .ui-loader
@@ -194,6 +194,7 @@ loader-transform = loader-size + (loader-gutter*2)
     .ui-loader
       opacity 0
   &.link:hover
+  &.link.hover
     .photograph
       transform scale(1.05)
       filter grayscale(100%)
@@ -202,9 +203,9 @@ loader-transform = loader-size + (loader-gutter*2)
       -ms-filter grayscale(100%)
       -o-filter grayscale(100%)
       filter gray
-      -webkit-filter grayscale(1)
+      -webkit-filter grayscale(0.36)
     .photograph-shadow
-      background-color rgba(0, 0, 0, .54)
+      background-color rgba(0, 0, 0, .24)
     .link-icon
       opacity 1
       transform rotate(0deg)
@@ -291,13 +292,14 @@ loader-transform = loader-size + (loader-gutter*2)
 .btn // a
   float left
   display inline
-  padding 13px 40px
+  padding 16px 48px
   font-size 13px
+  font-size 1.3rem
   font-weight 700
   text-align center
   text-transform uppercase
   text-rendering optimizelegibility
-  letter-spacing .1em // 1px
+  letter-spacing .1rem
   border 0
   border-radius 4px
   box-shadow none
@@ -318,6 +320,7 @@ loader-transform = loader-size + (loader-gutter*2)
       background-color #384141
   &.btn-pink
     background-color #e76860
+    box-shadow 0 2px 0 #c65953
     &:hover
       box-shadow 0 3px 0 #c65953
       background-color darken(#e76860, 4%)
@@ -326,7 +329,7 @@ loader-transform = loader-size + (loader-gutter*2)
   &.btn-green
     background-color #0ea5a0
     &:hover
-      box-shadow 0 3px #128c87
+      box-shadow 0 3px 0 #128c87
       background-color #12a19c
 
 

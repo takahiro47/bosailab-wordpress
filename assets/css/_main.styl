@@ -227,14 +227,33 @@ body
 
   // セクション
   .ui-section
+    position relative
     padding 40px 0
-    background-color #fff
+    background-color base-background-color
     &:nth-child(even)
-      background-color transparent
+      background-color base-background-color
     &:nth-child(odd)
-      background-color #fff
+      background-color base-background-color-light
+    .section-photo
+      max-width-container()
+      max-width 100%
+      width 100%
+      height 100%
+      overflow hidden
+      position absolute
+      top 0
+      left @top
+      right @top
+      background-size cover
+      background-repeat no-repeat
+      background-position center center
+      @media screen and (max-width: 1110px)
+        max-width 100%
     .section
       max-width-container()
+    .section-photo
+    .section
+      transition all .0s linear .0s !important
 
 
 // スクロールの挙動
@@ -243,6 +262,7 @@ body
   .ui-section
     @media screen and (min-width: 1080px) and (min-device-width: 1079px)
       padding-top 90px
+
 
 // 投稿一覧ページ共通
 .layer-archive
@@ -282,7 +302,7 @@ body
         max-width space12
         margin 0
         padding 0
-        color base-color-gray
+        color base-color-black
         font-size 18px
         font-weight 300
         line-height 26px
@@ -454,6 +474,7 @@ body
     @media screen and (min-width: 1080px) and (min-device-width: 1079px)
       padding-top 90px
     .archive
+      backface-visibility hidden
       display none
 
     //- 実質フォトログ
@@ -549,6 +570,8 @@ body
             .views
               opacity 1
 
+
+// ダウンロード
 .layer-download
   .singles
     .single
@@ -736,40 +759,43 @@ body
               &:hover
                 color base-color-orange
 
+
+// レポート(ブログ)
 .layer-report
   .singles
     .single
       .single-cell
         position relative
-        border 1px solid #eee
-        background-color #fdfdfd
+        background-color base-background-color-light
         .photograph-container
-          height 290px * 1.1
+          height 290px * 1
           @media screen and (min-width: 1080px) and (min-device-width: 1079px)
-            height 330px * 1.1
+            height 330px * 1
         .header
           position relative
-          padding space space2
-          background-color #f7f7f7
-          border-bottom 1px solid #fdfdfd
+          padding space2
+          background-color base-background-color-light2
           .ui-calender
             position absolute
-            top 17px
-            left 32px
+            top space2
+            left @top + 5px
           .title
             position relative
-            margin 0 0 8px 42px+space
+            margin 0 0 8px space4
             padding 0
             font-size 24px
-            font-weight 300
-            line-height 28px
+            font-size 2.4rem
+            font-weight 500
+            line-height @font-size * 1.4
+            text-align justify
           .taxs // ul
-            margin 0 0 0 42px+space
+            margin 0 0 0 space4
             height 15px
             .tax // li
               color #696969
               font-size 13px
-              line-height 1.4em
+              font-size 1.3rem
+              line-height @font-size * 1.4
               .fa
                 padding-right 4px
         .article
@@ -803,20 +829,24 @@ body
                 display block
                 color #E5E5E5
                 font-size 72px
+                font-size 7.2rem
+                line-height @font-size * 1.4
                 text-align center
             .responsibility
             .members
               .custom-title
                 margin 0 0 8px
                 color #777
-                font-size 11px
-                line-height 1.3em
+                font-size 12px
+                font-size 1.2rem
+                line-height @font-size * 1.4
                 text-align center
               .custom-body
                 margin 4px 0 12px
                 font-size 15px
+                font-size 1.5rem
                 font-weight 700
-                line-height 1.3em
+                line-height @font-size * 1.4
                 text-align center
             .members
               .custom-body
@@ -833,12 +863,14 @@ body
                 padding-bottom 4px
                 color base-color-black
                 font-size 14px
+                font-size 1.4rem
                 line-height @font-size
                 transition all base-transition
               .navigate-title
                 omission()
                 color base-color-gray
                 font-size 12px
+                font-size 1.2rem
               &:hover
                 .navigate-angle
                   color base-color-orange
@@ -868,60 +900,81 @@ body
                   float right
 
   .archives
+    padding-left 15px + 13px
+    padding-right @padding-left
     .archive
       .archive-cell
-        border 1px solid #eee
-        background-color #fdfdfd
-        margin-bottom space2
+        position relative
+        // border 1px solid #eee
+        background-color base-background-color-light
+        margin-left -13px
+        margin-right @margin-left
+        margin-bottom 4px
+        &:hover
+          background-color base-background-color-dark
         .photograph-container
-          height 290px * 1.2
+          height 290px
           @media screen and (min-width: 1080px) and (min-device-width: 1079px)
-            height 330px * 1.2
+            height 330px
+        .ui-calender
+          z-index 11
+          position absolute
+          top 250px + 10px
+          right space * 1.2
+          @media screen and (min-width: 1080px) and (min-device-width: 1079px)
+            top 290px + 10px
         .archive-article
-          overview hidden
-          padding space space space*0.5
-          background-color #f7f7f7
-          border-bottom 1px solid #fdfdfd
-          height 84px
+          overflow hidden
+          padding space * 1.2
+          height 140px
+          height 14rem
+          .taxs // ul
+            margin 0
+            height 24px
+            .tax // li
+              display inline-block
+              padding-bottom 3px
+              margin-right space
+              color base-color-black
+              font-size 13px
+              font-size 1.3rem
+              line-height @font-size * 1.4
+              border-bottom 2px solid transparent
+              &.label1
+                border-bottom-color color1
+              &.label2
+                border-bottom-color color2
+              &.label3
+                border-bottom-color color3
+              &.label4
+                border-bottom-color color4
+              &.label5
+                border-bottom-color color5
+              &.label6
+                border-bottom-color color6
           .title // h2
             position relative
             overview hidden
-            margin 0 0 8px
+            margin space * 0.5 0 0
             padding 0
-            font-size 14px
+            color base-color-black
+            font-size 15px
+            font-size 1.5rem
             font-weight 700
-            line-height 18px
-            max-height @line-height * 2
-            a
-              color #393836
-          .taxs // ul
-            margin 0
-            height 15px
-            .tax // li
-              color #696969
-              font-size 11px
-              line-height 1.4em
-              .fa
-                padding-right 4px
-        .archive-footer
-          padding space*0.5 space space
-          .excerpt
-            overflow hidden
-            margin 0
-            padding 0
-            color #696969
-            font-size 12px
+            line-height @font-size * 1.4
             text-align justify
-            line-height 16px
-            height @line-height * 4
+            letter-spacing .01rem
 
+
+// プロジェクト
 .layer-project
   .singles
     .single
       .single-cell
-        whiteboard()
+        // whiteboard()
         position relative
         padding space3
+        background-color base-background-color-light
         .header
           position relative
           padding space 0
@@ -931,7 +984,9 @@ body
               margin 0 0 space2
               padding 0
               font-size 24px
-              font-weight bold
+              font-size 2.4rem
+              font-weight 700
+              line-height @font-size * 1.4
               text-align center
               text-transform uppercase
             .description
@@ -1034,20 +1089,20 @@ body
           height 60px
           margin 0
           padding 10px 0
-          border-bottom 1px solid #e7e4da
+          border-bottom 1px solid base-background-color-dark
           .title
             omission()
             margin 0
             padding-bottom 5px
             color base-color-black
-            font-size 14px
-            font-weight 300
-            line-height 1.5em
+            font-size 16px
+            font-size 1.6rem
+            font-weight 500
+            line-height @font-size * 1.4
             text-align justify
+            letter-spacing .01rem
             a
               color base-color-black
-              font-weight 500
-              letter-spacing .01em
           .tags
             overflow hidden
             height 18px
@@ -1055,9 +1110,11 @@ body
           margin 0 0 30px
           .project-term
             margin-top 5px
-            font-size 13px
-            font-weight 300
-            line-height 1.5em
+            color base-color-black
+            font-size 14px
+            font-size 1.4rem
+            font-weight 500
+            line-height @font-size * 1.4
             text-align justify
             .started
             .separator
@@ -1065,14 +1122,20 @@ body
               display inline
               padding-right 5px
 
+
 // ホーム
 .layer-page-home
   // スライダ
   .ui-slider
     position relative
     margin-top header-navi-height-max * -1
-    .slides
+    padding 0 !important
+    .section-photos // ul
       overflow hidden
+      margin 0
+    .slides // ul
+      overflow hidden
+      margin 0
       .slide
         position relative
         width 100%
@@ -1102,14 +1165,14 @@ body
   .ui-section
     padding 40px 0
     background-color #fff
-    &.colored
-      background-color #F4F7F8
+    // &.colored
+    //   background-color #f0eae1 // #F4F7F8
     .section
       max-width-container()
       .section-title // h1
         margin 20px 0
         padding 0
-      // アクティビティ / プロジェクト
+      // アクティビティ
       .section-archives
         margin-bottom 40px
         .archive
@@ -1117,35 +1180,19 @@ body
             iframe
               width 100%
               background-color base-color-gray
-          &.archive-project
-            .archive-cell
-              .photograph-container
-                height 330px * (9 / 16)
-              .archive-article
-                height auto
-                margin-top 15px
-                border-bottom none
-                .title
-                  omission()
-                  margin 0
-                  font-size 14px
-                  font-weight 300
-                  line-height 1.5em
-                  text-align justify
-                  a
-                    color base-color-black
-                    font-weight 500
-                    letter-spacing .01em
       .section-archives-more
         max-width-container()
-        font-size 14px
-        line-height 3em
+        margin-top 40px
+        margin-bottom 12px
         text-align center
         a
           float none
           display inline
-          padding 8px 24px
+          padding 12px 36px
+          font-size 14px
+          font-size 1.4rem
           font-weight 500
+          line-height @font-size * 1.4
           .fa
             padding-left 6px
       // Google my maps
@@ -1165,8 +1212,6 @@ body
       padding-bottom 120px
       .section
         padding-top 120px
-    &.ui-section-colored
-      background-color base-color-beige
     .section
       max-width-container()
       .section-title // h1
@@ -1329,7 +1374,7 @@ body
 .layer-page-success
 .layer-page-confirm
   max-width page-about-width
-  background-color base-color-white
+  background-color transparent
   table#edd_purchase_receipt
     hidden()
   table#edd_purchase_receipt_products

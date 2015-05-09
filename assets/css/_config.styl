@@ -15,20 +15,24 @@ page-max-width              = 1920px
 page-about-width            = 860px
 centerize-base-width        = 2000px
 
-base-background-color       = #f4f7f8
-base-background-color-dark  = #e9eaed
+base-background-color       = #eee8df // #f4f7f8
+base-background-color-light2= lighten(#F5F1EB, 50%)
+base-background-color-light = #F5F1EB
+base-background-color-dark  = #e6ddce // #e9eaed
+base-background-color-dark2 = #d9ccb9
 
 base-radius                 = 4px
 base-radius-small           = 2px
 base-text-shadow            = 0 -1px rgba(0, 0, 0, .1)
 base-transition             = .2s ease-in-out
 
-base-color                  = #799FA4 // グリーン系
-base-color-current          = darken(#799FA4, 20%)
+base-color                  = #799FA4 // グリーン系 使ってない
+base-color-current          = darken(#799FA4, 20%) // 使ってない
+
 base-color-white            = #fff
-base-color-gray             = #A7A7A7
+base-color-gray             = #998282 // #A7A7A7
 base-color-gray-current     = darken(base-color-gray, 75%)
-base-color-black            = #222
+base-color-black            = #4d3636 // #222
 base-color-green            = #05ADA9
 base-color-beige            = #F7F3EC
 base-color-blue             = #0A6E83
@@ -53,6 +57,14 @@ space13                     = base-space * 13
 space14                     = base-space * 14
 space15                     = base-space * 15
 space16                     = base-space * 16 // 256px
+
+// 配色
+color1                      = #FF7C00 // orange
+color2                      = #FFD300 // yellow
+color3                      = #A9A700 // dark yellow
+color4                      = #A8D5D5 // blue
+color5                      = #00A8AA // green
+color6                      = #7A4300 // brown
 
 // 管理バー
 admin-navi-height-min       = 32px
@@ -133,6 +145,17 @@ user-select()
   -ms-user-select none
   -webkit-user-select none
   user-select none
+
+// CSS3 カラム
+column-count(colums)
+  -webkit-column-count colums
+  -moz-column-count colums
+  column-count colums
+
+// CSS3 アニメーションちらつき防止
+backface-visibility(v)
+  -webkit-backface-visibility v
+  backface-visibility v
 
 // 文字詰め
 ellipsis()

@@ -294,7 +294,11 @@ $ ->
   media =
     signed_in: $body.hasClass 'signed_in'
 
-  console.log media.signed_in
+  # console.log media.signed_in
+
+  $intro          = $ '.section-intro'
+  $intro_photo    = $ '.section-intro .section-photo'
+  $intro_section  = $ '.section-intro .section'
 
   scrollActions = (event = null) ->
     winheight     = $win.height()
@@ -313,6 +317,19 @@ $ ->
     else
       $header_nav.removeClass 'scrolled'
       $layer_header.removeClass 'scrolled'
+
+    # 背景のスクロール
+    if $intro
+      # 透明度
+      if scrollheight < $intro_photo.height() + 100
+        opacity = 1 - (scrollheight / $intro_photo.height() * 2)
+        if opacity < 0 then opacity = 0
+        $intro_section.css 'opacity': opacity
+      else
+        $intro_section.css 'opacity': 0
+      # 位置
+      $intro_photo.css 'transform': "matrix(1, 0, 0, 1, 0, #{scrollheight/3})"
+      $intro_section.css 'transform': "matrix(1, 0, 0, 1, 0, #{scrollheight/7*3})"
 
     # スクロールアイコンの表示
     if 320 < scrollheight
@@ -338,6 +355,7 @@ $ ->
     #   percent = 100 - (scrollheight / winheight * 100)
     #   # if 0 <= percent and percent <= 100
     #   media.scrollel.css 'background-position-y', "#{percent}%"
+
 
   scrollActions()
 
@@ -402,6 +420,7 @@ $ ->
   # ===================================
   # 画像の遅延ロード
   # ===================================
+
   $.fn.imageload = ->
     @each ->
       $el = $ @
@@ -419,6 +438,7 @@ $ ->
   # ===================================
   # 複数行における省略
   # ===================================
+
   $.fn.ellipsis = ->
     @each ->
       $el = $ @

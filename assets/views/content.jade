@@ -16,6 +16,9 @@ include _ui
 <?php if ( get_post_type() == 'project' ) { ?>
 <?php if ( !get_field( 'parent_project' ) ) { ?>
 
+//- :php
+//-   print_r( get_post( get_the_ID() ) );
+
 .col-xs-4.mix.archive(
   id!="archive-<?php the_ID(); ?>"
   class!="<?php echo $class; ?> archive-<?php get_post_type(); ?>"
@@ -38,7 +41,7 @@ include _ui
       ul.taxs
         <?php if ($terms = get_the_terms($post->ID, substr(get_post_type(), 0, 2).'-types')) { ?>
         <?php foreach ( $terms as $term ) { ?>
-        li.tax
+        li.tax(class!="label<?php echo rand(1, 6); ?>")
           | <?php echo esc_html( $term->name ); ?>
         <?php } } ?>
       //- タグ
@@ -58,35 +61,44 @@ include _ui
 <?php } ?>
 <?php } else if ( get_post_type() == 'report' ) { ?>
 
-.col-xs-4.mix.archive(
+.col-xs-3.mix.archive(
   id!="archive-<?php the_ID(); ?>"
-  class!="<?php echo $class; ?> archive-<?php get_post_type(); ?>"
+  class!="<?php echo $class; ?> archive-report archive-<?php get_post_type(); ?>"
   data-order-created!="<?php the_ID(); ?>"
 )
-  .archive-cell
-    .photograph-container.link
-      .background
-      a(href!='<?php the_permalink(); ?>')
+  a.js-navi-single(href!='<?php the_permalink(); ?>')
+    .archive-cell
+      //- 投稿日時
+      .ui-calender
+        time <?php echo get_the_time('Y-m-d H:i:s'); ?>
+        .date-icon
+          .date-month <?php echo get_the_time('M'); ?>
+          .date-day <?php echo get_the_time('d'); ?>
+          .date-year <?php echo get_the_time('Y'); ?>
+      //- サムネイル
+      .photograph-container.link
+        .background
         .photograph(style!="background-image:url('<?php echo $thumbnail_url; ?>');")
         .photograph-shadow
         span.link-icon +
         +ui-loader
-    article.archive-article
-      //- タイトル
-      h2.title.ellipsis(rel='bookmark')
-        a.js-navi-single(href!='<?php the_permalink(); ?>')
+      //- タイトルなど
+      article.archive-article
+        //- タクソノミー(カテゴリ)
+        ul.taxs
+          <?php if ($terms = get_the_terms($post->ID, substr(get_post_type(), 0, 2).'-types')) { ?>
+          <?php foreach ( $terms as $term ) { ?>
+          li.tax(class!="label<?php echo rand(1, 6); ?>")
+            <?php echo esc_html( $term->name ); ?>
+          <?php } } ?>
+        //- タイトル
+        h2.title.ellipsis(rel='bookmark')
           | <?php the_title(); ?>
-      //- タクソノミー(カテゴリ)
-      ul.taxs
-        <?php if ($terms = get_the_terms($post->ID, substr(get_post_type(), 0, 2).'-types')) { ?>
-        <?php foreach ( $terms as $term ) { ?>
-        li.tax
-          i.fa.fa-tag
-          | <?php echo esc_html( $term->name ); ?>
-        <?php } } ?>
-    footer.archive-footer
-      .excerpt.markdown
-        | <?php echo new_excerpt(150); ?>
+      //- footer.archive-footer
+      //-   .content.markdown
+      //-     p.excerpt <?php echo new_excerpt(150); ?>
+      //-     a.read-more(href!='<?php the_permalink(); ?>')
+      //-       | ≫ 続きを読む
 
 
 <?php } else if ( get_post_type() == 'download' ) { ?>

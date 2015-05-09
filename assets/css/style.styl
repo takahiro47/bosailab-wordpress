@@ -94,11 +94,11 @@ $fa-version ?= ''
 body
   position relative
   -webkit-font-smoothing antialiased
-  color font_color
+  color base-color-black
   font-size 13px
   font-weight normal
   font-reset()
-  background-color base-color-white
+  background-color base-backgroud-color
 
 h1
 h2
@@ -136,7 +136,7 @@ textarea
 .off
   animation fadeOutFrame .8s linear
 
-markdown-zoom = 1.0
+markdown-zoom = 1.2
 .markdown
   color base-color-black
   text-align left
@@ -146,48 +146,56 @@ markdown-zoom = 1.0
   h4
   h5
   h6
-    font-size 1.20em * markdown-zoom
+    font-size 1.2rem * markdown-zoom
+    font-size 12px * markdown-zoom
+    line-height 1.4em
     font-weight 300
-    line-height @font-size
     word-wrap break-word
   h1
   h2
   h3
     margin-bottom 16px
-    padding-bottom 0.3em * markdown-zoom
-    border-bottom 1px solid #eee
+    padding-bottom 0.3rem * markdown-zoom
+    border-bottom 1px solid base-color-gray
     // &:before
     //   content '■'
     //   padding-right .5em
     //   color #8DB95C
   h1
-    font-size 2.15em * markdown-zoom
-    line-height 1.40em
+    font-size 23px * markdown-zoom
+    font-size 2.3rem * markdown-zoom
     margin-top @font-size
     &:before
       color base_color
   h2
-    font-size 1.70em * markdown-zoom
-    line-height 1.50em
-    margin-top 1.50em
+    font-size 20px * markdown-zoom
+    font-size 2.0rem * markdown-zoom
+    margin-top @font-size
     &:before
       color #C54A48
   h3
-    font-size 1.40em * markdown-zoom
-    line-height @font-size
+    font-size 18px * markdown-zoom
+    font-size 1.8rem * markdown-zoom
   h4
-    font-size 1.30em * markdown-zoom
+    font-size 16px * markdown-zoom
+    line-height @font-size
+    font-size 1.6rem * markdown-zoom
     line-height @font-size
   h5
-    font-size 1.20em * markdown-zoom
+    font-size 15px * markdown-zoom
+    line-height @font-size
+    font-size 1.5rem * markdown-zoom
     line-height @font-size
   h6
-    font-size 1.10em * markdown-zoom
+    font-size 14px * markdown-zoom
+    line-height @font-size
+    font-size 1.4rem * markdown-zoom
     line-height @font-size
   p
     display block
     margin .7em 0 1.4em
-    font-size 13px
+    font-size 13px * markdown-zoom
+    font-size 1.3rem * markdown-zoom
     line-height 1.6em
     word-wrap break-word
   strong
@@ -196,17 +204,26 @@ markdown-zoom = 1.0
     font-style italic
   blockquote
     display block
+    margin .5em 20px
+    padding .01em 15px .5em
     -webkit-margin-before 1em
     -webkit-margin-after 1em
     -webkit-margin-start 40px
     -webkit-margin-end 40px
+    border-left-color base-background-color-dark
+    p
+      font-size 13px
+      font-size 1.3rem
+      line-height 1.4em
   ul
   ol
     margin 0 0 24px 0
     padding-left 40px
     li
-      margin-bottom 8px
-      font-size 13px
+      font-size 14px
+      font-size 1.4rem
+      line-height 1.4em
+      margin-bottom @font-size * 0.5
       & > ul
       & > ol
         margin 0 0 0 20px
@@ -214,12 +231,23 @@ markdown-zoom = 1.0
     list-style disc
   ol
     list-style decimal
+  dl
+      margin 0 0 12px 0
+      padding-left 40px
+    dt
+    dd
+      font-size 14px
+      font-size 1.4rem
+      line-height 1.4em
+      margin-bottom @font-size * 0.5
   img
     -ms-interpolation-mode bicubic
     border 0
     vertical-align middle
   legend
+    color base-color-black
     white-space normal
+    border-bottom-color base-color-gray
   button
   input
   select
@@ -254,17 +282,20 @@ markdown-zoom = 1.0
     // @extend .table-condensed
     // @extend .table-hover
     margin .7em 0 1.4em
-    tr
-      th
-        @extend .table > thead > tr > th
-      &:nth-child(even)
-        td
-          background-color #f9f9f9
-  blockquote
-    margin .5em 20px
-    padding 1px 15px
-    p
-      font-size
+    & > tbody
+    tbody
+    &
+      & > tr
+        & > th
+          @extend .table > thead > tr > th
+        & > th
+        & > td
+          border-top-color base-color-gray
+        & > th
+          border-bottom-color base-color-gray
+        &.even // &:nth-child(even)
+          & > td
+            background-color base-background-color-light2
   pre
     border-radius 0
   img

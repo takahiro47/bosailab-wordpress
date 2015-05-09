@@ -4,8 +4,8 @@ include _ui
 block page_article
 
   //- メッセージ
-  section.ui-section(
-          style!="background-image:url('<?php echo (get_template_directory_uri().'/dist/images/about/overview_professor_message_back_2x.jpg') ?>')")
+  section.ui-section.section-intro
+    .section-photo(style!="background-image:url('<?php echo (get_template_directory_uri().'/dist/images/about/overview_professor_message_back_2x.jpg') ?>')")
     .section
       h1.section-title
         img.img-responsive.animate.fadeInUp(
@@ -15,10 +15,11 @@ block page_article
           alt='SFCから、日本の、いや世界の防災を変えよう。'
         )
       .section-text.animate.fadeIn(
-        style='width:980px; height:114px; visibility:hidden;'
+        style='visibility:hidden;'
         data-wow-duration='1s'
       )
         | <?php the_field( 'professor_message' ); ?>
+
 
   //- 教授紹介
   section.ui-section.ui-section-colored

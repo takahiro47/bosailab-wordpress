@@ -14,6 +14,11 @@ Wordpress theme for Satoko Oki lab.
 
 # References
 
+* 文字ｻｲｽﾞを大きく
+* カテゴリをｽﾗｯｸﾞ名順に
+* 非表示を隠す
+* プロジェクトを親子関係に
+
 * NHK/綺麗なサイト http://www3.nhk.or.jp/news/akiya/
 * http://kinhr.com/
 * http://artbees.net/themes/ken/convallis-tempus-phasellus/
