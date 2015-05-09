@@ -5,7 +5,7 @@
   "authors": [
     "Takahiro Tsuchiya <tsucchi@ht.sfc.keio.ac.jp>"
   ],
-  "description": "bosailab's website, maked by tsucchi and bettsu with wordpress.",
+  "description": "BOSAI LABORATORY in SFC, Keio university's website, created by tsucchi and bettsu with wordpress.",
   "keywords": [
     "bosai"
   ],
@@ -20,12 +20,13 @@
     "tests"
   ],
   "dependencies": {
-    "backbone": "~1.1.2",
-    "bootstrap-stylus": "~3.1.0",
-    "font-awesome": "~4.0.3",
-    "jquery": "~2.1.0",
-    "socket.io": "~0.9.15",
-    "rangeslider.js": "~0.2.9"
+    "backbone": "*",
+    "bootstrap-stylus": "*",
+    "font-awesome": "*",
+    "font-awesome-stylus": "*",
+    "jquery": "*",
+    "socket.io": "*",
+    "rangeslider.js": "*"
   },
   "exportsOverride": {
     "bootstrap-stylus": {

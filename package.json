@@ -1,9 +1,9 @@
 {
-  "name": "bosai_official_website",
+  "name": "web_bosai_sfc_keio_ac_jp",
   "version": "2.0.0",
   "private": true,
   "scripts": {
-    "prestart": "npm i -g grunt-cli pm2; grunt build",
+    "prestart": "npm i -g grunt-cli bower pm2; bower install; grunt build",
     "test": "mocha --reporter nyan --compilers coffee:coffee-script --check-leaks --slow 20 tests"
   },
   "dependencies": {
