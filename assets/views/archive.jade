@@ -29,7 +29,7 @@ block page_article
           :php
             $args = array(
               'style'               => 'list',
-              'orderby'             => 'name',
+              'orderby'             => 'slug', // name
               'order'               => 'ASC',
               'taxonomy'            => substr(get_post_type(), 0, 2).'-types',
               'title_li'            => '',
