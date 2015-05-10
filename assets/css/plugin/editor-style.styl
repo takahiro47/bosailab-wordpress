@@ -439,197 +439,197 @@ html .mceContentBody.rtl
 /* = Original markdown
  * ------------------------------------------------------------ */
 markdown-zoom = 1.14
-.markdown
-  color base-color-black
-  text-align left
-  h1
-  h2
-  h3
-  h4
-  h5
-  h6
-    font-size 1.2rem * markdown-zoom
-    font-size 12px * markdown-zoom
-    line-height 1.4em
-    font-weight 300
-    word-wrap break-word
-  h1
-  h2
-  h3
-    margin-bottom 16px
-    padding-bottom 0.3rem * markdown-zoom
-    border-bottom 1px solid base-color-gray
-    // &:before
-    //   content '■'
-    //   padding-right .5em
-    //   color #8DB95C
-  h1
-    font-size 23px * markdown-zoom
-    font-size 2.3rem * markdown-zoom
-    margin-top @font-size
-    &:before
-      color base_color
-  h2
-    font-size 20px * markdown-zoom
-    font-size 2.0rem * markdown-zoom
-    margin-top @font-size
-    &:before
-      color #C54A48
-  h3
-    font-size 18px * markdown-zoom
-    font-size 1.8rem * markdown-zoom
-  h4
-    font-size 16px * markdown-zoom
-    line-height @font-size
-    font-size 1.6rem * markdown-zoom
-    line-height @font-size
-  h5
-    font-size 15px * markdown-zoom
-    line-height @font-size
-    font-size 1.5rem * markdown-zoom
-    line-height @font-size
-  h6
-    font-size 14px * markdown-zoom
-    line-height @font-size
-    font-size 1.4rem * markdown-zoom
-    line-height @font-size
+
+color base-color-black
+text-align left
+h1
+h2
+h3
+h4
+h5
+h6
+  font-size 1.2rem * markdown-zoom
+  font-size 12px * markdown-zoom
+  line-height 1.4em
+  font-weight 300
+  word-wrap break-word
+h1
+h2
+h3
+  margin-bottom 16px
+  padding-bottom 0.3rem * markdown-zoom
+  border-bottom 1px solid base-color-gray
+  // &:before
+  //   content '■'
+  //   padding-right .5em
+  //   color #8DB95C
+h1
+  font-size 23px * markdown-zoom
+  font-size 2.3rem * markdown-zoom
+  margin-top @font-size
+  &:before
+    color base_color
+h2
+  font-size 20px * markdown-zoom
+  font-size 2.0rem * markdown-zoom
+  margin-top @font-size
+  &:before
+    color #C54A48
+h3
+  font-size 18px * markdown-zoom
+  font-size 1.8rem * markdown-zoom
+h4
+  font-size 16px * markdown-zoom
+  line-height @font-size
+  font-size 1.6rem * markdown-zoom
+  line-height @font-size
+h5
+  font-size 15px * markdown-zoom
+  line-height @font-size
+  font-size 1.5rem * markdown-zoom
+  line-height @font-size
+h6
+  font-size 14px * markdown-zoom
+  line-height @font-size
+  font-size 1.4rem * markdown-zoom
+  line-height @font-size
+p
+  display block
+  margin .4em 0 .8em
+  font-size 13px * markdown-zoom
+  font-size 1.3rem * markdown-zoom
+  line-height 1.6em * markdown-zoom
+  min-height @line-height
+  word-wrap break-word
+strong
+  font-weight bold
+em
+  font-style italic
+blockquote
+  display block
+  margin .5em 20px
+  padding .01em 15px .5em
+  -webkit-margin-before 1em
+  -webkit-margin-after 1em
+  -webkit-margin-start 40px
+  -webkit-margin-end 40px
+  border-left-color base-background-color-dark
   p
-    display block
-    margin .4em 0 .8em
-    font-size 13px * markdown-zoom
-    font-size 1.3rem * markdown-zoom
-    line-height 1.6em * markdown-zoom
-    min-height @line-height
-    word-wrap break-word
-  strong
-    font-weight bold
-  em
-    font-style italic
-  blockquote
-    display block
-    margin .5em 20px
-    padding .01em 15px .5em
-    -webkit-margin-before 1em
-    -webkit-margin-after 1em
-    -webkit-margin-start 40px
-    -webkit-margin-end 40px
-    border-left-color base-background-color-dark
-    p
-      font-size 13px
-      font-size 1.3rem
-      line-height 1.4em
-  ul
-  ol
-    margin 0 0 24px 0
+    font-size 13px
+    font-size 1.3rem
+    line-height 1.4em
+ul
+ol
+  margin 0 0 24px 0
+  padding-left 40px
+  li
+    font-size 14px
+    font-size 1.4rem
+    line-height 1.4em
+    margin-bottom @font-size * 0.5
+    & > ul
+    & > ol
+      margin 0 0 0 20px
+ul
+  list-style disc
+ol
+  list-style decimal
+dl
+    margin 0 0 12px 0
     padding-left 40px
-    li
-      font-size 14px
-      font-size 1.4rem
-      line-height 1.4em
-      margin-bottom @font-size * 0.5
-      & > ul
-      & > ol
-        margin 0 0 0 20px
-  ul
-    list-style disc
-  ol
-    list-style decimal
-  dl
-      margin 0 0 12px 0
-      padding-left 40px
-    dt
-    dd
-      font-size 14px
-      font-size 1.4rem
-      line-height 1.4em
-      margin-bottom @font-size * 0.5
-  img
-    -ms-interpolation-mode bicubic
-    border 0
-    vertical-align middle
-  legend
-    color base-color-black
-    white-space normal
-    border-bottom-color base-color-gray
-  button
-  input
+  dt
+  dd
+    font-size 14px
+    font-size 1.4rem
+    line-height 1.4em
+    margin-bottom @font-size * 0.5
+img
+  -ms-interpolation-mode bicubic
+  border 0
+  vertical-align middle
+legend
+  color base-color-black
+  white-space normal
+  border-bottom-color base-color-gray
+button
+input
+select
+textarea
+  -webkit-box-sizing border-box
+  -moz-box-sizing border-box
+  box-sizing border-box
+button
+input[type='reset']
+input[type='submit']
+  @extend .btn
+  @extend .btn-default
+input[type='submit']
+  @extend .btn-danger
+form
+  @extend .form-horizontal
+  margin 60px 180px
+  input[type='text']
+  input[type='email']
+  input[type='password']
   select
   textarea
-    -webkit-box-sizing border-box
-    -moz-box-sizing border-box
-    box-sizing border-box
-  button
-  input[type='reset']
-  input[type='submit']
-    @extend .btn
-    @extend .btn-default
-  input[type='submit']
-    @extend .btn-danger
-  form
-    @extend .form-horizontal
-    margin 60px 180px
-    input[type='text']
-    input[type='email']
-    input[type='password']
-    select
-    textarea
-      @extend .form-control
-    input
-      outline 0
-      display inline-block
-      font-size 1.1em
-      border-radius 1px
-  table
-    @extend .table
-    // @extend .table-striped
-    // @extend .table-condensed
-    // @extend .table-hover
-    margin .7em 0 1.4em
-    & > tbody
-    tbody
-    &
-      & > tr
-        & > th
-          @extend .table > thead > tr > th
-        & > th
+    @extend .form-control
+  input
+    outline 0
+    display inline-block
+    font-size 1.1em
+    border-radius 1px
+table
+  @extend .table
+  // @extend .table-striped
+  // @extend .table-condensed
+  // @extend .table-hover
+  margin .7em 0 1.4em
+  & > tbody
+  tbody
+  &
+    & > tr
+      & > th
+        @extend .table > thead > tr > th
+      & > th
+      & > td
+        border-top-color base-color-gray
+      & > th
+        border-bottom-color base-color-gray
+      &.even // &:nth-child(even)
         & > td
-          border-top-color base-color-gray
-        & > th
-          border-bottom-color base-color-gray
-        &.even // &:nth-child(even)
-          & > td
-            background-color base-background-color-light2
-  pre
-    border-radius 0
-  img
+          background-color base-background-color-light2
+pre
+  border-radius 0
+img
+  max-width 100%
+  height auto
+  &.aligncenter
+    display block
+    margin 0 auto
+  &.alignright
+    float right
+    margin 0 0 30px 30px
+  &.alignleft
+    float left
+    margin 0 30px 30px 0
+  &[class*="wp-image-"]
+  &[class*="attachment-"]
     max-width 100%
     height auto
-    &.aligncenter
-      display block
-      margin 0 auto
-    &.alignright
-      float right
-      margin 0 0 30px 30px
-    &.alignleft
-      float left
-      margin 0 30px 30px 0
-    &[class*="wp-image-"]
-    &[class*="attachment-"]
-      max-width 100%
-      height auto
-  embed
-  iframe
-  object
-  video
-    margin-bottom 24px
-    max-width 100%
-  p
-    & > embed
-    & > iframe
-    & > object
-      margin-bottom 0
-  span
-    & > embed
-    & > iframe
-    & > object
-      margin-bottom 0
+embed
+iframe
+object
+video
+  margin-bottom 24px
+  max-width 100%
+p
+  & > embed
+  & > iframe
+  & > object
+    margin-bottom 0
+span
+  & > embed
+  & > iframe
+  & > object
+    margin-bottom 0
